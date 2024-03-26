@@ -1,0 +1,2 @@
+<i style="position: absolute; left:30px; font-size: 25px; cursor: pointer;" onclick="window.print()" class="fa fa-print" aria-hidden="true"></i>
+<!-- <i style="position: absolutes; top: 10px;right: 2px; font-size: 25px; cursor: pointer;" onclick="window.print()" class="fa fa-print" aria-hidden="true"></i> -->

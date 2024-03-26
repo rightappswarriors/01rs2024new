@@ -1,0 +1,32 @@
+[02-May-2018 02:42:26 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 03:04:54 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 03:20:03 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 03:23:04 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 03:40:23 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 03:48:03 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/../vendor/autoload.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/index.php on line 24
+[02-May-2018 03:51:13 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/var-dumper/Resources/functions/dump.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 03:53:32 CST6CDT] PHP Fatal error:  require(): Failed opening required '/home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/../symfony/var-dumper/Resources/functions/dump.php' (include_path='.:/usr/local/php70/pear') in /home/rightapp/public_html/doholrs/ra-idlis/vendor/composer/autoload_real.php on line 66
+[02-May-2018 08:57:06 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:06 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:06 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:08 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:08 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:08 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:12 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:12 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:12 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:13 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:13 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:13 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:16 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:16 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:16 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:17 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:17 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:17 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:18 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:18 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:18 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:34 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/rightapp/public_html/doholrs/ra-idlis/vendor/symfony/http-foundation/Response.php on line 499
+[02-May-2018 08:57:34 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0
+[02-May-2018 08:57:34 UTC] PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0

@@ -1,0 +1,217 @@
+<div class="container ra">
+              <div class="ra-header">
+                <div class="ra-header-logo">
+                  <center><img src="http://uhmis3.doh.gov.ph/fsmm/gallery/content/99_2nd%20Cosultative%20Meeting/DOH.jpg"></center>
+                </div>
+                <div class="ra-header-title">
+                  <center>Republic of the Philippines <br>
+                  Department of Health <br>
+                  <b>Office OF THE SECRETARY</b></center> <br>
+                </div>
+              </div>
+              @if(session('sucMsg'))
+                <div class="card mb-4 p-4  border-rounded" style="border-width: 3px !important; border-color: rgb(209,236,241); background-color: rgb(209,236,241);">
+                  <span><i class="fas fa-exclamation" style="color: rgb(12,84,96);"></i> {{session('sucMsg')}}<button class=" btn btn-outline-warning btn-sm float-right" style="color: rgb(12,84,96);" id="clickOnClose">x</button></span>
+                </div>
+              @endif
+
+              <hr>             
+
+              @isset($ROAData)
+              <form method="POST" action="{{asset('employee/dashboard/others/req_submit').'/'.count($ROAData)}}" onsubmit="return checkForm()" name="others_form">
+                {{csrf_field()}}
+                <table class="table table-bordered black table-responsive">
+                  <thead>
+                    <tr>
+                      <th colspan="6" class="text-right">
+                        Reference No. 
+                        <input class="col-xl-2" type="number" name="ref_no" readonly oninput="clamp(this, 0)" value="{{$FormData->ref_no + 1}}">
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="font-weight-bold">
+                    {{-- 1st row --}}
+                    <tr>
+                      <td>
+                        Name of Client/Complainant <span class="text-danger">*</span>: <br>
+                        <input class="w-100" type="text" name="name_of_comp">
+                      </td>
+                      <td>
+                        Age <span class="text-danger">*</span>: <br>
+                        <input class="w-100" type="number" name="age" oninput="clamp(this, 0)"> 
+                      </td>
+                      <td>
+                        Civil Status <span class="text-danger">*</span>: <br>
+                        <select class="w-100 form-control" name="civ_stat">
+                          <option disabled selected value="0">Select a status</option>
+                          <option value="Single">Single</option>
+                          <option value="Married">Married</option>
+                          <option value="Divorced">Divorced</option>
+                          <option value="Separeted">Separeted</option>
+                          <option value="Widowed">Widowed</option>
+                        </select>
+                      </td>
+                    </tr>
+                    {{-- 2nd row --}}
+                    <tr>
+                      <td>
+                        Address <span class="text-danger">*</span>: <br>
+                        <input class="w-100" type="text" name="address">
+                      </td>
+                      <td>
+                        Gender <span class="text-danger">*</span>: <br><br>
+                        <select class="w-100 form-control" name="gender">
+                          <option disabled selected value="0"><span class="text-success"><i>Select a gender</i></span></option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Others">Others</option>
+                        </select>
+                        {{-- <input class="w-100" type="text" name=""> --}}
+                      </td>
+                      <td>
+                        Date <span class="text-danger">*</span>: <br>
+                        <input class="w-100" type="date" name="req_date" value="{{date("Y-m-d")}}">
+                      </td>
+                    </tr>
+                    {{-- 3rd row --}}
+                    <tr>
+                      <td>
+                        Contact No. <span class="text-danger">*</span>: <br>
+                        <input class="w-100" type="text" name="contact_no">
+                      </td>
+                      <td colspan="2"></td>
+                    </tr>
+                    {{-- 4th row --}}
+                    <tr>
+                      <td colspan="2">
+                        Name of Facility <span class="text-danger">*</span>: <br>
+                        <select class="w-100 form-control" name="name_of_faci" onchange="changeFaci()">
+                          <option disabled selected value="0" >Select a type of facility</option>
+                          @isset($FacData)
+                            @foreach($FacData as $nam => $n)
+                              @if($n->facilityname!="")
+                                <option value="{{$n->facilityname.', '.$n->hgpdesc.', '.strtoupper($n->brgyname).' '.$n->cmname.' '.$n->provname.' '.$n->rgn_desc}}">{{$n->facilityname}}</option>
+                              @endif
+                            @endforeach
+                          @endisset
+                        </select>
+                      </td>
+                      <td>
+                        Type of Facility <span class="text-danger">*</span>: <br>
+                        <input readonly class="w-100" type="" name="type_of_faci" style="font-size: 15px;">
+                      </td>
+                    </tr>
+                    {{-- 5th row --}}
+                    <tr>
+                      <td colspan="3">
+                        Address <span class="text-danger">*</span>: <br>
+                        <input readonly class="w-100" type="text" name="address_of_faci">
+                      </td>
+                    </tr>
+                    {{-- 6th row --}}
+                    <tr>
+                      <td>
+                        Name of Confined Patient (if applicable):
+                      </td>
+                      <td colspan="2">
+                        <input class="w-100" type="text" name="name_of_conf_pat" oninput="toggleDate(this)">
+                      </td>
+                    </tr>
+                    {{-- 7th row --}}
+                    <tr>
+                      <td>
+                        Date patient confined/date
+                      </td>
+                      <td style="background-color: rgb(235,235,228)">
+                        <input type="date" name="date_of_conf_pat" id="conf-date" disabled>
+                      </td>
+                      <td></td>
+                    </tr>
+                    {{-- 13th row --}}
+                    <tr class="at-tr-subhead">
+                      <td colspan="3">
+                        Request for Assistance <span class="text-danger">*</span>:
+                      </td>
+                    </tr>
+                    @isset($ROAData)
+                      @for($i=0; $i<count($ROAData); $i++)
+                        @if($i==0)
+                          <tr>
+                            <td rowspan="{{ceil(count($ROAData)/2)}}"></td>
+                            <td>
+                              <input type="checkbox" name="reqs[]" onclick="toggleForm(this)" value="{{$i+1}}">
+                              {{$ROAData[$i]->rq_desc}}
+                              {{-- if last row, add a text field |||| last row is expected to be others, please specify --}}
+                              @if($i==count($ROAData)-1)
+                                <textarea id="ot-others" class="w-100" type="text" readonly="true" name="ot_text"></textarea>
+                              @endif
+                            </td>
+                            @if($i<count($ROAData))
+                              <td>
+                                <input type="checkbox" name="reqs[]" onclick="toggleForm(this)" value="{{$i+2}}">
+                                {{$ROAData[$i+1]->rq_desc}}
+                                {{-- if last row, add a text field |||| last row is expected to be others, please specify --}}
+                                @if($i+1==count($ROAData)-1)
+                                  <textarea id="ot-others" class="w-100" type="text" readonly="true" name="ot_text"></textarea>
+                                @endif
+                              </td>
+                            @endif
+                          </tr>
+                        @elseif($i%2==0)
+                          <tr>
+                            <td>
+                              <input type="checkbox" name="reqs[]" onclick="toggleForm(this)" value="{{$i+1}}">
+                              {{$ROAData[$i]->rq_desc}}
+                              {{-- if last row, add a text field |||| last row is expected to be others, please specify --}}
+                              @if($i==count($ROAData)-1)
+                                <textarea id="ot-others" class="w-100" type="text" readonly="true" name="ot_text"></textarea>
+                              @endif
+                            </td>
+                            @if($i<count($ROAData)-1)
+                              <td>
+                                <input type="checkbox" name="reqs[]" onclick="toggleForm(this)" value="{{$i+2}}">
+                                {{$ROAData[$i+1]->rq_desc}}
+                                {{-- if last row, add a text field |||| last row is expected to be others, please specify --}}
+                                @if($i+1==count($ROAData)-1)
+                                  <textarea id="ot-others" class="w-100" type="text" readonly="true" name="ot_text"></textarea>
+                                @endif
+                              </td>
+                            @endif
+                          </tr>
+                        @endif
+                      @endfor
+                    @endisset
+                    <tr>
+                      <td class="text-center at-td-mid" colspan="3">
+                        <i>
+                          <br><p style="font-weight: normal">Narration at the back page (for specific details of Complaint or Assistance Needed)</p> <br>
+                        </i>
+                      </td>
+                    </tr>
+                    {{-- 18th row --}}
+                    <tr>
+                      <td class="text-center at-td-mid" colspan="3">
+                        <i>
+                          <br><br><p>I attest to the truth and veracity of the above-mentioned fact and statement. Any false statement and misrepresentation I made could be a ground for civil, criminal and administrative action under law by the injured party.</p><br>
+                        </i>
+                      </td>
+                    </tr>
+                    {{-- 19th row --}}
+                    <tr>
+                      <td colspan="2"></td>
+                      <td class="text-center" colspan="3">
+                        <input class="w-100 "type="text" name="signature"> <br>
+                        Client's/Complainant's Name and Signature <span class="text-danger">*</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" class="at-td-mid text-center">
+                        <button class="btn btn-success w-50" type="submit">SUBMIT</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+              @endisset
+            </div>
