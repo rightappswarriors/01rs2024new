@@ -1,0 +1,19 @@
+/***
+* This is the adjustment of CSS design
+***/
+
+.content { width: 85%; margin: 0 auto;}
+
+.modal-dialog {
+    max-width: 800px;
+    margin: 1.75rem auto;
+
+}
+
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 800px;
+        margin: 1.75rem auto;
+    
+    }
+}

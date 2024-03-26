@@ -1,0 +1,185 @@
+{{-- ////////////////////  Lloyd - Nov 22, 2018 ////////////////// --}}
+{{-- Complaints --}}
+<div class="modal fade" id="compModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content " style="border-radius: 0px;border: none;">
+          <div class="modal-body text-justify" style=" background-color: #272b30;color: white;">
+              <h5 class="modal-title text-center"><strong>Add New Complaints</strong></h5>
+              <hr>
+              <div class="container">
+                <div class="card-body">
+                  <div class="container">
+                    @if(session('sucMsg'))
+                      <div class="card mb-4 p-4  border-rounded" style="border-width: 3px !important; border-color: rgb(209,236,241); background-color: rgb(209,236,241);">
+                        <span><i class="fas fa-exclamation" style="color: rgb(12,84,96);"></i> {{session('sucMsg')}}<button class=" btn btn-outline-warning btn-sm float-right" style="color: rgb(12,84,96);" id="clickOnClose">x</button></span>
+                      </div>
+                    @endif
+
+                    <br>
+                    @isset($CompData)
+                      <form class="container" method="POST" action="{{asset('employee/dashboard/others/comp_submit').'/'.count($CompData)}}" id="c-others-form" onsubmit="return checksForm()">
+                        {{csrf_field()}}
+                        {{-- ref no --}}
+                        @isset($FormData)
+                          <div class="input-group form-inline mb-1">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1-ref_no">Reference No. *</span>
+                            </div>
+                            <input type="number" name="ref_no" class="form-control form-inline" placeholder="Reference No." value="{{$FormData->ref_no + 1}}" readonly="">
+                          </div>
+                        @endisset
+                        {{-- date --}}
+                        <div class="input-group form-inline mb-1">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1-req_date">Date *</span>
+                          </div>
+                          <input type="date" name="req_date" class="form-control form-inline" placeholder="date" value="{{date("Y-m-d")}}">
+                        </div>
+                        <hr>
+                        {{-- name --}}
+                        <div class="input-group form-inline mb-1 mt-5">
+                          <input type="text" name="name_of_comp" class="form-control form-inline" placeholder="Name of Client/Complainant *">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-name_of_comp"></span>
+                          </div>
+                        </div>
+                        {{-- age --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="number" name="age" class="form-control form-inline" placeholder="Age *">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-age"></span>
+                          </div>
+                        </div>
+                        {{-- gender --}}
+                        <div class="input-group form-inline mb-1">
+                          <select type="" name="gender" class="form-control">
+                            <option disabled selected value="0"><span class="text-success"><i>Gender *</i></span></option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
+                          </select>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-gender"></span>
+                          </div>
+                        </div>
+                        {{-- address --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="" name="address" class="form-control form-inline" placeholder="Address *">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-address"></span>
+                          </div>
+                        </div>
+                        {{-- civil stats --}}
+                        <div class="input-group form-inline mb-1">
+                          <select type="" name="civ_stat" class="form-control">
+                            <option disabled selected value="0">Civil Status *</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Separeted">Separeted</option>
+                            <option value="Widowed">Widowed</option>
+                          </select>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-civ_stat"></span>
+                          </div>
+                        </div>
+                        {{-- contact no. --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="number" name="contact_no" class="form-control form-inline" placeholder="Contact No. *">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-contact_no"></span>
+                          </div>
+                        </div>
+
+                        <hr>
+
+                        {{-- name of faci --}}
+                        <div class="input-group form-inline mb-1">
+                          <select type="" name="name_of_faci" class="form-control" onchange="changeFaci()">
+                            <option disabled selected value="0">Name of Facility *</option>
+                            @isset($FacData)
+                              @foreach($FacData as $nam => $n)
+                                @if($n->facilityname!="")
+                                  <option value="{{$n->facilityname.', '.$n->hgpdesc.', '.strtoupper($n->brgyname).' '.$n->cmname.' '.$n->provname.' '.$n->rgn_desc}}">{{$n->facilityname}}</option>
+                                @endif
+                              @endforeach
+                            @endisset
+                          </select>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-name_of_faci"></span>
+                          </div>
+                        </div>
+
+                        {{-- type of faci --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="text" name="type_of_faci" class="form-control form-inline" placeholder="Type of Facility *" readonly>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-type_of_faci"></span>
+                          </div>
+                        </div>
+
+                        {{-- address of faci --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="text" name="address_of_faci" class="form-control form-inline" placeholder="Address of Facility *" readonly>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-address_of_faci"></span>
+                          </div>
+                        </div>
+
+                        <hr>
+
+                        {{-- conf pat --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="text" name="name_of_conf_pat" class="form-control form-inline" placeholder="Name of Confined Patient (if applicable)" oninput="toggleDate(this)">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-name_of_conf_pat"></span>
+                          </div>
+                        </div>
+
+                        {{-- conf date --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="date" name="date_of_conf_pat" id="conff-date" class="form-control form-inline" readonly="">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-date_of_conf_pat">Date of Patient Confined</span>
+                          </div>
+                        </div>
+
+                        <hr>
+
+                        {{-- reqs --}}
+                        <h5 class="modal-title text-center mb-3"><strong>Nature of Complaint *</strong></h5>
+                        @isset($CompData)
+                          @for($i=0; $i<count($CompData); $i++)
+                              <input type="checkbox" name="comps[]" @if($i==count($CompData)-1) onclick="toggleForm(this)" @endif value="{{$i+1}}">
+                              {{$CompData[$i]->cmp_desc}} <br>
+                              @if($i==count($CompData)-1)
+                                <textarea class="form-control" name="ot_text" id="ot-others" readonly></textarea>
+                              @endif
+                          @endfor
+                        @endisset
+
+                        <hr>
+
+                        {{-- sign --}}
+                        <div class="input-group form-inline mb-1">
+                          <input type="" name="signature" class="form-control form-inline" placeholder="Client's/Complainant's Name and Signature *">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon1-signature"></span>
+                          </div>
+                        </div>
+
+                        <hr>
+                        <div class="mx-auto">
+                          <button type="submit" name="btn_sub" class="btn btn-primary"><b>SUBMIT</b></button>
+                        </div>
+                      </form>
+                    @endisset
+                  </div>  {{-- end of form div --}}
+                {{-- <button data-toggle="modal" data-target="#myModal">Press to Open Modal</button>  --}}       
+                </div>
+              </div>
+             </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+/***
+* This is the adjustment of CSS design
+***/
+.content {width: 100%; margin: 0 auto; overflow: auto; font-size:12px;}
+
+.filter-options-form{
+    margin-bottom: 0;;
+}
+.filter-options{
+    border-width: thin;
+    border-color: #ccc;
+}
+.filter-options .box {
+    margin-bottom: 0;
+}
+
+.filter-options .box .box-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 10px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.filter-options .box-footer {
+    min-height:45px;
+    padding-top:8px;
+    background-color: #EEF2F6;
+    color: #3e6b96;
+    vertical-align: center;
+    padding-bottom:5px;
+    margin:0;
+}
+
+.filter-options .box-footer .row, .filter-options .box-footer .row .col-md-6, .filter-options .box-footer .row .col-md-8,  .filter-options .box-footer .row .col-md-4 {
+    min-height:30px;
+}
+
+.filter-options .box-footer .pagination {
+    padding-bottom: 0;
+    margin-bottom: 5px;
+}
+
+
+.box-footer select {
+    height: 32px;
+    font-size: 12px;
+}
+.box-footer .submit-search {
+    font-size: 12px;
+}
+
+.backoffice-list {
+    padding: 0;
+    border-top: #878787;
+    border-top-width: thin;
+    border-top-style: solid;
+    border-bottom: #878787;
+    border-bottom-width: thin;
+    border-bottom-style: solid;
+}
+
+.backoffice-list table{
+    font-size:12px;
+    margin: 0;
+    padding: 0;
+}
+
+.backoffice-list thead, .backoffice-list tfoot {
+    font-weight:bold;
+    background-color: #f4f4f4;
+}
+
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 800px;
+        margin: 1.75rem auto;
+    }
+}
