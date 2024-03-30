@@ -1,9 +1,6 @@
 <form id="form_bedcapacity" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST" class="row">
     {{ csrf_field() }}
-    <input type="hidden" name="cat_id" id="cat_id" value="1">
-    <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-    <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
-    <input type="hidden" name="noofbed_old" id="noofbed_old" value="{{number_format($registered_facility->noofbed_old,0)}}">                 
+    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">                     
 
     <div class="modal fade" id="changeBedCapacity" tabindex="-1" aria-labelledby="changeBedCapacityModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -18,13 +15,9 @@
                     <div class="alert alert-info">
 
                         <div class="form-group col-md-12">
-                            <label for="facility_name">From Authorized Bed Capacity : <span class="text-danger">*</span> </label>
-                            <label><strong>{{number_format($registered_facility->noofbed_old,0)}}</strong></label>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="facility_name">To New Bed Capacity : <span class="text-danger">*</span> </label>
+                            <label for="facility_name">Bed Capacity : <span class="text-danger">*</span> </label>
                             <div class="input-group">
-                                <input class="form-control" type="number" name="noofbed_applied" id="noofbed_applied" placeholder="Applied Bed Capacity" min="0" autocomplete="off" value="{{$registered_facility->noofbed}}">
+                                <input class="form-control" type="number" name="noofbed_applied" id="noofbed_applied" placeholder="Applied Bed Capacity" min="0" autocomplete="off" value="{{$appform->noofbed}}">
                             </div>
                         </div>
 
@@ -37,7 +30,7 @@
                         No, Recheck details
                     </button>
                     <button class="btn btn-primary action-btn" type="submit">
-                        <i class="fa fa-floppy-o" aria-hidden="true"></i>Save Application
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>Save Data
                     </button>
                 </div>
             </div>

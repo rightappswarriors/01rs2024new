@@ -2,10 +2,7 @@
 <form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="cat_id" id="cat_id" value="8">
-    <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-    <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
-    <input type="hidden" name="facilityname_old" id="facilityname_old" value="{{$registered_facility->facilityname_old}}">     
+    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">
         
     <div class="modal fade" id="changeCFIO" tabindex="-1" aria-labelledby="changeCFIOModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
@@ -17,36 +14,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-info">                        
-                        <!-- Classification -->
-                        <div class="col-md-12">
-                            <label>Classification According to : </label>
-
-                            <div class="col-md-12">
-                                <ul>
-                                    <li>
-                                        Ownership : <strong>{{$registered_facility->ocdesc}}, {{$registered_facility->classname}}</strong>     
-                                        @if($registered_facility->facilitytype != $registered_facility->facilitytype)
-                                            <br/><i>Change Ownership to <strong>{{$registered_facility->ocdesc}}</strong></i> 
-                                        @endif                                              
-                                    </li>
-                                    <li>
-                                        Institutional Character : <strong>{{$registered_facility->funcdesc}}</strong>     
-                                        @if($registered_facility->facilitytype != $registered_facility->facilitytype)
-                                            <br/><i>Change Ownership to <strong>{{$registered_facility->ocdesc}}</strong></i> 
-                                        @endif                                              
-                                    </li>
-                                    <li>
-                                        Function : <strong>{{$registered_facility->funcdesc}}</strong>     
-                                        @if($registered_facility->facilitytype != $registered_facility->facilitytype)
-                                            <br/><i>Change Function to <strong>{{$registered_facility->ocdesc}}</strong></i> 
-                                        @endif                                              
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> 
-                        
-                    </div>
                     
                     <hr />
                     <div class="row">

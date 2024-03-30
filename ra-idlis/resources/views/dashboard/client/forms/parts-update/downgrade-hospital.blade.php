@@ -2,9 +2,9 @@
     {{ csrf_field() }}
     <input type="hidden" name="cat_id" id="cat_id" value="2">
     <input type="hidden" name="uid" id="uid" value="{{$uid}}">
-    <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-    <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
-    <input type="hidden" name="noofdialysis_old" id="noofdialysis_old" value="{{number_format($registered_facility->noofdialysis,0)}}"> 
+    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">         
+    <input type="hidden" name="regfac_id" id="regfac_id" value="{{$appform->regfac_id}}">     
+    <input type="hidden" name="noofdialysis_old" id="noofdialysis_old" value="{{number_format($appform->noofdialysis,0)}}"> 
         
     
     

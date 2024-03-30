@@ -2,10 +2,7 @@
 <form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="cat_id" id="cat_id" value="10">
-    <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-    <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
-    <input type="hidden" name="facilityname_old" id="facilityname_old" value="{{$registered_facility->facilityname_old}}">     
+    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">   
         
     <div class="modal fade" id="changeRenameHF" tabindex="-1" aria-labelledby="changeRenameHFModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
@@ -18,16 +15,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info">
-
                     <div class="form-group col-md-12">
-                        <label for="facility_name">Registered Facility Name : <span class="text-danger">*</span> </label>
-                        <h3 class="text-center text-uppercase"><strong>{{$registered_facility->facilityname_old}}</strong></h3>
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        <label for="facility_name">Rename Facility to <span class="text-danger">*</span></label>
+                        <label for="facility_name">Rename Facility <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="facilityname" class="form-control" placeholder="FACILITY NAME" value="{{$registered_facility->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                            <input type="text" name="facilityname" class="form-control" placeholder="FACILITY NAME" value="{{$appform->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
                         </div>
                     </div>
 
@@ -40,7 +31,7 @@
                         No, Recheck details
                     </button>
                     <button class="btn btn-primary action-btn" type="submit">
-                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Application
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Data
                     </button>
                 </div>
             </div>

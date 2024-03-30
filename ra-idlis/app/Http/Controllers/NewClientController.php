@@ -2857,7 +2857,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 	{
 		//try 
 		//{	
-
 			$reg_fac_id = $appid; 
 			$functype = 'main';
 			$appform_changeaction 	= null;
@@ -2898,8 +2897,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						elseif($hfser_id == 'ATO') {
 							$validity = 'Until '.date_format(date_create($appform->ato_validityto),"F d, Y"); 
 							$issued_date = date_format(date_create($appform->ato_approveddate),"F d, Y");
-						}
-						
+						}						
 					//} catch (Exception $e) { }	
 
 					$data = [
@@ -2943,7 +2941,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 								'ambOwner'		=> json_decode($data_reg->ambOwner)
 							];
 						}
-
 						//$appform_ambulance_temp= DB::table('appform')->WHERE('appid','=',$appid )->get();
 						$appform_ambulance = null;
 						$reg_ambulance = null;
@@ -2988,8 +2985,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						$cat_id = 3;
 						$data2 = [
 							// 'grpid' =>  $grpid,
-							'aptid'				=> 'IC',
-							'apptypenew'		=> 'IC',
 							'appform_ambulance'	=> $appform_ambulance,
 							'reg_ambulance'		=> $reg_ambulance,
 							'isaddnew'			=> $isaddnew,
