@@ -1,14 +1,8 @@
 <form  id="form_dialysisstation" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
     {{ csrf_field() }}
-    <input type="hidden" name="cat_id" id="cat_id" value="2">
-    <input type="hidden" name="uid" id="uid" value="{{$uid}}">
-    <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-    <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
-    <input type="hidden" name="noofdialysis_old" id="noofdialysis_old" value="{{number_format($registered_facility->noofdialysis,0)}}"> 
+    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">         
         
     
-    
-
     <div class="modal fade" id="changeDialysisStation" tabindex="-1" aria-labelledby="changeDialysisStationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -21,16 +15,10 @@
                 <div class="modal-body">
                     <div class="alert alert-info">
 
-
                     <div class="form-group col-md-12">
-                        <label for="facility_name">From Authorized No. of Dialysis Station : <span class="text-danger">*</span> </label>
-                        <label><strong>{{number_format($registered_facility->noofdialysis,0)}}</strong></label>
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        <label for="facility_name">To New Number of Dialysis Station<span class="text-danger">*</span></label>
+                        <label for="facility_name">Number of Dialysis Station<span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input class="form-control" type="number" name="noofdialysis" id="noofdialysis" placeholder="No. of Dialysis Station" min="0" autocomplete="off" value="{{$registered_facility->noofdialysis}}">
+                            <input class="form-control" type="number" name="noofdialysis" id="noofdialysis" placeholder="No. of Dialysis Station" min="0" autocomplete="off" value="{{$appform->noofdialysis}}">
                         </div>
                     </div>
 
@@ -43,7 +31,7 @@
                         No, Recheck details
                     </button>
                     <button class="btn btn-primary action-btn" type="submit">
-                        <i class="fa fa-floppy-o" aria-hidden="true"></i>Save Application
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>Save Data
                     </button>
                 </div>
             </div>

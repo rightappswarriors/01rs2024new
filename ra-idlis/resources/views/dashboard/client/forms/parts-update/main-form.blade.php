@@ -244,34 +244,21 @@
 
 <div class="col-md-12 change-div"><b class="text-primary"> Type of Health Facility</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-12">
-    <ul style="list-style-type: none;  font-size: 30px;">
-        <li class="text-uppercase font-weight-bold">
-            <i class="fa fa-check-square-o"></i> &nbsp;{{$appform->facilitytype}}&nbsp;
-        </li>
-    </ul>
-</div> 
- 
-<div class="col-md-12 change-div"><b class="text-primary"> For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
-<div class="col-sm-12">         
-    @if (isset($regservices))  
-        <ul style="list-style-type: none; ">    
-            @foreach ($regservices as $d)
-                <li>{{$d->facname}}</li>
-            @endforeach	
-        </ul>
-    @endif
-</div>          
+    <h3  class="text-center upd-text-info"><i class="fa fa-check-square-o"></i> &nbsp;{{$appform->facilitytype}}&nbsp;</h3>
+</div>         
 
 <div class="col-md-12 change-div"><b class="text-primary"> Classification of Hospital</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
-<div class="col-sm-12">         
-    @if (isset($regservices))  
-        <ul style="list-style-type: none; ">    
-            @foreach ($regservices as $d)
-                <li>{{$d->facname}}</li>
-            @endforeach	
-        </ul>
-    @endif
-</div>   
+
+<div class="col-sm-6">
+    <label class="text-left upd-text-title">Classification of Hospital </label>
+    <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+</div>
+
+<div class="col-sm-6">
+    <label class="text-left upd-text-title">Hospital Level </label>
+    <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+</div>
+
 
 <!---- For Add On services --->
 <div class="col-md-12 change-div"><b class="text-primary"> Ancillary/Clinical Services</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
@@ -282,8 +269,6 @@
                 <tr>
                     <th class="text-center">Option</th>
                     <th class="text-center">Services</th>
-                    <th class="text-center">Type(Owned, Outsoured)</th>
-                    <th class="text-center">Details</th>
                 </tr>
             </thead>
             <tbody id="body_ancillary">
@@ -294,17 +279,22 @@
                     <td class="text-center">
                         Service Name
                     </td>
-                    <td class="text-center">
-                        Outsourced / Owned
-                    </td>
-                    <td class="text-center">
-                        Owner
-                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>  
+ 
+ <div class="col-md-12 change-div"><b class="text-primary"> For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+ <div class="col-sm-12">         
+     @if (isset($regservices))  
+         <ul style="list-style-type: none; ">    
+             @foreach ($regservices as $d)
+                 <li>{{$d->facname}}</li>
+             @endforeach	
+         </ul>
+     @endif
+ </div>  
 
 <!---- For Add On services --->
 <div class="col-md-12 change-div"><b class="text-primary"> Add on services</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
@@ -397,10 +387,9 @@
 
 
 
-@include('dashboard.client.forms.beds-capacity-form')
-@include('dashboard.client.forms.beds-capacity-form')
-@include('dashboard.client.forms.dialysis-station-form')
-@include('dashboard.client.forms.rename-facility-form')
-@include('dashboard.client.forms.class-inst-func-others-form')
-@include('dashboard.client.forms.ic-downgrade-hospital')
-@include('dashboard.client.forms.ic-ambulance-vehicle')
+@include('dashboard.client.forms.parts-update.beds-capacity-form')
+@include('dashboard.client.forms.parts-update.dialysis-station-form')
+@include('dashboard.client.forms.parts-update.rename-facility-form')
+@include('dashboard.client.forms.parts-update.class-inst-func-others-form')
+@include('dashboard.client.forms.parts-update.downgrade-hospital')
+@include('dashboard.client.forms.parts-update.ambulance-vehicle')

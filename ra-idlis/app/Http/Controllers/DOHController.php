@@ -11079,10 +11079,6 @@ namespace App\Http\Controllers;
 						}						
 						if ($success) 
 						{
-							/*if($aptid == "IC")
-							{
-								update_approveddates_registered_facility_forchange ($exists_regfac_id, $appform->appid);
-							}*/
 							//Increment Sequential Number for Certificate
 							$selected = AjaxController::getUidFrom( $appform->appid);
 							AjaxController::notifyClient( $appform->appid,$selected,($request->isOk == 1 ? 21 : 22));
@@ -11135,20 +11131,6 @@ namespace App\Http\Controllers;
 					return 'ERROR';
 				}
 			}
-		}
-
-		public function update_approveddates_registered_facility_forchange ($regfac_id, $appid)
-		{
-			DB::STATEMENT("UPDATE registered_facility SET noofbed_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='1')");
-			DB::STATEMENT("UPDATE registered_facility SET noofdialysis_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='2')");
-			DB::STATEMENT("UPDATE registered_facility SET ambulance_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='3')");
-			DB::STATEMENT("UPDATE registered_facility SET changeonservice_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='4')");
-			DB::STATEMENT("UPDATE registered_facility SET addonservice_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='5')");
-			DB::STATEMENT("UPDATE registered_facility SET personnel_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='6')");
-			DB::STATEMENT("UPDATE registered_facility SET equipment_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='7')");
-			DB::STATEMENT("UPDATE registered_facility SET classification_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='8')");
-			DB::STATEMENT("UPDATE registered_facility SET hospital_lvl_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='9')");
-			DB::STATEMENT("UPDATE registered_facility SET rename_dateapproved=now() WHERE regfac_id=(SELECT appform.regfac_id FROM appform_changeaction JOIN appform ON appform.appid=appform_changeaction.appid WHERE appform.appid='".$appid."' AND cat_id='10')");	
 		}
 
 		public function set_reg_tables_from_appid($regfac_id, $appid)
