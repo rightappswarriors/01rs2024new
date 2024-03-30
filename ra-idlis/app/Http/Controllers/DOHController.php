@@ -10800,7 +10800,6 @@ namespace App\Http\Controllers;
 						$aptid = $appform->aptid;
 						$status_before = $appform->status;
 
-
 						$signatoryname = $branchData->directorInRegion;
 						$signatorypos = $branchData->pos;
 	
@@ -10820,7 +10819,7 @@ namespace App\Http\Controllers;
 						else if($appform->hfser_id == 'CON' || $appform->hfser_id == 'PTC')
 						{
 							$license = Date('Y',strtotime('now')).'-'.$code;
-						}	
+						}
 	
 						if($appform->hfser_id == 'PTC' )
 						{		
@@ -10841,29 +10840,41 @@ namespace App\Http\Controllers;
 	
 						$Cur_useData = AjaxController::getCurrentUserAllData();
 						$status = ($request->isOk == '1') ? 'A' : 'RA';
-						$data = array();
+						$data = array(
+								'isApprove' => null,
+								'approvedBy' => null,
+								'approvedDate' => null,
+								'approvedTime' =>  null,
+								'approvedIpAdd' => null,
+								'approvedRemark' => null,
+								'status' => null,
+								
+								'licenseNo' =>  null,
+								'requestReeval' => null,
+								'signatoryname' =>  null,
+								'signatorypos' =>  null,
+
+								'noofbed_dateapproved' => null,
+								'noofdialysis_dateapproved' => null,
+								'personnel_dateapproved' => null,
+								'equipment_dateapproved' => null,
+								'hospital_lvl_dateapproved' => null,
+								'addonservice_dateapproved' => null,
+								'changeonservice_dateapproved' => null,
+								'ambulance_dateapproved' => null,
+								'classification_dateapproved' => null,
+								'rename_dateapproved' => null
+						);
 
 						if($aptid == "IC")
 						{
-							$data = array(
-										'isApprove' => $request->isOk,
-										'approvedBy' => $Cur_useData['cur_user'],
-										'approvedDate' => $Cur_useData['date'],
-										'approvedTime' =>  $Cur_useData['time'],
-										'approvedIpAdd' => $Cur_useData['ip'],
-										'approvedRemark' => $request->desc,
-										'status' => $status,
-										'noofbed_dateapproved' => null,
-										'noofdialysis_dateapproved' => null,
-										'personnel_dateapproved' => null,
-										'equipment_dateapproved' => null,
-										'hospital_lvl_dateapproved' => null,
-										'addonservice_dateapproved' => null,
-										'changeonservice_dateapproved' => null,
-										'ambulance_dateapproved' => null,
-										'classification_dateapproved' => null,
-										'rename_dateapproved' => null
-							);
+							$data['isApprove'] = $request->isOk;
+							$data['approvedBy'] = $Cur_useData['cur_user'];
+							$data['approvedDate'] = $Cur_useData['date'];
+							$data['approvedTime'] = $Cur_useData['time'];
+							$data['approvedIpAdd'] = $Cur_useData['ip'];
+							$data['approvedRemark'] = $request->desc;
+							$data['status'] =  $status;
 							
 							//find the action types
 							$appform_changeaction = DB::table('appform_changeaction')->select('cat_id')->where('appid','=',$appid)->get();
@@ -10891,25 +10902,22 @@ namespace App\Http\Controllers;
 									$data['hospital_lvl_dateapproved'] = $Cur_useData['date'];
 								} else if($value->cat_id == "10"){
 									$data['rename_dateapproved'] = $Cur_useData['date'];
-								}    
+								}
 							}
-
 						}
 						else
-						{							
-							$data = array(
-										'isApprove' => $request->isOk,
-										'approvedBy' => $Cur_useData['cur_user'],
-										'approvedDate' => $Cur_useData['date'],
-										'approvedTime' =>  $Cur_useData['time'],
-										'approvedIpAdd' => $Cur_useData['ip'],
-										'approvedRemark' => $request->desc,
-										'status' => $status,
-										'licenseNo' => $license,
-										'requestReeval' => null,
-										'signatoryname' => $signatoryname,
-										'signatorypos' => $signatorypos
-							);
+						{			
+							$data['isApprove'] = $request->isOk;
+							$data['approvedBy'] = $Cur_useData['cur_user'];
+							$data['approvedDate'] = $Cur_useData['date'];
+							$data['approvedTime'] = $Cur_useData['time'];
+							$data['approvedIpAdd'] = $Cur_useData['ip'];
+							$data['approvedRemark'] = $request->desc;
+							$data['status'] =  $status;
+							
+							$data['licenseNo'] =  $license;
+							$data['signatoryname'] =  $signatoryname;
+							$data['signatorypos'] =  $signatorypos;
 						}
 						
 						$facility = DB::table('hfaci_grp')->where([['hgpid', $appform->hgpid]])->first();
@@ -10961,7 +10969,18 @@ namespace App\Http\Controllers;
 								'noofsatellite' => $appform->noofsatellite, 'noofdialysis' => $appform->noofdialysis, 'noofmain' => $appform->noofmain, 
 								'cap_inv' => $appform->cap_inv, 'lot_area' => $appform->lot_area, 
 								'typeamb' => $appform->typeamb, 'ambtyp' => $appform->ambtyp, 'plate_number' => $appform->plate_number, 'ambOwner' => $appform->ambOwner, 
-								'noofamb' => $appform->noofamb, 'pharCOC' => $appform->pharCOC, 'xrayCOC' => $appform->xrayCOC
+								'noofamb' => $appform->noofamb, 'pharCOC' => $appform->pharCOC, 'xrayCOC' => $appform->xrayCOC,
+
+								'noofbed_dateapproved' 		=> $data['noofbed_dateapproved'],
+								'noofdialysis_dateapproved' => $data['noofdialysis_dateapproved'],
+								'personnel_dateapproved' 	=> $data['personnel_dateapproved'],
+								'equipment_dateapproved' 	=> $data['equipment_dateapproved'],
+								'hospital_lvl_dateapproved' => $data['hospital_lvl_dateapproved'],
+								'addonservice_dateapproved' => $data['addonservice_dateapproved'],
+								'changeonservice_dateapproved' => $data['changeonservice_dateapproved'],
+								'ambulance_dateapproved' 	=> $data['ambulance_dateapproved'],
+								'classification_dateapproved' => $data['classification_dateapproved'],
+								'rename_dateapproved' 		=> $data['rename_dateapproved']
 							);
 							
 							if($aptid != "IC")
