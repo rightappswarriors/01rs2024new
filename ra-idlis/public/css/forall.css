@@ -423,3 +423,13 @@ footer p { font-size:13px; color:#fff; padding-bottom:0px; margin-bottom:8px;}
     }
 }
 
+
+
+.upd-text-title{
+  color: #757575;
+  font-size: smaller;
+}
+.upd-text-info{
+  border-bottom: 1px solid #757575;
+  font-weight: bold;
+}

@@ -1416,3 +1416,43 @@ LEFT JOIN province ON appform.provid = province.provid
 LEFT JOIN trans_status ON appform.status = trans_status.trns_id 
 ORDER BY  appform.updated_at DESC
 );
+
+
+
+
+/**********    View Application   **********/
+DROP VIEW IF EXISTS viewAppFormForUpdate;
+CREATE VIEW viewAppFormForUpdate AS
+(
+	SELECT appform.*, x08.nameofcompany, barangay.brgyname, city_muni.cmname, province.provname, region.rgn_desc, asrgn.rgn_desc AS asrgn_rgndesc,
+	ownership.ocdesc AS ownership_desc, class.classname,  subclass.classname AS subclassname, funcapf.funcdesc,  facmode.facmdesc, 
+	hfaci_grp.hgpdesc, hfaci_grp.hgpdesc AS facilitytype,  apptype.aptdesc, hfaci_serv_type.hfser_desc,
+	registered_facility.con_id, registered_facility.lto_id, registered_facility.ato_id, registered_facility.coa_id, registered_facility.cor_id,
+	registered_facility.ptc_id,
+	registered_facility.ptc_approveddate, registered_facility.lto_validityto, registered_facility.coa_validityto, registered_facility.ato_validityto,
+	registered_facility.lto_approveddate, registered_facility.coa_approveddate, registered_facility.ato_approveddate,
+	hfaci_grp.isHospital, hfaci_grp.otherClinicService, hfaci_grp.clinicLab, hfaci_grp.dialysisClinic, hfaci_grp.ambulSurgCli, hfaci_grp.ambuDetails, hfaci_grp.addOnServe 
+	
+	FROM appform 
+	LEFT JOIN registered_facility ON appform.regfac_id=registered_facility.regfac_id 
+	LEFT JOIN hfaci_serv_type ON appform.hfser_id = hfaci_serv_type.hfser_id
+	LEFT JOIN hfaci_grp ON appform.hgpid=hfaci_grp.hgpid
+
+	LEFT JOIN x08 ON appform.uid=x08.uid
+	LEFT JOIN barangay ON appform.brgyid=barangay.brgyid
+	LEFT JOIN city_muni ON appform.cmid=city_muni.cmid
+	LEFT JOIN province ON appform.provid=province.provid
+	LEFT JOIN region ON appform.rgnid=region.rgnid
+
+	LEFT JOIN ownership ON appform.ocid=ownership.ocid
+	LEFT JOIN apptype ON appform.aptid=apptype.aptid
+	LEFT JOIN class ON appform.classid=class.classid
+	LEFT JOIN class subclass ON appform.subClassid=subclass.classid
+	LEFT JOIN funcapf ON appform.funcid=funcapf.funcid
+	LEFT JOIN facmode ON appform.facmode=facmode.facmid
+	LEFT JOIN trans_status ON appform.status=trans_status.trns_id
+
+	LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
+ 
+	ORDER BY  appform.updated_at DESC
+);
