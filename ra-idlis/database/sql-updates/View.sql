@@ -107,6 +107,117 @@ LEFT JOIN x08 evaluator ON evaluator.uid=appform.recommendedby
 ORDER BY appform.updated_at DESC, appform.t_date DESC, appform.appid DESC, appform.aptid ASC
 );
 
+
+DROP VIEW IF EXISTS applist_details;
+CREATE VIEW applist_details AS
+(
+SELECT 
+/* Application Details */
+appform.appid, appform.regfac_id, appform.nhfcode, appform.aptid, apptype.aptdesc, appform.status, trans_status.trns_desc, appform.uid, appform.facilityname, 
+seq_num, appform.hfser_id, hfaci_serv_type.hfser_desc, hfaci_serv_type.old_appcode, hfaci_serv_type.terms_condi, appform.hgpid, hfaci_grp.hgpdesc, appform.ocid, ownership.ocdesc, appform.classid, class.classname, appform.subClassid, appform.funcid, funcapf.funcdesc, appform.facmode, facmode.facmdesc,
+
+/*Contact Details */
+appform.owner, appform.mailingAddress, 
+CASE WHEN appform.street_number !='N/A' THEN appform.street_number  ELSE '' END AS street_number, appform.street_name, appform.street_name as streetname, appform.brgyid, barangay.brgyname, appform.cmid, city_muni.cmname, appform.provid, province.provname, appform.rgnid, region.rgn_desc, appform.zipcode, appform.assignedRgn, asrgn.rgn_desc AS asrgn_desc, appform.areacode, appform.email, appform.contact, appform.landline, appform.faxnumber, appform.ownerMobile, appform.ownerLandline, appform.ownerEmail, appform.approvingauthority, appform.approvingauthoritypos, x08.authorizedsignature, 
+
+/* Other Details */
+appform.noofbed, appform.noofstation, appform.noofsatellite, appform.noofdialysis, appform.noofmain, appform.conCode, appform.ptcCode, 
+appform.cap_inv, appform.lot_area, appform.typeamb, appform.ambtyp, appform.plate_number, appform.ambOwner,  appform.noofamb, 
+appform.addonDesc, appform.clab,  appform.documentSent,  appform.ishfep, appform.hfep_funded, appform.coaflag,
+
+appform.ipaddress, appform.draft,  appform.savedRenewalOpt,appform.savingStat,  
+appform.appid_payment, 
+
+/*DOH Back Office */
+appform.isPayEval, appform.payEvaldate, appform.payEvaltime, appform.payEvalip, appform.payEvalby, 
+appform.CashierApproveIp,  appform.payProofFilen, appform.isPayProofFilen, appform.proofpaystat, 
+
+appform.isReadyForInspec, appform.ispreassessed, appform.ispreassessedby, appform.ispreassessedtime, appform.ispreassesseddate, appform.ispreassessedip, 
+
+appform.proposedWeek, appform.proposedTime, 
+appform.proposedInspectiondate, CASE WHEN appform.proposedInspectiondate IS NOT NULL THEN DATE_FORMAT(appform.proposedInspectiondate, "%M %d, %Y") ELSE NULL END AS formattedDatePropEval, 
+appform.proposedInspectiontime, CASE WHEN appform.proposedInspectiontime IS NOT NULL THEN DATE_FORMAT(appform.proposedInspectiontime, "%h:%i %p") ELSE NULL END AS formattedTimePropEval, 
+CASE WHEN appform.proposedInspectiondate IS NOT NULL THEN DATE_FORMAT(appform.proposedInspectiondate, "%M %d, %Y") ELSE NULL END AS formattedPropDate, 
+CASE WHEN appform.proposedInspectiontime IS NOT NULL THEN DATE_FORMAT(appform.proposedInspectiontime, "%h:%i %p") ELSE NULL END AS formattedPropTime, 
+
+/*********** Important Dates ***************/
+appform.t_date, CASE WHEN appform.t_date IS NOT NULL THEN DATE_FORMAT(appform.t_date, "%M %d, %Y") ELSE 'Not officially applied yet.' END AS formattedDate, 
+appform.t_time, CASE WHEN appform.t_time IS NOT NULL THEN DATE_FORMAT(appform.t_time, "%h:%i %p") ELSE NULL END AS formattedTime, 
+
+appform.isCashierApprove, appform.CashierApproveBy,
+appform.CashierApproveDate, CASE WHEN appform.CashierApproveDate IS NOT NULL THEN DATE_FORMAT(appform.CashierApproveDate, "%M %d, %Y") ELSE NULL END AS CashierApproveformattedDate, 
+appform.CashierApproveTime, CASE WHEN appform.CashierApproveTime IS NOT NULL THEN DATE_FORMAT(appform.CashierApproveTime, "%M %d, %Y") ELSE NULL END AS formattedCashierTime,
+
+appform.isInspected, appform.inspectedby,
+appform.inspecteddate, CASE WHEN appform.inspecteddate IS NOT NULL THEN DATE_FORMAT(appform.inspecteddate, "%M %d, %Y") ELSE NULL END AS formattedInspectedDate,
+appform.inspectedtime, CASE WHEN appform.inspectedtime IS NOT NULL THEN DATE_FORMAT(appform.inspectedtime, "%M %d, %Y") ELSE NULL END AS formattedInspectedTime,
+
+appform.isrecommended, CONCAT(evaluator.fname, ' ', evaluator.mname, ' ', evaluator.lname) AS recommendedbyName, 
+appform.recommendeddate, CASE WHEN appform.recommendeddate IS NOT NULL THEN DATE_FORMAT(appform.recommendeddate, "%M %d, %Y") ELSE NULL END AS formattedDateEval, 
+appform.recommendedtime, CASE WHEN appform.recommendedtime IS NOT NULL THEN DATE_FORMAT(appform.recommendedtime, "%h:%i %p") ELSE NULL END AS formattedTimeEval,
+
+appform.isApprove, appform.approvedBy, 
+appform.approvedDate, CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMAT(appform.approvedDate, "%M %d, %Y") ELSE NULL END AS formattedApprovedDate, 
+appform.approvedTime, CASE WHEN appform.approvedTime IS NOT NULL THEN DATE_FORMAT(appform.approvedTime, "%h:%i %p") ELSE NULL END AS formattedApprovedTime,
+/*********** Important Dates ***************/
+
+appform.inspectedipaddr,   appform.recommendedippaddr, appform.approvedIpAdd, appform.approvedRemark,
+appform.isRecoForApproval, appform.RecoForApprovalby, appform.RecoForApprovalTime, appform.RecoForApprovalDate, appform.RecoForApprovalIpAdd, 
+
+appform.conTeam, appform.ptcTeam, appform.assignedLO, appform.assignedLOTime, appform.assignedLoDate, appform.assignedLOIP, appform.assignedLOBy, 
+appform.submittedReq, appform.appComment, appform.con_number, appform.requestReeval, appform.reevalcount, appform.corResubmit, appform.no_chklist, 
+appform.concommittee_eval, appform.concommittee_evaltime, appform.concommittee_evaldate, appform.concommittee_evalby,
+appform.isAcceptedFP, appform.fpcomment, appform.FPacceptedDate, appform.FPacceptedTime, appform.FPacceptedBy, 
+ptc.propbedcap AS pbedcap, appform.HFERC_swork, appform.isNotified, appform.others_oanc, 
+/* check if it has assessors */
+CASE WHEN (SELECT COUNT(*) FROM app_team WHERE appid=appform.appid)>0 THEN 'T' ELSE 'F' END AS hasAssessors,
+
+ /* FDA */ 
+ appform.isPayEvalFDAPharma, appform.payEvalbyFDAPharma, appform.payEvaldateFDAPharma, appform.payEvaltimeFDAPharma, appform.payEvalipFDAPharma, appform.isCashierApproveFDA, appform.CashierApproveByFDA, appform.CashierApproveDateFDA, appform.CashierApproveTimeFDA, appform.CashierApproveIpFDA, appform.isCashierApprovePharma, appform.CashierApproveByPharma, appform.CashierApproveDatePharma, appform.CashierApproveTimePharma, appform.CashierApproveIpPharma, 
+appform.FDAstatus,
+appform.payProofFilenMach, appform.ispayProofFilenMach, appform.payProofFilenPhar, appform.ispayProofFilenPhar, appform.proofpaystatMach, appform.proofpaystatPhar, appform.FDAStatMach, appform.FDAStatPhar, 
+appform.ispreassessedpharma, appform.ispreassessedbypharma, appform.ispreassessedtimepharma, appform.ispreassesseddatepharma, appform.ispreassessedippharma, 
+appform.isReadyForInspecFDA, 
+appform.isRecoDecisionPhar, appform.corResubmitPhar, appform.isRecoFDAPhar, appform.RecobyFDAPhar, appform.RecodateFDAPhar, appform.RecotimeFDAPhar, appform.RecoippaddrFDAPhar, appform.RecoRemarkFDAPhar, 
+appform.machDocNeedRev, appform.machDocRevcount, appform.pharDocNeedRev, appform.pharDocRevcount, 
+appform.preApproveTimeFDA, appform.preApproveDateFDA, appform.preApproveTimeFDAPharma, appform.preApproveDateFDAPharma,  appform.no_chklistFDA, 
+appform.isrecommendedFDA, appform.recommendedbyFDA, appform.recommendedtimeFDA, appform.recommendeddateFDA, appform.recommendedippaddrFDA, appform.isrecommendedFDAPharma, appform.recommendedbyFDAPharma, appform.recommendedtimeFDAPharma, appform.recommendeddateFDAPharma, appform.recommendedippaddrFDAPharma, 
+appform.isPayEvalFDA, appform.payEvaldateFDA, appform.payEvaltimeFDA, appform.payEvalipFDA, appform.payEvalbyFDA, appform.isRecoFDA, appform.isRecoDecision, appform.RecobyFDA, appform.RecotimeFDA, appform.RecodateFDA, appform.RecoippaddrFDA, appform.RecoRemarkFDA, appform.RecoRemark, appform.isApproveFDA, appform.approvefdaverd, appform.approvedByFDA, appform.approvedDateFDA, appform.approvedTimeFDA, appform.approvedIpAddFDA, appform.approvedRemarkFDA, appform.isApproveFDAPharma, appform.approvefdaverdpharma, appform.approvedByFDAPharma, appform.approvedDateFDAPharma, appform.approvedTimeFDAPharma, appform.approvedIpAddFDAPharma, appform.approvedRemarkFDAPharma, appform.pharValidity, appform.xrayVal, 
+appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
+
+/*Validity and License No. */
+appform.autoTimeDate, appform.created_at, appform.updated_at,
+CASE WHEN appform.updated_at IS NOT NULL THEN DATE_FORMAT(appform.updated_at, "%M %d, %Y") ELSE NULL END AS formattedUpdatedDate, 
+CASE WHEN appform.updated_at IS NOT NULL THEN DATE_FORMAT(appform.updated_at, "%h:%i %p") ELSE NULL END AS formattedUpatedTime, 
+appform.licenseNo, appform.validDate, appform.validDateFrom, 
+
+signatoryname, signatorypos, asrgn.rgn_desc AS assRgnDesc, asrgn.office, asrgn.address, asrgn.iso_desc, 
+trans_status.allowedpayment, trans_status.canapply, appform.ocdesc as appformocdesc
+
+FROM appform
+LEFT JOIN hfaci_serv_type ON appform.hfser_id = hfaci_serv_type.hfser_id
+LEFT JOIN hfaci_grp ON appform.hgpid=hfaci_grp.hgpid
+
+LEFT JOIN x08 ON appform.uid=x08.uid
+LEFT JOIN barangay ON appform.brgyid=barangay.brgyid
+LEFT JOIN city_muni ON appform.cmid=city_muni.cmid
+LEFT JOIN province ON appform.provid=province.provid
+LEFT JOIN region ON appform.rgnid=region.rgnid
+
+LEFT JOIN ownership ON appform.ocid=ownership.ocid
+LEFT JOIN apptype ON appform.aptid=apptype.aptid
+LEFT JOIN class ON appform.classid=class.classid
+LEFT JOIN funcapf ON appform.funcid=funcapf.funcid
+LEFT JOIN facmode ON appform.facmode=facmode.facmid
+LEFT JOIN trans_status ON appform.status=trans_status.trns_id
+LEFT JOIN ptc ON ptc.appid=appform.appid
+
+LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
+LEFT JOIN x08 evaluator ON evaluator.uid=appform.recommendedby
+ORDER BY appform.updated_at DESC, appform.t_date DESC, appform.appid DESC, appform.aptid ASC
+);
+
+
 /**********  View Application Status   **********/
 DROP VIEW IF EXISTS view_app_status_summary;
 CREATE VIEW view_app_status_summary AS

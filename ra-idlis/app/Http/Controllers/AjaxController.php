@@ -1568,7 +1568,7 @@ public static function checkConmem($appid)
 		{
 			$notInclude = array();
 			$data = AjaxController::getAllDataEvaluateOne($appid);
-			
+
 			$dataInDB = DB::table('hferc_team')
 						->leftjoin('x08','x08.uid', '=','hferc_team.uid')
 						->leftjoin('x07', 'x08.grpid', '=', 'x07.grp_id')->select('*')->where([['hferc_team.appid',$appid],['hferc_team.revision',$revCount]])->distinct()->get();
@@ -5818,7 +5818,7 @@ public static function checkConmem($appid)
 		{
 			try 
 			{
-				/*$data = DB::table('appform')
+				$data = DB::table('appform')
 						->leftJoin('x08', 'appform.uid', '=', 'x08.uid')
 						->leftJoin('barangay', 'appform.brgyid', '=', 'barangay.brgyid')
 						->leftJoin('city_muni', 'appform.cmid', '=', 'city_muni.cmid')
@@ -5835,9 +5835,9 @@ public static function checkConmem($appid)
 						$data->formattedPropTime = $newT->format('g:i A');
 						$newD = Carbon::parse($data->proposedInspectiondate);
 						$data->formattedPropDate = $newD->toFormattedDateString();
-					}*/
+					}
 
-				$data = DB::table('applist_details')->where('appid', '=', $appid)->first();
+				//$data = DB::table('applist_details')->where('appid', '=', $appid)->first();
 
 				return $data;
 			

@@ -50,6 +50,7 @@
                     
                     <hr />
                     <div class="row">
+                        {{-- 
                         <div class="col-md-12 change-div">
                             <div class="col-md-6">
 
@@ -82,6 +83,7 @@
                                 <option>Please select</option>
                             </select>
                         </div>
+                        --}}
                         <div class="mb-2 col-md-12 change-div">&nbsp;</div>
                         <div class="col-md-6 change-div">
 
