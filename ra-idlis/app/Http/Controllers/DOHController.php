@@ -9017,6 +9017,7 @@ namespace App\Http\Controllers;
 
 
 				if(isset($request->reco) && $request->isMethod('post') && in_array(true, AjaxController::isSessionExist(['employee_login'])) && !FunctionsClientController::existOnDB('assessmentrecommendation',array(['appid',$appid],['selfAssess',$isSelfAssess],['monid',$monid]))){
+					
 					$uData = AjaxController::getCurrentUserAllData();
 
 					$isSent = DB::table('assessmentrecommendation')->insert(['choice' => $request->choice, 'details' => $request->details, 'valfrom' => $request->vf, 'valto' => $request->vto, 'days' => $request->days, 'appid' => $request->appid, 'selfAssess' => $isSelfAssess , 'monid' => $monid, 'noofbed' => $request->noofbed, 'noofdialysis' => $request->noofdialysis, 'conforme' => $request->conformee, 'conformeDesignation' => $request->conformeeDes, 'evaluatedby' => $uData['cur_user']]);

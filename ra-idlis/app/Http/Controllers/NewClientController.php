@@ -2857,24 +2857,66 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 	{
 		//try 
 		//{	
-			$reg_fac_id = $appid; 
-			$functype = 'main';
+			$reg_fac_id 			= $appid; 
+			$functype 				= 'main';
 			$appform_changeaction 	= null;
 			$nameofcomp 			= null;
 			$validity 				= "";
 			$user_data 				= session()->get('uData');
 			$hgpid					= null;
 			$appform 				= DB::table('viewAppFormForUpdate')->where('appid','=',$appid)->first();
+			$regservices	= FunctionsClientController::get_view_reg_facility_services($reg_fac_id, 0);	
+			$savingStat = null;
+			$hfLocs = [
+					'client1/apply/app/LTO/'.$appid, 
+					'client1/apply/app/LTO/'.$appid.'/hfsrb', 
+					'client1/apply/app/LTO/'.$appid.'/fda'
+			];
+
+
+			if(isset($hideExtensions)) {
+				$hfLocs = [
+					'client1/apply/employeeOverride/app/LTO/'.$appid, 
+					'client1/apply/employeeOverride/app/LTO/'.$appid.'/hfsrb', 
+					'client1/apply/employeeOverride/app/LTO/'.$appid.'/fda'
+				];
+			}
+
+			if(! isset($hideExtensions)) {
+				$cSes = FunctionsClientController::checkSession(true);
+				
+				if(count($cSes) > 0) {
+					return redirect($cSes[0])->with($cSes[1], $cSes[2]);
+				}
+			}
+			
+			$appGet = FunctionsClientController::getUserDetailsByAppform($appid, $hideExtensions);
+
+			$data = [
+				'regions' 				=> Regions::orderBy('sort')->get(),			
+				'appid'					=> $appid,
+				'regfac_id'				=> $reg_fac_id,
+				'functype'				=> $functype,
+				'appform'				=> $appform,
+				'fAddress'				=>$appGet,
+				'validity'				=> null,
+				'issued_date'			=> null,
+				'appform_changeaction'	=> null,					
+				'regservices'			=> null,
+				'addresses'				=>$hfLocs,
+				'chgfil_reg'			=> FunctionsClientController::getChargesByAppID($appid, "Facility Registration Fee", TRUE),
+				'chgfil_sf'				=> FunctionsClientController::getChargesByAppID($appid, "Service Fee", TRUE),
+				'chgfil_af'				=> FunctionsClientController::getChargesByAppID($appid, "Ambulance Fee", TRUE),
+				'savingStat'			=> 	$savingStat
+			];
 
 			//try {
 				if(true) 
 				{
 					$locRet 	= "dashboard.client.update-application";
 					$hfser_id 	=  $appform->hfser_id;
-					$nameofcomp = $appform->nameofcompany;	
-					$regservices	= FunctionsClientController::get_view_reg_facility_services($reg_fac_id, 0);					
+					$nameofcomp = $appform->nameofcompany;					
 					$savingStat = NULL;
-					$uid = "";
 
 					//try {
 						$validto 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityto';
@@ -2900,22 +2942,8 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						}						
 					//} catch (Exception $e) { }	
 
-					$data = [
-						'appid'					=> $appid, //old app id
-						'regfac_id'				=> $reg_fac_id,
-						'functype'				=> $functype,
-						'appform'				=> $appform,
-						'validity'				=> $validity,
-						'issued_date'			=> $issued_date,
-						'uid'					=> $uid,
-						'appform_changeaction'	=> $appform_changeaction,					
-						'regservices'			=> $regservices,
-						'chgfil_reg'			=> FunctionsClientController::getChargesByAppID($appid, "Facility Registration Fee", TRUE),
-						'chgfil_sf'				=> FunctionsClientController::getChargesByAppID($appid, "Service Fee", TRUE),
-						'chgfil_af'				=> FunctionsClientController::getChargesByAppID($appid, "Ambulance Fee", TRUE),
-						'savingStat'			=> $savingStat				
-						//DB::table('chgfil')->where([['appform_id', $appid]])->get()
-					];
+					$data['validity']		= $validity;
+					$data['issued_date']	= $issued_date;
 					
 					if($functype == 'av')
 					{					
@@ -3074,7 +3102,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							'servfac'			=> json_encode(FunctionsClientController::getServFaclDetails($appid)),
 							'ptcdet'			=> json_encode(FunctionsClientController::getPTCDetails($appid)),
 							'cToken'			=> FunctionsClientController::getToken(),
-							'addresses'			=> '',
 							'hfer'				=> $apptype,
 							'hideExtensions'	=> null,
 							'ambcharges'		=> DB::table('chg_app')->whereIn('chgapp_id', ['284', '472'])->get(),

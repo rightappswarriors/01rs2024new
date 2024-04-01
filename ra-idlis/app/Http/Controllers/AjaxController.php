@@ -1568,6 +1568,7 @@ public static function checkConmem($appid)
 		{
 			$notInclude = array();
 			$data = AjaxController::getAllDataEvaluateOne($appid);
+			
 			$dataInDB = DB::table('hferc_team')
 						->leftjoin('x08','x08.uid', '=','hferc_team.uid')
 						->leftjoin('x07', 'x08.grpid', '=', 'x07.grp_id')->select('*')->where([['hferc_team.appid',$appid],['hferc_team.revision',$revCount]])->distinct()->get();
