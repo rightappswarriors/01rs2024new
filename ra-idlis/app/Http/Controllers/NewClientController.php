@@ -3767,7 +3767,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+			//DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
 
 			return redirect('client1/changerequest/'.$request->regfac_id.'/annexa')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Equipment successfully saved.']);
 		}
@@ -3784,14 +3784,14 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+			//DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
 			
 			return redirect('client1/changerequest/'.$request->regfac_id.'/annexb')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Equipment successfully saved.']);
 		}
 		//Update in Classification/Function/Institutional Character
 		else if($cat_id == 8)
 		{
-			$remarks = "Update in Classification/Function/Institutional Character applied.";
+			$remarks = "Update in Institutional Character applied.";
 			$chgapp_id = '3789';
 
 			DB::table('chgfil')->where(array('appform_id'=>$appid, 'chgapp_id'=> $chgapp_id))->delete();
@@ -3802,7 +3802,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+			DB::table('appform')->where('appid',$appid)->update(['facmode' => $request->facmode, 'funcid'=>$request->funcid]);
 		}
 		//Downgrade in Hospital Level
 		else if($cat_id == 9)
