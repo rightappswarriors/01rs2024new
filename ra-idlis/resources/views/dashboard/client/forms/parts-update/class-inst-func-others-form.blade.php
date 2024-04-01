@@ -8,19 +8,49 @@
         <div class="modal-dialog  modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changeCFIOModalLabel">Change in Classification/Institutional Character/Function</h5>
+                    <h5 class="modal-title" id="changeCFIOModalLabel">CLASSIFICATION ACCORDING TO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-info">                        
+                        <!-- Classification -->
+
+                            <div class="row alert alert-info">
+                                <div class="col-sm-4">
+                                    <label class="text-left upd-text-title">Ownership <span class="text-danger">*</span></label>
+                                    <h6  class="text-center upd-text-info">{{$appform->ownership_desc}}&nbsp;</h6>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="text-left upd-text-title">Classification <span class="text-danger">*</span></label>
+                                    <h6  class="text-center upd-text-info">{{$appform->classname}}&nbsp;</h6>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="text-left upd-text-title">Sub Classification <span class="text-danger">*</span></label>
+                                    <h6  class="text-center upd-text-info">@isset($appform->subclassname){{$appform->subclassname}}@endisset &nbsp;</h6>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="text-left upd-text-title">Institutional Character <span class="text-danger">*</span></label>
+                                    <h6  class="text-center upd-text-info">{{$appform->facmdesc}} &nbsp;</h6>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="text-left upd-text-title">Function <span class="text-danger">*</span></label>
+                                    <h6  class="text-center upd-text-info">{{$appform->funcdesc}} &nbsp;</h6>
+                                </div>
+                            </div>
+                        
+                    </div>
                     
                     <hr />
                     <div class="row">
                         <div class="col-md-12 change-div">
                             <div class="col-md-6">
 
-                                <b class="text-primary">CHANGE IN CLASSIFICATION ACCORDING TO</b>
                             </div>
                             <div class="col-md-6">
                                 <label class="text-danger">
@@ -82,7 +112,7 @@
                         No, Recheck details
                     </button>
                     <button class="btn btn-primary action-btn" type="submit">
-                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Application
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Data
                     </button>
                 </div>
             </div>

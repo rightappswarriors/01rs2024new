@@ -12,7 +12,7 @@
 					<select name="choice" class="form-control">
 
 						@if(!isset($uInf->isMon))
-						<option value="issuance">For issuance of License</option>
+						<option value="issuance">Recommended for Issuance of Authorization</option>
 						<option value="compliance">For Compliance</option>
 						<option value="non">For Non Issuance</option>
 						@else

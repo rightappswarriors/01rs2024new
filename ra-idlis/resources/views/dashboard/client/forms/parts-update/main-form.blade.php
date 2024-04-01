@@ -2,7 +2,7 @@
 
 @php $allowed_edit = true; @endphp
 
-<div class="col-md-12 change-div"><b class="text-primary">APPLICATION</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">APPLICATION</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeRenameHF"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-2">
     <label class="text-left upd-text-title">Registered ID </label> 
     <h6  class="text-center upd-text-info">&nbsp;{{$appform->regfac_id}}</h6>
@@ -35,9 +35,9 @@
 <!-- HF Name -->  
 <div class="col-sm-12">
     <label class="text-left upd-text-title"  for="facility_name">Facility Name  <span class="text-danger">*</span></label>
-    <h3 class="text-center text-uppercase mb-2 upd-text-info">{{$appform->facilityname}}</h3>
+    <h3 class="text-center text-uppercase mb-2 upd-text-info"><a class="text-primary" style="text-decoration:none;" href="#" data-toggle="modal" data-target="#changeRenameHF">{{$appform->facilityname}}&nbsp;</a></h3>
 </div>
-<div class="col-md-12 change-div"><b class="text-primary">FACILTY ADDRESS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">FACILTY ADDRESS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeAddress"><i class="fa fa-edit"></i></button> @endif</div>
 <!-- Facility Address -->
 <div class="col-sm-3">
     <label class="text-left upd-text-title">Region <span class="text-danger">*</span>
@@ -83,10 +83,10 @@
 
 
 <!-- Contact Details -->
-<div class="col-md-12 change-div"><b class="text-primary">FACILITY CONTACT DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">FACILITY CONTACT DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeContactDetails"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-3">
     <label class="text-left upd-text-title"><i class="fa fa-mobile"></i> Facility Mobile No. </label>
-    <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">{{$appform->landline}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-3">
@@ -109,7 +109,7 @@
 
 <!-- Classification -->
 
-<div class="col-md-12 change-div"><b class="text-primary">CLASSIFICATION ACCORDING TO</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">CLASSIFICATION ACCORDING TO</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeCFIO"><i class="fa fa-edit"></i></button> @endif</div>
 
 <div class="col-sm-4">
     <label class="text-left upd-text-title">Ownership <span class="text-danger">*</span></label>
@@ -140,7 +140,7 @@
 <!-- Owner -->
 
 
-<div class="col-md-12 change-div"><b class="text-primary">OWNER DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">OWNER DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeOwner"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-12">
     <label class="text-left upd-text-title">Owner Name <span class="text-danger">*</span></label>
     <h6  class="text-center upd-text-info">{{$appform->owner}}</h6>
@@ -176,7 +176,7 @@
 </div>
 
 
-<div class="col-md-12 change-div"><b class="text-primary">Proponent/Owner Contact Details</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12"><label class="text-left upd-text-title"><b class="text-primary">Proponent/Owner Contact Details</b></label></div>
 <div class="col-sm-4">
     <label class="text-left upd-text-title"><i class="fa fa-mobile"></i> Proponent/Owner Mobile No. </label>
     <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
@@ -192,32 +192,35 @@
     <h6  class="text-center upd-text-info">{{$appform->email}}&nbsp;</h6>
 </div>
 
-
-<div class="col-md-12 change-div"><b class="text-primary">Official Mailing Address</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-12">
-    <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
+    <label class="text-left upd-text-title"><i class="fa  fa-envelope"></i> <b class="text-primary">Official Mailing Address </b></label>
+    <h6  class="text-center upd-text-info">{{$appform->mailingAddress}}&nbsp;</h6>
 </div>
 
 
-<div class="col-md-12 change-div"><b class="text-primary">Approving Authority Details</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">APPROVING AUTHORITY DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeApprovingAuthority"><i class="fa fa-edit"></i></button> @endif</div>
 
 <div class="col-sm-6">
     <label class="text-left upd-text-title">Approving Authority Position/Designation </label>
     <h6  class="text-center upd-text-info">{{$appform->approvingauthoritypos}}&nbsp;</h6>
 </div>
 <div class="col-sm-6">
-    <label class="text-left upd-text-title">Approving Authority Full Name   </label>
+    <label class="text-left upd-text-title">Approving Authority Full Name </label>
     <h6  class="text-center upd-text-info">{{$appform->approvingauthority}}&nbsp;</h6>
 </div>
 
-<div class="col-sm-12">
-    <label class="text-left upd-text-title">Head of Facility Full Name   </label>
-    <h6  class="text-center upd-text-info">{{$appform->approvingauthority}}&nbsp;</h6>
+<div class="col-sm-6">
+    <label class="text-left upd-text-title">Head of Facility Full Name </label>
+    <h6  class="text-center upd-text-info">{{$appform->head_of_facility_name}}&nbsp;</h6>
+</div>
+
+<div class="col-sm-6">
+    &nbsp;
 </div>
 
 
 <!-- Authorization Number -->
-<div class="col-md-12 change-div"><b class="text-primary"> Latest Authorization Number</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">LATEST AUTHORIZATION NUMBER</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeLatestAuthorization"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-6">
     <label class="text-left upd-text-title">Permit to Construct No. (if applicable)   </label>
     <h6  class="text-center upd-text-info">{{$appform->ptc_id}}&nbsp;</h6>
@@ -242,12 +245,12 @@
 <div class="col-sm-12"><hr/></div>                                    
 <!-- Type of Health Facility / Service -->
 
-<div class="col-md-12 change-div"><b class="text-primary"> Type of Health Facility</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">TYPE OF HEALTH FACILITY</b>  {{--- @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif ---}}</div>
 <div class="col-sm-12">
     <h3  class="text-center upd-text-info"><i class="fa fa-check-square-o"></i> &nbsp;{{$appform->facilitytype}}&nbsp;</h3>
 </div>         
 
-<div class="col-md-12 change-div"><b class="text-primary"> Classification of Hospital</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">CLASSIFICATION OF HOSPITAL</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeCOH"><i class="fa fa-edit"></i></button> @endif</div>
 
 <div class="col-sm-6">
     <label class="text-left upd-text-title">Classification of Hospital </label>
@@ -261,14 +264,14 @@
 
 
 <!---- For Add On services --->
-<div class="col-md-12 change-div"><b class="text-primary"> Ancillary/Clinical Services</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">ANCILLARY/CLINICAL SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
 <div class="col-sm-12">    
     <div class="row col-border-right showAncillary">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th class="text-center">Option</th>
-                    <th class="text-center">Services</th>
+                    <th class="text-center">Ancillary/Clinical Services</th>
                 </tr>
             </thead>
             <tbody id="body_ancillary">
@@ -285,7 +288,7 @@
     </div>
 </div>  
  
- <div class="col-md-12 change-div"><b class="text-primary"> For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+ <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
  <div class="col-sm-12">         
      @if (isset($regservices))  
          <ul style="list-style-type: none; ">    
@@ -297,14 +300,14 @@
  </div>  
 
 <!---- For Add On services --->
-<div class="col-md-12 change-div"><b class="text-primary"> Add on services</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
 <div class="col-sm-12">    
     <div class="row col-border-right showAmb">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th class="text-center">Option</th>
-                    <th class="text-center">Services</th>
+                    <th class="text-center">Add On Services</th>
                     <th class="text-center">Type(Owned, Outsoured)</th>
                     <th class="text-center">Details</th>
                 </tr>
@@ -330,7 +333,12 @@
 </div>     
 
 <!---- For Add On services --->
-<div class="col-md-12 change-div"><b class="text-primary"> Ambulance Details</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">AMBULANCE DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeAmbulanceVehicle"><i class="fa fa-plus"></i></button> @endif</div>
+<div class="col-md-12">
+    <span class="text-danger">NOTE: For Owned ambulance, Payments are as follows:</span> <br>
+    Ambulance Service Provider = ₱ 5,000
+    Ambulance Unit (Per Unit) = ₱ 1,000
+</div>
 <div class="col-sm-12">    
     <div class="row col-border-right showAmb">
         <table class="table table-bordered">
@@ -363,17 +371,18 @@
 </div>  
 
 <div class="col-sm-6">
-    <div class="col-md-12 change-div"><b class="text-primary">Authorized Bed Capacity</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+    
+    <label class="text-left upd-text-title"><b class="text-primary">Authorized Bed Capacity </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeBedCapacity"><i class="fa fa-edit"></i></button> @endif</label>
     <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-6">
-    <div class="col-md-12 change-div"><b class="text-primary">Number of Dialysis Station</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+    <label class="text-left upd-text-title"><b class="text-primary">Number of Dialysis Station </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</label>
     <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
 </div>
 
 
-<div class="col-md-12 change-div"><b class="text-primary">For Pharmacy</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">For Pharmacy</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changePharmacy"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-6">
     <label class="text-left upd-text-title">Number of Main Pharmacy </label>
     <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
@@ -387,9 +396,15 @@
 
 
 
+@include('dashboard.client.forms.parts-update.rename-facility-form')
+@include('dashboard.client.forms.parts-update.address-form')
+@include('dashboard.client.forms.parts-update.facility-contact-details-form')
+@include('dashboard.client.forms.parts-update.class-inst-func-others-form')
+@include('dashboard.client.forms.parts-update.owner-form')
+@include('dashboard.client.forms.parts-update.approving-authority-form')
+@include('dashboard.client.forms.parts-update.latest-authorization-form')
+@include('dashboard.client.forms.parts-update.classification-of-hospital-form')
+@include('dashboard.client.forms.parts-update.ambulance-vehicle')
 @include('dashboard.client.forms.parts-update.beds-capacity-form')
 @include('dashboard.client.forms.parts-update.dialysis-station-form')
-@include('dashboard.client.forms.parts-update.rename-facility-form')
-@include('dashboard.client.forms.parts-update.class-inst-func-others-form')
-@include('dashboard.client.forms.parts-update.downgrade-hospital')
-@include('dashboard.client.forms.parts-update.ambulance-vehicle')
+@include('dashboard.client.forms.parts-update.pharmacy-form')
