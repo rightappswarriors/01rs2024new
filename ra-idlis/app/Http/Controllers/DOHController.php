@@ -7170,6 +7170,7 @@ namespace App\Http\Controllers;
 					// ->groupBy('x08_ft.id')
 					->get();
 
+
 					$toViewArr = [
 						'data' => $data,
 						// 'head' => AjaxController::forAssessmentHeaders(array(['appform.appid',$appid],['asmt_h1.apptype',$data->hfser_id]),array('asmt_title.title_name as desc','asmt_title.title_code as id')),

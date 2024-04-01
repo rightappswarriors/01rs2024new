@@ -108,7 +108,7 @@ ORDER BY appform.updated_at DESC, appform.t_date DESC, appform.appid DESC, appfo
 );
 
 
-DROP VIEW IF EXISTS applist_details;
+DROP VIEW IF EXISTS applist_simple;
 CREATE VIEW applist_details AS
 (
 SELECT 
