@@ -3992,7 +3992,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 
 		try {
 
-			$facility = DB::select("SELECT 'IC', regfac_id, hgpid, nhfcode, facilityname, assignedRgn, rgnid, provid, cmid, brgyid, street_number, street_name, zipcode, contact, areacode, landline, faxnumber, email, rf.ocid, rf.classid, subClassid, facmode, funcid, owner, ownerMobile, ownerLandline, ownerEmail, mailingAddress, approvingauthoritypos, approvingauthority, hfep_funded, hfser_id, uid, noofbed, noofstation, noofsatellite, noofdialysis, noofmain, cap_inv, lot_area, typeamb, ambtyp, plate_number, ambOwner, HFERC_swork, noofamb, pharCOC, xrayCOC, noofbed AS noofbed_old, noofdialysis AS noofdialysis_old,  facilityname AS facilityname_old, rf.ocid AS ocid_old, ocdesc AS ocdesc_old , classid AS classid_old, classname AS classdesc_old, subClassid AS subClassid_old, funcid AS funcid_old, facmode AS facmode_old
+			$facility = DB::select("SELECT 'IC', regfac_id, hgpid, nhfcode, hfser_id, facilityname, assignedRgn, rgnid, provid, cmid, brgyid, street_number, street_name, zipcode, contact, areacode, landline, faxnumber, email, rf.ocid, rf.classid, subClassid, facmode, funcid, owner, ownerMobile, ownerLandline, ownerEmail, mailingAddress, approvingauthoritypos, approvingauthority, hfep_funded, hfser_id, uid, noofbed, noofstation, noofsatellite, noofdialysis, noofmain, cap_inv, lot_area, typeamb, ambtyp, plate_number, ambOwner, HFERC_swork, noofamb, pharCOC, xrayCOC, noofbed AS noofbed_old, noofdialysis AS noofdialysis_old,  facilityname AS facilityname_old, rf.ocid AS ocid_old, ocdesc AS ocdesc_old , classid AS classid_old, classname AS classdesc_old, subClassid AS subClassid_old, funcid AS funcid_old, facmode AS facmode_old
 			FROM view_registered_facility_for_change rf 
 			WHERE regfac_id=$regfac_id");
 
@@ -4001,6 +4001,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				regfac_id, 
 				hgpid, 
 				nhfcode, 
+				hfser_id, 
 				facilityname, 
 				assignedRgn, 
 				rgnid, 
@@ -4060,6 +4061,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				$facility[0]->regfac_id, 
 				$facility[0]->hgpid, 
 				$facility[0]->nhfcode, 
+				$facility[0]->hfser_id, 
 				$facility[0]->facilityname, 
 				$facility[0]->assignedRgn, 
 				$facility[0]->rgnid, 

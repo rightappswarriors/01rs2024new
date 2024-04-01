@@ -111,7 +111,7 @@
 
 <!-- Authorization Number -->
 <div class="col-md-6">
-    <label>Latest LTO/COA/COR/ATO Number: </label>
+    <label>Latest <strong>{{$registered_facility->hfser_id}}</strong> Number: </label>
     <label><strong class="text-xl">{{$registered_facility->con_id}} {{$registered_facility->lto_id}} {{$registered_facility->ato_id}} {{$registered_facility->coa_id}} {{$registered_facility->cor_id}}</strong></label>
 </div>
 
