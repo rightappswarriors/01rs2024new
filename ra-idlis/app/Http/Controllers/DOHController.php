@@ -10601,6 +10601,7 @@ namespace App\Http\Controllers;
 					// return $request->all();
 						$Cur_useData = AjaxController::getCurrentUserAllData();
 						$hfserCheck = DB::table('appform')->where('appid', '=', $request->id)->first();
+						$status = 'DONE';
 
 						$update = array(
 							'isRecoForApproval' => $request->isOk,
@@ -10613,10 +10614,13 @@ namespace App\Http\Controllers;
 
 						if ($request->isOk == 1) 
 						{
+							$status = 'DONE';
 							$update['status'] = 'FA';
 						} 
 						else if ($request->isOk == 0) 
 						{
+							$status = 'DISAPPROVED';
+
 							if($hfserCheck->hfser_id == "PTC")
 							{
 								if(is_null($hfserCheck->requestReeval))
@@ -10653,7 +10657,7 @@ namespace App\Http\Controllers;
 									break;
 							}
 						}
-						return 'DONE';
+						return $status;
 				} catch (Exception $e) {
 					AjaxController::SystemLogs($e);
 					return 'ERROR';
@@ -13048,7 +13052,36 @@ namespace App\Http\Controllers;
 
 		public function ClientUsersManage(Request $request)
 		{
-			if ($request->isMethod('get')) 
+			if(session()->has('employee_login'))
+			{
+				if ($request->isMethod('get')) 
+				{
+					try 
+					{
+						$arrType = array();
+						$data = SELF::application_filter($request, 'view_registered_facility');
+						
+						return view('employee.regfacilities.registeredfacility', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'],
+						'factype' => null,
+						'regions' => null,
+						'hfaci_service_type' => null,
+						'serv_cap' => null,
+						'_aptid' => null,]);
+					} 
+					catch (Exception $e) 
+					{
+						AjaxController::SystemLogs($e);
+						session()->flash('system_error','ERROR');
+						return view('employee.regfacilities	.archive');
+					}
+				}
+			}
+			else 
+			{
+				return redirect()->route('employee');
+			}		
+
+			/*if ($request->isMethod('get')) 
 			{
 				try 
 				
@@ -13068,7 +13101,7 @@ namespace App\Http\Controllers;
 					return view('employee.manage.mclientuser');
 					return $e;
 				}
-			}
+			}*/
 		}
 
 
