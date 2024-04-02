@@ -821,8 +821,8 @@
                           window.location.href = '{{url('employee/dashboard/processflow/approval')}}' --}}
                       } else if (data == 'DISAPPROVED') {
                           Swal.fire({
-                            type: 'success',
-                            title: 'Success',
+                            type: 'error',
+                            title: 'Disapproved',
                             text: 'Successfully disapproved application',
                           }).then(() => {
                             window.location.href = '{{ asset('employee/dashboard/processflow/approval') }}';

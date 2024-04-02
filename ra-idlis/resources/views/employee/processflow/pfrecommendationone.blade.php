@@ -974,6 +974,16 @@
                           }).then(() => {
                             window.location.href = '{{ asset('employee/dashboard/processflow/recommendation') }}';
                           });
+                      } 
+                      else if (data == 'DISAPPROVED') {
+                          $("#AccepttGodModal").modal('toggle');
+                          Swal.fire({
+                            type: 'error',
+                            title: 'Disapproved',
+                            text: 'This application is successfully disapproved for recommendation of final approval.',
+                          }).then(() => {
+                            window.location.href = '{{ asset('employee/dashboard/processflow/recommendation') }}';
+                          });
                       } else if (data == 'ERROR'){
                         $('#AccErrorAlert').show(100);  
                       }

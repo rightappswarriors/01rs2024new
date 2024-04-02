@@ -3492,7 +3492,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		if (!is_null($appform)) { 
 			$appid 		= $appform->appid;
 			$savingStat = $appform->savingStat;
-			$hgpid = $appform->hgpid;
+			$hgpid = $appform->hgpid; 
 		}
 
 		if($appid < 1) {	$appid = $this->insertAppForm($regfac_id);	}
@@ -3550,13 +3550,11 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				DB::table('x08_ft')->insert(['uid' => $uid, 'appid' => $appid, 'reg_facid' => $regfac_id, 'facid' => $facid]);
 			}
 
-			$remarks = "Adjusted No. Of Bed Applied is ".$request->noofbed_applied;
+			$remarks = "Increase/Decrease in ABC from ".$request->noofbed_old." to ". $request->noofbed_applied;
 
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
 			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed_old]);
-			
-			return redirect('client1/changerequest/'.$request->regfac_id.'/cs')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Service successfully saved.']);
 		}
 		//Increase/Decrease In Dialysis Clinic
 		else if($cat_id == 2)
@@ -3571,8 +3569,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				$amt = "3000.00";    
 
 				$facid='H1-AO-DC';
-			}
-			else{
+			} else {
 				$remarks = "Dialysis Clinic";
 				$chgapp_id = "11";
 				$amt = "9500.00";
@@ -3591,7 +3588,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				DB::table('x08_ft')->insert(['uid' => $uid, 'appid' => $appid, 'reg_facid' => $regfac_id, 'facid' => $facid]);
 			}
 
-			$remarks = "No. Of Dialysis Clinic Applied is ".$request->noofdialysis;
+			$remarks = "Increase/Decrease in no. of dialysis station from ".$request->noofdialysis_old." to ".$request->noofdialysis;
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
 			DB::table('appform')->where('appid',$appid)->update(['noofdialysis' => $request->noofdialysis, 'noofdialysis_old'=>$request->noofdialysis_old]);
@@ -3934,7 +3931,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		//Final Submission
 		else if($cat_id == 100000)
 		{
-			$remarks = "N";
+			$remarks = "";
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
 			DB::table('appform')->where('appid',$appid)->update(['savingStat' => 'final', 't_date'=>Carbon::now()->toDateString(), 'isPayEval' => '1', 'status'=>'CRFE']);			
@@ -4162,7 +4159,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					$nameofcomp = $appform->owner;
 					$uid 		= $appform->uid;
 				}
-
 				else{
 					if (!is_null($data) && is_array($data)) { 
 						$hgpid		= $data[0]->hgpid;
@@ -4201,7 +4197,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					/*$data = DB::table('appform')->select('view_registered_facility_for_change.*','appform.appid')->where('appform.regfac_id', $reg_fac_id)
 								->join('view_registered_facility_for_change', 'view_registered_facility_for_change.regfac_id', '=', 'appform.regfac_id')
 								->orderBy('appid','DESC')->get();*/					
-					$appform_changeaction = ($functype == '' || $functype == 'main') ? DB::select("SELECT aca.id, aca.appid, aca.cat_id, ctyp.description, aca.remarks FROM `appform_changeaction` aca LEFT JOIN change_action_type ctyp ON aca.cat_id=ctyp.cat_id WHERE appid='$appid';") : null;
+					$appform_changeaction = ($functype == '' || $functype == 'main') ? DB::select("SELECT aca.id, aca.appid, aca.cat_id, ctyp.description, aca.remarks FROM `appform_changeaction` aca LEFT JOIN change_action_type ctyp ON aca.cat_id=ctyp.cat_id WHERE aca.cat_id!='100000' AND appid='$appid';") : null;
 				}		
 
 				$data = [
