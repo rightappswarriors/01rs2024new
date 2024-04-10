@@ -1595,7 +1595,6 @@ function getFacServCharge (val = null){
         newSel.setAttribute("name", "addOnServ");
         document.getElementById("aoselCont").appendChild(newSel);
 
-
         newAddOns.map((h) => {
             if(h.facid != "H2-AO-DC" && h.facid != "H1-AO-DC"){
             var opt = document.createElement("option");

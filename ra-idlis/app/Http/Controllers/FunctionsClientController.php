@@ -1078,12 +1078,12 @@ class FunctionsClientController extends Controller {
 
 					
 					if(isset($hfserid)){
-						$toReturn = $toReturn->where('hfser_id',$hfserid)->get();
+						$toReturn = $toReturn->where('hfser_id',$hfserid)->where('facid','NOT LIKE','%-REGIS')->orderBy('facname','asc')->get();
 					} else {
 						$toReturn = $toReturn->get();
 					}
 
-					// dd($toReturn);
+					//dd($toReturn);
 					
 					return json_encode($toReturn);
 				}

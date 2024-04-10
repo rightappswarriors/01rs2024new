@@ -1,8 +1,9 @@
 
-<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+<form method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
     <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">
+    <input type="hidden" name="grp_id" value="4">   
         
     <div class="modal fade" id="changeCFIO" tabindex="-1" aria-labelledby="changeCFIOModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
@@ -18,6 +19,14 @@
                         <!-- Classification -->
 
                             <div class="row alert alert-info">
+                                <div class="col-sm-4">
+                                    <label class="text-left upd-text-title">HFEP Funded </label>
+                                    <h6  class="text-center upd-text-info">@if($appform->ishfep == 1) {{'Yes'}} @else {{'No'}} @endif &nbsp;</h6>
+                                </div>
+
+                                <div class="col-sm-8">
+                                </div>
+
                                 <div class="col-sm-4">
                                     <label class="text-left upd-text-title">Ownership <span class="text-danger">*</span></label>
                                     <h6  class="text-center upd-text-info">{{$appform->ownership_desc}}&nbsp;</h6>
@@ -48,6 +57,9 @@
                     
                     <hr />
                     <div class="row">
+                        <div class="col-md-12">
+                            <label for="region" style="font-style: italic; font-size: small;">To update the address, enter value below:</label>
+                        </div>
                         <div class="col-md-12 change-div">
                             <div class="col-md-6">
 

@@ -83,20 +83,36 @@
 
 
 <!-- Contact Details -->
+@php
+    try {
+        $areacode_1 = "";
+        $areacode_2 = "";
+        $areacode_3 = "";
+        
+        if(!empty($appform->areacode))
+        {
+            $areacode = json_decode($appform->areacode);
+            $areacode_1 = $areacode[0];
+            $areacode_2 = $areacode[1];
+            $areacode_3 = $areacode[2];
+        }
+    } catch (Exception $e) {}                            
+@endphp
+
 <div class="col-md-12 change-div"><b class="text-primary">FACILITY CONTACT DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeContactDetails"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-3">
     <label class="text-left upd-text-title"><i class="fa fa-mobile"></i> Facility Mobile No. </label>
-    <h6  class="text-center upd-text-info">{{$appform->landline}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">{{$appform->contact}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-3">
     <label class="text-left upd-text-title"><i class="fa fa-phone-square"></i> Facility Landline </label>
-    <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">@if(!empty($areacode_1)) ({{$areacode_1}}) @endif {{$appform->landline}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-3">
     <label class="text-left upd-text-title"><i class="fa fa-fax"></i> Fax Number </label>
-    <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">@if(!empty($areacode_2)) ({{$areacode_2}}) @endif {{$appform->faxnumber}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-3">
@@ -179,17 +195,17 @@
 <div class="col-md-12"><label class="text-left upd-text-title"><b class="text-primary">Proponent/Owner Contact Details</b></label></div>
 <div class="col-sm-4">
     <label class="text-left upd-text-title"><i class="fa fa-mobile"></i> Proponent/Owner Mobile No. </label>
-    <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">{{$appform->ownerMobile}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-4">
     <label class="text-left upd-text-title"><i class="fa fa-phone-square"></i> Proponent/Owner Landline </label>
-    <h6  class="text-center upd-text-info">({{$appform->areacode}}) {{$appform->landline}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">@if(!empty($areacode_3)) ({{$areacode_3}}) @endif {{$appform->ownerLandline}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-4">
     <label class="text-left upd-text-title"><i class="fa  fa-envelope"></i> Proponent/Owner Email Address </label>
-    <h6  class="text-center upd-text-info">{{$appform->email}}&nbsp;</h6>
+    <h6  class="text-center upd-text-info">{{$appform->ownerEmail}}&nbsp;</h6>
 </div>
 
 <div class="col-sm-12">

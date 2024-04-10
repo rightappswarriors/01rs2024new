@@ -86,7 +86,7 @@ CREATE VIEW view_ServiceList AS
 
 SELECT facilitytyp.facid, facilitytyp.facname,  facilitytyp.facmid,  facilitytyp.hgpid,  hfaci_grp.hgpdesc, facilitytyp.specified,  
 facilitytyp.grphrz_name,  facilitytyp.servtype_id, serv_type.anc_name, serv_type.seq, serv_type.facid AS serv_type_facid, serv_type.grp_name, 
-facilitytyp.old_factype_code,  facilitytyp.assignrgn,  facilitytyp.forSpecialty,  facilitytyp.status 
+facilitytyp.old_factype_code,  facilitytyp.assignrgn,  facilitytyp.forSpecialty,  facilitytyp.status, facilitytyp.hfser_id 
 FROM facilitytyp  
 LEFT JOIN serv_type ON facilitytyp.servtype_id=serv_type.servtype_id
 LEFT JOIN hfaci_grp ON hfaci_grp.hgpid=facilitytyp.hgpid
