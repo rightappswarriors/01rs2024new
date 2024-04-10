@@ -1,8 +1,9 @@
 
-<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+<form  method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">   
+    <input type="hidden" name="appid" value="{{$appform->appid}}"> 
+    <input type="hidden" name="grp_id" value="6">    
         
     <div class="modal fade" id="changeApprovingAuthority" tabindex="-1" aria-labelledby="changeApprovingAuthorityModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
@@ -18,21 +19,26 @@
                     <div class="form-group col-md-12">
                         <label for="facility_name">Approving Authority Position/Designation </label>
                         <div class="input-group">
-                            <input type="text" name="nhfrcode" class="form-control" placeholder="Approving Authority Position/Designation" value="{{$appform->nhfcode}}" id="nhfrcode"> 
+                            <select class="form-control  show-menu-arrow" data-funcid="main" id="approving_authority_pos" name="approvingauthoritypos" data-live-search="true" data-style="text-dark form-control custom-selectpicker" data-size="5" required>
+                                <option value="">Please select</option>
+                                <option value="President" @if($appform->approvingauthoritypos == 'President') {{'selected'}} @endif >President</option>
+                                <option value="Owner" @if($appform->approvingauthoritypos == 'Owner') {{'selected'}} @endif >Owner</option>
+                                <option value="Head of Facility" @if($appform->approvingauthoritypos == 'Head of Facility') {{'selected'}} @endif >Head of Facility</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group col-md-12">
                         <label>Approving Authority Full Name <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="facilityname" class="form-control" placeholder="Approving Authority Full Name" value="{{$appform->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                            <input type="text" name="approvingauthority" class="form-control" placeholder="Approving Authority Full Name" value="{{$appform->approvingauthority}}" id="approvingauthority" required=""> 
                         </div>
                     </div>
 
                     <div class="form-group col-md-12">
                         <label>Head of Facility Full Name <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="facilityname" class="form-control" placeholder="Head of Facility Full Name" value="{{$appform->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                            <input type="text" name="head_of_facility_name" class="form-control" placeholder="Head of Facility Full Name" value="{{$appform->head_of_facility_name}}" id="head_of_facility_name" required=""> 
                         </div>
                     </div>
 

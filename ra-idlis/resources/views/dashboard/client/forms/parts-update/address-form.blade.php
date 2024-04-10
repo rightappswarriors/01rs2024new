@@ -1,9 +1,9 @@
 
-<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+<form method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">
-    <input type="hidden" name="assignedRgn" id="assignedRgn" >
+    <input type="hidden" name="appid" value="{{$appform->appid}}">
+    <input type="hidden" name="grp_id" value="2" >
         
     <div class="modal fade" id="changeAddress" tabindex="-1" aria-labelledby="changeAddressModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">

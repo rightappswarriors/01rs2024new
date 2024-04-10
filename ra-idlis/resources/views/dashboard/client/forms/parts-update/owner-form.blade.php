@@ -1,8 +1,10 @@
 
-<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+<form method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">   
+    <input type="hidden" name="appid" value="{{$appform->appid}}">   
+    <input type="hidden" name="appform_areacode" value="{{$appform->areacode}}">  
+    <input type="hidden" name="grp_id" value="5">   
         
     <div class="modal fade" id="changeOwner" tabindex="-1" aria-labelledby="changeOwnerModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
@@ -15,42 +17,59 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info">
+                    @php                    
+                            $areacode_1 = "";
+                            $areacode_2 = "";
+                            $areacode_3 = "";
+
+                            try {
+
+                                if(!empty($appform->areacode))
+                                {
+                                    $areacode = json_decode($appform->areacode);
+                                    $areacode_1 = $areacode[0];
+                                    $areacode_2 = $areacode[1];
+                                    $areacode_3 = $areacode[2];
+                                }
+                            } catch (Exception $e) {}                            
+                        @endphp
 
                     <div class="form-group col-md-12">
                         <label for="facility_name">Owner Name <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="text" name="facilityname" class="form-control" placeholder="FACILITY NAME" value="{{$appform->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                            <input type="text" name="owner" class="form-control" placeholder="OWNER NAME" value="{{$appform->owner}}" required="" id="owner"> 
                         </div>
                     </div>
 
                     <div class="form-group col-md-12">
                         <label for="facility_name">Proponent/Owner Mobile No. </label>
                         <div class="input-group">
-                            <input type="text" name="nhfrcode" class="form-control" placeholder="NHFR Code" value="{{$appform->nhfcode}}" id="nhfrcode"> 
+                            <input type="number" name="ownerMobile" class="form-control" placeholder="Proponent/Owner Mobile No." value="{{$appform->ownerMobile}}" id="ownerMobile"> 
                         </div>
                     </div>
                     
                     <div class="form-group col-md-12">
                         <label for="facility_name">Proponent/Owner Landline </label>
                         <div class="input-group">
-                            <input type="text" name="nhfrcode" class="form-control" placeholder="NHFR Code" value="{{$appform->nhfcode}}" id="nhfrcode"> 
+                            <input type="number" name="areacode3" class="form-control col-md-3" placeholder="Area Code" value="{{$areacode_3}}"> 
+                            <input type="number" name="ownerLandline" class="form-control col-md-9" placeholder="Proponent/Owner Landline" value="{{$appform->ownerLandline}}" id="ownerLandline"> 
                         </div>
                     </div>
                     
                     <div class="form-group col-md-12">
                         <label for="facility_name">Proponent/Owner Email Address </label>
                         <div class="input-group">
-                            <input type="text" name="nhfrcode" class="form-control" placeholder="NHFR Code" value="{{$appform->nhfcode}}" id="nhfrcode"> 
+                            <input type="text" name="ownerEmail" class="form-control" placeholder="Proponent/Owner Email Address" value="{{$appform->ownerEmail}}" id="ownerEmail"> 
                         </div>
                     </div>
                     
                     <div class="form-group col-md-12">
                         <label for="facility_name">Official Mailing Address </label>
                         <label>
-                            <input name="mailingAddress" type="checkbox" id="isSameAsFacilityAddress" value="1" onchange="setOfficialMailAddressNew(this)"> Official Mailing address same as Facility Address? If no, please specify complete address
+                            <input name="isSameAsFacilityAddress" type="checkbox" id="isSameAsFacilityAddress" value="1" onchange="setOfficialMailAddressNew(this)"> Official Mailing address same as Facility Address? If no, please specify complete address
                         </label>           
                         <div class="input-group">
-                            <input type="text" name="nhfrcode" class="form-control" placeholder="NHFR Code" value="{{$appform->nhfcode}}" id="nhfrcode"> 
+                            <input type="text" name="mailingAddress" class="form-control" placeholder="Official Mailing Address" value="{{$appform->mailingAddress}}" id="mailingAddress"> 
                         </div>
                     </div>
                         

@@ -2870,12 +2870,12 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			$user_data 				= session()->get('uData');
 			$hgpid					= null;
 			$appform 				= DB::table('viewAppFormForUpdate')->where('appid','=',$appid)->first();
-			$regservices	= FunctionsClientController::get_view_reg_facility_services($reg_fac_id, 0);	
-			$savingStat = null;
-			$hfLocs = [
-					'client1/apply/app/LTO/'.$appid, 
-					'client1/apply/app/LTO/'.$appid.'/hfsrb', 
-					'client1/apply/app/LTO/'.$appid.'/fda'
+			$regservices			= FunctionsClientController::get_view_reg_facility_services($reg_fac_id, 0);	
+			$savingStat 			= null;
+			$hfLocs 				= [
+									'client1/apply/app/LTO/'.$appid, 
+									'client1/apply/app/LTO/'.$appid.'/hfsrb', 
+									'client1/apply/app/LTO/'.$appid.'/fda'
 			];
 
 			if(isset($hideExtensions)) {
@@ -2967,8 +2967,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					}
 
 					$appform_ambulance= DB::table('appform_ambulance')->select('typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->get();
-										
-					$cat_id			= 0;				
+													
 					$isaddnew 		= 0;
 					$isupdate 		= 0;
 					$mainservicelist = FunctionsClientController::get_view_ServiceList($hgpid, 1);
@@ -3398,67 +3397,114 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 	
 		//Update Name and NHFR Code
 		if($grp_id == 1)
-		{			
-			DB::table('appform')->where('appid',$appid)->update(['facilityname' => $request->facilityname, 'regfac_id' => $request->regfac_id, 'nhfcode'=>$request->nhfcode]);
+		{
+			DB::table('appform')->where('appid',$appid)->update([
+				'regfac_id' => $request->regfac_id, 
+				'nhfcode'=>$request->nhfcode,
+				'facilityname' => $request->facilityname
+			]);
 		}
 		//Update Address
 		else if($grp_id == 2)
-		{
-			$facid = "";
-			$amt = "0.00";
-			
-			DB::table('appform')->where('appid',$appid)->update(['noofdialysis' => $request->noofdialysis, 'noofdialysis_old'=>$request->noofdialysis_old]);
+		{						
+			DB::table('appform')->where('appid',$appid)->update([
+				'rgnid' => $request->rgnid, 
+				'provid' => $request->provid, 
+				'cmid' => $request->cmid, 
+				'brgyid' => $request->brgyid, 
+				'street_name' => $request->street_name, 
+				'street_number' => $request->street_number, 
+				'zipcode' => $request->zipcode, 
+				'noofdialysis_old'=>$request->noofdialysis_old
+			]);
 		}
 		//Update Facility Contact Details
 		else if($grp_id == 3)
-		{			
-			DB::table('appform')->where('appid',$appid)->update(['noofdialysis' => $request->noofdialysis, 'noofdialysis_old'=>$request->noofdialysis_old]);
+		{				
+			$areacode_1 = $request->areacode1;		
+			$areacode_2 = $request->areacode2;	
+			$appform_areacode = $request->appform_areacode;
+
+			if(is_null($request->areacode1)) { $areacode_1 = ""; }
+			if(is_null($request->areacode2)) { $areacode_2 = ""; }
+
+			try {
+				if(!empty($appform_areacode))
+				{
+					$areacode = json_decode($appform_areacode);
+					$areacode_3 = $areacode[2];
+				}
+			} catch (Exception $e) {} 
+
+			DB::table('appform')->where('appid',$appid)->update([
+				'areacode' => json_encode([$areacode_1, $areacode_2, $areacode_3]), 
+				'contact'=>$request->contact,
+				'landline'=>$request->landline,
+				'faxnumber'=>$request->faxnumber,
+				'email'=>$request->email
+			]);
 		}
 		//Update Classification
 		else if($grp_id == 4)
-		{
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+		{			
+			DB::table('appform')->where('appid',$appid)->update([
+				'ishfep'=>$request->hfep,
+				'ocid'=>$request->ocid,
+				'classid'=>$request->classid,
+				'subClassid'=>$request->subClassid,
+				'facmode'=>$request->facmode,
+				'funcid'=>$request->funcid
+			]);
 		}
 		//Update Owner and Owner Contact Details
 		else if($grp_id == 5)
 		{
-						
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+			$areacode_3 = $request->areacode3;	
+			$appform_areacode = $request->appform_areacode;
+
+			if(is_null($request->areacode3)) { $areacode_3 = ""; }
+
+			try {
+				if(!empty($appform_areacode))
+				{
+					$areacode = json_decode($appform_areacode);
+					$areacode_1 = $areacode[0];
+					$areacode_2 = $areacode[1];
+				}
+			} catch (Exception $e) {} 
+
+			DB::table('appform')->where('appid',$appid)->update([
+				'areacode' 		=> json_encode([$areacode_1, $areacode_2, $areacode_3]), 
+				'owner'			=>$request->owner,
+				'ownerMobile'	=>$request->ownerMobile,
+				'ownerLandline'	=>$request->ownerLandline,
+				'ownerEmail'	=>$request->ownerEmail,
+				'mailingAddress'=>$request->mailingAddress
+			]);
 		}
 		//Update Approving Authority Details
 		else if($grp_id == 6)
 		{
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+			DB::table('appform')->where('appid',$appid)->update([
+				'approvingauthoritypos'	=>$request->approvingauthoritypos,
+				'approvingauthority'	=>$request->approvingauthority,
+				'head_of_facility_name'	=>$request->head_of_facility_name
+			]);
 		}
 		//Update Latest Authorization Number
 		else if($grp_id == 7)
 		{
-			DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
+			/*DB::table('appform')->where('appid',$appid)->update([
+				'ptc_id'	=>$request->ptc_id,
+				'approvingauthority'	=>$request->approvingauthority,
+				'head_of_facility_name'	=>$request->head_of_facility_name
+			]);*/
 		}
 		//Update Classification of Hospital
 		else if($grp_id == 9)
 		{
 			$action = $request->action;
-
-			if($action == "del"){
-
-				$fromRegistered = $request->fromRegistered;
-				$facid = $request->facid;
-				$chgapp_id = "";
-				$fees = FunctionsClientController::get_view_ServiceCharge([$request->facid], "","", "","", TRUE);
-
-				foreach ($fees as $d){
-					$chgapp_id = $d->chgapp_id;
-					
-					DB::table('chgfil')->where(array('appform_id'=>$appid, 'chgapp_id'=> $chgapp_id))->delete();
-				}
-				DB::table('x08_ft')->where(array('appid'=>$appid, 'facid'=> $facid))->delete();
-
-				if($fromRegistered){
-
-				}
-			}
-			else if($action == "main"){
+			if($action == "main"){
 				$servtype_id = 3;
 				$rfacid = $request->facid;
 				if($rfacid == "H2") { $servtype_id = 4; } elseif($rfacid == "H3") { $servtype_id = 5; } 
@@ -3536,8 +3582,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
 				//DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
 			}
-			
-			return redirect('client1/changerequest/'.$request->regfac_id.'/hospital')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Hospital Service successfully saved.']);
 		}
 		
 		//Change In Service //ANCILLARY/CLINICAL SERVICES  //ADD ON SERVICES
