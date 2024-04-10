@@ -74,10 +74,6 @@
                                 <!---  Main Form  -->
                                 @if($functype == 'av')
                                     @include('dashboard.client.forms.ambulance-vehicle-form')
-                                @elseif($functype == 'hospital')
-                                    @include('dashboard.client.forms.change-hospital-form')
-                                @elseif($functype == 'cs' || $functype == 'as')
-                                    @include('dashboard.client.forms.change-service-form')
                                 @endif
                                 <!---  Main Form  -->
 
@@ -174,6 +170,7 @@
     
     @if($allowed_edit)
         @include('client1.cmp.footer')
+        @include('dashboard.client.forms.parts-update.js-submission')        
     @endif
     @include('dashboard.client.forms.generalFormScript')
 </body>

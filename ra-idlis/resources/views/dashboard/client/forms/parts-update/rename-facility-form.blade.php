@@ -1,8 +1,9 @@
 
-<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+<form method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">   
+    <input type="hidden" name="grp_id" value="1">   
+    <input type="hidden" name="appid" value="{{$appform->appid}}">   
         
     <div class="modal fade" id="changeRenameHF" tabindex="-1" aria-labelledby="changeRenameHFModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-lg">
@@ -15,19 +16,27 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info">
-                    <div class="form-group col-md-12">
-                        <label for="facility_name">NHFR Code </label>
-                        <div class="input-group">
-                            <input type="text" name="nhfrcode" class="form-control" placeholder="NHFR Code" value="{{$appform->nhfcode}}" id="nhfrcode"> 
+                        
+                        <div class="form-group col-md-12">
+                            <label for="facility_name">Registered ID </label>
+                            <div class="input-group">
+                                <input type="text" name="regfac_id" class="form-control" placeholder="Registered ID" value="{{$appform->regfac_id}}" id="regfac_id"> 
+                            </div>
                         </div>
-                    </div>
+                        
+                        <div class="form-group col-md-12">
+                            <label for="facility_name">NHFR Code </label>
+                            <div class="input-group">
+                                <input type="text" name="nhfcode" class="form-control" placeholder="NHFR Code" value="{{$appform->nhfcode}}" id="nhfcode"> 
+                            </div>
+                        </div>
 
-                    <div class="form-group col-md-12">
-                        <label for="facility_name">Facility Name <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input type="text" name="facilityname" class="form-control" placeholder="FACILITY NAME" value="{{$appform->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                        <div class="form-group col-md-12">
+                            <label for="facility_name">Facility Name <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="text" name="facilityname" class="form-control" placeholder="FACILITY NAME" value="{{$appform->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                            </div>
                         </div>
-                    </div>
 
                         
                     </div>

@@ -90,11 +90,25 @@ CREATE VIEW view_registered_facility AS
 	LEFT JOIN region AS asrgn ON rf.assignedRgn=asrgn.rgnid
 );
 
-
-
 DROP VIEW IF EXISTS view_reg_annexa_personnel;
 CREATE VIEW   view_reg_annexa_personnel AS
 (
 	SELECT raxa.id, raxa.prefix, raxa.surname, raxa.firstname, raxa.middlename, raxa.suffix, raxa.prof, pos.posname AS profession_official, raxa.prcno, raxa.validityPeriodTo, raxa.speciality, raxa.dob, raxa.sex, raxa.employement, raxa.pos, raxa.designation, raxa.area, raxa.qual, raxa.email, raxa.tin, raxa.prc, raxa.bc, raxa.coe, raxa.isMainRadio, raxa.ismainpo, raxa.isMainRadioPharma, raxa.isChiefRadTech, raxa.isXrayTech, raxa.status, raxa.cert, raxa.evaluation, raxa.remarks, raxa.regfac_id, raxa.profession 
 	FROM reg_hfsrbannexa raxa LEFT JOIN position pos ON raxa.prof=pos.posid
 );
+
+
+DROP VIEW IF EXISTS view_clientuser;
+CREATE VIEW view_clientuser AS
+(
+	SELECT DISTINCT * FROM 
+	(
+		SELECT DISTINCT x08.uid, old_UserNo, pwd, x08.email, x08.ipaddress, x08.t_date, x08.t_time, x08.lastChangePassDate, x08.lastChangePassTime, x08.isActive, x08.team, x08.isTempBanned, x08.isBanned, x08.tries, x08.lastTry, x08.is_fda, rf.rgnid, region.rgn_desc, rf.assignedRgn, asrgn.rgn_desc AS asrgn_desc 
+		FROM x08  
+		LEFT JOIN appform rf ON rf.uid=x08.uid 
+		LEFT JOIN region ON rf.rgnid=region.rgnid 
+		LEFT JOIN region AS asrgn ON rf.assignedRgn=asrgn.rgnid 
+		WHERE x08.grpid='C' 
+	) t1
+	ORDER BY uid, lastChangePassDate
+); 

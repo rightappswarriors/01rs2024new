@@ -210,7 +210,7 @@
 </div>
 
 <div class="col-sm-6">
-    <label class="text-left upd-text-title">Head of Facility Full Name </label>
+    <label class="text-left upd-text-title">Head of Facility Full Name / Medical Director Full Name </label>
     <h6  class="text-center upd-text-info">{{$appform->head_of_facility_name}}&nbsp;</h6>
 </div>
 
@@ -232,7 +232,7 @@
 </div>
 
 <div class="col-sm-6">
-    <label class="text-left upd-text-title">Latest LTO/COA/COR/ATO Number  </label>
+    <label class="text-left upd-text-title">Latest {{$appform->hfser_id}}  Number  </label>
     <h6  class="text-center upd-text-info">{{$appform->con_id}} {{$appform->lto_id}} {{$appform->ato_id}} {{$appform->coa_id}} {{$appform->cor_id}}&nbsp;</h6>
 </div>
 

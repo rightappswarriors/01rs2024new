@@ -223,6 +223,7 @@ Route::prefix('client1')->group(function() {
 			Route::prefix('app')->group(function() {
 				Route::prefix('{hfser}')->group(function() {
 					Route::match(['get', 'post'], '/{appid}', 'NewClientController@__editApp')->name('client1.editapplyapp');
+					Route::match(['get', 'post'], '/{appid}/actionsubmit', 'NewClientController@__editApp_submit');
 					Route::match(['get', 'post'], '/{appid}/hfsrb', 'NewClientController@__editAppHfsrb')->name('client1.editapplyhfsrb');
 					Route::match(['get', 'post'], '/{appid}/fda', 'NewClientController@__editAppFda')->name('client1.editapplyfda');
 				});

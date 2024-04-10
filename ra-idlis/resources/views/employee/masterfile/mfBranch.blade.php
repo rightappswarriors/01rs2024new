@@ -13,18 +13,20 @@
       </datalist>
       <div class="card">
           <div class="card-header bg-white font-weight-bold">
-             Branchs <span class="OH003_add"><a href="#" title="Add New Branch" data-toggle="modal" data-target="#myModal"><button class="btn-primarys"><i class="fa fa-plus-circle"></i>&nbsp;Add new</button></a></span>
+            Regional Offices <span class="OH003_add"><a href="#" title="Add New Branch" data-toggle="modal" data-target="#myModal"><button class="btn-primarys"><i class="fa fa-plus-circle"></i>&nbsp;Add new</button></a></span>
 
           </div>
           <div class="card-body">
-            <div class="container table-responsive">
-                 <table class="table" id="example" style="overflow-x: scroll;" >
+            <div class="table-responsive">
+              <table class="table" id="example" >
                 <thead>
                   <tr>
                     <th>Region ID</th>
-                    <th>Name</th>
+                    <th>Regional Office Name</th>
                     <th>Director</th>
                     <th>Position</th>
+                    <th>Director For PTC Certificate</th>
+                    <th>Position For PTC Certificate</th>
                     <th>PTC</th>
                     <th>LTO</th>
                     <th>COR</th>
@@ -34,39 +36,39 @@
                     <th>COA</th>
                     <th>Print Setting(x)</th>
                     <th>Print Setting(y)</th>
-                    <th>In Certificate Name</th>
-                    <th><center>Options</center></th>
+                    <th>In Certificate Name</th>                    
+                    <th class="text-center">Options</th>
                   </tr>
                 </thead>
                 <tbody>
-					@foreach($inBranch as $in)
-	                  <tr>
-	                  	<td>{{$in->regionid}}</td>
-	                  	<td>{{$in->name}}</td>
-	                  	<td>{{$in->directorInRegion}}</td>
-	                  	<td>{{$in->pos}}</td>
-	                  	<td>{{$in->PTC}}</td>
-	                  	<td>{{$in->LTO}}</td>
-	                  	<td>{{$in->COR}}</td>
-	                  	<td>{{$in->CON}}</td>
-                      <td>{{$in->conBed}}</td>
-	                  	<td>{{$in->ATO}}</td>
-	                  	<td>{{$in->COA}}</td>
-	                  	<td>{{$in->orprint_x}}</td>
-	                  	<td>{{$in->orprint_y}}</td>
-                      <td>{{$in->certificateName}}</td>
-	                  	<td>
-  	                      <center>
-                          <span class="OH003_update">
-  	                        <button type="button" class="btn btn-outline-warning" onclick="showData('{{$in->regionid}}', '{{$in->name}}', '{{$in->directorInRegion}}','{{$in->PTC}}','{{$in->LTO}}','{{$in->COR}}','{{$in->CON}}','{{$in->conBed}}','{{$in->ATO}}','{{$in->COA}}','{{$in->pos}}','{{$in->orprint_x}}','{{$in->orprint_y}}', '{{$in->certificateName}}');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>&nbsp;
-                          </span>
-                          <span class="OH003_cancel">
-  	                        <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$in->regionid}}', '{{$in->name}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
-                          </span>
-  	                      </center>
-  	                    </td>
-	                  </tr>
-	                @endforeach  
+                  @foreach($inBranch as $in)
+                      <tr>
+                        <td>{{$in->regionid}}</td>
+                        <td>{{$in->name}}</td>
+                        <td>{{$in->directorInRegion}}</td>
+                        <td>{{$in->pos}}</td>
+                        <td>{{$in->directorInRegion2}}</td>
+                        <td>{{$in->pos2}}</td>
+                        <td>{{$in->PTC}}</td>
+                        <td>{{$in->LTO}}</td>
+                        <td>{{$in->COR}}</td>
+                        <td>{{$in->CON}}</td>
+                        <td>{{$in->conBed}}</td>
+                        <td>{{$in->ATO}}</td>
+                        <td>{{$in->COA}}</td>
+                        <td>{{$in->orprint_x}}</td>
+                        <td>{{$in->orprint_y}}</td>
+                        <td>{{$in->certificateName}}</td>
+                        <td class="text-center">
+                            <span class="OH003_update">
+                              <button type="button" class="btn btn-outline-warning" onclick="showData('{{$in->regionid}}', '{{$in->name}}', '{{$in->directorInRegion}}','{{$in->pos}}', '{{$in->directorInRegion2}}','{{$in->pos2}}','{{$in->PTC}}','{{$in->LTO}}','{{$in->COR}}','{{$in->CON}}','{{$in->conBed}}','{{$in->ATO}}','{{$in->COA}}','{{$in->orprint_x}}','{{$in->orprint_y}}', '{{$in->certificateName}}');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>&nbsp;
+                            </span>
+                            <span class="OH003_cancel">
+                              <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$in->regionid}}', '{{$in->name}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
+                            </span>
+                          </td>
+                      </tr>
+                    @endforeach
                 </tbody>
               </table>
             </div>
@@ -222,63 +224,72 @@
   </div>
   <script type="text/javascript">
   	$(document).ready(function() { $('#example').DataTable();});
-  	function showData(id,p1,p2,p3,p4,p5,p6,p12,p7,p8,p9,p10,p11,p13){
+
+    function showData(regionid, name, directorInRegion, pos, directorInRegion2, pos2, PTC,LTO,COR,CON,conBed,ATO,COA,orprint_x,orprint_y, certificateName){
         $('#EditBody').empty();
         $('#EditBody').append(
             '<div class="col-sm-4">Team Name:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
               '{{csrf_field()}}'+
               '<input type="hidden" value="edit" name="action" class="form-control" data-parsley-required-message="*<strong>ID</strong> required" required>'+
-              '<input type="hidden" value="'+id+'" id="id" name="id" class="form-control" data-parsley-required-message="*<strong>ID</strong> required" required>'+
-              '<input type="text" value="'+p1+'" id="tname" name="tname" class="form-control" data-parsley-required-message="*<strong>Team name</strong> required" required>'+
+              '<input type="hidden" value="'+regionid+'" id="id" name="id" class="form-control" data-parsley-required-message="*<strong>ID</strong> required" required>'+
+              '<input type="text" value="'+name+'" id="tname" name="tname" class="form-control" data-parsley-required-message="*<strong>Team name</strong> required" required>'+
               '</div>'+
               '<div class="col-sm-4">Director:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="text" value="'+p2+'" name="dir" id="dir" class="form-control" data-parsley-required-message="*<strong>Director</strong> required" required>'+
+              '<input type="text" value="'+directorInRegion+'" name="dir" id="dir" class="form-control" data-parsley-required-message="*<strong>Director</strong> required" required>'+
               '</div>'+
               '<div class="col-sm-4">Position:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="text" value="'+p9+'" id="pos" name="pos" class="form-control">'+
+              '<input type="text" value="'+pos+'" id="pos" name="pos" class="form-control">'+
+              '</div>'+
+              '<div class="col-sm-4">Director For PTC Certificate:</div>'+
+              '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
+              '<input type="text" value="'+directorInRegion2+'" name="dir2" id="dir2" class="form-control" data-parsley-required-message="*<strong>Director</strong> required" required>'+
+              '</div>'+
+              '<div class="col-sm-4">Position For PTC Certificate:</div>'+
+              '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
+              '<input type="text" value="'+pos2+'" id="pos2" name="pos2" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">PTC Seq #:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p3+'" id="ptc" name="ptc" class="form-control">'+
+              '<input type="number" value="'+PTC+'" id="ptc" name="ptc" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">LTO Seq #:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p4+'" id="lto" name="lto" class="form-control">'+
+              '<input type="number" value="'+LTO+'" id="lto" name="lto" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">COR Seq #:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p5+'" id="cor" name="cor" class="form-control">'+
+              '<input type="number" value="'+COR+'" id="cor" name="cor" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">CON Seq #:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p6+'" id="con" name="con" class="form-control">'+
+              '<input type="number" value="'+CON+'" id="con" name="con" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">CON Bed:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p12+'" id="conBed" name="conBed" class="form-control">'+
+              '<input type="number" value="'+conBed+'" id="conBed" name="conBed" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">ATO Seq #:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p7+'" id="ato" name="ato" class="form-control">'+
+              '<input type="number" value="'+ATO+'" id="ato" name="ato" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">COA Seq #:</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p8+'" id="coa" name="coa" class="form-control">'+
+              '<input type="number" value="'+COA+'" id="coa" name="coa" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">OR Print (x):</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p10+'" id="orx" name="orx" class="form-control">'+
+              '<input type="number" value="'+orprint_x+'" id="orx" name="orx" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">OR Print (y):</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="number" value="'+p11+'" id="ory" name="ory" class="form-control">'+
+              '<input type="number" value="'+orprint_y+'" id="ory" name="ory" class="form-control">'+
               '</div>'+
               '<div class="col-sm-4">In-Certificate name display (y):</div>'+
               '<div class="col-sm-12" style="margin:0 0 .8em 0;">'+
-              '<input type="text" value="'+p13+'" id="cname" name="cname" class="form-control">'+
+              '<input type="text" value="'+certificateName+'" id="cname" name="cname" class="form-control">'+
               '</div>'
           );
       }

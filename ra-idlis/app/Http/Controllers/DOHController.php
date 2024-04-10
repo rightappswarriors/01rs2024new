@@ -2307,7 +2307,7 @@ namespace App\Http\Controllers;
 					if($request->has('action')){
 						if($request->action == 'edit'){
 							// return $request->all();
-							$test = DB::table('branch')->where('regionid',$request->id)->update(['name' => $request->tname, 'directorInRegion' => $request->dir, 'PTC' => $request->ptc, 'LTO' => $request->lto, 'COR' => $request->cor, 'CON'=>$request->con, 'conBed' => $request->conBed, 'ATO' => $request->ato, 'COA' => $request->coa, 'pos' => $request->pos, 'orprint_x' => $request->orx, 'orprint_y' => $request->ory, 'certificateName' => $request->cname]);
+							$test = DB::table('branch')->where('regionid',$request->id)->update(['name' => $request->tname, 'directorInRegion' => $request->dir, 'pos' => $request->pos, 'directorInRegion2' => $request->dir2, 'pos2' => $request->pos2, 'PTC' => $request->ptc, 'LTO' => $request->lto, 'COR' => $request->cor, 'CON'=>$request->con, 'conBed' => $request->conBed, 'ATO' => $request->ato, 'COA' => $request->coa, 'orprint_x' => $request->orx, 'orprint_y' => $request->ory, 'certificateName' => $request->cname]);
 						} else {
 							$test = DB::table('branch')->where('regionid',$request->id)->delete();
 						}
@@ -13052,16 +13052,16 @@ namespace App\Http\Controllers;
 
 		public function ClientUsersManage(Request $request)
 		{
-			if(session()->has('employee_login'))
+			/*if(session()->has('employee_login'))
 			{
 				if ($request->isMethod('get')) 
 				{
 					try 
 					{
 						$arrType = array();
-						$data = SELF::application_filter($request, 'view_registered_facility');
+						$data = SELF::application_filter($request, 'view_clientuser');
 						
-						return view('employee.regfacilities.registeredfacility', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'],
+						return view('employee.regfacilities.mclientuser', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'],
 						'factype' => null,
 						'regions' => null,
 						'hfaci_service_type' => null,
@@ -13072,36 +13072,42 @@ namespace App\Http\Controllers;
 					{
 						AjaxController::SystemLogs($e);
 						session()->flash('system_error','ERROR');
-						return view('employee.regfacilities	.archive');
+						return view('employee.regfacilities.mclientuser');
 					}
 				}
 			}
 			else 
 			{
 				return redirect()->route('employee');
-			}		
-
-			/*if ($request->isMethod('get')) 
+			}	*/	
+			if(session()->has('employee_login'))
 			{
-				try 
-				
+				if ($request->isMethod('get')) 
 				{
-					$data = AjaxController::getFilteredUsersClient();
-					$data1 = AjaxController::getFilteredTypes();
-					$data2 = AjaxController::getAllRegion();
-					$data3 = AjaxController::getAllFacilityGroup();
-					$data4 = AjaxController::getAllTeams();
-					// return dd($data);
-					return view('employee.manage.mclientuser', ['users'=>$data, 'types'=>$data1, 'region'=>$data2, 'facilitys' => $data3, 'team' => $data4]);
-				} 
-				catch (Exception $e) 
-				{
-					AjaxController::SystemLogs($e);
-					session()->flash('system_error','ERROR');
-					return view('employee.manage.mclientuser');
-					return $e;
+					try 
+					
+					{
+						$data = AjaxController::getFilteredUsersClient();
+						$data1 = AjaxController::getFilteredTypes();
+						$data2 = AjaxController::getAllRegion();
+						$data3 = AjaxController::getAllFacilityGroup();
+						$data4 = AjaxController::getAllTeams();
+						// return dd($data);
+						return view('employee.manage.mclientuser', ['users'=>$data, 'types'=>$data1, 'region'=>$data2, 'facilitys' => $data3, 'team' => $data4]);
+					} 
+					catch (Exception $e) 
+					{
+						AjaxController::SystemLogs($e);
+						session()->flash('system_error','ERROR');
+						return view('employee.manage.mclientuser');
+						return $e;
+					}
 				}
-			}*/
+			}
+			else 
+			{
+				return redirect()->route('employee');
+			}
 		}
 
 
