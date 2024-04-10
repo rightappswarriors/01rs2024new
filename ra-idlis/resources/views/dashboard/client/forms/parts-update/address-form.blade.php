@@ -65,6 +65,8 @@
                     <hr />
                     <div class="row">
                         
+                        <div class="col-md-12"><label for="region" style="font-style: italic; font-size: small;">To update the address, enter value below:</label></div>
+                        
                         <div class="col-md-3 change-div">
                         
                             <label for="region">Region<span class="text-danger">*</span></label>

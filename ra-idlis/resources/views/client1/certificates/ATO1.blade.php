@@ -71,7 +71,7 @@
 					</div>
 					<div class="col-md-5" style="float:left;display: inline;font-family:  Century Gothic; font-size: 13pt">
 						:&nbsp;&nbsp;&nbsp;<strong>{{((isset($retTable[0]->facilityname)) ? $retTable[0]->facilityname : "CURRENT_FACILITY")}}</strong>
-						<span style="font-size: small; font-style: italic;">{{((isset($retTable[0]->rename_dateapproved)) ? $retTable[0]->rename_dateapproved : "")}}</span>
+						<span style="font-size: small; font-style: italic;">{{((isset($retTable[0]->rename_dateapproved)) ? "(".$retTable[0]->rename_dateapproved.")" : "")}}</span>
 					</div>
 					<div class="col-md-1" style="display: inline">
 						&nbsp;</div>

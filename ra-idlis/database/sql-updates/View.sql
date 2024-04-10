@@ -1540,8 +1540,8 @@ CREATE VIEW viewAppFormForUpdate AS
 	hfaci_grp.hgpdesc, hfaci_grp.hgpdesc AS facilitytype,  apptype.aptdesc, hfaci_serv_type.hfser_desc,
 	registered_facility.con_id, registered_facility.lto_id, registered_facility.ato_id, registered_facility.coa_id, registered_facility.cor_id,
 	registered_facility.ptc_id,
-	registered_facility.ptc_approveddate, registered_facility.lto_validityto, registered_facility.coa_validityto, registered_facility.ato_validityto,
-	registered_facility.lto_approveddate, registered_facility.coa_approveddate, registered_facility.ato_approveddate,
+	registered_facility.ptc_approveddate, registered_facility.lto_validityto, registered_facility.coa_validityto, registered_facility.ato_validityto, registered_facility.cor_validityto,
+	registered_facility.lto_approveddate, registered_facility.coa_approveddate, registered_facility.ato_approveddate, registered_facility.cor_approveddate,
 	hfaci_grp.isHospital, hfaci_grp.otherClinicService, hfaci_grp.clinicLab, hfaci_grp.dialysisClinic, hfaci_grp.ambulSurgCli, hfaci_grp.ambuDetails, hfaci_grp.addOnServe 
 	
 	FROM appform 

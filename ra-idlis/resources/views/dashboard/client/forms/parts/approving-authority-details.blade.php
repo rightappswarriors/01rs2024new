@@ -20,7 +20,7 @@
 
 
 <div class="col-md-6 change-div">
-    <label for="head_of_facility_name">Head of Facility Full Name <span class="text-danger">*</span></label>
+    <label for="head_of_facility_name">Head of Facility Full Name / Medical Director Full Name <span class="text-danger">*</span></label>
     <input type="text" class="form-control" id="head_of_facility_name" name="head_of_facility_name" placeholder="Head of Facility Full name" value="{{isset($fAddress) && count($fAddress) > 0 ? $fAddress[0]->head_of_facility_name : null}}" />
 </div>
 <div class="col-md-6 change-div">
