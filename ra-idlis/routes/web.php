@@ -1041,6 +1041,7 @@ Route::prefix('employee/reports')->group(function() {
 	Route::prefix('license')->group(function() {
 		Route::prefix('Certificates')->group(function() {
 			Route::match(['get', 'post'], 'facilities', 'ReportsController@certificate_list');
+			Route::match(['get', 'post'], 'edit', 'ReportsController@certificate_list_edit');
 		});
 		Route::match(['get', 'post'], 'facilities', 'ReportsController@license_facilities');
 		Route::match(['get', 'post'], 'infirmary', 'ReportsController@license_infirmary');

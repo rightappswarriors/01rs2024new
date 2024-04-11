@@ -772,7 +772,7 @@
 
                             <span class="PF007a_allow">
 
-                                <li><a href="{{ asset('employee/reports/license/Certificates/facilities') }}" >&nbsp;&nbsp;&nbsp;&nbsp;Edit Issued Certificate Number</a></li>
+                                <li><a href="{{ asset('employee/reports/license/Certificates/edit') }}" >&nbsp;&nbsp;&nbsp;&nbsp;Edit Issued Certificate Number</a></li>
 
                             </span>
 
