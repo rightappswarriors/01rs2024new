@@ -770,6 +770,12 @@
 
                             </span>
 
+                            <span class="PF007a_allow">
+
+                                <li><a href="{{ asset('employee/reports/license/Certificates/facilities') }}" >&nbsp;&nbsp;&nbsp;&nbsp;Edit Issued Certificate Number</a></li>
+
+                            </span>
+
                             {{-- @endif --}}
 
                             {{-- @if($employeeData->grpid != 'CS' || $employeeData->grpid != "C") --}}

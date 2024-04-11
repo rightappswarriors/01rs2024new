@@ -10749,7 +10749,9 @@ namespace App\Http\Controllers;
 		////// APPROVAL ONE
 		public function ApprovalOneProcessFlow(Request $request, $appid)
 		{
-			if(DB::table('appform')->where([['appid', $appid],['isRecoForApproval',1], /* ['isRecoForApproval', 1],['isApprove',null]*/])->count() <= 0){
+			if(DB::table('appform')->whereNotNull('isRecoForApproval')->where('appid','=',$appid)
+				//->where([['appid', $appid],['isRecoForApproval',1], /* ['isRecoForApproval', 1],['isApprove',null]*/])
+				->count() <= 0){
 				return redirect('employee/dashboard/processflow/approval')->with('errRet', ['errAlt'=>'warning', 'errMsg'=>'Application does not qualify on this level.']);
 			}
 			if ($request->isMethod('get')) 
@@ -10759,6 +10761,7 @@ namespace App\Http\Controllers;
 					$data = AjaxController::getRecommendationData($appid);
 					// $data1 = AjaxController::getPreAssessment($data->uid);
 					$apdata =DB::table('appform')->where([['appid', $appid]])->first();
+					
 					switch ($data->hfser_id) {
 						case 'PTC':
 							$otherDetails = DB::table('hferc_evaluation')->leftJoin('x08','x08.uid','hferc_evaluation.HFERC_evalBy')->where([['appid',$appid],['HFERC_eval',1]])->first();

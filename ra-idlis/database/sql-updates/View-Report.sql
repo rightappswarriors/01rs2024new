@@ -141,7 +141,7 @@ CREATE VIEW rpt_license_facilities 	 AS
 (
 SELECT 
 /* Application Details */
-appform.appid, appform.aptid, apptype.aptdesc, appform.savingStat, appform.status AS status, trans_status.trns_desc, appform.nhfcode, appform.uid, appform.facilityname,  appform.hfser_id, hfaci_serv_type.hfser_desc, appform.hgpid, hfaci_grp.hgpdesc, appform.ocid, ownership.ocdesc, appform.classid, class.classname, appform.subClassid, subclass.classname AS subclassname, appform.funcid, appform.facmode, facmode.facmdesc, appform.owner, appform.mailingAddress, 
+appform.appid, appform.regfac_id, appform.aptid, apptype.aptdesc, appform.savingStat, appform.status AS status, trans_status.trns_desc, appform.nhfcode, appform.uid, appform.facilityname,  appform.hfser_id, hfaci_serv_type.hfser_desc, appform.hgpid, hfaci_grp.hgpdesc, appform.ocid, ownership.ocdesc, appform.classid, class.classname, appform.subClassid, subclass.classname AS subclassname, appform.funcid, appform.facmode, facmode.facmdesc, appform.owner, appform.mailingAddress, 
 appform.street_number, appform.street_name, barangay.brgyname, city_muni.cmname, province.provname, appform.zipcode, appform.rgnid, region.rgn_desc, appform.assignedRgn, asrgn.rgn_desc AS asrgn_desc, appform.areacode, appform.email, appform.contact, appform.landline, appform.faxnumber, appform.ownerMobile, appform.ownerLandline, appform.ownerEmail, appform.approvingauthority, appform.approvingauthoritypos, 
 
 appform.isrecommended, CONCAT(evaluator.fname, ' ', evaluator.mname, ' ', evaluator.lname) AS recommendedbyName, 
@@ -179,7 +179,7 @@ LEFT JOIN trans_status ON appform.status=trans_status.trns_id
 LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
 LEFT JOIN x08 evaluator ON evaluator.uid=appform.recommendedby
 LEFT JOIN x08 inspector ON inspector.uid=appform.inspectedby
-WHERE appform.status='A'
+WHERE appform.isApprove='1'
 ORDER BY appform.t_date DESC, appform.aptid ASC, appform.appid DESC
 );
 
