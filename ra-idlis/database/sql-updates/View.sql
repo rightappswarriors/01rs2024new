@@ -860,20 +860,27 @@ LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
 LEFT JOIN x08 evaluator ON evaluator.uid=appform.recommendedby
 WHERE 
 (
-	appform.status!='A' AND appform.status!='NA'  AND appform.savingStat='final' AND  appform.isCashierApprove='1'  AND 
 	(
-		appform.status='FA' OR  appform.status='RDA'  OR appform.status='FRDD' OR  appform.status='FC' OR appform.status='FR' OR appform.aptid='R'   OR appform.aptid='IC' OR appform.hfser_id='PTC'
-	) AND appform.payEvaldate IS NOT NULL AND appform.iscancel='0' 
-)
-OR 
-(
-	(appform.status!='A' AND appform.status!='NA'  AND appform.savingStat='final' AND  appform.isCashierApprove='1' ) OR appform.status='FC'  OR
+		appform.status!='A' AND appform.status!='NA'  AND appform.savingStat='final' AND  appform.isCashierApprove='1'  AND 
+		(
+			appform.status='FA' OR  appform.status='RDA'  OR appform.status='FRDD' OR  appform.status='FC' OR appform.status='FR' OR appform.aptid='R'   OR appform.aptid='IC' OR appform.hfser_id='PTC'
+		) AND appform.payEvaldate IS NOT NULL AND appform.iscancel='0' 
+	)
+	OR 
 	(
-		((appform.isApprove IS NOT NULL AND  appform.isCashierApprove='1' AND appform.hfser_id = 'PTC' AND (SELECT COUNT(appid) FROM hferc_evaluation WHERE appid=appform.appid)=0) = TRUE 
-		OR (appform.isApprove IS NOT NULL AND  appform.isCashierApprove='1' AND appform.requestReeval != '1' ) = TRUE) = FALSE 
+		(appform.status!='A' AND appform.status!='NA'  AND appform.savingStat='final' AND  appform.isCashierApprove='1' ) 
+		OR appform.status='FC'  OR
+		(
+			(
+				(appform.isApprove IS NOT NULL AND  appform.isCashierApprove='1' AND appform.hfser_id = 'PTC' 
+						AND (SELECT COUNT(appid) FROM hferc_evaluation WHERE appid=appform.appid)	= 0				 ) = TRUE 
+				OR (appform.isApprove IS NOT NULL AND  appform.isCashierApprove='1' AND appform.requestReeval != '1' ) = TRUE
+			) = FALSE 
+		)
 	)
 )
-/*AND (appform.isRecoForApproval IS NULL OR appform.isRecoForApproval='') */
+AND (appform.isRecoForApproval IS NULL OR appform.isRecoForApproval='' OR appform.isRecoForApproval='0') 
+AND appform.isCashierApprove='1'
 
 ORDER BY appform.updated_at DESC, appform.inspecteddate DESC, appform.inspectedtime DESC,  appform.recommendeddate DESC, appform.recommendedtime DESC,  
 	appform.updated_at DESC, appform.appid DESC, appform.aptid ASC
@@ -932,7 +939,8 @@ LEFT JOIN class ON appform.classid=class.classid
 LEFT JOIN facmode ON appform.facmode=facmode.facmid
 LEFT JOIN trans_status ON appform.status=trans_status.trns_id
 LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
-WHERE (appform.status='FA' OR appform.status='RDA' OR appform.status='DND' OR appform.status='FRDD') AND appform.savingStat='final' AND  appform.isCashierApprove='1'  AND  (appform.isApprove IS NULL OR appform.isApprove = '0') AND appform.iscancel='0' 
+WHERE (appform.status='FA' OR appform.status='RDA' OR appform.status='DND' OR appform.status='FRDD') 
+	AND appform.savingStat='final' AND  appform.isRecoForApproval IS NOT NULL AND  (appform.isApprove IS NULL OR appform.isApprove = '0') AND appform.iscancel='0' 
 ORDER BY appform.updated_at DESC, appform.recommendeddate DESC, appform.recommendedtime DESC,  appform.updated_at DESC, appform.appid DESC, appform.aptid ASC
 );
 

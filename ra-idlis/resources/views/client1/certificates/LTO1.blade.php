@@ -78,7 +78,7 @@
 						<div class="col-md-1" style="display: inline">:</div>
 						<div class="col-md-5 contr" style="float:left;display: inline;">
 							<strong>{{((isset($retTable[0]->facilityname)) ? $retTable[0]->facilityname : "CURRENT_FACILITY")}} </strong> 
-							<span style="font-size: small; font-style: italic;">{{((isset($retTable[0]->rename_dateapproved)) ? "(".$retTable[0]->rename_dateapproved .")": "")}}</span>
+							<span style="font-size: small; font-style: italic;">{{((isset($retTable[0]->rename_dateapproved)) ? "(". date_format(date_create($retTable[0]->rename_dateapproved),"m/d/Y") .")": "")}}</span>
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
 					</div>
@@ -121,10 +121,10 @@
 									<span style="font-size: small; font-style: italic;">
 										@if($retTable[0]->hgpid == "4")
 											<!---Classification -->
-											{{((isset($retTable[0]->classification_dateapproved)) ? "(".$retTable[0]->classification_dateapproved.")" : "")}}
+											{{((isset($retTable[0]->classification_dateapproved)) ? "(".date_format(date_create($retTable[0]->classification_dateapproved),"m/d/Y").")" : "")}}
 										@else
 											<!--- Service Capability -->
-											{{((isset($retTable[0]->changeonservice_dateapproved)) ? "(".$retTable[0]->changeonservice_dateapproved.")" : "")}}
+											{{((isset($retTable[0]->changeonservice_dateapproved)) ? "(". date_format(date_create($retTable[0]->changeonservice_dateapproved),"m/d/Y") .")" : "")}}
 										@endif										
 									</span>
 								</div>
@@ -149,7 +149,7 @@
 											{{$retTable[0]->funcid == 3 ? 'Not Applicable': ''}}
 										@endif 
 										<span style="font-size: small; font-style: italic;">
-											{{((isset($retTable[0]->classification_dateapproved)) ? "(".$retTable[0]->classification_dateapproved.")" : "")}}
+											{{((isset($retTable[0]->classification_dateapproved)) ? "(".date_format(date_create($retTable[0]->classification_dateapproved),"m/d/Y").")" : "")}}
 										</span>
 									</div>
 									<div class="col-md-1" style="display: inline">&nbsp;</div>
@@ -201,7 +201,7 @@
 								<div class="col-md-5 contr" style="float:left;display: inline;">			
 									{{((isset($retTable[0]->noofbed)) ? $retTable[0]->noofbed : "NA")}}
 									<span style="font-size: small; font-style: italic;">
-										{{((isset($retTable[0]->noofbed_dateapproved)) ? "(".$retTable[0]->noofbed_dateapproved.")" : "")}}
+										{{((isset($retTable[0]->noofbed_dateapproved)) ? "(". date_format(date_create($retTable[0]->noofbed_dateapproved),"m/d/Y") .")" : "")}}
 									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
@@ -219,9 +219,9 @@
 								<div class="col-md-1" style="display: inline;float: left">:</div>
 								<div class="col-md-5 contr" style="float:left;display: inline;">							
 									{{((isset($retTable[0]->noofdialysis)) ? $retTable[0]->noofdialysis : "NA")}}
-									<span style="font-size: small; font-style: italic;">
+									<span style="font-size: small; font-style: italic;"> 
 										
-										{{((isset($retTable[0]->noofdialysis_dateapproved)) ? "(".$retTable[0]->noofdialysis_dateapproved.")" : "")}}
+										{{((isset($retTable[0]->noofdialysis_dateapproved)) ? "(". date_format(date_create($retTable[0]->noofdialysis_dateapproved),"m/d/Y") .")" : "")}}
 									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
@@ -265,7 +265,7 @@
 								<div class="col-md-5 contr" style="float:left;display: inline;">
 									@php echo $ambulance_display; @endphp 
 									<span style="font-size: small; font-style: italic;">
-										{{((isset($retTable[0]->ambulance_dateapproved)) ? "(".$retTable[0]->ambulance_dateapproved.")" : "")}}
+										{{((isset($retTable[0]->ambulance_dateapproved)) ? "(".date_format(date_create($retTable[0]->ambulance_dateapproved),"m/d/Y").")" : "")}}
 									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
@@ -345,9 +345,9 @@
 									@endforeach 
 								<span style="font-size: small; font-style: italic;">
 									@if(isset($retTable[0]->changeonservice_dateapproved))
-										({{$retTable[0]->changeonservice_dateapproved }})
+										({{date_format(date_create($retTable[0]->changeonservice_dateapproved),"m/d/Y")}})
 									@elseif(isset($retTable[0]->addonservice_dateapproved))
-										({{$retTable[0]->addonservice_dateapproved }})
+										({{date_format(date_create($retTable[0]->addonservice_dateapproved),"m/d/Y") }})
 									@endif
 								</span>
 								

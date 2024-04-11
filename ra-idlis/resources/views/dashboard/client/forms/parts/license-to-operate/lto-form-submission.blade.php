@@ -126,7 +126,7 @@
                 //     console.log(errors)
                 // }
         }
-        if( $('input[name="hgpid"]:checked').val() == 6){
+        if( $('input[name="hgpid"]:checked').val() == 6 ||  $('input[name="hgpid"]:checked').val() == 34){
             var tram = document.getElementsByClassName('tr_amb')
 
             if(tram.length <= 0){

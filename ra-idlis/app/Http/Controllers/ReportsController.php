@@ -699,12 +699,20 @@ class ReportsController extends Controller
 		}		
 	}
 
-	public function certificate_list(Request $request)
+	public function certificate_list(Request $request, $isEdit=false)
 	{
 		if(session()->has('employee_login'))
 		{
 			try 
 			{
+				$result = "";
+
+				if ($request->isMethod('post')) {
+					$hfser_id =  $request->hfser_id;
+					
+					$result = DB::table('appform')->where('appid', '=', $request->appid)->update(['licenseNo' => $request->licenseNo]);
+					$result = DB::table('appform')->where('appid', '=', $request->appid)->update(['licenseNo' => $request->licenseNo]);
+				}
 				$arrType = array();
 				$viewpage = 'employee.reports.license.license_certificate';
 				$title ='View Certificates (List of Facilities with Certificates)';
@@ -712,6 +720,8 @@ class ReportsController extends Controller
 				$hfser = null;
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
+
+				if($isEdit){ $title = 'Edit Issued Certificate Number'; }
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
