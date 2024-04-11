@@ -790,7 +790,7 @@ class ReportsController extends Controller
 
 				$fo_action = 'employee/reports/license/Certificates/facilities';
 
-				return view($viewpage, ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'hfser_id' => $hfser, 'fo_action'=>$fo_action, 'pg_title'=>$title, 'd_assignedRgn'=>$d_assignedRgn]);
+				return view($viewpage, ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'hfser_id' => $hfser, 'fo_action'=>$fo_action, 'pg_title'=>$title, 'd_assignedRgn'=>$d_assignedRgn, 'isEdit' => $isEdit]);
 			} 
 			catch (Exception $e) 
 			{

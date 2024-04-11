@@ -66,9 +66,12 @@
                       </td>  
 
                       <td style="text-align:center">
+
+                      @if($isEdit == true)
                         <button type="button" title="Edit Certificate Number" class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" data-toggle="modal" data-target="#GodModal" onclick="showData('{{$data->appid}}', '{{$data->hfser_id}}', '{{$data->regfac_id}}', '{{str_replace(['"',"'"], "",strtoupper($data->facilityname))}}', '{{$data->licenseNo}}')" >
                           <i class="fa fa-edit"></i>
                         </button>
+                      @endif
                           <a class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" target="_blank" href="{{ asset('client1/certificates/'.$data->hfser_id.'/'.$data->appid) }}"><i class="fa fa-fw fa-eye"></i></a>     
                       </td>
                     </tr>
