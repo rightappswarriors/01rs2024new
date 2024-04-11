@@ -699,6 +699,18 @@ class ReportsController extends Controller
 		}		
 	}
 
+	public function certificate_list_edit(Request $request, $isEdit=false)
+	{
+		if(session()->has('employee_login'))
+		{
+			return self::certificate_list( $request, true);		
+		}
+		else 
+		{
+			return redirect()->route('employee');
+		}
+	}
+
 	public function certificate_list(Request $request, $isEdit=false)
 	{
 		if(session()->has('employee_login'))
@@ -707,21 +719,45 @@ class ReportsController extends Controller
 			{
 				$result = "";
 
-				if ($request->isMethod('post')) {
-					$hfser_id =  $request->hfser_id;
-					
-					$result = DB::table('appform')->where('appid', '=', $request->appid)->update(['licenseNo' => $request->licenseNo]);
-					$result = DB::table('appform')->where('appid', '=', $request->appid)->update(['licenseNo' => $request->licenseNo]);
-				}
 				$arrType = array();
 				$viewpage = 'employee.reports.license.license_certificate';
 				$title ='View Certificates (List of Facilities with Certificates)';
+				$fo_action = 'employee/reports/license/Certificates/facilities';
 				$nolimit = false; 
 				$hfser = null;
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($isEdit){ $title = 'Edit Issued Certificate Number'; }
+				if($isEdit)
+				{ 
+					$title = 'Edit Issued Certificate Number'; 
+					$fo_action = 'employee/reports/license/Certificates/edit';
+				
+					if ($request->isMethod('post')) {
+						$hfser_id =  $request->hfser_id;
+						$request->fo_submit = "submit";
+						//dd($request);
+
+						DB::table('appform')->where('appid', '=', $request->appid)->update(['licenseNo' => $request->licenseNo]);
+
+						if($hfser_id == "LTO")
+						{
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['lto_id' => $request->licenseNo]);
+						}
+						else if($hfser_id == "ATO")
+						{
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['ato_id' => $request->licenseNo]);
+						}
+						else if($hfser_id == "COA")
+						{
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['coa_id' => $request->licenseNo]);
+						}
+						else if($hfser_id == "COR")
+						{
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['cor_id' => $request->licenseNo]);
+						}
+					}
+				}
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -788,7 +824,6 @@ class ReportsController extends Controller
 					} 	
 				}
 
-				$fo_action = 'employee/reports/license/Certificates/facilities';
 
 				return view($viewpage, ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'hfser_id' => $hfser, 'fo_action'=>$fo_action, 'pg_title'=>$title, 'd_assignedRgn'=>$d_assignedRgn]);
 			} 
