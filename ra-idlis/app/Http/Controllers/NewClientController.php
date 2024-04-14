@@ -2871,7 +2871,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			$user_data 				= session()->get('uData');
 			$hgpid					= null;
 			$appform 				= DB::table('viewAppFormForUpdate')->where('appid','=',$appid)->first();
-			$regservices			= FunctionsClientController::get_view_reg_facility_services($reg_fac_id, 0);	
 			$savingStat 			= null;
 			$hfLocs 				= [
 									'client1/apply/app/LTO/'.$appid, 

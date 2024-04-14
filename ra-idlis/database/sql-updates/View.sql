@@ -1550,7 +1550,8 @@ CREATE VIEW viewAppFormForUpdate AS
 	registered_facility.ptc_id,
 	registered_facility.ptc_approveddate, registered_facility.lto_validityto, registered_facility.coa_validityto, registered_facility.ato_validityto, registered_facility.cor_validityto,
 	registered_facility.lto_approveddate, registered_facility.coa_approveddate, registered_facility.ato_approveddate, registered_facility.cor_approveddate,
-	hfaci_grp.isHospital, hfaci_grp.otherClinicService, hfaci_grp.clinicLab, hfaci_grp.dialysisClinic, hfaci_grp.ambulSurgCli, hfaci_grp.ambuDetails, hfaci_grp.addOnServe 
+	hfaci_grp.isHospital, hfaci_grp.otherClinicService, hfaci_grp.clinicLab, hfaci_grp.dialysisClinic, hfaci_grp.ambulSurgCli, hfaci_grp.ambuDetails, hfaci_grp.addOnServe,
+	hfaci_grp.hasbedcapacity, hfaci_grp.pharmacy
 	
 	FROM appform 
 	LEFT JOIN registered_facility ON appform.regfac_id=registered_facility.regfac_id 

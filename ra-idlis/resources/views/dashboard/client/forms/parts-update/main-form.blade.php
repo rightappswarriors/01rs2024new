@@ -266,6 +266,8 @@
     <h3  class="text-center upd-text-info"><i class="fa fa-check-square-o"></i> &nbsp;{{$appform->facilitytype}}&nbsp;</h3>
 </div>         
 
+@if (isset($appform->isHospital))  
+    @if ($appform->isHospital == 1)
 <div class="col-md-12 change-div"><b class="text-primary">CLASSIFICATION OF HOSPITAL</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeCOH"><i class="fa fa-edit"></i></button> @endif</div>
 
 <div class="col-sm-6">
@@ -277,9 +279,14 @@
     <label class="text-left upd-text-title">Hospital Level </label>
     <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
 </div>
+    @endif
+@endif
 
 
 <!---- For Add On services --->
+
+@if (isset($appform->otherClinicService))  
+    @if ($appform->otherClinicService == 1)  
 <div class="col-md-12 change-div"><b class="text-primary">ANCILLARY/CLINICAL SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
 <div class="col-sm-12">    
     <div class="row col-border-right showAncillary">
@@ -297,7 +304,7 @@
                                     '{{$d->servtyp}}',
                                     '{{$d->servowner}}',
                                     'edit'
-                                    )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                    )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-arrow-up"></i></button>
                                     <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
                                             data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
                                     </button>
@@ -311,7 +318,11 @@
         </div>
     </div>
 </div>  
+    @endif
+@endif
  
+@if (isset($appform->ambulSurgCli))  
+    @if ($appform->ambulSurgCli == 1)  
  <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
  <div class="col-sm-12">         
      @if (isset($addOnservices_applied))  
@@ -336,8 +347,12 @@
              @endforeach	
          </ul>
      @endif
- </div>  
+ </div> 
+    @endif
+@endif 
 
+@if (isset($appform->addOnServe))  
+    @if ($appform->addOnServe == 1)  
 <!---- For Add On services --->
 <div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
 <div class="col-sm-12">    
@@ -391,7 +406,12 @@
 
     </div>
 </div>     
+    @endif
+@endif 
 
+
+@if (isset($appform->ambuDetails))  
+    @if ($appform->ambuDetails == 1)  
 <!---- For Add On services --->
 <div class="col-md-12 change-div">
     <b class="text-primary">AMBULANCE DETAILS</b> 
@@ -443,19 +463,31 @@
         </table>
     </div>
 </div>  
+    @endif
+@endif 
 
+@if (isset($appform->hasbedcapacity))  
+    @if ($appform->hasbedcapacity == 1)  
 <div class="col-sm-6">
     
     <label class="text-left upd-text-title"><b class="text-primary">Authorized Bed Capacity </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeBedCapacity"><i class="fa fa-edit"></i></button> @endif</label>
     <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
 </div>
+    @endif
+@endif 
 
+@if (isset($appform->dialysisClinic))  
+    @if ($appform->dialysisClinic == 1)  
 <div class="col-sm-6">
     <label class="text-left upd-text-title"><b class="text-primary">Number of Dialysis Station </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</label>
     <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
 </div>
+    @endif
+@endif 
 
 
+@if (isset($appform->pharmacy))  
+    @if ($appform->pharmacy == 1)  
 <div class="col-md-12 change-div"><b class="text-primary">For Pharmacy</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changePharmacy"><i class="fa fa-edit"></i></button> @endif</div>
 <div class="col-sm-6">
     <label class="text-left upd-text-title">Number of Main Pharmacy </label>
@@ -466,6 +498,8 @@
     <label class="text-left upd-text-title">No. of Satellites </label>
     <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
 </div>
+    @endif
+@endif 
 
 
 
