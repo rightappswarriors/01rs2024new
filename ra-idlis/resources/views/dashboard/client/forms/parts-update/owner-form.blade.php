@@ -66,10 +66,11 @@
                     <div class="form-group col-md-12">
                         <label for="facility_name">Official Mailing Address </label>
                         <label>
-                            <input name="isSameAsFacilityAddress" type="checkbox" id="isSameAsFacilityAddress" value="1" onchange="setOfficialMailAddressNew(this)"> Official Mailing address same as Facility Address? If no, please specify complete address
+                            <input name="mailingAddress" type="checkbox" id="isSameAsFacilityAddress" value="1" onChange="
+                            {{(     isset($appform->mailingAddress) ? 'setOfficialMailAddressUp1(this)': 'setOfficialMailAddressNew1(this)'   )}}"> Official Mailing address same as Facility Address? If no, please specify complete address
                         </label>           
                         <div class="input-group">
-                            <input type="text" name="mailingAddress" class="form-control" placeholder="Official Mailing Address" value="{{$appform->mailingAddress}}" id="mailingAddress"> 
+                            <input type="text" name="mailingAddress" class="form-control" placeholder="Official Mailing Address" value="{{$appform->mailingAddress}}" id="mailingAddress">
                         </div>
                     </div>
                         
@@ -89,3 +90,145 @@
     </div>
 
 </form>
+
+@if(isset($appform->mailingAddress))
+    <script>
+        const setOfficialMailAddressUp1 = async (e) => {
+
+            const isSame = $("#isSameAsFacilityAddress").prop('checked')
+            console.log('EYYYY ', isSame)
+            if (isSame) {
+                /*street_number = $("#street_number_txt").val();
+                street_name = $("#street_name_txt").val();
+                brgy = $("#brgyid_name").val();
+                city = $("#cmid_name").val();
+                prov = $("#provid_name").val();
+                region = $("#rgnid_name").val();*/
+                let errMessage = 'Please fill up the following fields: ';
+                let isError = false;
+                /*
+                if (!street_name) {
+                    if (isError) {
+                        errMessage = errMessage + ', Street Name';
+                    } else {
+                        isError = true;
+                        errMessage = errMessage + ' Street Name';
+                    }
+                }
+                if (!brgy) {
+                    if (isError) {
+                        errMessage = errMessage + ', Barangay';
+                    } else {
+                        isError = true;
+                        errMessage = errMessage + ' Barangay';
+                    }
+                }
+                if (!city) {
+                    if (isError) {
+                        errMessage = errMessage + ', City/Municipality';
+                    } else {
+                        isError = true;
+                        errMessage = errMessage + ' City/Municipality';
+                    }
+                }
+                if (!prov) {
+                    if (isError) {
+                        errMessage = errMessage + ', Province';
+                    } else {
+                        isError = true;
+                        errMessage = errMessage + ' Province';
+                    }
+                }
+                if (!region) {
+                    if (isError) {
+                        errMessage = errMessage + ', Region';
+                    } else {
+                        isError = true;
+                        errMessage = errMessage + ' Region';
+                    }
+                }
+                if (isError) {
+                    $("#official_mail_address").val('')
+                    $("#isSameAsFacilityAddress").prop('checked', false)
+                    alert(errMessage);
+                } else { */
+                    var offmail = 'Test'; //`${street_number} ${street_name} ${brgy} ${city} ${prov} ${region}`;
+                    $("#official_mail_address").val(offmail.toUpperCase())
+               // }
+            } else {
+                $("#official_mail_address").val('')
+            }
+
+        }
+   </script> 
+@endif
+
+
+<script>
+    const setOfficialMailAddressNew1 = async (e) => {
+        
+        const isSame = $("#isSameAsFacilityAddress").prop('checked')
+        console.log('EYYYY ', isSame) 
+        if(isSame) {
+            street_number = $("#street_number_txt").val();
+            street_name = $("#street_name_txt").val();
+            brgy = $("#brgyid_name").val();
+            city = $("#cmid_name").val();
+            prov = $("#provid_name").val();
+            region = $("#rgnid_name").val();
+            let errMessage = 'Please fill up the following fields: ';
+            let isError = false;
+            
+            /*if(!brgy) {
+                if(isError) {
+                    errMessage = errMessage + ', Barangay';
+                }
+                else {
+                    isError = true;
+                    errMessage = errMessage + ' Barangay';
+                }
+            }
+            if(!city) {
+                if(isError) {
+                    errMessage = errMessage + ', City/Municipality';
+                }
+                else {
+                    isError = true;
+                    errMessage = errMessage + ' City/Municipality';
+                }
+            } 
+            if(!prov) {
+                if(isError) {
+                    errMessage = errMessage + ', Province';
+                }
+                else {
+                    isError = true;
+                    errMessage = errMessage + ' Province';
+                }
+            }
+            if(!region) {
+                if(isError) {
+                    errMessage = errMessage + ', Region';
+                }
+                else {
+                    isError = true;
+                    errMessage = errMessage + ' Region';
+                }
+            }
+            if(isError) {
+                $("#official_mail_address").val('')
+                $("#isSameAsFacilityAddress").prop('checked', false)
+                alert(errMessage);
+            }
+            else { */
+
+                // $("#official_mail_address").val(`${street_number} ${street_name} ${brgy} ${city} ${prov} ${region}`)
+                var offmail = `${street_number} ${street_name} ${brgy} ${city} ${prov} ${region}`;
+                $("#official_mail_address").val(offmail.toUpperCase())        
+            //}
+        }
+        else {
+            $("#official_mail_address").val('')
+        }
+    }
+</script>

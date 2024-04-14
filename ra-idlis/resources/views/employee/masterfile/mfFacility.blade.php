@@ -17,11 +17,11 @@
              <div style="float:right;display: inline-block;">
              </div>
           </div>
-          <div class="card-body">
-                 <table class="table display" id="example" style="overflow-x: scroll;" >
+          <div class="card-body table-responsive  backoffice-list">
+              <table class="table display dataTable no-footer" id="example" style="overflow-x: scroll;" >
                 <thead>
                   <tr>
-                    <th style="width: auto">ID</th>
+                    <th>ID</th>
                     <th style="width: auto">Name</th>
                     <th style="width: auto">PTC Certificate Footer</th>
                     <th style="width: auto">LTO Certificate Footer</th>
@@ -30,7 +30,11 @@
                     <th style="width: auto">COR Certificate Footer</th>
                     <th style="width: auto">Certificate Year Validity</th>
                     <th style="width: auto">Status</th>
-                    <th style="width: auto"><center>Options</center></th>
+
+                    <!--  isHospital, otherClinicService, clinicLab, dialysisClinic, ambulSurgCli, ambuDetails, addOnServe,noofbed,pharmacy --->
+                    <th style="width: auto">Inclusion on Application</th>
+
+                    <th style="width: auto" class="text-center">Options</th>
                   </tr>
                 </thead>
                 <tbody id="FilterdBody">
@@ -45,21 +49,80 @@
                             <td>@isset($fatype->ftr_msg_ato) {{$fatype->ftr_msg_ato}} @endisset</td>
                             <td>@isset($fatype->ftr_msg_cor) {{$fatype->ftr_msg_cor}} @endisset</td>
                             <td>@isset($fatype->year_validity) {{$fatype->year_validity}} @endisset</td>
-                            <td>@if($fatype->status == "1") Active @else Inactive @endif</td>
-                            <td><center>
-                            <span class="AP008_update">
-                            <button type="button" class="btn btn-outline-warning" onclick="showData('{{$fatype->hgpid}}','{{$fatype->hgpdesc}}',
-                            '@isset($fatype->ftr_msg_ptc) {{$fatype->ftr_msg_ptc}} @endisset',
-                            '@isset($fatype->ftr_msg_lto) {{$fatype->ftr_msg_lto}} @endisset',
-                            '@isset($fatype->ftr_msg_coa) {{$fatype->ftr_msg_coa}} @endisset',
-                            '@isset($fatype->ftr_msg_ato) {{$fatype->ftr_msg_ato}} @endisset',
-                            '@isset($fatype->ftr_msg_cor) {{$fatype->ftr_msg_cor}} @endisset',
-                            '@isset($fatype->status) {{$fatype->status}} @endisset');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>&nbsp;
-                            </span>
-                            <span class="AP008_cancel">
-                            <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$fatype->hgpid}}', '{{$fatype->hgpdesc}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
-                         </span>
-                            </center></td>
+                            <td>@if($fatype->status == "1") Active @else Inactive @endif</td>                            
+                            
+                            <!--  isHospital, otherClinicService, clinicLab, dialysisClinic, ambulSurgCli, ambuDetails, addOnServe,noofbed,pharmacy --->
+                            <td>
+                              @if(isset($fatype->isHospital))
+                                @if($fatype->isHospital == 1)
+                                  <i class="fa fa-check-square-o"></i> Classification Of Hospital <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->otherClinicService))
+                                @if($fatype->otherClinicService == 1)
+                                  <i class="fa fa-check-square-o"></i> Ancillary/Clinical Services <br/>
+                                @endif 
+                              @endif
+
+                              @if(isset($fatype->clinicLab))
+                                @if($fatype->clinicLab == 1)
+                                  <i class="fa fa-check-square-o"></i> Clinic Lab <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->ambulSurgCli))
+                                @if($fatype->ambulSurgCli == 1)
+                                  <i class="fa fa-check-square-o"></i> Ambulatory Surgical Clinic <br/>
+                                @endif 
+                              @endif
+                            
+                              @if(isset($fatype->ambuDetails))
+                                @if($fatype->ambuDetails == 1)
+                                  <i class="fa fa-check-square-o"></i> Ambulance Details <br/>
+                                @endif 
+                              @endif
+
+                              @if(isset($fatype->addOnServe))
+                                @if($fatype->addOnServe == 1)
+                                  <i class="fa fa-check-square-o"></i> Add On Services <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->dialysisClinic))
+                                @if($fatype->dialysisClinic == 1)
+                                  <i class="fa fa-check-square-o"></i>  Dialysis Station / Clinic <br/>
+                                @endif 
+                              @endif
+
+                              @if(isset($fatype->hasbedcapacity))
+                                @if($fatype->hasbedcapacity == 1)
+                                  <i class="fa fa-check-square-o"></i> Authorized Bed Capacity <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->pharmacy))
+                                @if($fatype->pharmacy == 1)
+                                  <i class="fa fa-check-square-o"></i> Pharmacy <br/>
+                                @endif 
+                              @endif
+
+                            </td>
+
+                            <td class="text-center">
+                              <span class="AP008_update">
+                                <button type="button" class="btn btn-outline-warning" onclick="showData('{{$fatype->hgpid}}','{{$fatype->hgpdesc}}',
+                                '@isset($fatype->ftr_msg_ptc) {{$fatype->ftr_msg_ptc}} @endisset',
+                                '@isset($fatype->ftr_msg_lto) {{$fatype->ftr_msg_lto}} @endisset',
+                                '@isset($fatype->ftr_msg_coa) {{$fatype->ftr_msg_coa}} @endisset',
+                                '@isset($fatype->ftr_msg_ato) {{$fatype->ftr_msg_ato}} @endisset',
+                                '@isset($fatype->ftr_msg_cor) {{$fatype->ftr_msg_cor}} @endisset',
+                                '@isset($fatype->status) {{$fatype->status}} @endisset');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>&nbsp;
+                                </span>
+                                <span class="AP008_cancel">
+                                <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$fatype->hgpid}}', '{{$fatype->hgpdesc}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
+                              </span>
+                            </td>
                           </tr>
                   @endforeach
                   @endif

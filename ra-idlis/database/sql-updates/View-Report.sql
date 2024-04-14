@@ -149,7 +149,8 @@ appform.recommendeddate, CASE WHEN appform.recommendeddate IS NOT NULL THEN DATE
 appform.t_date, CASE WHEN appform.t_date IS NOT NULL THEN DATE_FORMAT(appform.t_date, "%M %d, %Y") ELSE 'Not officially applied yet.' END AS formattedDate,
 
 appform.inspecteddate, CASE WHEN appform.inspecteddate IS NOT NULL THEN DATE_FORMAT(appform.inspecteddate, "%M %d, %Y") ELSE NULL END AS formattedDateInspect, 
-appform.isInspected, appform.inspectedby, inspector.fname||' ' || inspector.mname ||' ' || inspector.lname AS inspectorName, 
+appform.isInspected, appform.inspectedby, 
+CONCAT( IFNULL(inspector.fname,''), ' ', IFNULL(inspector.mname,''), ' ', IFNULL(inspector.lname,'')) AS inspectorName,  
 '' AS inspectorRemarks,
 
 appform.proposedInspectiondate, CASE WHEN appform.proposedInspectiondate IS NOT NULL THEN DATE_FORMAT(appform.proposedInspectiondate, "%M %d, %Y") ELSE NULL END AS formattedDatePropEval, 

@@ -335,7 +335,7 @@
             <h5 class="modal-title text-center"><strong>Edit Issued Certificate Number</strong></h5>
             <hr>
             <div class="container">
-                    <div class="col-sm-12 alert alert-danger alert-dismissible fade show" style="display:none;margin:5px" id="EditErrorAlert" role="alert">
+                <div class="col-sm-12 alert alert-danger alert-dismissible fade show" style="display:none;margin:5px" id="EditErrorAlert" role="alert">
                     <div class="row">
                     </div><strong><i class="fas fa-exclamation"></i></strong>&nbsp;An <strong>error</strong> occurred. Please contact the system administrator.
                       <button type="button" class="close" onclick="$('#EditErrorAlert').hide(1000);" aria-label="Close">
@@ -346,14 +346,14 @@
                   	
                   </span>
                   
-                  <div class="row">
+                  <div class="row mt-5">
                     <div class="col-sm-6">
                     <button type="submit" class="btn btn-outline-success form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Save</button>
                   </div> 
                   <div class="col-sm-6">
                     <button type="button" data-dismiss="modal" class="btn btn-outline-danger form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Cancel</button>
                   </div>
-                  </div>
+                </div>
             </div>
           </div>
         </div>

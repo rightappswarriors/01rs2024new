@@ -1,6 +1,7 @@
-<form  id="form_dialysisstation" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+<form  id="form_dialysisstation" method="POST">
     {{ csrf_field() }}
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">         
+    <input type="hidden" name="appid" value="{{$appform->appid}}"> 
+    <input type="hidden" name="grp_id" value="14">    
         
     
     <div class="modal fade" id="changeDialysisStation" tabindex="-1" aria-labelledby="changeDialysisStationModalLabel" aria-hidden="true">

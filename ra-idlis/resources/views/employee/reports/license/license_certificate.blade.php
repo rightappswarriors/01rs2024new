@@ -97,8 +97,8 @@
           
             '<div class="row">' +
             
-              '<div class="col-sm-4">' +
-                '<div class="col-sm-4">Application Number:</div>' + 
+              '<div class="col-sm-5">' +
+                '<div class="col-sm-12">Application Number:</div>' + 
                 '<div class="col-sm-12 text-center">' +
                     '<h4>'+appid+'</h4>' +
                     '<input type="hidden" value="'+appid+'" name="appid" id="appid" class="form-control" data-parsley-required-message="*<strong>Application Number</strong> required" readonly>' +
@@ -106,8 +106,8 @@
               '</div>' +
 
               
-              '<div class="col-sm-4">' +
-                '<div class="col-sm-4">Type:</div>' + 
+              '<div class="col-sm-3">' +
+                '<div class="col-sm-12">Type:</div>' + 
                 '<div class="col-sm-12 text-center">' +
                     '<h4>'+hfser_id+'</h4>' +
                     '<input type="hidden" value="'+hfser_id+'" name="hfser_id" id="hfser_id" class="form-control" data-parsley-required-message="*<strong>Application Number</strong> required" readonly>' +
@@ -115,7 +115,7 @@
               '</div>' +
 
               '<div class="col-sm-4">' +
-                '<div class="col-sm-4">Registered ID:</div>' + 
+                '<div class="col-sm-12">Registered ID:</div>' + 
                 '<div class="col-sm-12 text-center">' +
                     '<h4>'+regfac_id+'</h4>' +
                     '<input type="hidden" value="'+regfac_id+'" name="regfac_id" id="regfac_id" class="form-control" data-parsley-required-message="*<strong>Registered ID</strong> required" readonly>' +
