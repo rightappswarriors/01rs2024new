@@ -1,6 +1,7 @@
-<form id="form_bedcapacity" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST" class="row">
+<form id="form_bedcapacity" method="POST" class="row">
     {{ csrf_field() }}
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">                     
+    <input type="hidden" name="appid" value="{{$appform->appid}}"> 
+    <input type="hidden" name="grp_id" value="15">                   
 
     <div class="modal fade" id="changePharmacy" tabindex="-1" aria-labelledby="changeBedCapacityModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -17,14 +18,14 @@
                         <div class="form-group col-md-12">
                             <label for="facility_name">Number of Main Pharmacy <span class="text-danger">*</span> </label>
                             <div class="input-group">
-                                <input class="form-control" type="number" name="noofbed_applied" id="noofbed_applied" placeholder="Number of Main Pharmacy" min="0" autocomplete="off" value="{{$appform->noofbed}}">
+                                <input class="form-control" type="number" name="noofmain" id="noofmain" placeholder="Number of Main Pharmacy" min="0" autocomplete="off" value="{{$appform->noofmain}}">
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
                             <label for="facility_name">No. of Satellites <span class="text-danger">*</span> </label>
                             <div class="input-group">
-                                <input class="form-control" type="number" name="noofbed_applied" id="noofbed_applied" placeholder="No. of Satellites" min="0" autocomplete="off" value="{{$appform->noofbed}}">
+                                <input class="form-control" type="number" name="noofsatellite" id="noofsatellite" placeholder="No. of Satellites" min="0" autocomplete="off" value="{{$appform->noofsatellite}}">
                             </div>
                         </div>
                         

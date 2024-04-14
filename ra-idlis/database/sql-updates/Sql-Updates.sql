@@ -140,4 +140,11 @@ registered_facility.addonservice_dateapproved, registered_facility.changeonservi
 	LEFT JOIN facmode ON facmode.facmid = appform.facmode 
 	LEFT JOIN hfaci_grp ON appform.hgpid=hfaci_grp.hgpid 
 	LEFT JOIN region AS assRgn ON assRgn.rgnid = appform.assignedRgn 
-WHERE appform.appid = '8056' 
+WHERE appform.appid = '8056' ;
+
+
+/******** 2024-04- *****/
+ALTER TABLE hfaci_grp 
+ADD COLUMN hasbedcapacity TINYINT(1) DEFAULT 0,
+ADD COLUMN pharmacy TINYINT(1) DEFAULT 0;
+

@@ -42,43 +42,43 @@
 <div class="col-sm-3">
     <label class="text-left upd-text-title">Region <span class="text-danger">*</span>
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->rgn_desc}}</h6>
+    <h6 id="rgnid_name"  class="text-center upd-text-info">{{$appform->rgn_desc}}</h6>
 </div>
 <div class="col-sm-3">
     <label class="text-left upd-text-title">Province/District <span class="text-danger">*</span>
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->provname}}</h6>
+    <h6  id="provid_name" class="text-center upd-text-info">{{$appform->provname}}</h6>
 </div>
 <div class="col-sm-3">
     <label class="text-left upd-text-title">City/Municipality <span class="text-danger">*</span>
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->cmname}}</h6>
+    <h6  id="cmid_name" class="text-center upd-text-info">{{$appform->cmname}}</h6>
 </div>
 <div class="col-sm-3">
     <label class="text-left upd-text-title">Barangay <span class="text-danger">*</span>
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->brgyname}}</h6>
+    <h6  id="brgyid_name" class="text-center upd-text-info">{{$appform->brgyname}}</h6>
 </div>
 
 
 <div class="col-sm-3">
     <label class="text-left upd-text-title">Street Number
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->street_number}}&nbsp;</h6>
+    <h6  id="street_number_txt" class="text-center upd-text-info">{{$appform->street_number}}&nbsp;</h6>
 </div>
 
 
 <div class="col-sm-6">
     <label class="text-left upd-text-title">Street name
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->street_name}}&nbsp;</h6>
+    <h6  id="street_name_txt" class="text-center upd-text-info">{{$appform->street_name}}&nbsp;</h6>
 </div>
 
 
 <div class="col-sm-3">
     <label class="text-left upd-text-title">Zip Code <span class="text-danger">*</span>
     </label>
-    <h6  class="text-center upd-text-info">{{$appform->zipcode}}&nbsp;</h6>
+    <h6   id="zipcode_txt" class="text-center upd-text-info">{{$appform->zipcode}}&nbsp;</h6>
 </div>
 
 
@@ -283,33 +283,56 @@
 <div class="col-md-12 change-div"><b class="text-primary">ANCILLARY/CLINICAL SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
 <div class="col-sm-12">    
     <div class="row col-border-right showAncillary">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="text-center">Option</th>
-                    <th class="text-center">Ancillary/Clinical Services</th>
-                </tr>
-            </thead>
-            <tbody id="body_ancillary">
-                <tr id="tr_addOn" hidden="">
-                    <td class="text-center" onclick="return preventDef()">
-                        <button class="btn btn-danger " onclick="if(! this.parentNode.parentNode.hasAttribute('id')) { this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); }"><i class="fa fa-minus-circle" onclick="return preventDef()"></i></button>
-                    </td>
-                    <td class="text-center">
-                        Service Name
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="col-sm-12">  
+            @php $proceed_addon = 0;  @endphp
+            @if (isset($addOnservices_applied))
+                <ul style="list-style-type:none">
+                @foreach ($addOnservices_applied as $d)
+                    @php $proceed_addon = 1; @endphp
+                        <li class="text-center">
+                            @if($isupdate == 1)   
+                                <span class="text-center">
+                                    <button class="btn btn-primary" onclick="showDataAddOnServ(
+                                    '{{$d->facid}}',
+                                    '{{$d->servtyp}}',
+                                    '{{$d->servowner}}',
+                                    'edit'
+                                    )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
+                                            data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                                    </button>
+                                </span>
+                            @endif 
+                        {{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </li>
+                    
+                @endforeach
+                </ul>	
+            @endif
+        </div>
     </div>
 </div>  
  
  <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
  <div class="col-sm-12">         
-     @if (isset($regservices))  
+     @if (isset($addOnservices_applied))  
          <ul style="list-style-type: none; ">    
-             @foreach ($regservices as $d)
-                 <li>{{$d->facname}}</li>
+             @foreach ($addOnservices_applied as $d)
+                @php $proceed_addon = 1; @endphp
+                <li class="text-center">
+                    @if($isupdate == 1)   
+                        <span class="text-center">
+                            <button class="btn btn-primary" onclick="showDataAddOnServ(
+                            '{{$d->facid}}',
+                            '{{$d->servtyp}}',
+                            '{{$d->servowner}}',
+                            'edit'
+                            )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
+                                    data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                            </button>
+                        </span>
+                    @endif 
+                {{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </li>
              @endforeach	
          </ul>
      @endif
@@ -319,37 +342,61 @@
 <div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
 <div class="col-sm-12">    
     <div class="row col-border-right showAmb">
-        <table class="table table-bordered">
+
+        <table class="table display" id="example" style="overflow-x: scroll;">
             <thead>
                 <tr>
-                    <th class="text-center">Option</th>
+                    @if($isupdate == 1) 
+                        <th class="text-center">Option</th>                    
+                    @endif 
                     <th class="text-center">Add On Services</th>
                     <th class="text-center">Type(Owned, Outsoured)</th>
                     <th class="text-center">Details</th>
                 </tr>
             </thead>
-            <tbody id="body_addOn">
-                <tr id="tr_addOn" hidden="">
-                    <td class="text-center" onclick="return preventDef()">
-                        <button class="btn btn-danger " onclick="if(! this.parentNode.parentNode.hasAttribute('id')) { this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); }"><i class="fa fa-minus-circle" onclick="return preventDef()"></i></button>
-                    </td>
-                    <td class="text-center">
-                        Service Name
-                    </td>
-                    <td class="text-center">
-                        Outsourced / Owned
-                    </td>
-                    <td class="text-center">
-                        Owner
-                    </td>
+            <tbody>
+            @php $proceed_addon = 0;  @endphp
+            @if (isset($addOnservices_applied))
+                @foreach ($addOnservices_applied as $d)
+                    @php $proceed_addon = 1; @endphp
+                    <tr>
+                        @if($isupdate == 1)   
+                            <td class="text-center">
+                                <button class="btn btn-primary" onclick="showDataAddOnServ(
+                                '{{$d->facid}}',
+                                '{{$d->servtyp}}',
+                                '{{$d->servowner}}',
+                                'edit'
+                                )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
+                                        data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                                </button>
+                            </td>
+                        @endif 
+                        <td class="text-center">{{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </td>
+                        <td class="text-center">Owned</td>
+                        <td class="text-center">Remarks</td>
+                    </tr>
+                @endforeach	
+            @endif
+            
+            @if($proceed_addon == 0)   
+                <tr>
+                    <td colspan="{{$addon_colspan+2}}" class="text-center">No Records found.</td>
                 </tr>
+            @endif
+            
             </tbody>
         </table>
+
     </div>
 </div>     
 
 <!---- For Add On services --->
-<div class="col-md-12 change-div"><b class="text-primary">AMBULANCE DETAILS</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeAmbulanceVehicle"><i class="fa fa-plus"></i></button> @endif</div>
+<div class="col-md-12 change-div">
+    <b class="text-primary">AMBULANCE DETAILS</b> 
+    @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeAmbulanceVehicle"><i class="fa fa-plus"></i>
+</button> @endif</div>
 <div class="col-md-12">
     <span class="text-danger">NOTE: For Owned ambulance, Payments are as follows:</span> <br>
     Ambulance Service Provider = ₱ 5,000
@@ -363,25 +410,36 @@
                     <th class="text-center">Option</th>
                     <th class="text-center">Ambulance Service(Type 1, Type 2)</th>
                     <th class="text-center">Ambulance Type(Owned, Outsoured)</th>
+                    <th class="text-center">Plate Number</th>
                     <th class="text-center">Details</th>
                 </tr>
             </thead>
-            <tbody id="body_amb">
-                <tr id="tr_addOn" hidden="">
-                    <td class="text-center" onclick="return preventDef()">
-                        <button class="btn btn-danger " onclick="if(! this.parentNode.parentNode.hasAttribute('id')) { this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); }"><i class="fa fa-minus-circle" onclick="return preventDef()"></i></button>
-                    </td>
-                    <td class="text-center">
-                        Ambulance Service
-                    </td>
-                    <td class="text-center">
-                        Ambulance Type
-                    </td>
-                    <td class="text-center">
-                        Owner
-                    </td>
-                </tr>
+            <tbody>
+                @if (isset($appform_ambulance))
+                    @php $aa = 0;  @endphp
+                    @foreach ($appform_ambulance as $d)
+
+                        @if(!empty($d['plate_number']))
+                            @php $aa++;    @endphp
+                            <tr>
+                        
+                                <td class="text-center"></td>
+                                <td class="text-center">@if($d['typeamb'] == 1) Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif </td>
+                                <td class="text-center">@if($d['ambtyp'] == "1") Outsourced @else Owned @endif</td>
+                                <td class="text-center">{{$d['plate_number']}}</td>
+                                <td class="text-center">{{$d['ambOwner']}}</td>
+                            </tr>
+                        @endif 
+                    @endforeach	
+                @else
+                    <tr>
+                        <td colspan="4" class="text-center">No Records found.</td>
+                    </tr>
+                @endif
             </tbody>
+            <tfoot>
+                <tr><td colspan="4" class="text-center">Total Number of Ambulance Apply: @if (isset($appform_ambulance)) {{count($appform_ambulance)}} @endif</td></tr>
+            </tfoot>
         </table>
     </div>
 </div>  

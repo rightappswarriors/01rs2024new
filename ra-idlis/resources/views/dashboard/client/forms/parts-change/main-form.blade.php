@@ -141,7 +141,7 @@
     </style --->
     <ul style="list-style-type: none;  font-size: 30px;"><li class="text-uppercase font-weight-bold">{{$registered_facility->facilitytype}}</li></ul>
 </div> 
-
+{{-- 
 <div class="col-md-6">                                        
     <label>Services:</label>
     <ul style="list-style-type: none; "><li>
@@ -154,7 +154,7 @@
 
     </li></ul>
 </div>
-
+--}}
 @if($registered_facility->facilitytype != $registered_facility->facilitytype)
     <div class="col-md-12">
         <br/><label><i>Change Type of Facility:</label>

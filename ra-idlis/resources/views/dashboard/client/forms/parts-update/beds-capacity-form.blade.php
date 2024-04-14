@@ -1,6 +1,7 @@
-<form id="form_bedcapacity" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST" class="row">
+<form id="form_bedcapacity" method="POST" class="row">
     {{ csrf_field() }}
-    <input type="hidden" name="appid" id="appid" value="{{$appform->appid}}">                     
+    <input type="hidden" name="appid" value="{{$appform->appid}}"> 
+    <input type="hidden" name="grp_id" value="13">                  
 
     <div class="modal fade" id="changeBedCapacity" tabindex="-1" aria-labelledby="changeBedCapacityModalLabel" aria-hidden="true">
         <div class="modal-dialog">
