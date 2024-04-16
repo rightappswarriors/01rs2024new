@@ -55,7 +55,6 @@
             <!----------------->
             
 
-
             <div class="row">         
 
                 <div class="col-md-8">
@@ -70,14 +69,6 @@
                                     @include('dashboard.client.forms.parts-update.main-form')
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <!---  Main Form  -->
-                                @if($functype == 'av')
-                                    @include('dashboard.client.forms.ambulance-vehicle-form')
-                                @endif
-                                <!---  Main Form  -->
-
-                            </div>
                         </div>
                     </section>
                 </div>
@@ -85,9 +76,6 @@
                 <div class="col-md-4">
                     @include('dashboard.client.forms.parts.payment.payment-form-change')
                 </div>
-
-
-
                 
                 <!---  Main Form Submit -->
                 @if($savingStat =='final')
@@ -111,7 +99,7 @@
                                 <div class="col-md-12 text-center">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary action-btn"  style="margin:auto; margin-top:10px;" value="submit" name="submit" id="submit" data-toggle="modal" data-target="#confirmSubmitModalLto">
-                                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit Application and Proceed to Requirements
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Proceed to Requirements
                                         </button>                                            
                                     </div> 
                                 </div>                                    

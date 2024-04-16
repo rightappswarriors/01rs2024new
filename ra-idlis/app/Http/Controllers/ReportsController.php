@@ -848,7 +848,7 @@ class ReportsController extends Controller
 				}
 
 
-				return view($viewpage, ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'hfser_id' => $hfser, 'fo_action'=>$fo_action, 'pg_title'=>$title, 'd_assignedRgn'=>$d_assignedRgn]);
+				return view($viewpage, ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'hfser_id' => $hfser, 'fo_action'=>$fo_action, 'pg_title'=>$title, 'd_assignedRgn'=>$d_assignedRgn, 'isEdit' => $isEdit]);
 			} 
 			catch (Exception $e) 
 			{
