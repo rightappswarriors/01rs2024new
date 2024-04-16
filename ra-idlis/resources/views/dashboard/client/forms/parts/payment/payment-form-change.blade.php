@@ -26,14 +26,14 @@
                                 @php $total_amt = 0.00; @endphp
                                 <tr ><td colspan="2"><center><b>Facility Registration Fee</b></center></td></tr>
                                 <tbody id="not_serv_chg">
-                                    @if(isset($chgfil_reg)): 
+                                    @if(isset($chgfil_reg))
                                         @foreach ($chgfil_reg as $item)                                         
                                             <tr>
                                                 <td>{{$item->reference}}</td>
                                                 <td>{{number_format($item->amount, 2, '.', ',')}}@php $amt = floatval($item->amount); $total_amt = $total_amt + $amt; @endphp</td>
                                             </tr>   
                                         @endforeach                                
-                                    @else:
+                                    @else
                                         <tr>
                                             <td colspan="2">{{--No Facility Type selected. ---}}</td>
                                         </tr>     
@@ -42,14 +42,14 @@
 
                                 <tr ><td colspan="2"><center><b>Services Fee</b></center></td></tr>
                                 <tbody id="serv_chg">
-                                    @if(isset($chgfil_sf)):
+                                    @if(isset($chgfil_sf))
                                         @foreach ($chgfil_sf as $item)                                         
                                             <tr>
                                                 <td><small style="color:#ccc">[{{$item->chg_desc}}]</small><br/>{{$item->reference}}</td>
                                                 <td>{{number_format($item->amount, 2, '.', ',')}}@php $amt = floatval($item->amount); $total_amt = $total_amt + $amt; @endphp</td>
                                             </tr>   
                                         @endforeach                                     
-                                    @else:
+                                    @else
                                         <tr>
                                             <td colspan="2">No Services selected.</td>
                                         </tr>     
@@ -58,14 +58,14 @@
 
                                 <tr ><td colspan="2"><center><b>Ambulance Fee</b></center></td></tr>
                                 <tbody id="serv_chg_not">
-                                    @if(isset($chgfil_af)):  
+                                    @if(isset($chgfil_af))  
                                         @foreach ($chgfil_af as $item)                                         
                                             <tr>
                                                 <td>{{$item->reference}}</td>
                                                 <td>{{number_format($item->amount, 2, '.', ',')}}@php $amt = floatval($item->amount); $total_amt = $total_amt + $amt; @endphp</td>
                                             </tr>   
                                         @endforeach                            
-                                    @else:
+                                    @else
                                         <tr>
                                             <td colspan="2">No Ambulance</td>
                                         </tr>     

@@ -178,8 +178,10 @@
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
-                  <span id="EditBody">
-                  </span>
+                  <div id="EditBody">
+                  </div>
+                  <div class="col-sm-12">&nbsp;
+                  </div>
                   <div class="row">
                     <div class="col-sm-6">
                     <button type="submit" class="btn btn-outline-success form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Save</button>
@@ -264,6 +266,50 @@
             '<div class="col-sm-4">Status:</div>' +
             '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
               '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+            '</div>' +
+
+            '<div class="row">' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3"">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+                    
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
             '</div>' 
           );
       }
