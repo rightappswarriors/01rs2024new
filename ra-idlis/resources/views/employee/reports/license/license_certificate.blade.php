@@ -66,7 +66,7 @@
                       </td>  
 
                       <td style="text-align:center">
-                        <button type="button" title="Edit Certificate Number" class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" data-toggle="modal" data-target="#GodModal" onclick="showData('{{$data->appid}}', '{{$data->hfser_id}}', '{{$data->regfac_id}}', '{{str_replace(['"',"'"], "",strtoupper($data->facilityname))}}', '{{$data->licenseNo}}')" >
+                        <button type="button" title="Edit Certificate Number" class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" data-toggle="modal" data-target="#GodModal" onclick="showData('{{$data->appid}}', '{{$data->hfser_id}}', '{{$data->regfac_id}}', '{{str_replace(['"',"'"], "",strtoupper($data->facilityname))}}', '{{$data->licenseNo}}', '{{$data->approvedDate}}', '{{$data->signatoryname}}', '{{$data->signatorypos}}')" >
                           <i class="fa fa-edit"></i>
                         </button>
                           <a class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" target="_blank" href="{{ asset('client1/certificates/'.$data->hfser_id.'/'.$data->appid) }}"><i class="fa fa-fw fa-eye"></i></a>     
@@ -88,7 +88,7 @@
 
   
   <script type="text/javascript">
-    function showData(appid, hfser_id, regfac_id, facilityname, licenseNo)
+    function showData(appid, hfser_id, regfac_id, facilityname, licenseNo, approvedDate, signatoryname, signatorypos)
     {
       $('#EditBody').empty();
         $('#EditBody').append(
@@ -133,6 +133,21 @@
             '<div class="col-sm-4">Certificate Number:</div> ' +
             '<div class="col-sm-12"> ' +
                 '<input type="text" value="'+licenseNo+'" name="licenseNo" id="licenseNo" class="form-control text-center text-bold" data-parsley-required-message="*<strong>Certificate Number</strong> required" required style="font-size: x-large;"> ' +
+            '</div>' +
+
+            '<div class="col-sm-4">Date Issued:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="date" value="'+approvedDate+'" name="approvedDate" id="approvedDate" class="form-control text-center text-bold" required style="font-size: x-large;"> ' +
+            '</div>' +
+
+            '<div class="col-sm-4">Signatory Name:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="text" value="'+signatoryname+'" name="signatoryname" id="signatoryname" class="form-control text-center text-bold" data-parsley-required-message="*<strong>Signatory Name</strong> required" required style="font-size: x-large;"> ' +
+            '</div>' +
+            
+            '<div class="col-sm-4">Signatory Position:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="text" value="'+signatorypos+'" name="signatorypos" id="signatorypos" class="form-control text-center text-bold" data-parsley-required-message="*<strong>Signatory Position</strong> required" required style="font-size: x-large;"> ' +
             '</div>'
           );
 
