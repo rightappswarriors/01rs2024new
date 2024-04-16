@@ -142,7 +142,7 @@
 							Type of Health Facility
 						</div>
 						<div class="col-md-8 rightHeader text-justify">
-							:&nbsp;{{((isset($retTable[0]->hgpdesc)) ? $retTable[0]->hgpdesc : '')}}  {{((isset($retTable[0]->ocdesc)) ? ' / '.$retTable[0]->ocdesc : '')}}
+							:&nbsp;{{((isset($retTable[0]->facmdesc)) ? $retTable[0]->facmdesc : '')}}  {{((isset($retTable[0]->hgpdesc)) ? $retTable[0]->hgpdesc : '')}}  {{((isset($retTable[0]->ocdesc)) ? ' / '.$retTable[0]->ocdesc : '')}}
 						</div>
 						<div class="col-md-1" style="display: inline">
 							

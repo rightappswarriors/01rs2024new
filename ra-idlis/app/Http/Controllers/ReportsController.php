@@ -738,23 +738,46 @@ class ReportsController extends Controller
 						$request->fo_submit = "submit";
 						//dd($request);
 
-						DB::table('appform')->where('appid', '=', $request->appid)->update(['licenseNo' => $request->licenseNo]);
+						DB::table('appform')->where('appid', '=', $request->appid)->update([
+							'licenseNo' => $request->licenseNo, 
+							'approvedDate' 	=> $request->approvedDate, 
+							'signatoryname' => $request->signatoryname, 
+							'signatorypos'	=> $request->signatorypos]);
 
 						if($hfser_id == "LTO")
 						{
-							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['lto_id' => $request->licenseNo]);
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update([
+								'lto_id' 		=> $request->licenseNo, 
+								'lto_approveddate' 	=> $request->approvedDate
+							]);
 						}
 						else if($hfser_id == "ATO")
 						{
-							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['ato_id' => $request->licenseNo]);
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update([
+								'ato_id' => $request->licenseNo, 
+								'ato_approveddate' 	=> $request->approvedDate
+							]);
 						}
 						else if($hfser_id == "COA")
 						{
-							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['coa_id' => $request->licenseNo]);
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update([
+								'coa_id' => $request->licenseNo, 
+								'coa_approveddate' 	=> $request->approvedDate
+							]);
 						}
 						else if($hfser_id == "COR")
 						{
-							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update(['cor_id' => $request->licenseNo]);
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update([
+								'cor_id' => $request->licenseNo, 
+								'cor_approveddate' 	=> $request->approvedDate
+							]);
+						}
+						else if($hfser_id == "PTC")
+						{
+							DB::table('registered_facility')->where('regfac_id', '=', $request->regfac_id)->update([
+								'ptc_id' => $request->licenseNo, 
+								'ptc_approveddate' 	=> $request->approvedDate
+							]);
 						}
 					}
 				}

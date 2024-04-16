@@ -261,27 +261,54 @@
 <div class="col-sm-12"><hr/></div>                                    
 <!-- Type of Health Facility / Service -->
 
-<div class="col-md-12 change-div"><b class="text-primary">TYPE OF HEALTH FACILITY</b>  {{--- @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif ---}}</div>
-<div class="col-sm-12">
-    <h3  class="text-center upd-text-info"><i class="fa fa-check-square-o"></i> &nbsp;{{$appform->facilitytype}}&nbsp;</h3>
-</div>         
+@if(isset($appform->hfser_id))
+    @if($appform->hfser_id == 'PTC')
+    
+    <div class="col-md-12 change-div"><b class="text-primary">PTC TYPE OF CONSTRUCTION</b>  
+        @if($allowed_edit)
+            <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changePTCTypeCons"><i class="fa fa-edit"></i></button>
+        @endif
+    </div>
 
-@if (isset($appform->isHospital))  
-    @if ($appform->isHospital == 1)
-<div class="col-md-12 change-div"><b class="text-primary">CLASSIFICATION OF HOSPITAL</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeCOH"><i class="fa fa-edit"></i></button> @endif</div>
+    <div class="col-sm-12">
+        <label class="text-left upd-text-title">Type of Construction <span class="text-danger">*</span></label>
+        <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+    </div>
 
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Classification of Hospital </label>
-    <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-</div>
-
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Hospital Level </label>
-    <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-</div>
     @endif
 @endif
 
+
+<div class="col-md-12 change-div"><b class="text-primary">TYPE OF HEALTH FACILITY</b>  
+    {{--- @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif ---}}
+</div>
+<div class="col-sm-12">
+    <h3  class="text-center upd-text-info"><i class="fa fa-check-square-o"></i> &nbsp;{{$appform->facilitytype}}&nbsp;</h3>
+</div>    
+
+
+@if (isset($appform->hfser_id))  
+    @if ($appform->hfser_id != 'PTC' AND $appform->hfser_id != 'CON')
+
+        @if (isset($appform->isHospital))  
+            @if ($appform->isHospital == 1)
+        <div class="col-md-12 change-div"><b class="text-primary">CLASSIFICATION OF HOSPITAL</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeCOH"><i class="fa fa-edit"></i></button> @endif</div>
+
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Classification of Hospital </label>
+            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+        </div>
+
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Hospital Level </label>
+            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+        </div>
+            @endif
+        @endif
+
+
+    @endif
+@endif
 
 <!---- For Add On services --->
 
@@ -321,185 +348,306 @@
     @endif
 @endif
  
-@if (isset($appform->ambulSurgCli))  
-    @if ($appform->ambulSurgCli == 1)  
- <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
- <div class="col-sm-12">         
-     @if (isset($addOnservices_applied))  
-         <ul style="list-style-type: none; ">    
-             @foreach ($addOnservices_applied as $d)
-                @php $proceed_addon = 1; @endphp
-                <li class="text-center">
-                    @if($isupdate == 1)   
-                        <span class="text-center">
-                            <button class="btn btn-primary" onclick="showDataAddOnServ(
-                            '{{$d->facid}}',
-                            '{{$d->servtyp}}',
-                            '{{$d->servowner}}',
-                            'edit'
-                            )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
-                                    data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
-                            </button>
-                        </span>
-                    @endif 
-                {{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </li>
-             @endforeach	
-         </ul>
-     @endif
- </div> 
-    @endif
-@endif 
-
-@if (isset($appform->addOnServe))  
-    @if ($appform->addOnServe == 1)  
-<!---- For Add On services --->
-<div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
-<div class="col-sm-12">    
-    <div class="row col-border-right showAmb">
-
-        <table class="table display" id="example" style="overflow-x: scroll;">
-            <thead>
-                <tr>
-                    @if($isupdate == 1) 
-                        <th class="text-center">Option</th>                    
-                    @endif 
-                    <th class="text-center">Add On Services</th>
-                    <th class="text-center">Type(Owned, Outsoured)</th>
-                    <th class="text-center">Details</th>
-                </tr>
-            </thead>
-            <tbody>
-            @php $proceed_addon = 0;  @endphp
-            @if (isset($addOnservices_applied))
-                @foreach ($addOnservices_applied as $d)
-                    @php $proceed_addon = 1; @endphp
-                    <tr>
-                        @if($isupdate == 1)   
-                            <td class="text-center">
-                                <button class="btn btn-primary" onclick="showDataAddOnServ(
-                                '{{$d->facid}}',
-                                '{{$d->servtyp}}',
-                                '{{$d->servowner}}',
-                                'edit'
-                                )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
-                                <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
-                                        data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
-                                </button>
-                            </td>
-                        @endif 
-                        <td class="text-center">{{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </td>
-                        <td class="text-center">Owned</td>
-                        <td class="text-center">Remarks</td>
-                    </tr>
-                @endforeach	
-            @endif
-            
-            @if($proceed_addon == 0)   
-                <tr>
-                    <td colspan="{{$addon_colspan+2}}" class="text-center">No Records found.</td>
-                </tr>
-            @endif
-            
-            </tbody>
-        </table>
-
-    </div>
-</div>     
-    @endif
-@endif 
 
 
-@if (isset($appform->ambuDetails))  
-    @if ($appform->ambuDetails == 1)  
-<!---- For Add On services --->
-<div class="col-md-12 change-div">
-    <b class="text-primary">AMBULANCE DETAILS</b> 
-    @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeAmbulanceVehicle"><i class="fa fa-plus"></i>
-</button> @endif</div>
-<div class="col-md-12">
-    <span class="text-danger">NOTE: For Owned ambulance, Payments are as follows:</span> <br>
-    Ambulance Service Provider = ₱ 5,000
-    Ambulance Unit (Per Unit) = ₱ 1,000
-</div>
-<div class="col-sm-12">    
-    <div class="row col-border-right showAmb">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="text-center">Option</th>
-                    <th class="text-center">Ambulance Service(Type 1, Type 2)</th>
-                    <th class="text-center">Ambulance Type(Owned, Outsoured)</th>
-                    <th class="text-center">Plate Number</th>
-                    <th class="text-center">Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (isset($appform_ambulance))
-                    @php $aa = 0;  @endphp
-                    @foreach ($appform_ambulance as $d)
 
-                        @if(!empty($d['plate_number']))
-                            @php $aa++;    @endphp
-                            <tr>
-                        
-                                <td class="text-center"></td>
-                                <td class="text-center">@if($d['typeamb'] == 1) Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif </td>
-                                <td class="text-center">@if($d['ambtyp'] == "1") Outsourced @else Owned @endif</td>
-                                <td class="text-center">{{$d['plate_number']}}</td>
-                                <td class="text-center">{{$d['ambOwner']}}</td>
-                            </tr>
-                        @endif 
-                    @endforeach	
-                @else
-                    <tr>
-                        <td colspan="4" class="text-center">No Records found.</td>
-                    </tr>
-                @endif
-            </tbody>
-            <tfoot>
-                <tr><td colspan="4" class="text-center">Total Number of Ambulance Apply: @if (isset($appform_ambulance)) {{count($appform_ambulance)}} @endif</td></tr>
-            </tfoot>
-        </table>
-    </div>
-</div>  
-    @endif
-@endif 
 
-@if (isset($appform->hasbedcapacity))  
-    @if ($appform->hasbedcapacity == 1)  
-<div class="col-sm-6">
+@if(isset($appform->hfser_id))
+    @if($appform->hfser_id == 'PTC')
     
-    <label class="text-left upd-text-title"><b class="text-primary">Authorized Bed Capacity </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeBedCapacity"><i class="fa fa-edit"></i></button> @endif</label>
-    <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
-</div>
+    <div class="col-md-12 change-div"><b class="text-primary">PTC INFO DETAILS</b>  
+        @if($allowed_edit)
+            <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changePTCOptions"><i class="fa fa-edit"></i></button>
+        @endif
+    </div>
+
+        <div class="col-md-12">                
+                                
+            <div id="noDal">
+                <div class="mb-2 col-md-12">&nbsp;</div>
+            
+                <div class="col-md-12">
+                    <b class="text-primary">No. of Dialysis Station</b>
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control" id="noofdialysis" name="noofdialysis" placeholder="No. of dialysis station">
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                <b class="text-primary">Option: <span class="text-danger">*</span></b>
+            </div>                
+            
+            <div class="col-md-12">
+                <label>Scope of Works <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="2" cols="60" name="construction_description" id="construction_description" placeholder="Scope of Works" spellcheck="false"></textarea>
+            </div>
+            
+            <div class="col-md-12" id="NSB">
+                <br>
+                <label>Number of Single Bed <span class="text-danger">*</span></label>
+                <h3 id="singlebedview" hidden=""></h3>
+                <input class="form-control" type="number" name="singlebed" id="singlebed" placeholder="Number of Single Bed" >
+            </div>
+            
+            <div class="col-md-12" id="NDD">
+                <br>
+                <label>Number of Double Deck <span class="text-danger">*</span></label>
+                <h3 id="doubledeckview" hidden=""></h3>
+                <input class="form-control" type="number" name="doubledeck" id="doubledeck" placeholder="Number of Double Deck">
+            </div>  
+
+            <div class="col-md-12" id="NPtc">
+                <br>
+                <label>Proposed Number of Beds <span class="text-danger">*</span></label>
+                <h3 id="propbedcapview" hidden=""></h3>
+                <input class="form-control" type="number" name="propbedcap" id="propbedcap" placeholder="Proposed Number of Beds">
+            </div>
+
+            <div class="col-md-12" id="RPtc">
+
+                <div class="othersReqrenew" id="othersReqrenew" style="display: block;">
+                    <label>Options</label>
+                    <select name="renoOption" id="renoOption" class="form-control" style="margin-bottom: 20px;" >
+                        <option value="0" readonly="" hidden="" disabled="" selected="">Please select</option>
+                        <option value="1">Increase in Bed Capacity</option>
+                        <option value="2">Increase Dialysis Station</option>
+                        <option value="3">Change in Ownership</option>
+                        <option value="4">Upgrading of level of hospital</option>
+                        <option value="5">Upgrading of clinical Lab in hospital</option>
+                        <option value="6">Upgrading of clinical Lab in MFOWS</option>
+                        <option value="7">Others, Please specify in the scope of works</option>
+                    </select>
+
+                    <label>Increase Bed Capacity From</label>
+                    <input style="margin-bottom: 20px;" type="number" class="form-control" name="incbedcapfrom" id="incbedcapfrom" placeholder="Increase Bed Capacity From">
+
+                    <label>Increase Bed Capacity To</label>
+                    <input style="margin-bottom: 20px;" type="number" class="form-control" name="incbedcapto" id="incbedcapto" placeholder="Increase Bed Capacity To">
+                </div>
+                
+                <div class="dialysisReqrenew" id="dialysisReqrenew" hidden="hidden">
+                    <label>Increase Dialysis Station From</label>
+                    <input style="margin-bottom: 20px;" type="number" class="form-control" name="incstationfrom" id="incstationfrom" placeholder="Increase Dialysis Station From">
+
+                    <br>
+                    <label>Increase Dialysis Station To</label>
+                    <input style="margin-bottom: 20px;" type="number" class="form-control" name="incstationto" id="incstationto" placeholder="Increase Dialysis Station To">
+                </div>
+                
+                <div>
+                    <label>LTO Number</label>
+                    <input style="margin-bottom: 20px;" type="text" class="form-control" name="ltonum" id="ltonum" placeholder="LTO Number" >
+                    
+                    <label>CON Number</label>
+                    <input style="margin-bottom: 20px;" type="text" class="form-control" name="connum" id="connum" placeholder="CON Number" >
+                </div>
+
+            </div>
+                                        
+            <div class="col-md-12 con-number"><b class="text-primary">CON Number</b></div>
+            <div class="col-md-12 con-number">
+                <input type="text" class="form-control" id="connumber" name="connumber" placeholder="CON Number" >
+            </div>         
+             
+        </div>
+
+        
+    @endif
+@endif
+
+
+
+
+
+@if (isset($appform->hfser_id))  
+    @if ($appform->hfser_id != 'PTC' AND $appform->hfser_id != 'CON')
+
+        @if (isset($appform->ambulSurgCli))  
+            @if ($appform->ambulSurgCli == 1)  
+        <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
+        <div class="col-sm-12">         
+            @if (isset($addOnservices_applied))  
+                <ul style="list-style-type: none; ">    
+                    @foreach ($addOnservices_applied as $d)
+                        @php $proceed_addon = 1; @endphp
+                        <li class="text-center">
+                            @if($isupdate == 1)   
+                                <span class="text-center">
+                                    <button class="btn btn-primary" onclick="showDataAddOnServ(
+                                    '{{$d->facid}}',
+                                    '{{$d->servtyp}}',
+                                    '{{$d->servowner}}',
+                                    'edit'
+                                    )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
+                                            data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                                    </button>
+                                </span>
+                            @endif 
+                        {{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </li>
+                    @endforeach	
+                </ul>
+            @endif
+        </div> 
+            @endif
+        @endif 
+
+        @if (isset($appform->addOnServe))  
+            @if ($appform->addOnServe == 1)  
+        <!---- For Add On services --->
+        <div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
+        <div class="col-sm-12">    
+            <div class="row col-border-right showAmb">
+
+                <table class="table display" id="example" style="overflow-x: scroll;">
+                    <thead>
+                        <tr>
+                            @if($isupdate == 1) 
+                                <th class="text-center">Option</th>                    
+                            @endif 
+                            <th class="text-center">Add On Services</th>
+                            <th class="text-center">Type(Owned, Outsoured)</th>
+                            <th class="text-center">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @php $proceed_addon = 0; $addon_colspan = 3;  @endphp
+                    @if (isset($addOnservices_applied))
+                        @foreach ($addOnservices_applied as $d)
+                            @php $proceed_addon = 1; @endphp
+                            <tr>
+                                @if($isupdate == 1)   
+                                    <td class="text-center">
+                                        <button class="btn btn-primary" onclick="showDataAddOnServ(
+                                        '{{$d->facid}}',
+                                        '{{$d->servtyp}}',
+                                        '{{$d->servowner}}',
+                                        'edit'
+                                        )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                        <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
+                                                data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                                        </button>
+                                    </td>
+                                @endif 
+                                <td class="text-center">{{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </td>
+                                <td class="text-center">Owned</td>
+                                <td class="text-center">Remarks</td>
+                            </tr>
+                        @endforeach	
+                    @endif
+                    
+                    @if($proceed_addon == 0)   
+                        <tr>
+                            <td colspan="{{$addon_colspan+1}}" class="text-center">No Records found.</td>
+                        </tr>
+                    @endif
+                    
+                    </tbody>
+                </table>
+
+            </div>
+        </div>     
+            @endif
+        @endif 
+
+
+        @if (isset($appform->ambuDetails))  
+            @if ($appform->ambuDetails == 1)  
+        <!---- For Add On services --->
+        <div class="col-md-12 change-div">
+            <b class="text-primary">AMBULANCE DETAILS</b> 
+            @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeAmbulanceVehicle"><i class="fa fa-plus"></i>
+        </button> @endif</div>
+        <div class="col-md-12">
+            <span class="text-danger">NOTE: For Owned ambulance, Payments are as follows:</span> <br>
+            Ambulance Service Provider = ₱ 5,000
+            Ambulance Unit (Per Unit) = ₱ 1,000
+        </div>
+        <div class="col-sm-12">    
+            <div class="row col-border-right showAmb">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Option</th>
+                            <th class="text-center">Ambulance Service(Type 1, Type 2)</th>
+                            <th class="text-center">Ambulance Type(Owned, Outsoured)</th>
+                            <th class="text-center">Plate Number</th>
+                            <th class="text-center">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (isset($appform_ambulance))
+                            @php $aa = 0;  @endphp
+                            @foreach ($appform_ambulance as $d)
+
+                                @if(!empty($d['plate_number']))
+                                    @php $aa++;    @endphp
+                                    <tr>
+                                
+                                        <td class="text-center"></td>
+                                        <td class="text-center">@if($d['typeamb'] == 1) Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif </td>
+                                        <td class="text-center">@if($d['ambtyp'] == "1") Outsourced @else Owned @endif</td>
+                                        <td class="text-center">{{$d['plate_number']}}</td>
+                                        <td class="text-center">{{$d['ambOwner']}}</td>
+                                    </tr>
+                                @endif 
+                            @endforeach	
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">No Records found.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                    <tfoot>
+                        <tr><td colspan="4" class="text-center">Total Number of Ambulance Apply: @if (isset($appform_ambulance)) {{count($appform_ambulance)}} @endif</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>  
+            @endif
+        @endif 
+
+        @if (isset($appform->hasbedcapacity))  
+            @if ($appform->hasbedcapacity == 1)  
+        <div class="col-sm-6">
+            
+            <label class="text-left upd-text-title"><b class="text-primary">Authorized Bed Capacity </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeBedCapacity"><i class="fa fa-edit"></i></button> @endif</label>
+            <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
+        </div>
+            @endif
+        @endif 
+
+        @if (isset($appform->dialysisClinic))  
+            @if ($appform->dialysisClinic == 1)  
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title"><b class="text-primary">Number of Dialysis Station </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</label>
+            <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
+        </div>
+            @endif
+        @endif 
+
+
+        @if (isset($appform->pharmacy))  
+            @if ($appform->pharmacy == 1)  
+        <div class="col-md-12 change-div"><b class="text-primary">For Pharmacy</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changePharmacy"><i class="fa fa-edit"></i></button> @endif</div>
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Number of Main Pharmacy </label>
+            <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
+        </div>
+
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">No. of Satellites </label>
+            <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
+        </div>
+            @endif
+        @endif 
+
+
     @endif
 @endif 
 
-@if (isset($appform->dialysisClinic))  
-    @if ($appform->dialysisClinic == 1)  
-<div class="col-sm-6">
-    <label class="text-left upd-text-title"><b class="text-primary">Number of Dialysis Station </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</label>
-    <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
-</div>
-    @endif
-@endif 
 
-
-@if (isset($appform->pharmacy))  
-    @if ($appform->pharmacy == 1)  
-<div class="col-md-12 change-div"><b class="text-primary">For Pharmacy</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changePharmacy"><i class="fa fa-edit"></i></button> @endif</div>
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Number of Main Pharmacy </label>
-    <h6  class="text-center upd-text-info">{{$appform->noofbed}}&nbsp;</h6>
-</div>
-
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">No. of Satellites </label>
-    <h6  class="text-center upd-text-info">{{$appform->noofdialysis}}&nbsp;</h6>
-</div>
-    @endif
-@endif 
 
 
 
@@ -516,3 +664,5 @@
 @include('dashboard.client.forms.parts-update.beds-capacity-form')
 @include('dashboard.client.forms.parts-update.dialysis-station-form')
 @include('dashboard.client.forms.parts-update.pharmacy-form')
+@include('dashboard.client.forms.parts-update.ptc-type-construction')
+@include('dashboard.client.forms.parts-update.ptc-options')

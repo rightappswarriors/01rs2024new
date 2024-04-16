@@ -21,10 +21,10 @@
                   <button type="button" class="btn btn-primary  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold"><i class="fa fa-plus-circle"></i>&nbsp;Add Record of Unregistered Facility</button>
               </a>
 
-              
+              {{-- 
               <a href="{{asset('/employee/dashboard/facilityrecords/archive')}}" title="Add New Services Upload" class="btn btn-info  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold">
                   <i class="fa fa-plus-circle"></i>&nbsp;Add Record of Registered Facility
-              </a>
+              </a>--}}
 
               <a href="#" title="Archive Info" data-toggle="modal" data-target="#myModalInfo">
                   <button type="button" class="btn btn-default  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold"><i class="fas fa-fw fa-cog"></i>&nbsp;Open Directory Instruction</button>

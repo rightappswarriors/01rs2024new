@@ -422,10 +422,15 @@
               <h5 class="modal-title text-center">Recomendation</h5>
               <hr>
               <div class="col-sm-12">
-              <?php $paragraphs = explode(PHP_EOL, $evaluation->HFERC_comments); ?>
-                      @foreach($paragraphs as $paragraph)
-                        <p>{{{ $paragraph }}}</p>
+              @php $paragraphs = explode(PHP_EOL, $evaluation->HFERC_comments);  @endphp
+                @if (isset($evaluation))
+                      @foreach ($evaluation as $key => $val)
+                        @if($key == "HFERC_comments") <br/><p>{{ $val }}</p> @endif
+                        @if($key == "HFERC_evalBy") <small>Last Updated by: {{ $val }}  |  </small> @endif
+                        @if($key == "HFERC_evalDate") <small>Last Updated on: {{ date_format(date_create($val),"F d, y H:i:s")  }}</small> @endif
                     @endforeach
+                    <br/>
+                @endif
               </div>
             </div>
           </div>
