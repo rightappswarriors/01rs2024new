@@ -148,3 +148,17 @@ ALTER TABLE hfaci_grp
 ADD COLUMN hasbedcapacity TINYINT(1) DEFAULT 0,
 ADD COLUMN pharmacy TINYINT(1) DEFAULT 0;
 
+
+/******** 2024-04-19 *****/
+
+INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl) VALUES ('F001', 'Facility Records', '1');
+INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR001', 'User Accounts', '2', 'F001', 'manage/client_users');
+INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR002', 'Registered Facilities', '2', 'F001', 'facilityrecords');
+INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR003', 'Archive of Files', '2', 'F001', 'facilityrecords/archiveall');
+
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'F001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'FR001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'FR002' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'FR003' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+
+

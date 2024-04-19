@@ -52,6 +52,7 @@ class ReportsController extends Controller
 				'assignedRgn' => $request->fo_assignedRgn,
 				'appid' => $request->fo_appid,
 				'facilityname' => $request->fo_facilityname,
+				
 				't_date_1' => $request->fo_date_1,
 				't_date_2' => $request->fo_date_2,
 				'fo_rows' => $request->fo_rows,

@@ -28,7 +28,7 @@
       if($fo == 'status') { $fo_status =  $foval; }
       if($fo == 'uid') { $fo_uid  =  $foval; }
       if($fo == 'rgnid') { $fo_rgnid =  $foval; }
-      if($fo == 'assignedRgn') { $fo_assignedRgn =  $foval; }
+      if($fo == 'assignedRgn') { $fo_assignedRgn =  $foval; echo  $foval;  }
       if($fo == 'appid') { $fo_appid =  $foval; }
       if($fo == 'facilityname') { $fo_facilityname =  $foval; }
 
@@ -78,7 +78,7 @@
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
           <div class="form-group"> 
 
             <div class="row">
@@ -87,6 +87,10 @@
             </div>
 
           </div>
+        </div>
+
+        <div class="col-md-3">
+
         </div>
         
       </div>
@@ -254,8 +258,8 @@
               <option value="14" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  '14' )  selected @endif @endif >CORDILLERA ADMINISTRATIVE REGION (CAR)</option>
               <option value="15" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  '15' )  selected @endif @endif >BANGSAMORO AUTONOMOUS REGION IN MUSLIM MINDANAO (BARMM)</option>
               <option value="16" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  '16' )  selected @endif @endif >REGION XIII (CARAGA)</option>
-              <option value="FDA" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  'fda' )  selected @endif @endif >FDA CENTRAL OFFICE</option>
-              <option value="HFSRB" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  'hfsrb' )  selected @endif @endif >DOH Central Office</option>
+              <option value="fda" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  'fda' )  selected @endif @endif >FDA CENTRAL OFFICE</option>
+              <option value="hfsrb" @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  'hfsrb' )  selected @endif @endif >DOH Central Office</option>
             </select>
           </div>
         </div>         

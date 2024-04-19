@@ -5,8 +5,7 @@
   @extends('mainEmployee')
   @section('title', 'Archiving')
   @section('content')
-  {{-- <input type="text" id="CurrentPage" hidden="" value="PF001">  --}}
-
+<input type="text" id="CurrentPage" hidden="" value="FR003">  
   <div class="content p-4" style="font-size:13px; margin-left:0px;" >
   	<div class="card" >
    
@@ -37,11 +36,6 @@
             </div>
           </div>
       </div>
-
-      <div class="card-header bg-white font-weight-bold">             
-
-        
-    </div>
       <form class="filter-options-form">
         @include('employee.regfacilities.arcFilter_all') 
       </form>

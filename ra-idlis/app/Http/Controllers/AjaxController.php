@@ -5447,11 +5447,58 @@ public static function checkConmem($appid)
 				}
 				$t_date_1 = NULL;
 				$t_date_2 = NULL;
+				/***
+				 'aptid' => NULL, 
+				'hfser_id' => $hfser_id,
+				'ocid' => NULL,
+				'hgpid' =>  NULL,
+				'status' =>  NULL,
+				'uid' => NULL,
+				'rgnid' => NULL,
+				'assignedRgn' =>  NULL,
+				'appid' => NULL,
+				'facilityname' => NULL,
 				
+				't_date_1' => $fo_date_1,
+				't_date_2' => $fo_date_2,
+				 * 
+				 */
 				//Filter Area
 				foreach($filter  as $fo => $foval)
 				{
-					if($fo == 'appid' && isset($foval) )
+					if($fo == 'aptid' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'hfser_id' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'ocid' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'hgpid' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'status' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'uid' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'rgnid' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+					}
+					else if($fo == 'assignedRgn' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+					}
+					else if($fo == 'appid' && isset($foval) )
 					{  
 						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
 					}
@@ -5618,6 +5665,104 @@ public static function checkConmem($appid)
 					{ 						
 						$anotherData->where($fo, '=', $foval);
 					}
+				}
+				
+				//Limit and Offset
+				$rowcount = $anotherData->count();
+
+				if($nolimit == false)
+				{
+					$anotherData->OFFSET($fo_pgno*$limit);
+					$anotherData->LIMIT($limit);
+				}				
+				
+				$data = $anotherData->distinct()->get();
+
+				return array('data'=>$data, 'rowcount'=>$rowcount);
+			} 
+			catch (Exception $e) 
+			{
+				AjaxController::SystemLogs($e->getMessage());
+				return 'ERROR';
+			}
+		}
+
+		public static function getAll_Archive_WithFilter($viewtype="", $filter=array(), $limit=10, $fo_pgno = 1, $nolimit=false)
+		{
+			$rowcount = 0;
+			$Cur_useData = AjaxController::getCurrentUserAllData();
+			$uid = $Cur_useData['cur_user'];
+			$hfser_id = ""; $hfser_id_no = "";
+
+			try 
+			{
+				switch ($viewtype) 
+				{
+					case 'view_registered_facility':			
+						$anotherData = DB::table('view_registered_facility');	
+						break;
+
+					default:								
+						$anotherData = DB::table($viewtype);
+						break;
+				}
+
+					/* 'regfac_id' => NULL,
+					'dtrackno' => NULL,
+					----'nhfcode' => NULL,
+					----'nhfcode_temp' => NULL,
+					---'facilityname' => NULL,
+					'hgpid' => NULL,
+					'rgnid' => NULL, */ 
+				//Filter Area
+				//dd($filter);
+				foreach($filter  as $fo => $foval)
+				{
+					if( $fo == 'hgpid' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+					}
+					else if( $fo == 'dtrackno' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+					}
+					else if($fo == 'nhfcode' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if($fo == 'nhfcode_temp' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if( $fo == 'facilityname' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+					}
+					else if($fo == 'regfac_id' && isset($foval) )
+					{  
+						$anotherData->where($fo, 'LIKE', '%' .$foval. '%');
+					}
+					else if( $fo == 'hfser_id' && isset($foval) )
+					{  
+						$hfser_id = $foval;
+					}
+					else if( $fo == 'hfser_id_no' && isset($foval) )
+					{  
+						$hfser_id_no = $foval;
+					}
+					else if( $fo == 'rgnid' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+					}
+					else if($fo != 'fo_rows' && $fo != 'fo_pgno' && $fo != 'fo_submit' && $fo != 'fo_rowscnt' && $fo != 'fo_session_grpid' && isset($foval)) 
+					{ 						
+						$anotherData->where($fo, '=', $foval);
+					}
+				}
+
+				if(isset($hfser_id_no) == true && empty($hfser_id_no) == false)
+				{
+					$anotherData->where(''.$hfser_id.'', 'LIKE', '%' .strtolower($hfser_id_no). '%');
 				}
 				
 				//Limit and Offset
