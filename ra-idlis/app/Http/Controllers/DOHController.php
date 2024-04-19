@@ -4452,10 +4452,10 @@ namespace App\Http\Controllers;
 			{
 				if ($request->isMethod('get')) 
 				{
-					try 
-					{
+					//try 
+					//{
 						$arrType = array();
-						$data = SELF::application_filter($request, 'view_archive_files');
+						$data = SELF::archive_filter($request, 'view_archive_files');
 						
 						return view('employee.regfacilities.archive_all', [
 										'LotsOfDatas' => $data['data'],
@@ -4470,13 +4470,13 @@ namespace App\Http\Controllers;
 										'serv_cap' => null,
 										'_aptid' => null
 						]);
-					} 
+					/*} 
 					catch (Exception $e) 
 					{
 						AjaxController::SystemLogs($e);
 						session()->flash('system_error','ERROR');
 
-						return view('employee.regfacilities.archive',  [
+						return view('employee.regfacilities.archive_all',  [
 							'LotsOfDatas' =>null,
 							'arr_fo'=>null, 
 							'recordtype' => AjaxController::getAllFrom('recordtype'),								
@@ -4488,7 +4488,7 @@ namespace App\Http\Controllers;
 							'hfaci_service_type' => null,
 							'serv_cap' => null,
 							'_aptid' => null]);
-					}
+					}*/
 				} else 	{
 					//try 
 					//{
@@ -14317,10 +14317,9 @@ namespace App\Http\Controllers;
 					'fo_submit' => $fo_submit,
 					'fo_rowscnt' => '0'
 				);						
-			}	
-
+			}
 			
-			$data = AjaxController::getAllRegisteredFacilityWithFilter($table, $arr_fo, $fo_rows, $fo_pgno-1); 
+			$data = AjaxController::getAll_RegisteredFacility_WithFilter($table, $arr_fo, $fo_rows, $fo_pgno-1); 
 
 			$arr_fo['fo_rowscnt']=$data['rowcount'];
 
@@ -14345,13 +14344,15 @@ namespace App\Http\Controllers;
 				}
 				
 				$arr_fo = array(
-					'hfser_id' => $request->fo_hfser_id,
-					'dtrackno' => $request->fo_dtrackno,
-					'nhfcode' => $request->fo_nhfr,
-					'nhfcode_temp' => $request->fo_nhfr_temp,
-					'facilityname' => $request->fo_facilityname,
 					'hgpid' => $request->fo_hgpid,
+					'dtrackno' => $request->fo_dtrackno,
+					'nhfcode' => $request->fo_nhfcode,
+					'nhfcode_temp' => $request->fo_nhfcode_temp,
+					'facilityname' => $request->fo_facilityname,
+					'regfac_id' => $request->fo_regfac_id,
 					'rgnid' => $request->fo_rgnid,
+					'hfser_id' => $request->fo_hfser_id,
+					'hfser_id_no' => $request->fo_hfser_id_no,
 					'fo_rows' => $request->fo_rows,
 					'fo_pgno' => $fo_pgno,
 					'fo_submit' => $request->fo_submit,
@@ -14365,23 +14366,23 @@ namespace App\Http\Controllers;
 				$fo_submit = "submit";
 
 				$arr_fo = array(
-					'aptid' => NULL, 
-					'hfser_id' =>  NULL,
-					'ocid' => NULL,
-					'hgpid' =>  NULL,
-					'status' =>  NULL,
-					'uid' => NULL,
-					'rgnid' => NULL,
-					'assignedRgn' =>  NULL,
-					'appid' => NULL,
+					'hgpid' => NULL,
+					'dtrackno' => NULL,
+					'nhfcode' => NULL,
+					'nhfcode_temp' => NULL,
 					'facilityname' => NULL,
-					'fo_rows' => $fo_rows ,
-					'fo_pgno' => $fo_pgno,
-					'fo_submit' => $fo_submit,
+					'regfac_id' => NULL,
+					'rgnid' => NULL,
+					'hfser_id' => NULL,
+					'hfser_id_no' => NULL,
+					
+					'fo_rows' => NULL,
+					'fo_pgno' => NULL,
+					'fo_submit' => NULL,
 					'fo_rowscnt' => '0'
 				);						
 			}				
-			$data = AjaxController::getAllApplicantionWithFilter($table, $arr_fo, $fo_rows, $fo_pgno-1); 
+			$data = AjaxController::getAll_Archive_WithFilter($table, $arr_fo, $fo_rows, $fo_pgno-1); 
 
 			$arr_fo['fo_rowscnt']=$data['rowcount'];
 
@@ -14416,6 +14417,7 @@ namespace App\Http\Controllers;
 					'assignedRgn' => $request->fo_assignedRgn,
 					'appid' => $request->fo_appid,
 					'facilityname' => $request->fo_facilityname,
+
 					'fo_rows' => $request->fo_rows,
 					'fo_pgno' => $fo_pgno,
 					'fo_submit' => $request->fo_submit,
@@ -14439,6 +14441,7 @@ namespace App\Http\Controllers;
 					'assignedRgn' =>  NULL,
 					'appid' => NULL,
 					'facilityname' => NULL,
+					
 					'fo_rows' => $fo_rows ,
 					'fo_pgno' => $fo_pgno,
 					'fo_submit' => $fo_submit,

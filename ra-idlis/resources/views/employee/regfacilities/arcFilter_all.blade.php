@@ -1,36 +1,47 @@
 @php
     $fo_aptid = NULL;
-    $fo_hfser_id = NULL;
     $fo_ocid = NULL;
-    $fo_hgpid = NULL;
     $fo_status = NULL;
     $fo_uid = NULL;
-    $fo_rgnid = NULL;
     $fo_assignedRgn = NULL;
     $fo_appid = NULL;
+
+    $fo_hgpid = NULL;
+    $fo_nhfcode = NULL;
+    $fo_nhfcode_temp = NULL;
     $fo_facilityname = NULL;  
+    $fo_regfac_id = NULL;
     $fo_dtrackno = NULL;
+    $fo_rgnid = NULL;
+    $fo_hfser_id = NULL;
+    $fo_hfser_id_no = NULL;
 
     $fo_rows = NULL;  
     $fo_pgno = NULL;  
     $fo_submit = NULL;  
     $fo_rowscnt = NULL;
+
 @endphp
 
 @if (isset($arr_fo) && !empty($arr_fo))
    @foreach ($arr_fo as $fo => $foval)
     @php
-      if($fo == 'aptid') { $fo_aptid =  $foval; }
-      if($fo == 'hfser_id') { $fo_hfser_id =  $foval; }
-      if($fo == 'dtrackno') { $fo_dtrackno =  $foval; }
-      if($fo == 'ocid') { $fo_ocid =  $foval; }
-      if($fo == 'hgpid') { $fo_hgpid =  $foval; }
+      /* if($fo == 'aptid') { $fo_aptid =  $foval; }
+      if($fo == 'ocid') { $fo_ocid =  $foval; } 
       if($fo == 'status') { $fo_status =  $foval; }
-      if($fo == 'uid') { $fo_uid  =  $foval; }
+      if($fo == 'appid') { $fo_appid =  $foval; } 
+      if($fo == 'assignedRgn') { $fo_assignedRgn =  $foval; } 
+      if($fo == 'uid') { $fo_uid  =  $foval; } */
+
+      if($fo == 'hgpid') { $fo_hgpid =  $foval; }
+      if($fo == 'dtrackno') { $fo_dtrackno =  $foval; }
+      if($fo == 'nhfcode') { $fo_nhfcode =  $foval; }
+      if($fo == 'nhfcode_temp') { $fo_nhfcode_temp =  $foval; }
       if($fo == 'rgnid') { $fo_rgnid =  $foval; }
-      if($fo == 'assignedRgn') { $fo_assignedRgn =  $foval; }
-      if($fo == 'appid') { $fo_appid =  $foval; }
       if($fo == 'facilityname') { $fo_facilityname =  $foval; }
+      if($fo == 'regfac_id') { $fo_regfac_id =  $foval; }
+      if($fo == 'hfser_id') { $fo_hfser_id =  $foval; }
+      if($fo == 'hfser_id_no') { $fo_hfser_id_no =  $foval; }
 
       if($fo == 'fo_rows') { $fo_rows =  $foval; }
       if($fo == 'fo_pgno') { $fo_pgno =  $foval; }
@@ -64,61 +75,7 @@
 
         <div class="col-md-3">
           <div class="form-group">
-            <label>Authorization Type</label>
-            <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_hfser_id" id="fo_hfser_id">
-              <option value="" @if (!isset($fo_hfser_id))  selected @endif  >All</option>
-              <option value="CON" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'CON' )  selected @endif @endif >Certificate Of Need</option>
-              <option value="PTC" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'PTC' )  selected @endif @endif >Permit To Construct</option>
-              <option value="LTO" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'LTO' )  selected @endif @endif >License To Operate</option>
-              <option value="ATO" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'ATO' )  selected @endif @endif >Authority To Operate</option>
-              <option value="COA" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'COA' )  selected @endif @endif >Certificate of Accreditation</option>
-              <option value="COR" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'COR' )  selected @endif @endif >Certificate of Registration</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            
-            <label>D-Track No.</label>
-            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_dtrackno" id="fo_dtrackno"  value="@if(isset($fo_uid)){{$fo_uid}}@endif">
-          
-          </div>
-        
-        </div>  
-        
-        <div class="col-md-3">
-          <div class="form-group">            
-            <label>NHFR Code</label>
-            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_nhfr" id="fo_nhfr" value="@if(isset($fo_facilityname)){{$fo_facilityname}}@endif">          
-          </div>
-          
-          <div class="form-group">            
-            <label>Temporary NHFR Code</label>
-            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_nhfr_temp" id="fo_nhfr_temp" value="@if(isset($fo_facilityname)){{$fo_facilityname}}@endif">          
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="form-group">
-
-            <div class="form-group">            
-              <label>Facility Name</label>
-              <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_facilityname" id="fo_facilityname" value="@if(isset($fo_facilityname)){{$fo_facilityname}}@endif">          
-            </div>
-
-          </div>
-
-          
-          <div class="form-group">            
-            <label>System Registered Facility ID</label>
-            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_nhfr" id="fo_nhfr" value="@if(isset($fo_facilityname)){{$fo_facilityname}}@endif">          
-          </div>
-          
-        </div>
-
-        <div class="col-md-3">
-          
-          <div class="form-group">
-          <label>Facility Type</label>
+            <label>Facility Type</label>
             <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_hgpid" id="fo_hgpid"  @if (isset($d_hgpid)) @php $fo_hgpid = $d_hgpid; @endphp  disabled="disabled"   @endif>
               <option value="" @if (!isset($fo_hgpid))  selected @endif  >All</option>
               <option value="1"  @if (isset($fo_hgpid)) @if ($fo_hgpid ==  '1' )  selected @endif @endif >Ambulatory Surgical Clinic</option>
@@ -143,6 +100,63 @@
               <option value="32" @if (isset($fo_hgpid)) @if ($fo_hgpid ==  '32' )  selected @endif @endif >Blood Collection Unit</option>
               <option value="34" @if (isset($fo_hgpid)) @if ($fo_hgpid ==  '34' )  selected @endif @endif >Ambulance Service Provider</option>
             </select>
+          </div>
+          
+          <div class="form-group">
+            
+            <label>D-Track No.</label>
+            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_dtrackno" id="fo_dtrackno"  value="@if(isset($fo_dtrackno)){{$fo_dtrackno}}@endif">
+          
+          </div>
+        
+        </div>  
+        
+        <div class="col-md-3">
+          <div class="form-group">            
+            <label>NHFR Code</label>
+            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_nhfcode" id="fo_nhfcode" value="@if(isset($fo_nhfcode)){{$fo_nhfcode}}@endif">          
+          </div>
+          
+          <div class="form-group">            
+            <label>Temporary NHFR Code</label>
+            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_nhfcode_temp" id="fo_nhfcode_temp" value="@if(isset($fo_nhfcode_temp)){{$fo_nhfcode_temp}}@endif">          
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+
+            <div class="form-group">            
+              <label>Facility Name</label>
+              <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_facilityname" id="fo_facilityname" value="@if(isset($fo_facilityname)){{$fo_facilityname}}@endif">          
+            </div>
+
+          </div>
+
+          
+          <div class="form-group">            
+            <label>System Registered Facility ID</label>
+            <input type="text" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_regfac_id" id="fo_regfac_id" value="@if(isset($fo_regfac_id)){{$fo_regfac_id}}@endif">          
+          </div>
+          
+        </div>
+
+        <div class="col-md-3">
+          
+          <div class="form-group">
+          <label>Authorization Number</label>
+          
+            <div class="row col-md-12">
+              <select class="form-control" style="width: 45%;" tabindex="-1" aria-hidden="true" name="fo_hfser_id" id="fo_hfser_id">
+                <option value="conid" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'conid' )  selected @endif @endif >CON No.</option>
+                <option value="ptcid" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'ptcid' )  selected @endif @endif >PTC No.</option>
+                <option value="ltoid" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'ltoid' )  selected @endif @endif >LTO No.</option>
+                <option value="atoid" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'atoid' )  selected @endif @endif >ATO No.</option>
+                <option value="coaid" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'coaid' )  selected @endif @endif >COA No.</option>
+                <option value="corid" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'corid' )  selected @endif @endif >COR No.</option>
+              </select><input type="text" class="form-control" style="width: 55%;"  tabindex="-1" aria-hidden="true" name="fo_hfser_id_no" id="fo_hfser_id_no" value="@if(isset($fo_hfser_id_no)){{$fo_hfser_id_no}}@endif">          
+            </div>
+
           </div>
 
           <div class="form-group">
