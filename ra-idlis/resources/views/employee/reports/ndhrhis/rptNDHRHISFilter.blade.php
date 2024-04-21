@@ -229,7 +229,7 @@
     </select>
   </div>
   <div class="form-group">
-    <label>Assigned Region</label>
+    <label>Assigned Region Office</label>
     <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_assignedRgn" id="fo_assignedRgn">
       <option value="" @if (!isset($fo_assignedRgn))  selected @endif  >All</option>
       <option value="1"  @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  '1' )  selected @endif @endif >REGION I (ILOCOS REGION)</option>

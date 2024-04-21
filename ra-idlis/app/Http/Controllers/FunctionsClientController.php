@@ -209,6 +209,7 @@ class FunctionsClientController extends Controller {
 								LEFT JOIN region AS assRgn ON assRgn.rgnid = appform.assignedRgn 
 
 								WHERE appform.uid = '$curUser' AND appform.draft = 1"; 
+
 						break;
 
 					case 10:
@@ -279,7 +280,11 @@ class FunctionsClientController extends Controller {
 						LEFT JOIN facmode ON facmode.facmid = appform.facmode 
 						LEFT JOIN hfaci_grp ON appform.hgpid=hfaci_grp.hgpid
 						LEFT JOIN region AS assRgn ON assRgn.rgnid = appform.assignedRgn 
-					WHERE appform.appid = '$appid' "; // AND appform.uid = '$curUser' // LEFT JOIN (SELECT facname, servtype_id FROM facilitytyp WHERE facid IN (SELECT facid FROM x08_ft WHERE appid = '$appid')) facilitytyp ON 1=1 LEFT JOIN (SELECT GROUP_CONCAT(hgpdesc) AS hgpdesc FROM hfaci_grp WHERE hgpid IN (SELECT hgpid FROM facilitytyp WHERE facid IN (SELECT facid FROM x08_ft WHERE appid = '$appid'))) hfaci_grp ON 1=1 LEFT JOIN serv_type ON serv_type.servtype_id = facilitytyp.servtype_id
+					WHERE appform.appid = '$appid' "; 
+					
+					// AND appform.uid = '$curUser' // LEFT JOIN (SELECT facname, servtype_id FROM facilitytyp WHERE facid IN (SELECT facid FROM x08_ft WHERE appid = '$appid')) facilitytyp ON 1=1 LEFT JOIN (SELECT GROUP_CONCAT(hgpdesc) AS hgpdesc FROM hfaci_grp WHERE hgpid IN (SELECT hgpid FROM facilitytyp WHERE facid IN (SELECT facid FROM x08_ft WHERE appid = '$appid'))) hfaci_grp ON 1=1 LEFT JOIN serv_type ON serv_type.servtype_id = facilitytyp.servtype_id
+
+					
 						break;
 				}
 				

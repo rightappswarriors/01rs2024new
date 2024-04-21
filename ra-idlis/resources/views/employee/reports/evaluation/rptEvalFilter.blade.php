@@ -96,23 +96,25 @@
   <div class="form-group">
     <label>Process Type</label>
     <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_aptid" id="fo_aptid">
-      <option value="" @if (!isset($fo_aptid))  selected @endif  >All</option>
+      {{-- <!-- option value="" @if (!isset($fo_aptid))  selected @endif  >All</option>
       <option value="IN" @if (isset($fo_aptid)) @if ($fo_aptid ==  'IN' )  selected @endif @endif >Initial New</option>
       <option value="R" @if (isset($fo_aptid))  @if ($fo_aptid == 'R' )  selected  @endif @endif >Renewal</option>
-      <option value="IC" @if (isset($fo_aptid))  @if ($fo_aptid == 'IC' )  selected  @endif @endif >Initial Change</option>
+      <option value="IC" @if (isset($fo_aptid))  @if ($fo_aptid == 'IC' )  selected  @endif @endif >Initial Change</option -->  --}}
+      <option value="IN" @if (isset($fo_aptid)) @if ($fo_aptid ==  'IN' )  selected @endif @endif >Initial New</option>
     </select>
   </div>
   
   <div class="form-group">
     <label>Application Type</label>
     <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_hfser_id" id="fo_hfser_id">
-      <option value="" @if (!isset($fo_hfser_id))  selected @endif  >All</option>
+      {{-- <!-- option value="" @if (!isset($fo_hfser_id))  selected @endif  >All</option>
       <option value="CON" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'CON' )  selected @endif @endif >Certificate Of Need</option>
       <option value="PTC" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'PTC' )  selected @endif @endif >Permit To Construct</option>
       <option value="LTO" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'LTO' )  selected @endif @endif >License To Operate</option>
       <option value="ATO" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'ATO' )  selected @endif @endif >Authority To Operate</option>
       <option value="COA" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'COA' )  selected @endif @endif >Certificate of Accreditation</option>
-      <option value="COR" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'COR' )  selected @endif @endif >Certificate of Registration</option>
+      <option value="COR" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'COR' )  selected @endif @endif >Certificate of Registration</option!--> --}}
+      <option value="PTC" @if (isset($fo_hfser_id)) @if ($fo_hfser_id ==  'PTC' )  selected @endif @endif >Permit To Construct</option>
     </select>
   </div>
   
@@ -233,7 +235,7 @@
     </select>
   </div>
   <div class="form-group">
-    <label>Assigned Region</label>
+    <label>Assigned Region Office</label>
     <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_assignedRgn" id="fo_assignedRgn">
       <option value="" @if (!isset($fo_assignedRgn))  selected @endif  >All</option>
       <option value="1"  @if (isset($fo_assignedRgn)) @if ($fo_assignedRgn ==  '1' )  selected @endif @endif >REGION I (ILOCOS REGION)</option>

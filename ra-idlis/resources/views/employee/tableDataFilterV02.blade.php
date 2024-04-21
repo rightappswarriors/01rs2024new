@@ -227,7 +227,50 @@
           </div>
         </div>         
 
-      </div>    
+      </div>
+ 
+      <div class="row">
+        
+        <div class="col-md-3">
+            <div class="form-group">
+              <label>Transaction Status</label>
+              <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_status" id="fo_status">
+                <option value=""      @if (!isset($fo_status))  selected @endif  >All</option>
+                <option value="A"     @if (isset($fo_status)) @if ($fo_status ==  'A' )  selected @endif @endif >Approved Approved</option>
+                <option value="ANC"   @if (isset($fo_status)) @if ($fo_status ==  'ANC' )  selected @endif @endif >Application Not Completed</option>
+                <option value="CE"    @if (isset($fo_status)) @if ($fo_status ==  'CE' )  selected @endif @endif >For Cashier Evaluation</option>
+                <option value="CRFE"  @if (isset($fo_status)) @if ($fo_status ==  'CRFE' )  selected @endif @endif >For Selection of Payment Method</option>
+                <option value="DFN"   @if (isset($fo_status)) @if ($fo_status ==  'DFN' )  selected @endif @endif >Deficiency</option>
+                <option value="DND"   @if (isset($fo_status)) @if ($fo_status ==  'DND' )  selected @endif @endif >Disapproved Application</option>
+                <option value="FA"    @if (isset($fo_status)) @if ($fo_status ==  'FA' )  selected @endif @endif >Application For Approval</option>
+                <option value="FC"    @if (isset($fo_status)) @if ($fo_status ==  'FC' )  selected @endif @endif >For Compliance</option>
+                <option value="FDAFP" @if (isset($fo_status)) @if ($fo_status ==  'FDAFP' )  selected @endif @endif >For Posting</option>
+                <option value="FDE"   @if (isset($fo_status)) @if ($fo_status ==  'FDE' )  selected @endif @endif >For Documentary Evaluation</option>
+                <option value="FE"    @if (isset($fo_status)) @if ($fo_status ==  'FE' )  selected @endif @endif >For Evaluation</option>
+                <option value="FI"    @if (isset($fo_status)) @if ($fo_status ==  'FI' )  selected @endif @endif >On Process</option>
+                <option value="FPE"   @if (isset($fo_status)) @if ($fo_status ==  'FPE' )  selected @endif @endif >On Process</option>
+                <option value="FPER"  @if (isset($fo_status)) @if ($fo_status ==  'FPER' )  selected @endif @endif >Payment Evaluation Rejected</option>
+                <option value="FPPE"  @if (isset($fo_status)) @if ($fo_status ==  'FPPE' )  selected @endif @endif >For Floor Plan Evaluation</option>
+                <option value="FPPR"  @if (isset($fo_status)) @if ($fo_status ==  'FPPR' )  selected @endif @endif >To Receive Floor Plan</option>
+                <option value="FR"    @if (isset($fo_status)) @if ($fo_status ==  'FR' )  selected @endif @endif >For Final Recommendation</option>
+                <option value="FREV"  @if (isset($fo_status)) @if ($fo_status ==  'FREV' )  selected @endif @endif >For Re-evaluation</option>
+                <option value="FS"    @if (isset($fo_status)) @if ($fo_status ==  'FS' )  selected @endif @endif >For Surveillance</option>
+                <option value="FSR"   @if (isset($fo_status)) @if ($fo_status ==  'FSR' )  selected @endif @endif >For Submission of Requirements</option>
+                <option value="NA"    @if (isset($fo_status)) @if ($fo_status ==  'NA' )  selected @endif @endif >Not Approved</option>
+                <option value="NT"    @if (isset($fo_status)) @if ($fo_status ==  'NT' )  selected @endif @endif >No Team</option>
+                <option value="P"     @if (isset($fo_status)) @if ($fo_status ==  'P' )  selected @endif @endif >For Payment</option>
+                <option value="PP"    @if (isset($fo_status)) @if ($fo_status ==  'PP' )  selected @endif @endif >Paid, Pending</option>
+                <option value="RA"    @if (isset($fo_status)) @if ($fo_status ==  'RA' )  selected @endif @endif >Disapproved Application</option>
+                <option value="RDA"   @if (isset($fo_status)) @if ($fo_status ==  'RDA' )  selected @endif @endif >Recommended for Disapproval</option>
+                <option value="RE"    @if (isset($fo_status)) @if ($fo_status ==  'RE' )  selected @endif @endif >Evaluation Rejected</option>
+                <option value="REV"   @if (isset($fo_status)) @if ($fo_status ==  'REV' )  selected @endif @endif >Evaluated, but for Revision</option>
+                <option value="REVF"  @if (isset($fo_status)) @if ($fo_status ==  'REVF' )  selected @endif @endif >For Floor Plan Re-evaluation</option>
+                <option value="RI"    @if (isset($fo_status)) @if ($fo_status ==  'RI' )  selected @endif @endif >Inspection Rejected</option>
+              </select> 
+            </div>
+          </div>
+      </div>
+    
 
       {{-- <div class="row">
 

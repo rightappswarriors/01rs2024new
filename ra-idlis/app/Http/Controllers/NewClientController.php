@@ -2893,7 +2893,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					return redirect($cSes[0])->with($cSes[1], $cSes[2]);
 				}
 			}
-			
+
 			$appGet = FunctionsClientController::getUserDetailsByAppform($appid, $hideExtensions);
 
 			$data = [
@@ -2964,8 +2964,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							'plate_number'	=> json_decode($appform->plate_number), 
 							'ambOwner'		=> json_decode($appform->ambOwner)
 						];
-					}
-					
+					}					
 					
 					if(isset($appform_ambulance_temp))
 					{
