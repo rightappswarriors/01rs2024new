@@ -151,14 +151,73 @@ ADD COLUMN pharmacy TINYINT(1) DEFAULT 0;
 
 /******** 2024-04-19 *****/
 
-INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl) VALUES ('F001', 'Facility Records', '1');
-INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR001', 'User Accounts', '2', 'F001', 'manage/client_users');
-INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR002', 'Registered Facilities', '2', 'F001', 'facilityrecords');
-INSERT INTO live_olrs_db.x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR003', 'Archive of Files', '2', 'F001', 'facilityrecords/archiveall');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl) VALUES ('F001', 'Facility Records', '1');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR001', 'User Accounts', '2', 'F001', 'manage/client_users');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR002', 'Registered Facilities', '2', 'F001', 'facilityrecords');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('FR003', 'Archive of Files', '2', 'F001', 'facilityrecords/archiveall');
 
 INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'F001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
 INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'FR001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
 INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'FR002' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
 INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'FR003' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
 
+
+
+/******** 2024-04-21 *****/
+ALTER TABLE hfaci_grp ADD COLUMN dialysisClinic_ptc tinyint DEFAULT 0;
+ALTER TABLE hfaci_grp ADD COLUMN hasbedcapacity_ptc tinyint DEFAULT 0;
+ALTER TABLE hfaci_grp ADD COLUMN hasbedcapacityadj_ptc tinyint DEFAULT 0;
+ALTER TABLE hfaci_grp ADD COLUMN hassinglebedcapacity_ptc tinyint DEFAULT 0;
+ALTER TABLE hfaci_grp ADD COLUMN hasdoublebedcapacity_ptc tinyint DEFAULT 0;
+
+
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='1', ambuDetails='1', addOnServe='1', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='1', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='1'; /* Ambulatory Surgical Clinic */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0'  
+WHERE hgpid='2'; /* Blood Center */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='3'; /* Blood Collection Unit/Blood Station */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='1', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='5'; /* Hemodialysis Clinic */
+UPDATE hfaci_grp SET isHospital='1', otherClinicService='0', clinicLab='0', dialysisClinic='1', ambulSurgCli='0', ambuDetails='1', addOnServe='1', hasbedcapacity='1', pharmacy='1', dialysisClinic_ptc='0', hasbedcapacity_ptc='1', hasbedcapacityadj_ptc='1', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='6'; /* Hospital */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='1', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='8'; /* Drug Testing Laboratory */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='1', hassinglebedcapacity_ptc='1', hasdoublebedcapacity_ptc='1' 
+WHERE hgpid='9'; /* Drug Abuse Treatment & Rehabilitation Center (DATRC) */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='10'; /* Kidney Transplant Facility */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='11'; /* Laboratory for Drinking Water Analysis (LDWA) */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='1', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='12';/* Medical Facility for Overseas Workers and Seafarers (MFOWS) */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='13';/* Newborn Screening Center (NSC) */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='14';/* Human Stem Cell and Cell-Based or Cellular Therapy Facility */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='20';/* Pharmacy */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='21';/* X-ray */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='23';/* Diagnostic X-ray Services */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='24';/* Specialized Diagnostic X-ray Services */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='25';/* Radiation Oncology */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='1', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0'
+ WHERE hgpid='26';/* Land Ambulance and Ambulance Service Provider */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='29';/* Blood bank with Additional Function */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='30';/* BLood  Station */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='31';/* Blood Center */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='32';/* Blood Collection Unit */
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='0', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='1', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+WHERE hgpid='34';/* Ambulance Service Provider */
+
+
+UPDATE X06 SET allow=1, ad_d=1, upd=1, cancel=1, print=1, view=1 WHERE grp_id='ADMIN';
 

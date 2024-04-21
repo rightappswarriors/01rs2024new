@@ -272,15 +272,19 @@ class ReportsController extends Controller
 				$title = 'Application Ledger'; 
 				$nolimit = false; 
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
 				$pg_rpt_rights = "";
+
+				/*$d_assignedRgn = $request->fo_assignedRgn
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
-					$d_assignedRgn = $Cur_useData['rgnid'];
+					//$d_assignedRgn = $Cur_useData['rgnid'];
 				}
 
-				$request->fo_assignedRgn = $d_assignedRgn;
+				//$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $request->fo_assignedRgn;// $d_assignedRgn;*/
+
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -367,7 +371,9 @@ class ReportsController extends Controller
 				$nolimit = false; 
 				$hfser = "PTC";
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
+				
+				
+				/*$d_assignedRgn = null;
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -375,6 +381,9 @@ class ReportsController extends Controller
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn; */
+
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -455,7 +464,8 @@ class ReportsController extends Controller
 				$nolimit = false; 
 				$hfser = "LTO";
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
+				
+				/*$d_assignedRgn = null;
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -463,6 +473,9 @@ class ReportsController extends Controller
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;*/
+
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -537,7 +550,8 @@ class ReportsController extends Controller
 				$nolimit = false;
 				$hfser = "LTO";
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
+				
+				/*$d_assignedRgn = null;
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -545,6 +559,9 @@ class ReportsController extends Controller
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn; */
+
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -625,7 +642,8 @@ class ReportsController extends Controller
 				$hfser = null;
 
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
+				
+				/*$d_assignedRgn = null;
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -633,6 +651,9 @@ class ReportsController extends Controller
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn; */
+
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -783,7 +804,7 @@ class ReportsController extends Controller
 					}
 				}
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 					$request->fo_assignedRgn = $d_assignedRgn;
@@ -792,8 +813,10 @@ class ReportsController extends Controller
 				else if(isset($request->fo_assignedRgn) == true)
 				{
 					$data['arr_fo']['fo_assignedRgn']  = $request->fo_assignedRgn;
-					$d_assignedRgn = null;
-				}				
+				}	 */
+
+				$d_assignedRgn = $request->fo_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;	
 				
 				if(empty($request->fo_submit) == false)
 				{
@@ -875,9 +898,10 @@ class ReportsController extends Controller
 				$title ='Licensed Facilities Report';
 				$nolimit = false; 
 				$hfser = null;				
-				$Cur_useData = AjaxController::getCurrentUserAllData();
+				$Cur_useData = AjaxController::getCurrentUserAllData();		
+				/*
 				$d_assignedRgn = null;
-
+				
 				if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
@@ -888,9 +912,9 @@ class ReportsController extends Controller
 				{
 					$data['arr_fo']['fo_assignedRgn']  = $request->fo_assignedRgn;
 					$d_assignedRgn = null;
-				}	
-
-				$request->fo_assignedRgn = $d_assignedRgn;
+				}	*/
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -981,7 +1005,7 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 					$request->fo_assignedRgn = $d_assignedRgn;
@@ -991,7 +1015,11 @@ class ReportsController extends Controller
 				{
 					$data['arr_fo']['fo_assignedRgn']  = $request->fo_assignedRgn;
 					$d_assignedRgn = null;
-				}	
+				}	*/
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
 				{
@@ -1077,7 +1105,7 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 					$request->fo_assignedRgn = $d_assignedRgn;
@@ -1087,7 +1115,11 @@ class ReportsController extends Controller
 				{
 					$data['arr_fo']['fo_assignedRgn']  = $request->fo_assignedRgn;
 					$d_assignedRgn = null;
-				}	
+				}	*/
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				$request->fo_hgpid = '18';
 				$data['arr_fo']['fo_hgpid']='18';
@@ -1176,7 +1208,7 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 					$request->fo_assignedRgn = $d_assignedRgn;
@@ -1186,7 +1218,11 @@ class ReportsController extends Controller
 				{
 					$data['arr_fo']['fo_assignedRgn']  = $request->fo_assignedRgn;
 					$d_assignedRgn = null;
-				}	
+				}	*/
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 				
 				$request->fo_hgpid = '11';
 				$data['arr_fo']['fo_hgpid']='11';
@@ -1275,7 +1311,7 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 					$request->fo_assignedRgn = $d_assignedRgn;
@@ -1285,7 +1321,11 @@ class ReportsController extends Controller
 				{
 					$data['arr_fo']['fo_assignedRgn']  = $request->fo_assignedRgn;
 					$d_assignedRgn = null;
-				}	
+				}	*/
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 				
 				$request->fo_hgpid = '7';
 				$data['arr_fo']['fo_hgpid']='7';
@@ -1374,12 +1414,16 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;*/
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -1450,7 +1494,6 @@ class ReportsController extends Controller
 		}		
 	}
 
-	/************** Not yet done*****************/
 	public function nonissuance_ldwa(Request $request)
 	{
 		if(session()->has('employee_login'))
@@ -1465,12 +1508,16 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
-				if($Cur_useData['grpid'] != 'NA')
+				/*if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;*/
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -1541,7 +1588,6 @@ class ReportsController extends Controller
 		}		
 	}
 
-	/************** Not yet done*****************/
 	public function paidapplicantbydate(Request $request)
 	{
 		if(session()->has('employee_login'))
@@ -1558,12 +1604,17 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
+				/*
 				if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn; */
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 				
 				if(empty($request->fo_submit) == false)
@@ -1642,12 +1693,17 @@ class ReportsController extends Controller
 				$Cur_useData = AjaxController::getCurrentUserAllData();
 				$d_assignedRgn = null;
 
+				/*
 				if($Cur_useData['grpid'] != 'NA')
 				{
 					$d_assignedRgn = $Cur_useData['rgnid'];
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn; */
+
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -1727,7 +1783,7 @@ class ReportsController extends Controller
 				$viewtype = 1;
 				
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
+				/*$d_assignedRgn = null;
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -1735,6 +1791,9 @@ class ReportsController extends Controller
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;*/
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)
@@ -2034,7 +2093,7 @@ class ReportsController extends Controller
 				$nolimit = false; 
 				$hfser = "PTC";
 				$Cur_useData = AjaxController::getCurrentUserAllData();
-				$d_assignedRgn = null;
+				/*$d_assignedRgn = null;
 
 				if($Cur_useData['grpid'] != 'NA')
 				{
@@ -2042,6 +2101,9 @@ class ReportsController extends Controller
 				}
 
 				$request->fo_assignedRgn = $d_assignedRgn;
+				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn; */
+				
+				$d_assignedRgn = $request->fo_assignedRgn;
 				$data['arr_fo']['fo_assignedRgn'] = $d_assignedRgn;
 
 				if(empty($request->fo_submit) == false)

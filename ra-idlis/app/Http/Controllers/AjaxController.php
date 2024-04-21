@@ -5464,6 +5464,7 @@ public static function checkConmem($appid)
 				 * 
 				 */
 				//Filter Area
+				//dd($filter);
 				foreach($filter  as $fo => $foval)
 				{
 					if($fo == 'aptid' && isset($foval) )
@@ -5492,11 +5493,11 @@ public static function checkConmem($appid)
 					}
 					else if($fo == 'rgnid' && isset($foval) )
 					{  
-						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+						$anotherData->where(''.$fo.'', '=',  strtolower($foval));
 					}
 					else if($fo == 'assignedRgn' && isset($foval) )
 					{  
-						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+						$anotherData->where(''.$fo.'', '=', strtolower($foval));
 					}
 					else if($fo == 'appid' && isset($foval) )
 					{  
@@ -5750,9 +5751,13 @@ public static function checkConmem($appid)
 					{  
 						$hfser_id_no = $foval;
 					}
-					else if( $fo == 'rgnid' && isset($foval) )
+					else if($fo == 'rgnid' && isset($foval) )
 					{  
-						$anotherData->where(''.$fo.'', 'LIKE', '%' .strtolower($foval). '%');
+						$anotherData->where(''.$fo.'', '=',  strtolower($foval));
+					}
+					else if($fo == 'assignedRgn' && isset($foval) )
+					{  
+						$anotherData->where(''.$fo.'', '=', strtolower($foval));
 					}
 					else if($fo != 'fo_rows' && $fo != 'fo_pgno' && $fo != 'fo_submit' && $fo != 'fo_rowscnt' && $fo != 'fo_session_grpid' && isset($foval)) 
 					{ 						

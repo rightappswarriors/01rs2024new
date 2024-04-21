@@ -1551,7 +1551,11 @@ CREATE VIEW viewAppFormForUpdate AS
 	registered_facility.ptc_approveddate, registered_facility.lto_validityto, registered_facility.coa_validityto, registered_facility.ato_validityto, registered_facility.cor_validityto,
 	registered_facility.lto_approveddate, registered_facility.coa_approveddate, registered_facility.ato_approveddate, registered_facility.cor_approveddate,
 	hfaci_grp.isHospital, hfaci_grp.otherClinicService, hfaci_grp.clinicLab, hfaci_grp.dialysisClinic, hfaci_grp.ambulSurgCli, hfaci_grp.ambuDetails, hfaci_grp.addOnServe,
-	hfaci_grp.hasbedcapacity, hfaci_grp.pharmacy
+	hfaci_grp.hasbedcapacity, hfaci_grp.pharmacy, 
+	hfaci_grp.dialysisClinic_ptc, hfaci_grp.hasbedcapacity_ptc, hfaci_grp.hasbedcapacityadj_ptc, hfaci_grp.hassinglebedcapacity_ptc, hfaci_grp.hasdoublebedcapacity_ptc,
+    ptc.type AS ptc_type, CASE WHEN ptc.type='1' THEN 'Expansion/Renovation/Substantial Alteration' ELSE 'New Construction' END AS ptc_type_desc, ptc.others AS ptc_others, ptc.propbedcap AS ptc_propbedcap, ptc.conCode AS ptc_conCode, ptc.ltoCode AS ptc_ltoCode, ptc.propstation AS ptc_propstation,
+    ptc.incbedcapfrom AS ptc_incbedcapfrom, ptc.incbedcapto AS ptc_incbedcapto, ptc.incstationfrom AS ptc_incstationfrom, ptc.incstationto AS ptc_incstationto,
+    ptc.construction_description AS ptc_construction_description, ptc.renoOption AS ptc_renoOption, ptc.singlebed AS ptc_singlebed, ptc.doubledeck AS ptc_doubledeck 
 	
 	FROM appform 
 	LEFT JOIN registered_facility ON appform.regfac_id=registered_facility.regfac_id 
@@ -1571,8 +1575,8 @@ CREATE VIEW viewAppFormForUpdate AS
 	LEFT JOIN funcapf ON appform.funcid=funcapf.funcid
 	LEFT JOIN facmode ON appform.facmode=facmode.facmid
 	LEFT JOIN trans_status ON appform.status=trans_status.trns_id
-
 	LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
+    LEFT JOIN ptc ON ptc.appid=appform.appid
  
 	ORDER BY  appform.updated_at DESC
 );

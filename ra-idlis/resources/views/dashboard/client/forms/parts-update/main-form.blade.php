@@ -250,7 +250,7 @@
 
     <div class="col-sm-6">
         <label class="text-left upd-text-title">Type of Construction <span class="text-danger">*</span></label>
-        <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+        <h6  class="text-center upd-text-info">@isset($appform->ptc_type_desc){{$appform->ptc_type_desc}}@endisset&nbsp;</h6>
     </div>
     <div class="col-sm-6">
         
@@ -261,35 +261,54 @@
 
 <!-- Authorization Number -->
 <div class="col-md-12 change-div"><b class="text-primary">LATEST AUTHORIZATION NUMBER</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeLatestAuthorization"><i class="fa fa-edit"></i></button> @endif</div>
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Certificate of Need No. (if applicable)   </label>
-    <h6  class="text-center upd-text-info">{{$appform->ptc_id}}&nbsp;</h6>
-</div>
 
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Date Issued </label>
-    <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6>
-</div>
+@if(isset($appform->hfser_id))
+    @if($appform->hfser_id == 'PTC')
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Certificate of Need No. (if applicable)   </label>
+            <h6  class="text-center upd-text-info">{{$appform->ptc_conCode}}&nbsp;</h6>
+        </div>
 
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Permit to Construct No. (if applicable)   </label>
-    <h6  class="text-center upd-text-info">{{$appform->ptc_id}}&nbsp;</h6>
-</div>
+        <div class="col-sm-6">
+            <!-- label class="text-left upd-text-title">Date Issued </label>
+            <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6 -->
+        </div>
 
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Date Issued </label>
-    <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6>
-</div>
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Latest LTO/COA/COR/ATO Number (if applicable)   </label>
+            <h6  class="text-center upd-text-info">{{$appform->ptc_ltoCode}}&nbsp;</h6>
+        </div>
 
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Latest {{$appform->hfser_id}}  Number  </label>
-    <h6  class="text-center upd-text-info">{{$appform->con_id}} {{$appform->lto_id}} {{$appform->ato_id}} {{$appform->coa_id}} {{$appform->cor_id}}&nbsp;</h6>
-</div>
+        <div class="col-sm-6">
+            <!-- label class="text-left upd-text-title">Date Issued </label>
+            <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6 -->
+        </div>
+    @endif
+@endif
 
-<div class="col-sm-6">
-    <label class="text-left upd-text-title">Validity Period </label>
-    <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-</div>
+@if(isset($appform->hfser_id))
+    @if($appform->hfser_id != 'PTC')
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Permit to Construct No. (if applicable)   </label>
+            <h6  class="text-center upd-text-info">{{$appform->ptc_id}}&nbsp;</h6>
+        </div>
+
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Date Issued </label>
+            <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6>
+        </div>
+
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Latest {{$appform->hfser_id}}  Number  </label>
+            <h6  class="text-center upd-text-info">{{$appform->con_id}} {{$appform->lto_id}} {{$appform->ato_id}} {{$appform->coa_id}} {{$appform->cor_id}}&nbsp;</h6>
+        </div>
+
+        <div class="col-sm-6">
+            <label class="text-left upd-text-title">Validity Period </label>
+            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+        </div>
+    @endif
+@endif
                                    
 <!-- Type of Health Facility / Service -->
 
@@ -322,7 +341,25 @@
 
 @if (isset($appform->otherClinicService))  
     @if ($appform->otherClinicService == 1)  
-        <div class="col-md-12 change-div"><b class="text-primary">ANCILLARY/CLINICAL SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
+        <div class="col-md-12 change-div">
+            <b class="text-primary">                
+                @if(isset($appform->hfser_id))
+                    @if($appform->hfser_id != 'PTC')
+                        ANCILLARY/CLINICAL SERVICES
+                    @endif
+                @endif
+
+                @if(isset($appform->hfser_id))
+                    @if($appform->hfser_id == 'PTC')
+                        Service Capability
+                    @endif
+                @endif
+
+            </b>
+            @if($allowed_edit)
+                <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> 
+            @endif
+        </div>
         <div class="col-sm-12">    
             <div class="row col-border-right showAncillary">
                 <div class="col-sm-12">  
@@ -401,59 +438,95 @@
 
         <div class="col-sm-12">
             <label class="text-left upd-text-title">Scope of Works </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
+            <h6  class="text-center upd-text-info">@isset($appform->ptc_construction_description){{$appform->ptc_construction_description}}@endisset&nbsp;</h6>
         </div>
 
         
-        <div class="col-sm-4" id="NSB">
-            <label class="text-left upd-text-title">Number of Single Bed <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">{{$appform->con_id}} {{$appform->lto_id}} {{$appform->ato_id}} {{$appform->coa_id}} {{$appform->cor_id}}&nbsp;</h6>
-        </div>
+        @if (isset($appform->dialysisClinic_ptc))  
+            @if ($appform->dialysisClinic_ptc == 1)  
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title"><b class="text-primary">Number of Dialysis Station </b>@if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_propstation){{$appform->ptc_propstation}}@endisset&nbsp;</h6>
+                </div>
+            @endif
+        @endif 
+        
+        @if (isset($appform->hassinglebedcapacity_ptc))  
+            @if ($appform->hassinglebedcapacity_ptc == 1) 
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title">Number of Single Bed <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_singlebed){{$appform->ptc_singlebed}}@endisset&nbsp;</h6>
+                </div>
+            @endif
+        @endif
 
-        <div class="col-sm-4" id="NDD">
-            <label class="text-left upd-text-title">Number of Double Deck <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-        </div>
-
-        <div class="col-sm-4" id="NPtc">
-            <label class="text-left upd-text-title">Proposed Number of Beds <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-        </div>
+        @if (isset($appform->hasdoublebedcapacity_ptc))  
+            @if ($appform->hasdoublebedcapacity_ptc == 1) 
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title">Number of Double Deck <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_doubledeck){{$appform->ptc_doubledeck}}@endisset&nbsp;</h6>
+                </div>
+            @endif
+        @endif
+        
+        @if (isset($appform->hasbedcapacity_ptc))  
+            @if ($appform->hasbedcapacity_ptc == 1) 
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title">Proposed Number of Beds <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_propbedcap){{$appform->ptc_propbedcap}}@endisset&nbsp;</h6>
+                </div>
+                
+                <div class="col-sm-6"  >
+                    &nbsp;
+                </div>
+            @endif
+        @endif
 
     <!-- div class="col-md-12" id="RPtc" -->
 
-        <div class="col-sm-6"  id="othersReqrenew1">
-            <label class="text-left upd-text-title">Options <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-        </div>
-        <div class="col-sm-6"  id="othersReqrenew2">
-        </div>
+        @if (isset($appform->hasbedcapacityadj_ptc) || isset($appform->dialysisClinic_ptc))  
+            @if ($appform->hasbedcapacityadj_ptc == 1 || $appform->dialysisClinic_ptc == 1) 
+                <div class="col-sm-6">
+                    <label class="text-left change-div"><b class="text-primary">Options</b><span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info"></h6>
+                </div>
+                <div class="col-sm-6"  >
+                    &nbsp;
+                </div>
+            @endif
+        @endif
 
-        <div class="col-sm-6"   id="othersReqrenew3">
-            <label class="text-left upd-text-title">Increase Bed Capacity From <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-        </div>
+        @if (isset($appform->hasbedcapacityadj_ptc))  
+            @if ($appform->hasbedcapacityadj_ptc == 1) 
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title">Increase Bed Capacity From <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_incbedcapfrom){{$appform->ptc_incbedcapfrom}}@endisset&nbsp;</h6>
+                </div>
 
-        <div class="col-sm-6" id="othersReqrenew4" >
-            <label class="text-left upd-text-title">Increase Bed Capacity To <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
-        </div>
+                <div class="col-sm-6" >
+                    <label class="text-left upd-text-title">Increase Bed Capacity To <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_incbedcapto){{$appform->ptc_incbedcapto}}@endisset&nbsp;</h6>
+                </div> 
+            @endif
+        @endif
         
-        <div class="col-sm-6" id="dialysisReqrenew1">
-            <label class="text-left upd-text-title">Increase Dialysis Station From <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>        
-        </div> 
-        <div class="col-sm-6" id="dialysisReqrenew2">
-            <label class="text-left upd-text-title">Increase Dialysis Station To <span class="text-danger">*</span> </label>
-            <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>        
-        </div>  
-        
+        @if (isset($appform->dialysisClinic_ptc))  
+            @if ($appform->dialysisClinic_ptc == 1)  
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title">Increase Dialysis Station From <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_incstationfrom){{$appform->ptc_incstationfrom}}@endisset&nbsp;</h6>
+                </div> 
+                <div class="col-sm-6">
+                    <label class="text-left upd-text-title">Increase Dialysis Station To <span class="text-danger">*</span> </label>
+                    <h6  class="text-center upd-text-info">@isset($appform->ptc_incstationto){{$appform->ptc_incstationto}}@endisset&nbsp;</h6>
+                </div>  
+            @endif
+        @endif
+                
     <!-- /div --> 
         
     @endif
 @endif
-
-
 
 
 
