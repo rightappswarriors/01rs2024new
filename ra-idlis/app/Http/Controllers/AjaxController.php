@@ -5447,7 +5447,22 @@ public static function checkConmem($appid)
 				}
 				$t_date_1 = NULL;
 				$t_date_2 = NULL;
+				/***
+				 'aptid' => NULL, 
+				'hfser_id' => $hfser_id,
+				'ocid' => NULL,
+				'hgpid' =>  NULL,
+				'status' =>  NULL,
+				'uid' => NULL,
+				'rgnid' => NULL,
+				'assignedRgn' =>  NULL,
+				'appid' => NULL,
+				'facilityname' => NULL,
 				
+				't_date_1' => $fo_date_1,
+				't_date_2' => $fo_date_2,
+				 * 
+				 */
 				//Filter Area
 				//dd($filter);
 				foreach($filter  as $fo => $foval)

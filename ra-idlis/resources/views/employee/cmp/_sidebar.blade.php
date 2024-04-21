@@ -1410,19 +1410,22 @@
                             <li class="#"><a href="{{ asset('employee/reports/ndhrhis/byregisteredfacilities') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Registered Facilities</a></li>
                     </ul>
                 </li>    
-                <span class="PF002_allow">
+                <span class="F001_allow">
                     <li>
                         <a href="#ArchiveMenu" data-toggle="collapse"><i class="fas fa-fw fa-folder"></i> Facility Records</a>
                         
                         <ul id="ArchiveMenu" class="list-unstyled collapse">
-                            <span class="MG002_allow">
+                            <span class="FR001_allow">
                                 <li><a href="{{ asset('/employee/dashboard/manage/client_users') }}"><i class="fa fa-user-circle"></i> User Accounts</a></li>
                             </span>                        
-                            <span>
+                            <span class="FR002_allow">
                                 <li class="#"><a href="{{ asset('/employee/dashboard/facilityrecords') }}"><i class="fa fa-fw fa-bank"></i>  Registered Facilities</a></li>
                             </span>
-                            {{-- <li><a href="{{asset('/employee/dashboard/facilityrecords/archive')}}"><i class="fa fa-fw fa-folder"></i> Registered Facilities of Archive of Files</a></li> --}}
-                            <li><a href="{{asset('/employee/dashboard/facilityrecords/archiveall')}}"><i class="fa fa-fw fa-folder"></i> Archive of Files</a></li>
+                            
+                            <span class="FR003_allow">
+                                {{-- <li><a href="{{asset('/employee/dashboard/facilityrecords/archive')}}"><i class="fa fa-fw fa-folder"></i> Registered Facilities of Archive of Files</a></li> --}}
+                                <li><a href="{{asset('/employee/dashboard/facilityrecords/archiveall')}}"><i class="fa fa-fw fa-folder"></i> Archive of Files</a></li>
+                            </span>
                         </ul>
                     
                     </li>

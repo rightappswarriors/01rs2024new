@@ -220,3 +220,4 @@ WHERE hgpid='34';/* Ambulance Service Provider */
 
 
 UPDATE X06 SET allow=1, ad_d=1, upd=1, cancel=1, print=1, view=1 WHERE grp_id='ADMIN';
+
