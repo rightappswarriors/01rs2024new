@@ -221,3 +221,24 @@ WHERE hgpid='34';/* Ambulance Service Provider */
 
 UPDATE X06 SET allow=1, ad_d=1, upd=1, cancel=1, print=1, view=1 WHERE grp_id='ADMIN';
 
+
+
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('IDTOMIS', 'IDTOMIS', '1', null, 'idtomis');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('OHSRS', 'OHSRS', '1', null, 'dashboard');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl) VALUES ('NHFR', 'NHFR', '1');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('NHFR001', 'Current Import NHFR', '2', 'NHFR', 'nhfr');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('NHFR002', 'Registered Facility List', '2', 'NHFR', 'regfacility');
+
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl) VALUES ('NDHRHIS', 'NDHRHIS', '1');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('NDHRHIS001', 'List of Personnel By Application', '2', 'NDHRHIS', 'hhrdb/applist');
+INSERT INTO x05 (mod_id, mod_desc, mod_lvl, mod_l1, links) VALUES ('NDHRHIS002', 'List of Personnel By Registered Facilities', '2', 'NDHRHIS', 'reports/ndhrhis/byregisteredfacilities');
+
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'IDTOMIS' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'OHSRS' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NHFR' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NHFR001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NHFR002' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NDHRHIS' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NDHRHIS001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NDHRHIS002' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
+
