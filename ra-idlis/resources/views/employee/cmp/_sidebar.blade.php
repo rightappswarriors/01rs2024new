@@ -1393,23 +1393,40 @@
                 
 
                 <li hidden><a href="{{asset('/employee/dashboard/lps')}}"><i class="fa fa-fw fa-spinner"></i> Licensing Process Status</a></li>
-
-                <li class="IDTOMIS_allow"><a href="{{asset('/employee/idtomis')}}"><i class="fas fa-tachometer-alt"></i> IDTOMIS</a></li>
-                <li class="OHSRS_allow"><a href="{{asset('/employee/dashboard')}}"><i class="fas fa-tachometer-alt"></i> OHSRS</a></li>
-
-                <li> <a href="#NHFR" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NHFR</a>
-                    <ul id="NHFR" class="list-unstyled collapse">
-                        <li class="#"><a href="{{ asset('employee/nhfr') }}">&nbsp;&nbsp;&nbsp;&nbsp;Current Import NHFR</a></li>
-                        <li class="#"><a href="{{ asset('employee/regfacility') }}">&nbsp;&nbsp;&nbsp;&nbsp;Registered Facility List</a></li>
-                    </ul>
-                </li>
                 
+                <span class="IDTOMIS_allow">
+                    <li><a href="{{asset('/employee/idtomis')}}"><i class="fas fa-tachometer-alt"></i> IDTOMIS</a></li>
+                </span>
+                <span class="OHSRS_allow">
+                    <li><a href="{{asset('/employee/dashboard')}}"><i class="fas fa-tachometer-alt"></i> OHSRS</a></li>
+                </span>
+                
+                <span class="NHFR_allow">
+                    <li> <a href="#NHFR" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NHFR</a>
+                        <ul id="NHFR" class="list-unstyled collapse">
+                            <span class="NHFR001_allow">
+                                <li class="#"><a href="{{ asset('employee/nhfr') }}">&nbsp;&nbsp;&nbsp;&nbsp;Current Import NHFR</a></li>
+                            </span>                        
+                            <span class="NHFR002_allow">
+                                <li class="#"><a href="{{ asset('employee/regfacility') }}">&nbsp;&nbsp;&nbsp;&nbsp;Registered Facility List</a></li>
+                            </span>     
+                        </ul>
+                    </li>
+                </span>
+                
+                <span class="NDHRHIS_allow">
                 <li> <a href="#NDHRHIS" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NDHRHIS</a>
                     <ul id="NDHRHIS" class="list-unstyled collapse">
+                        <span class="NDHRHIS001_allow">
                             <li class="#"><a href="{{ asset('employee/hhrdb/applist') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Application</a></li>
+                        </span>                        
+                        <span class="NDHRHIS002_allow">
                             <li class="#"><a href="{{ asset('employee/reports/ndhrhis/byregisteredfacilities') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Registered Facilities</a></li>
+                        </span>   
                     </ul>
-                </li>    
+                </li>   
+                </span> 
+
                 <span class="F001_allow">
                     <li>
                         <a href="#ArchiveMenu" data-toggle="collapse"><i class="fas fa-fw fa-folder"></i> Facility Records</a>
