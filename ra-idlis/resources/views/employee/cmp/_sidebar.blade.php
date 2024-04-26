@@ -1388,8 +1388,7 @@
 
                     </li>
 
-                </span>
-                
+                </span>               
                 
 
                 <li hidden><a href="{{asset('/employee/dashboard/lps')}}"><i class="fa fa-fw fa-spinner"></i> Licensing Process Status</a></li>
@@ -1397,6 +1396,7 @@
                 <span class="IDTOMIS_allow">
                     <li><a href="{{asset('/employee/idtomis')}}"><i class="fas fa-tachometer-alt"></i> IDTOMIS</a></li>
                 </span>
+
                 <span class="OHSRS_allow">
                     <li><a href="{{asset('/employee/dashboard')}}"><i class="fas fa-tachometer-alt"></i> OHSRS</a></li>
                 </span>

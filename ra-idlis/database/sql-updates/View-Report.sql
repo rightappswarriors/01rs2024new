@@ -161,7 +161,7 @@ appform.approvedDate, CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMA
 appform.documentSent, appform.isCashierApprove, appform.isReadyForInspec,  appform.isApprove,
 appform.noofbed, appform.noofmain, appform.noofstation,  appform.noofdialysis,
 
-'' AS doh_retained, '' AS license_id,  '' AS issued_date, appform.approvedRemark AS approvedRemark,
+'' AS doh_retained, licenseNo AS license_id,  CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMAT(appform.approvedDate, "%M %d, %Y") ELSE '' END AS issued_date, appform.approvedRemark AS approvedRemark,
 appform.licenseNo, appform.signatoryname, appform.signatorypos
 
 FROM appform 
@@ -185,7 +185,8 @@ ORDER BY appform.t_date DESC, appform.aptid ASC, appform.appid DESC
 );
 
 
-/*********************   LICENSE REPORT **************************/
+
+/*********************   NON ISSUANCE REPORT **************************/
 DROP VIEW IF EXISTS rpt_nonissuance_facilities;
 CREATE VIEW rpt_nonissuance_facilities 	 AS
 (
@@ -199,7 +200,8 @@ appform.recommendeddate, CASE WHEN appform.recommendeddate IS NOT NULL THEN DATE
 appform.t_date, CASE WHEN appform.t_date IS NOT NULL THEN DATE_FORMAT(appform.t_date, "%M %d, %Y") ELSE 'Not officially applied yet.' END AS formattedDate,
 
 appform.inspecteddate, CASE WHEN appform.inspecteddate IS NOT NULL THEN DATE_FORMAT(appform.inspecteddate, "%M %d, %Y") ELSE NULL END AS formattedDateInspect, 
-appform.isInspected, appform.inspectedby, inspector.fname||' ' || inspector.mname ||' ' || inspector.lname AS inspectorName, 
+appform.isInspected, appform.inspectedby, 
+CONCAT( IFNULL(inspector.fname,''), ' ', IFNULL(inspector.mname,''), ' ', IFNULL(inspector.lname,'')) AS inspectorName,   
 '' AS inspectorRemarks,
 
 appform.proposedInspectiondate, CASE WHEN appform.proposedInspectiondate IS NOT NULL THEN DATE_FORMAT(appform.proposedInspectiondate, "%M %d, %Y") ELSE NULL END AS formattedDatePropEval, 
@@ -210,7 +212,7 @@ appform.approvedDate, CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMA
 appform.documentSent, appform.isCashierApprove, appform.isReadyForInspec,  appform.isApprove,
 appform.noofbed, appform.noofmain, appform.noofstation,  appform.noofdialysis,
 
-'' AS doh_retained, '' AS license_id,  '' AS issued_date, appform.approvedRemark AS approvedRemark
+'' AS doh_retained, licenseNo AS license_id,  CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMAT(appform.approvedDate, "%M %d, %Y") ELSE '' END AS issued_date, appform.approvedRemark AS approvedRemark
 
 FROM appform 
 LEFT JOIN hfaci_serv_type ON appform.hfser_id = hfaci_serv_type.hfser_id

@@ -165,11 +165,16 @@
 						<div class="col-md-1" style="display: inline">:</div>
 						<div class="col-md-5 contr" style="float:left;display: inline;">
 							@php								
-								$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+								/*$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
 										.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
 										.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
 										.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8")).' '.strtoupper($retTable[0]->rgn_desc)
-									);
+									);*/
+								$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+									.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
+									.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
+									.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8"))
+								);
 								
 								$stringloc = preg_replace_callback('/\b(?=[LXIVCDM]+\b)([a-z]+)\b/i', function($matches) {   return strtoupper($matches[0]); }, $loc);	
 							@endphp

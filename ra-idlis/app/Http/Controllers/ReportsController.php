@@ -40,8 +40,11 @@ class ReportsController extends Controller
 			{
 				$hfser_id =  $request->fo_hfser_id;
 			}
-
 			$arr_fo = array(
+				'fo_date_sel' => $request->fo_date_sel,
+				't_date_1' => $request->fo_date_1,
+				't_date_2' => $request->fo_date_2,
+
 				'aptid' => $request->fo_aptid,
 				'hfser_id' => $hfser_id,
 				'ocid' => $request->fo_ocid,
@@ -53,8 +56,6 @@ class ReportsController extends Controller
 				'appid' => $request->fo_appid,
 				'facilityname' => $request->fo_facilityname,
 				
-				't_date_1' => $request->fo_date_1,
-				't_date_2' => $request->fo_date_2,
 				'fo_rows' => $request->fo_rows,
 				'fo_pgno' => $fo_pgno,
 				'fo_submit' => $request->fo_submit,
@@ -67,10 +68,14 @@ class ReportsController extends Controller
 			$fo_rows = "10";
 			$fo_pgno = "1";
 			$fo_submit = "submit";
-			$fo_date_1 =  Date('Y-m-01');
-			$fo_date_2 =  Date('Y-m-d');
+			$fo_date_1 = date('Y'). '-01-31';
+			$fo_date_2 = date('Y').  '-12-31';
 
 			$arr_fo = array(
+				'fo_date_sel' => 'APP',
+				't_date_1' => $fo_date_1,
+				't_date_2' => $fo_date_2,
+
 				'aptid' => NULL, 
 				'hfser_id' => $hfser_id,
 				'ocid' => NULL,
@@ -81,8 +86,6 @@ class ReportsController extends Controller
 				'assignedRgn' =>  NULL,
 				'appid' => NULL,
 				'facilityname' => NULL,
-				't_date_1' => $fo_date_1,
-				't_date_2' => $fo_date_2,
 
 				'fo_rows' => $fo_rows ,
 				'fo_pgno' => $fo_pgno,
