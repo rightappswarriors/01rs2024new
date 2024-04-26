@@ -114,7 +114,7 @@
 				
 					<h1 class="text-center" >PERMIT TO CONSTRUCT</h1>
 
-					<div class="row" style="margin-top:5px;">
+					<div class="row" style="margin-top:5px; margin-left: 39px;margin-right: 39px;">
 						<div class="col-md-3 leftHeader contl">
 							Owner
 						</div>
@@ -125,7 +125,7 @@
 							
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="margin-left: 39px;margin-right: 39px;">
 						<div class="col-md-3 leftHeader contl">
 							Name of Health Facility
 						</div>
@@ -137,7 +137,7 @@
 						</div>
 					</div>
 					
-					<div class="row">
+					<div class="row" style="margin-left: 39px;margin-right: 39px;">
 						<div class="col-md-3 leftHeader contl">
 							Type of Health Facility
 						</div>
@@ -149,7 +149,7 @@
 						</div>
 					</div>
 
-					<div class="row " style="">
+					<div class="row " style="margin-left: 39px;margin-right: 39px;">
 						<div class="col-md-3 leftHeader contl">
 							Location
 						</div>
@@ -161,11 +161,16 @@
 										.ucwords(strtolower($retTable[0]->brgyname)).', '.ucwords(strtolower($retTable[0]->cmname)).', '
 										.ucwords(strtolower($retTable[0]->provname)).' '.strtoupper($retTable[0]->rgn_desc));*/
 								
-								$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+								/*$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
 										.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
 										.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
 										.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8")).' '.strtoupper($retTable[0]->rgn_desc)
-									);
+									); */
+								$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+									.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
+									.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
+									.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8"))
+								);
 								
 								$stringloc = preg_replace_callback('/\b(?=[LXIVCDM]+\b)([a-z]+)\b/i', function($matches) {   return strtoupper($matches[0]); }, $loc);	
 							@endphp
@@ -176,7 +181,7 @@
 						</div>
 					</div>
 					<br/>
-					<div class="row">
+					<div class="row" style="margin-left: 39px;margin-right: 39px;">
 						<div class="col-md-3 contl">
 							Scope of Work
 						</div>
@@ -201,7 +206,7 @@
 									$rgnoffice = "Regional";
 								}
 							@endphp
-							<ol type="1" class="text-justify" >
+							<ol type="1" class="text-justify" style="margin-left: 39px;margin-right: 39px;">
 								<li>That the construction, alteration, expansion or renovation of a Hospital or other Health Facility is implemented in accordance with:
 									<ol>
 										<li>Floor Plans prepared by a duly licensed Architect and/or Civil Engineer and approved by the Health Facilities and Services Regulatory Bureau</li>
@@ -233,30 +238,31 @@
 
 						</div>
 					</div>
-					<br><br>
-					<div class="row">
-						<div class="col-md-3" style="vertical-align: bottom;">
+					<br>
+					<div class="row" style="margin-left: 39px;margin-right: 39px;">
+						<div class="col-md-12" style="vertical-align: bottom;">
 												
-							<small class="text-small" style="padding-left:12px">PTC No. {{$retTable[0]->licenseNo}}</small><br>
-							<small class="text-small" style="padding-left:12px">Date Issued: {{((isset($retTable[0]->approvedDate)) ? date("F j, Y", strtotime($retTable[0]->approvedDate)) : 'No date.')}}</small>
-							
+							<small class="text-small"><strong>PTC No. {{$retTable[0]->licenseNo}}</strong></small><br>
+							<small class="text-small"><strong>Date Issued: {{((isset($retTable[0]->approvedDate)) ? date("F j, Y", strtotime($retTable[0]->approvedDate)) : 'No date.')}}</strong></small>
+												
+						</div>
+					</div>
+					<div class="row" style="margin-left: 39px;margin-right: 39px;">
+						<div class="col-md-2" style="vertical-align: bottom;">
 							<p class="text-muted text-small" style="text-align: left; padding: 0; margin: 0;">
 								{{-- <iframe  src="{{asset('ra-idlis/resources/views/client1/qrcode/index.php')}}?data={{asset('client1/certificates/view/external/')}}/{{$retTable[0]->appid}}" style="border: none !important; height: 150px; width: 150px;"></iframe> --}}
-								<iframe src="{!!url('qrcode/'.$retTable[0]->appid )!!}" style="border: none !important; height: 230px; width: 260px;"></iframe>
+								<iframe src="{!!url('qrcode/'.$retTable[0]->appid )!!}" style="border: none !important; height: 150px; width: 180px;"></iframe>
 							</p>
 						
 						</div>
-						<div class="col-md-9" style="padding-top:120px;">
+						<div class="col-md-10" style="padding-top:50px;">
 							<h3 class="text-uppercase text-center" style="font-size: 30px;"><strong>{{$retTable[0]->signatoryname}}</strong></h3>
 							<h4 class="text-small text-center text-muted" style="white-space: pre-line; margin-top:10px;">{{$retTable[0]->signatorypos}}</h4>
 						</div>					
 					</div>
 				</div>
 			</div>
-			<div class="card-footer">					
-				<p class="text-muted text-small">© All Rights Reserved {{((isset($retTable[0]->approvedDate)) ? date("Y", strtotime($retTable[0]->approvedDate)) : 'yyyy.')}}</p>
-			</div>
-		</div><br>
+		</div>
 	</div>
 </body>
 @endsection

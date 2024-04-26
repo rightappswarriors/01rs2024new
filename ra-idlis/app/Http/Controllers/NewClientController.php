@@ -8004,7 +8004,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			// $location = url('ra-idlis/public/img/qrlogo.png');
 			$image = \QrCode::format('png')
 	                         // ->merge($location, 0.2, true)
-	                         ->size(230)->errorCorrection('H')
+	                         ->size(150)->errorCorrection('H')
 	                         ->generate($textTOGenerate);
 	      	return response($image)->header('Content-type','image/png');
       	}

@@ -177,7 +177,7 @@ UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dial
 WHERE hgpid='2'; /* Blood Center */
 UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='0', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
 WHERE hgpid='3'; /* Blood Collection Unit/Blood Station */
-UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='0', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='1', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
+UPDATE hfaci_grp SET isHospital='0', otherClinicService='1', clinicLab='0', dialysisClinic='1', ambulSurgCli='0', ambuDetails='0', addOnServe='0', hasbedcapacity='0', pharmacy='0', dialysisClinic_ptc='1', hasbedcapacity_ptc='0', hasbedcapacityadj_ptc='0', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
 WHERE hgpid='5'; /* Hemodialysis Clinic */
 UPDATE hfaci_grp SET isHospital='1', otherClinicService='0', clinicLab='0', dialysisClinic='1', ambulSurgCli='0', ambuDetails='1', addOnServe='1', hasbedcapacity='1', pharmacy='1', dialysisClinic_ptc='0', hasbedcapacity_ptc='1', hasbedcapacityadj_ptc='1', hassinglebedcapacity_ptc='0', hasdoublebedcapacity_ptc='0' 
 WHERE hgpid='6'; /* Hospital */
@@ -220,6 +220,7 @@ WHERE hgpid='34';/* Ambulance Service Provider */
 
 
 UPDATE X06 SET allow=1, ad_d=1, upd=1, cancel=1, print=1, view=1 WHERE grp_id='ADMIN';
+UPDATE X06 SET allow=1, ad_d=1, upd=1, cancel=1, print=1, view=1 WHERE grp_id='NA';
 
 
 

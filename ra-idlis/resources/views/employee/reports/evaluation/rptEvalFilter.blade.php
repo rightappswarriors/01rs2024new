@@ -1,4 +1,8 @@
 @php
+    $fo_date_sel = 'APP';
+    $fo_date_1 = date('Y').'-01-31';
+    $fo_date_2 = date('Y').'-12-31';
+
     $fo_aptid = NULL;
     $fo_hfser_id = NULL;
     $fo_ocid = NULL;
@@ -20,6 +24,10 @@
 @if (isset($arr_fo) && !empty($arr_fo))
    @foreach ($arr_fo as $fo => $foval)
     @php
+      if($fo == 'fo_date_sel') { $fo_date_sel =  $foval; }
+      if($fo == 't_date_1') { $fo_date_1 =  $foval; }
+      if($fo == 't_date_2') { $fo_date_2 =  $foval; }
+
       if($fo == 'aptid') { $fo_aptid =  $foval; }
       if($fo == 'hfser_id') { $fo_hfser_id =  $foval; }
       if($fo == 'ocid') { $fo_ocid =  $foval; }
@@ -81,8 +89,8 @@
   <div class="form-group"> 
 
     <div class="row">
-      <div class="col-md-6"><input type="date" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_date_1" id="fo_date_1" value="2022-01-01"></div>
-      <div class="col-md-6"><input type="date" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_date_2" id="fo_date_2" value="<?php echo date('Y'); ?>-12-31"></div>
+      <div class="col-md-6"><input type="date" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_date_1" id="fo_date_1" value="@if(isset($fo_date_1)){{$fo_date_1}}@endif"></div>
+      <div class="col-md-6"><input type="date" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_date_2" id="fo_date_2" value="@if(isset($fo_date_2)){{$fo_date_2}}@endif"></div>
     </div>
 
   </div>
