@@ -68,14 +68,15 @@
                           <a  class="btn btn-outline-default" href="{{asset('employee/dashboard/facilityrecords/archive/')}}/{{$key->regfac_id}}" title="View detailed information for {{$key->facilityname}}" class="btn btn-outline-info form-control"><i class="fa fa-fw fa-eye"></i></a>
                         
                         
-                          <span class="FD007_opendir">
+                          <span class="FR003opendir">
                               <button type="button" class="btn btn-outline-warning" onClick="parent.location='file:///{{$key->savelocation}}' "><i class="fa fa-fw fa-folder"></i></button>
                             </span>
+
                             @php $savelocation =$key->savelocation;  @endphp
-                            <span class="FD007_update">
+                            <span class="FR003_update">
                               <button type="button" class="btn btn-outline-secondary" onclick="showData('edit','{{$key->rfa_id}}', '{{$key->regfac_id}}', '{{$savelocation}}', '{{$key->hfser_id}}', '{{$key->nhfcode}}', '{{$key->nhfcode_temp}}', '{{$key->year}}', '{{$key->rgnid}}', '{{$key->facilityname}}', '{{$key->dtrackno}}', '{{$key->conid}}', '{{$key->ltoid}}', '{{$key->coaid}}', '{{$key->atoid}}', '{{$key->corid}}', '{{$key->hgpid}}', '{{$key->ptcid}}');" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw fa-edit"></i></button>
                             </span>
-                            <span class="FD007_cancel">
+                            <span class="FR003_cancel">
                               <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$key->rfa_id}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
                             </span>
                         </center>

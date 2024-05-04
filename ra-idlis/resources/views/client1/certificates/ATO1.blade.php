@@ -121,7 +121,7 @@
 						Authorization Number
 					</div>
 					<div class="col-md-5" style="float:left;display: inline;font-family: Century Gothic; font-size: 13pt">
-						:&nbsp;&nbsp;&nbsp; 06-001-1719-CU-BS-1
+						:&nbsp;&nbsp;&nbsp; {{((isset($retTable[0]->licenseNo)) ? $retTable[0]->licenseNo : "CURRENT_FACILITY")}}
 					</div>
 					<div class="col-md-1" style="display: inline">
 						&nbsp;</div>

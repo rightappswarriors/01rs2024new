@@ -801,7 +801,7 @@ class FunctionsClientController extends Controller {
 	// 	}
 	// }
 	// get services of applied application. this includes mainservice(1), addons(2), hopitallevels(3-5)
-	public static function get_view_facility_services_per_appform($appid, $servtype_id = 0, $orderby_servtype_id = 'ASC')
+	public static function get_view_facility_services_per_appform($appid, $servtype_id = 0, $orderby_servtype_id = 'ASC', $WHERE=null)
 	{/*$appid = '9193';*/
 		try {
 			$retArr = [];
@@ -820,6 +820,24 @@ class FunctionsClientController extends Controller {
 					$retArr = 	$retArr->where('servtype_id','>=',$servtype_id)->ORDERBY('anc_name','ASC')->ORDERBY('facid','ASC');
 				}
 			}
+
+			$retArr = 	$retArr->get();
+
+			return $retArr;
+		}
+		catch(Exception $e) {
+			return $e;
+			dd($e);
+		}
+	}
+
+	public static function get_view_facility_hgpid_per_appform($appid, $hgpid = 0, $orderby_servtype_id = 'ASC', $WHERE=null)
+	{/*$appid = '9193';*/
+		try {
+			$retArr = [];
+			$retArr = DB::table('view_facility_services_per_appform')->where('appid','=',$appid)->where('facid','not like','%-REGIS');
+			
+			$retArr = 	$retArr->where('servtype_id','=',$hgpid)->ORDERBY('anc_name','ASC')->ORDERBY('facid','ASC');
 
 			$retArr = 	$retArr->get();
 
