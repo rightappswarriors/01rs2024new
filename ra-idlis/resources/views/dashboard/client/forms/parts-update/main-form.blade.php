@@ -397,14 +397,15 @@
 @if (isset($appform->ambulSurgCli))  
     @if ($appform->ambulSurgCli == 1)  
         <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
-        <div class="col-sm-12">         
-            @if (isset($addOnservices_applied))  
-                <ul style="list-style-type: none; ">    
-                    @foreach ($addOnservices_applied as $d)
-                        @php $proceed_addon = 1; @endphp
-                        <li class="text-center">
-                            @if($isupdate == 1)   
-                                <span class="text-center">
+        <div class="col-md-6">         
+            @if (isset($asc_services_applied))  
+            
+                <table class="table display" id="example" style="overflow-x: scroll;">
+                    <tbody>
+                        @foreach ($asc_services_applied as $d)
+                            @php $proceed_addon = 1; @endphp
+                            <tr>                        
+                                <td class="text-center">
                                     <button class="btn btn-primary" onclick="showDataAddOnServ(
                                     '{{$d->facid}}',
                                     '{{$d->servtyp}}',
@@ -414,13 +415,16 @@
                                     <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
                                             data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
                                     </button>
-                                </span>
-                            @endif 
-                        {{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </li>
-                    @endforeach	
-                </ul>
+                                </td>
+                                <td class="text-center"> {{$d->facname}}<br/><small style="color:#ccc">{{$d->anc_name}} [{{$d->facid}}]</small> </td>
+                            </tr>
+                        @endforeach	
+                    </tbody>
+                </table>
             @endif
         </div> 
+
+        <div class="col-md-6">&nbsp;</div>
     @endif
 @endif 
 
@@ -685,10 +689,6 @@
 
     @endif
 @endif 
-
-
-
-
 
 
 @include('dashboard.client.forms.parts-update.rename-facility-form')

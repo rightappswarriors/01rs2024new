@@ -7169,8 +7169,7 @@ namespace App\Http\Controllers;
 					->select(array('asmt_title.title_name as desc','asmt_title.title_code as id', 'x08_ft.id as xid'))
 					// ->groupBy('x08_ft.id')
 					->get();
-
-
+					
 					$toViewArr = [
 						'data' => $data,
 						// 'head' => AjaxController::forAssessmentHeaders(array(['appform.appid',$appid],['asmt_h1.apptype',$data->hfser_id]),array('asmt_title.title_name as desc','asmt_title.title_code as id')),
@@ -10801,8 +10800,25 @@ namespace App\Http\Controllers;
 
 					if ($ChckPassword == true) 
 					{
-						$faci = DB::table('facilitytyp')->join('x08_ft','x08_ft.facid','facilitytyp.facid')->join('serv_type','serv_type.servtype_id','facilitytyp.servtype_id')->select('facilitytyp.facid')->where([['x08_ft.appid',$appid],['serv_type.servtype_id',1]])->get()->first()->facid;
-						$appform = DB::table('appform')->where('appid',$appid)->select('*')->first();						
+						$succ = false;
+						$appform = DB::table('appform')->where('appid',$appid)->select('*')->first();	
+						
+						try{
+							$faci = DB::table('facilitytyp')->join('x08_ft','x08_ft.facid','facilitytyp.facid')->join('serv_type','serv_type.servtype_id','facilitytyp.servtype_id')
+										->select('facilitytyp.facid')->where([['x08_ft.appid',$appid],['serv_type.servtype_id',1]])->get()->first()->facid;
+							$succ = true;
+						}
+						catch (Exception $e)  {
+							$succ = false;
+						}				
+						
+						try {
+
+							if($succ == false)
+							{$facid = DB::table('facilitytyp')->select('facilitytyp.facid')->where(['hgpid', '=', $appform->hgpid])->get()->first()->facid; }							
+						
+						}catch (Exception $e) { $facid="";}
+
 						//Get Branch Data by Authorization
 						$branchData = DB::table('branch')->where('regionid',$appform->assignedRgn)->select($appform->hfser_id, "directorInRegion", "pos", "directorInRegion2", "pos2")->first();
 						$hferID = $appform->hfser_id;

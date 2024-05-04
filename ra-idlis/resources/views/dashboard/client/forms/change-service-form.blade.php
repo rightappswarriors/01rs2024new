@@ -430,10 +430,11 @@
                                 <option value="2">Owned</option>
                             </select>
                         </div>					
-                        <div class="col-sm-4">Details:</div>
-                        <div class="col-sm-8" style="margin:0 0 .8em 0;">
-                            <input type="text" name="servowner" id="ao_servowner" class="form-control" required="">
+                        <div class="col-sm-4" style="display:none;">Details:</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0; display:none;">
+                           
                         </div>	
+                        <input type="hidden" name="servowner" id="ao_servowner" class="form-control" value="NA" hidden>
                         <br/>
                         <div class="col-sm-4"></div>
                         <div class="col-sm-12">

@@ -238,7 +238,7 @@
 
 						</div>
 					</div>
-					<br>
+					<br><br>
 					<div class="row" style="margin-left: 39px;margin-right: 39px;">
 						<div class="col-md-12" style="vertical-align: bottom;">
 												

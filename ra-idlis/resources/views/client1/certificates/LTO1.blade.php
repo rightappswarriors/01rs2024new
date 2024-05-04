@@ -90,8 +90,7 @@
 						</div>
 						<div class="col-md-1" style="display: inline">:</div>
 						<div class="col-md-5 contr" style="float:left;display: inline;">
-							{{((isset($facname)) ? strtoupper($facname)  : "No Health Service")}} 
-							
+							{{((isset($retTable[0]->hgpdesc)) ? strtoupper($retTable[0]->hgpdesc) : "No Health Service")}}
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
 					</div>

@@ -1872,6 +1872,8 @@ class NewClientController extends Controller {
 				'Birthing Home' => 'BH',
 				'Blood Center' => 'BC',
 				'Ambulance Service Provider' => 'ASP',
+				'Ambulatory Service Provider (Type 2)' => 'ASP',
+				'Ambulatory Service Provider (Type 1)' => 'ASP',
 				'Laboratory for Drinking Water Analysis*' => 'LW',
 				'Regular Medical Facility' => 'MF',
 				'Special Land-based Medical Facility' => 'MF',
@@ -3010,6 +3012,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 
 					$mainservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 1);
 					$addOnservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 2);
+					$asc_services_applied	= FunctionsClientController::get_view_facility_hgpid_per_appform($appid, 1, 'ASC');
 					$chk			=  DB::table('x08_ft')->where([['appid', $appid]])->first();
 					$chkFacid 		= new stdClass();
 					$proceesedAmb 	= []; 
@@ -3072,6 +3075,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						'addOnservices_applied'	=> $addOnservices_applied,
 						'mainservicelist'		=> $mainservicelist,
 						'addonservicelist'		=> $addonservicelist,
+						'asc_services_applied'	=> $asc_services_applied,
 						'isupdate'			=> 1
 					];
 					
@@ -4378,11 +4382,15 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		if (!is_null($id)) { return $id;	}
 
 		// insert new appform
-		DB::Statement("INSERT INTO appform (aptid, regfac_id, uid, facilityname, hgpid, assignedRgn, rgnid, provid, cmid, brgyid, street_number, street_name, zipcode,
+		DB::Statement("INSERT INTO appform (aptid, regfac_id, uid, facilityname, hgpid, hfser_id, assignedRgn, rgnid, provid, cmid, brgyid, street_number, street_name, zipcode,
 			contact, areacode, landline, faxnumber, email, ocid, classid, subClassid, facmode, funcid, owner, ownerMobile, ownerLandline, ownerEmail, mailingAddress, approvingauthoritypos, approvingauthority, hfep_funded,
 			noofbed, noofstation, noofsatellite, noofdialysis, noofmain, cap_inv, lot_area, typeamb, ambtyp, plate_number, ambOwner, HFERC_swork, noofamb, pharCOC, xrayCOC, isApprove)
-
-			SELECT 'IC' AS aptid, regfac_id, uid, facilityname, facid  AS hgpid, assignedRgn, rgnid, provid, cmid, brgyid, street_number, street_name, zipcode,
+				SELECT 'IC' AS aptid, regfac_id, uid, facilityname, facid  AS hgpid, CASE WHEN lto_id IS NOT NULL AND lto_id != '' THEN 'LTO' 
+				WHEN ato_id IS NOT NULL AND ato_id != '' THEN 'ATO' 
+				WHEN coa_id IS NOT NULL AND coa_id != '' THEN 'COA' 
+				WHEN cor_id IS NOT NULL AND cor_id != '' THEN 'COR' 
+				ELSE '' 	END		AS hfser_id, 
+			assignedRgn, rgnid, provid, cmid, brgyid, street_number, street_name, zipcode,
 			contact, areacode, landline, faxnumber, email, ocid, classid, subClassid, facmode, funcid, owner, ownerMobile, ownerLandline, ownerEmail, mailingAddress, approvingauthoritypos, approvingauthority, hfep_funded,
 			noofbed, noofstation, noofsatellite, noofdialysis, noofmain, cap_inv, lot_area, typeamb, ambtyp, plate_number, ambOwner, HFERC_swork, noofamb, pharCOC, xrayCOC, NULL AS isApprove
 			FROM registered_facility WHERE regfac_id='$regfac_id'");
@@ -4700,38 +4708,38 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						];
 					}
 
-					$appform_ambulance_temp= DB::table('appform')->WHERE('appid','=',$appid )->get();
+					$appform_ambulance_temp= $appform;//DB::table('appform')->WHERE('appid','=',$appid )->get();
 					$appform_ambulance = null;
 					$reg_ambulance = null;
-					
+
 					if(isset($appform_ambulance_temp))
 					{
 						foreach( $appform_ambulance_temp as $key=>$val)
 						{
 							if($key == "typeamb")
 							{
-								$d = $val;
-		
+								$d = json_decode($val);
+
 								for($j=count($d)-1; 0 <= $j; $j--)
 									$appform_ambulance[$j]['typeamb'] = $d[$j];
 							}
 							if($key == "ambtyp")
 							{
-								$d = $val;
+								$d = json_decode($val);
 		
 								for($j=count($d)-1; 0 <= $j; $j--)
 									$appform_ambulance[$j]['ambtyp'] = $d[$j];
 							}
 							if($key == "plate_number")
 							{
-								$d = $val;
+								$d = json_decode($val);
 		
 								for($j=count($d)-1; 0 <= $j; $j--)
 									$appform_ambulance[$j]['plate_number'] = $d[$j];
 							}
 							if($key == "ambOwner")
 							{
-								$d = $val;
+								$d = json_decode($val);
 		
 								for($j=count($d)-1; 0 <= $j; $j--)
 									$appform_ambulance[$j]['ambOwner'] = $d[$j];

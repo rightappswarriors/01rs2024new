@@ -148,7 +148,8 @@
 								@endif
 								<br/><p>Issued On {{Date('M d,  Y',strtotime($each[0]->approvedDate))}}</p>
 							</td>
-							<td>{!!($each[0]->hfser_id == 'LTO' && in_array(AjaxController::getHighestApplicationFromX08FT($each[0]->appid)->facid, ['H','H2','H3','INFSEV','BHSERV']) ? 'No Report Submitted, <br>Please Submit to <a href="https://ohsrs.doh.gov.ph" target="_blank" class="btn btn-info">OHSRS</a>' : "Not Applicable" )!!}</td>
+							<td>{!!($each[0]->hfser_id == 'LTO' && in_array($each[0]->hgpid, ['6', '17', '18']) ? 'No Report Submitted, <br>Please Submit to <a href="https://ohsrs.doh.gov.ph" target="_blank" class="btn btn-info">OHSRS</a>' : "Not Applicable" )!!}</td>
+							
 							{{-- <td>{{($each[0]->hfser_id == 'LTO' ? (isset($each[0]->pharValidity) ? $each[0]->pharValidity : "Not Applicable"): "Not Available" )}}</td> --}}
 							{{-- <td>{{($each[0]->hfser_id == 'LTO' ? (isset($each[0]->xrayVal) ? $each[0]->xrayVal : "Not Applicable"): "Not Available" )}}</td> --}}
 							<td>
@@ -181,7 +182,7 @@
 										<input type="hidden" name="apptype" value="renewal" />
 										<button type="submit" style="margin-top: 10px;" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Renew Application" ><i class="fa fa-refresh"></i></button>
 										</form>
-										@if($each[0]->hfser_id == 'LTO' && !in_array(AjaxController::getHighestApplicationFromX08FT($each[0]->appid)->facid, ['H','H2','H3','INFSEV','BHSERV'])) <button hidden style="margin-top: 10px;" {{(FunctionsClientController::checkExpiryDate($each[0]->validDate) ? "" : "")}} class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Renew Facility" onclick="window.location.href='{{asset('client1/apply/app')}}/{{$each[0]->hfser_id}}/{{$each[0]->appid}}/R'"><i class="fas fa-refresh"></i></button> @endif
+										@if($each[0]->hfser_id == 'LTO' && !in_array($each[0]->hgpid, ['6', '17', '18'])) <button hidden style="margin-top: 10px;" {{(FunctionsClientController::checkExpiryDate($each[0]->validDate) ? "" : "")}} class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Renew Facility" onclick="window.location.href='{{asset('client1/apply/app')}}/{{$each[0]->hfser_id}}/{{$each[0]->appid}}/R'"><i class="fas fa-refresh"></i></button> @endif
 									</div>
 								</div>					
 							</td>
