@@ -766,6 +766,9 @@ Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/teams', 'DOH
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/inspection', 'DOHController@MonitoringInspectionOthers'); // View All, Add
 // Monitoring Inspection
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/technical/{id?}', 'DOHController@MonitoringTechnicalOthers'); // View All, Add
+
+Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/technical/showviolation/{id}', 'DOHController@MonitoringTechnicalOthers_ShowViolation'); // View All, Add
+
 // Monitoring Recommendation
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/recommendation', 'DOHController@MonitoringRecommendationOthers'); // View All, Add
 // Monitoring Evaluation
@@ -906,6 +909,7 @@ Route::match(['get', 'post'], 'employee/dashboard/others/mon_delete', 'OthersCon
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/updatestatus/mon_update', 'OthersController@mon_update');
 // Issue NOV
 Route::match(['get', 'post'], 'employee/dashboard/others/mon_nov', 'OthersController@mon_nov');
+
 // Update NOV
 Route::match(['get', 'post'], 'employee/dashboard/others/mon_nov_u', 'OthersController@mon_nov_u');
 // Recommendation

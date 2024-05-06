@@ -50,7 +50,7 @@
         							@if($value->hasViolation != "")
         								<td style="text-align:center">
 										
-        									<button type="btn" class="btn btn-danger" data-toggle="modal" data-target="#vMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ $value->hgpdesc }}', '{{AjaxController::getAllViolationsNew($value->monid)}}', '{{AjaxController::getAllViolationsKeyNew($value->monid)}}', '{{$value->team}}')">
+        									<button type="btn" class="btn btn-danger" data-toggle="modal" data-target="#vMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ $value->hgpdesc }}', '{{-- AjaxController::getAllViolationsNew($value->monid) --}}', '{{-- AjaxController::getAllViolationsKeyNew($value->monid) --}}', '{{$value->team}}')">
     											<i class="fa fa-fw fa-eye"></i>
     											Go to Show Violation
     										</button>
@@ -297,7 +297,7 @@
 											  <div class="row">
    											    <div class="col-sm-2">
 													<input type="checkbox" id="{{$value->novid_directions}}" name="novdire[]" class="form-control w-100" 
-													onclick="showextra(this.value)" value="{{$value->novid_directions}}" style="height:10px;">
+													onclick="showextra(this.value)" value="{{$value->novid_directions}}" >
 												</div>
 												<div class="col-sm-10">
 												{{$value->novdesc}} <br/>

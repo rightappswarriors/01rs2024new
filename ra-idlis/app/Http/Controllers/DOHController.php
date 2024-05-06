@@ -8903,24 +8903,45 @@ namespace App\Http\Controllers;
 						}
 					}
 
-						$complianceCheck = DB::table('compliance_data')->where('app_id',$appid)->get();
+						if(isset($request->monid))
+						{						
+							$complianceCheck = DB::table('compliance_data')->where('mon_id',$request->monid)->get();
 					
-
-				
-						if($complianceCheck->isNotEmpty()) {
-
-							$complianceId = $complianceCheck[0]->compliance_id;
-
-						} else {
-
-							$compliance = array(
-								'app_id' => $appid,
-								'is_for_compliance' => 0,
-								'is_monitoring' => 1,
-								'mon_id' => $request->monid
-							);
-
-							$complianceId = DB::table('compliance_data')->insertGetId($compliance);
+							if($complianceCheck->isNotEmpty()) {
+	
+								$complianceId = $complianceCheck[0]->compliance_id;
+	
+							} else {
+	
+								$compliance = array(
+									'app_id' => $appid,
+									'is_for_compliance' => 0,
+									'is_monitoring' => 1,
+									'mon_id' => $request->monid
+								);
+	
+								$complianceId = DB::table('compliance_data')->insertGetId($compliance);
+							}
+						}
+						else
+						{						
+							$complianceCheck = DB::table('compliance_data')->where('app_id',$appid)->get();
+					
+							if($complianceCheck->isNotEmpty()) {
+	
+								$complianceId = $complianceCheck[0]->compliance_id;
+	
+							} else {
+	
+								$compliance = array(
+									'app_id' => $appid,
+									'is_for_compliance' => 0,
+									'is_monitoring' => 1,
+									'mon_id' => $request->monid
+								);
+	
+								$complianceId = DB::table('compliance_data')->insertGetId($compliance);
+							}
 						}
 
 						$uData = AjaxController::getCurrentUserAllData();
@@ -11937,9 +11958,7 @@ namespace App\Http\Controllers;
 				{
 					try 
 					{
-
-						$allDataSql = AjaxController::getAllMonitoringForm(); // 7/23/2021
-					
+						$allDataSql = AjaxController::getAllMonitoringForm(); // 7/23/2021					
 						$Cur_useData = AjaxController::getCurrentUserAllData();
 
 							if($Cur_useData['grpid'] == 'NA' || $Cur_useData['rgnid'] == 'HFSRB'){
@@ -11949,33 +11968,28 @@ namespace App\Http\Controllers;
 								$allDataSql = "SELECT mon_form.* FROM mon_form left join registered_facility on mon_form.regfac_id = registered_facility.regfac_id where registered_facility.rgnid = '$rg'";
 							}
 						
-						// $allDataSql = "SELECT * FROM mon_form /*WHERE assessmentStatus <> 0*/";
-					
+						// $allDataSql = "SELECT * FROM mon_form /*WHERE assessmentStatus <> 0*/";					
 						$allData = DB::select($allDataSql);
-
-
 						$allNovDir = AjaxController::getAllNovDirections();
 						$violationKey = 0;
 						$allViolation = array();
 
 						// $flag = DB::select("SELECT EXISTS (SELECT * FROM assessmentcombinedduplicate WHERE monid = '1') AS value");
-						// dd($allData);
-						foreach($allData as $k => $v) {
+						//dd($allData);
+						/* foreach($allData as $k => $v) {
 							$flag = DB::select("SELECT EXISTS (SELECT * FROM assessmentcombinedduplicate WHERE monid = ".$v->monid.") AS value")[0];
 							// dd($flag->value == true);
 							if($flag->value) {
 								$allViolation[$v->monid] = DB::select("SELECT *FROM `assessmentcombinedduplicate` WHERE monid = ".$v->monid." AND evaluation = 0");
-								DB::table('mon_form')
-												->where('monid', '=', $v->monid)
-												->update(['hasViolation'=>1]);
+								DB::table('mon_form')->where('monid', '=', $v->monid)->update(['hasViolation'=>1]);
 							} else {
 								// DB::table('mon_form')
 								// 				->where('monid', '=', $v->monid)
 								// 				->update(['isApproved'=>1]);
 							}
-						}
+						} */
 
-						// dd($allViolation);
+						//dd($allViolation);
 
 						// Getting the violations
 						// foreach($allData as $key => $value) {
@@ -12017,24 +12031,39 @@ namespace App\Http\Controllers;
 						// 	}
 					// 	}
 
-					if($Cur_useData['grpid'] == 'NA' || $Cur_useData['rgnid'] == 'HFSRB'){
-						$allDataSql = "SELECT * FROM mon_form
-						left join compliance_data on compliance_data.mon_id = mon_form.monid
-						WHERE mon_form.hasViolation IS NOT NULL";
-						
-					}else{
-						$rg =  $Cur_useData['rgnid'];
+						$allDataSql = "SELECT DISTINCT mon_form.monid, mon_form.appid, mon_form.regfac_id, mon_form.date_added, mon_form.name_of_faci, mon_form.address_of_faci, 
+						mon_form.type_of_faci, mon_form.team, mon_form.date_monitoring, mon_form.date_monitoring_end, mon_form.hasViolation, mon_form.violation, 
+						mon_form.offense, mon_form.novid, mon_form.date_issued, mon_form.attached_files, mon_form.recommendation, mon_form.date_recom, mon_form.payment, 
+						mon_form.suspension, mon_form.s_rec_others, mon_form.signs, mon_form.hasLOE, mon_form.LOE, mon_form.explanation, mon_form.attached_filesUser, 
+						mon_form.monitorRemark, mon_form.verdict, mon_form.s_ver_others, mon_form.isApproved, mon_form.assessmentStatus, mon_form.isFinePaid, 
+						mon_form.isCDO, mon_form.DOHMonitoring, mon_form.forResubmit, mon_form.nov_num, mon_form.status, 
+						mon_team.montname, MAX(nov_issued.novid) AS novid, nov_issued.novdire AS novid_directions, hfaci_grp.hgpdesc, 
+						compliance_data.compliance_id, compliance_data.is_for_compliance, compliance_data.date_for_compliance, compliance_data.valid_until, compliance_data.last_update, 
+						compliance_data.evaluatedby, compliance_data.is_monitoring 
+						FROM mon_form
+						LEFT JOIN registered_facility on mon_form.regfac_id = registered_facility.regfac_id 
+						LEFT JOIN mon_team ON mon_team.montid=mon_form.team
+						LEFT JOIN compliance_data on compliance_data.mon_id = mon_form.monid
+						LEFT JOIN nov_issued ON nov_issued.monid=mon_form.monid
+						LEFT JOIN hfaci_grp ON hfaci_grp.hgpid=mon_form.type_of_faci 
+						WHERE mon_form.hasViolation IS NOT NULL ";
 
-						$allDataSql = "SELECT * FROM mon_form 
-						left join registered_facility on mon_form.regfac_id = registered_facility.regfac_id 
-						left join compliance_data on mon_form.monid = compliance_data.mon_id 
-						WHERE hasViolation IS NOT NULL && registered_facility.rgnid = '$rg'";
-						
-					}
+						if($Cur_useData['grpid'] != 'NA' && $Cur_useData['rgnid'] != 'HFSRB'){
+							$rg =  $Cur_useData['rgnid'];
+							$allDataSql = $allDataSql . " && registered_facility.rgnid = '$rg'";						
+						}
+
+						$allDataSql = $allDataSql . "GROUP BY mon_form.monid, mon_form.appid, mon_form.regfac_id, mon_form.date_added, mon_form.name_of_faci, mon_form.address_of_faci, 
+						mon_form.type_of_faci, mon_form.team, mon_form.date_monitoring, mon_form.date_monitoring_end, mon_form.hasViolation, mon_form.violation, 
+						mon_form.offense, mon_form.novid, mon_form.date_issued, mon_form.attached_files, mon_form.recommendation, mon_form.date_recom, mon_form.payment, 
+						mon_form.suspension, mon_form.s_rec_others, mon_form.signs, mon_form.hasLOE, mon_form.LOE, mon_form.explanation, mon_form.attached_filesUser, 
+						mon_form.monitorRemark, mon_form.verdict, mon_form.s_ver_others, mon_form.isApproved, mon_form.assessmentStatus, mon_form.isFinePaid, 
+						mon_form.isCDO, mon_form.DOHMonitoring, mon_form.forResubmit, mon_form.nov_num, mon_form.status, 
+						mon_team.montname, nov_issued.novdire, hfaci_grp.hgpdesc, 
+						compliance_data.compliance_id, compliance_data.is_for_compliance, compliance_data.date_for_compliance, compliance_data.valid_until, compliance_data.last_update, 
+						compliance_data.evaluatedby, compliance_data.is_monitoring ";
 					
-						$allData = DB::select($allDataSql);
-
-				
+						$allData = DB::select($allDataSql);				
 
 						//CDO
 						foreach($allData as $key => $value) {
@@ -12062,7 +12091,126 @@ namespace App\Http\Controllers;
 							}
 						}
 
-						return view('employee.others.MonitoringTechnical', ['AllData'=>$allData, 'AllNov'=>$allNovDir, 'AllViolation'=>$allViolation, 'optid' => $optid, 'region' => []]);
+						return view('employee.others.MonitoringTechnical', 
+									['AllData'=>$allData, 
+									'AllNov'=>$allNovDir, 
+									/*'AllViolation'=>$allViolation, */
+									'optid' => $optid, 
+									'region' => []]);
+					} 
+					catch (Exception $e) 
+					{
+						AjaxController::SystemLogs($e);
+						session()->flash('system_error', 'ERROR');
+						return view('employee.others.Monitoring')	;
+					}
+				}	
+				if($request->isMethod('post')){
+					if($request->has('setToRevise') && $request->has('monid')){
+						if(DB::table('mon_form')->where('monid',$request->monid)->update(['hasLOE' => null, 'monitorRemark' => $request->remark, 'forResubmit' => 1, 'status' => 'MNA'])){
+							$monDet = DB::table('mon_form')->where('monid',$request->monid)->first();
+							if(DB::table('technicalfindingshist')->insert(['LOE' => $monDet->LOE, 'attached_filesUser'=> $monDet->attached_filesUser, 'id' => $monDet->monid, 'fromWhere' => 'mon'])){
+								$uid = AjaxController::getUidFromRegFac(DB::table('mon_form')->where('monid',$request->monid)->select('regfac_id')->first()->regfac_id);
+								// $uid = AjaxController::getUidFrom(DB::table('mon_form')->where('monid',$request->monid)->select('appid')->first()->appid);
+								AjaxController::notifyClient($request->monid,$uid,64);
+								return back()->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Operation Successful.']);
+							}
+						}
+					}
+				}
+			}  else {
+				return redirect('employee/')->with('errRet', ['errAlt'=>'error', 'errMsg'=>'Please Log in first.']);
+			}
+		}
+
+		public function MonitoringTechnicalOthers_ShowViolation(Request $request, $monid = null)
+		{
+			if(in_array(true, AjaxController::isSessionExist(['employee_login']))){
+				if ($request->isMethod('get')) 
+				{
+					try 
+					{
+						$allDataSql = AjaxController::getAllMonitoringForm(); // 7/23/2021					
+						$Cur_useData = AjaxController::getCurrentUserAllData();
+
+							if($Cur_useData['grpid'] == 'NA' || $Cur_useData['rgnid'] == 'HFSRB'){
+								$allDataSql = "SELECT * FROM mon_form /*WHERE assessmentStatus <> 0*/";
+							}else{
+								$rg =  $Cur_useData['rgnid'];
+								$allDataSql = "SELECT mon_form.* FROM mon_form left join registered_facility on mon_form.regfac_id = registered_facility.regfac_id where registered_facility.rgnid = '$rg'";
+							}
+										
+						$allData = DB::select($allDataSql);
+						$allNovDir = AjaxController::getAllNovDirections();
+						$violationKey = 0;
+						$allViolation = array();						
+
+						$allDataSql = "SELECT DISTINCT mon_form.monid, mon_form.appid, mon_form.regfac_id, mon_form.date_added, mon_form.name_of_faci, mon_form.address_of_faci, 
+						mon_form.type_of_faci, mon_form.team, mon_form.date_monitoring, mon_form.date_monitoring_end, mon_form.hasViolation, mon_form.violation, 
+						mon_form.offense, mon_form.novid, mon_form.date_issued, mon_form.attached_files, mon_form.recommendation, mon_form.date_recom, mon_form.payment, 
+						mon_form.suspension, mon_form.s_rec_others, mon_form.signs, mon_form.hasLOE, mon_form.LOE, mon_form.explanation, mon_form.attached_filesUser, 
+						mon_form.monitorRemark, mon_form.verdict, mon_form.s_ver_others, mon_form.isApproved, mon_form.assessmentStatus, mon_form.isFinePaid, 
+						mon_form.isCDO, mon_form.DOHMonitoring, mon_form.forResubmit, mon_form.nov_num, mon_form.status, 
+						mon_team.montname, MAX(nov_issued.novid) AS novid, nov_issued.novdire AS novid_directions, hfaci_grp.hgpdesc, 
+						compliance_data.compliance_id, compliance_data.is_for_compliance, compliance_data.date_for_compliance, compliance_data.valid_until, compliance_data.last_update, 
+						compliance_data.evaluatedby, compliance_data.is_monitoring 
+						FROM mon_form
+						LEFT JOIN registered_facility on mon_form.regfac_id = registered_facility.regfac_id 
+						LEFT JOIN mon_team ON mon_team.montid=mon_form.team
+						LEFT JOIN compliance_data on compliance_data.mon_id = mon_form.monid
+						LEFT JOIN nov_issued ON nov_issued.monid=mon_form.monid
+						LEFT JOIN hfaci_grp ON hfaci_grp.hgpid=mon_form.type_of_faci 
+						WHERE mon_form.monid='$monid' ";
+
+						if($Cur_useData['grpid'] != 'NA' && $Cur_useData['rgnid'] != 'HFSRB'){
+							$rg =  $Cur_useData['rgnid'];
+							$allDataSql = $allDataSql . " && registered_facility.rgnid = '$rg'";						
+						}
+
+						$allDataSql = $allDataSql . "GROUP BY mon_form.monid, mon_form.appid, mon_form.regfac_id, mon_form.date_added, mon_form.name_of_faci, mon_form.address_of_faci, 
+						mon_form.type_of_faci, mon_form.team, mon_form.date_monitoring, mon_form.date_monitoring_end, mon_form.hasViolation, mon_form.violation, 
+						mon_form.offense, mon_form.novid, mon_form.date_issued, mon_form.attached_files, mon_form.recommendation, mon_form.date_recom, mon_form.payment, 
+						mon_form.suspension, mon_form.s_rec_others, mon_form.signs, mon_form.hasLOE, mon_form.LOE, mon_form.explanation, mon_form.attached_filesUser, 
+						mon_form.monitorRemark, mon_form.verdict, mon_form.s_ver_others, mon_form.isApproved, mon_form.assessmentStatus, mon_form.isFinePaid, 
+						mon_form.isCDO, mon_form.DOHMonitoring, mon_form.forResubmit, mon_form.nov_num, mon_form.status, 
+						mon_team.montname, nov_issued.novdire, hfaci_grp.hgpdesc, 
+						compliance_data.compliance_id, compliance_data.is_for_compliance, compliance_data.date_for_compliance, compliance_data.valid_until, compliance_data.last_update, 
+						compliance_data.evaluatedby, compliance_data.is_monitoring ";
+					
+						$allData = DB::select($allDataSql);				
+
+						//CDO
+						foreach($allData as $key => $value) {
+							if($value->novid != "") {
+								$currentNov = AjaxController::getAllNovIssuedByMonid($value->monid);
+
+								if($currentNov != null) {
+									$novdate = $currentNov[0]->novdate;
+									$novdire = $currentNov[0]->novdire;
+
+									if(date_create(date('Y-m-d')) > date_create(date('Y-m-d', strtotime($novdate.'+ 3 days'))) && $novdire == 1) {	
+										DB::table('mon_form')
+											->where('monid', '=', $value->monid)
+											->update(['isCDO'=>1]);
+									} else if($currentNov[0]->novdire == 2) {
+										DB::table('mon_form')
+											->where('monid', '=', $value->monid)
+											->update(['isCDO'=>1]);
+									} else {
+										DB::table('mon_form')
+											->where('monid', '=', $value->monid)
+											->update(['isCDO'=>null]);
+									}
+								}
+							}
+						}
+
+						return view('employee.others.MonitoringTechnical', 
+									['AllData'=>$allData, 
+									'AllNov'=>$allNovDir, 
+									/*'AllViolation'=>$allViolation, */
+									'optid' => $optid, 
+									'region' => []]);
 					} 
 					catch (Exception $e) 
 					{

@@ -6038,6 +6038,34 @@ public static function checkConmem($appid)
 			}
 		}
 
+		public static function getAuthorizationIDbyRegFac($regfac_id) // Get All Information on Single Application
+		{
+			try 
+			{
+				$data = DB::SELECT ("SELECT 
+										CASE 
+										WHEN lto_id IS NOT NULL THEN lto_id 
+										WHEN ato_id IS NOT NULL THEN ato_id 
+										WHEN coa_id IS NOT NULL THEN coa_id
+										WHEN cor_id IS NOT NULL THEN cor_id
+										ELSE '' END
+										AS authorization
+										FROM registered_facility WHERE regfac_id='$regfac_id'");
+				
+				
+				if(is_array($data))
+				{
+					return $data[0];
+				}
+				else{ return null;} 			
+			} 
+			catch (Exception $e) 
+			{
+				AjaxController::SystemLogs($e->getMessage());
+				return null;
+			}
+		}
+
 		// Get the latest appid
 		public static function getLatestAppIDbyRegFac_ID($regfac_id) 
 		{
@@ -8731,6 +8759,19 @@ public static function checkConmem($appid)
 			}
 		}
 
+		public static function getTransStatus_trns_desc_ById($id)
+		{
+			$transStatus = "";
+			try 
+			{
+				//$sql = "SELECT trns_desc  FROM trans_status WHERE trns_id = '$id'";
+				$transStatus = DB::table('trans_status')->select('trns_desc')->where('trns_id', '=', $id)->first()->trns_desc;
+				//$transStatus = DB::select($sql);
+			} catch (Exception $e) {	}
+
+			return $transStatus;
+		}
+
 		public static function getAllViolationByMonId($monid) {
 			try {
 				$data = DB::table('mon_form')->where('monid', '=', $monid)->first()->DOHMonitoring;
@@ -9093,7 +9134,7 @@ public static function getAllUidByRegFac($regfac_id) {
 
 				$data = DB::table('registered_facility')
 							->where('regfac_id', '=', $regfac_id)
-							->select( 'email', 'owner', 'rgnid')
+							->select( 'email', 'owner', 'rgnid', 'uid')
 							->distinct()
 							->first();
 
@@ -10411,7 +10452,7 @@ public static function forDoneHeadersNew($appid,$monid,$selfAssess,$isPtc = fals
 		return 'error';
 	}
 
-	/////////////////// LLOYD COMEBACK ////////////////////
+
 	public static function getAllViolationsNew($monid) // Get Facility Type
 	{
 		try 
@@ -10422,11 +10463,12 @@ public static function forDoneHeadersNew($appid,$monid,$selfAssess,$isPtc = fals
 					->get();
 			$violations = "";
 			// dd($data[0]->assessmentName);
-
+			
 			for($i=0; $i<count($data); $i++){
 				$violations .= $data[$i]->h2name;
 				if($i<count($data)-1)  $violations .= ", ";
 			}
+			
 			// dd($violations);
 			return $violations;
 		}
@@ -10447,7 +10489,7 @@ public static function forDoneHeadersNew($appid,$monid,$selfAssess,$isPtc = fals
 					->get();
 			$violations = "";
 			// dd($data[0]->assessmentName);
-
+			
 			for($i=0; $i<count($data); $i++){
 				$violations .= $data[$i]->dupID;
 				if($i<count($data)-1)  $violations .= ", ";
