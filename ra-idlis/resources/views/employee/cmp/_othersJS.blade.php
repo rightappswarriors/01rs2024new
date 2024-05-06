@@ -1333,13 +1333,7 @@ console.log("Hello")
       var select = document.getElementById('novviolation');
 
       novmembers.open("GET", "{{asset('employee/dashboard/monitor/team/getMembersByNewTeamId')}}"+team, true);
-
       novmembers.send();
-
-
-
-
-
 
 
       while(select.firstChild) {
@@ -1348,34 +1342,20 @@ console.log("Hello")
 
       }
 
-  
-
-
-
       var first = document.createElement('option');
-
             first.setAttribute('selected', '');
-
             first.innerText='Select a Violation to View';
-
             first.setAttribute('hidden', '');
-
             first.setAttribute('readonly', '');
-
             first.setAttribute('disabled', '');
-
             first.setAttribute('value', '');
-
       select.appendChild(first);
 
       for(i=0; i<ast.length; i++) {
 
          var option = document.createElement('option');
-
                option.setAttribute('value', violation[i]);
-
                option.innerText = ast[i];
-
          select.appendChild(option);
 
       }

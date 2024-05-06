@@ -21,7 +21,6 @@ use Illuminate\Support\Str;
 class OthersController extends Controller
 	{
 
-		///////////////////////////////// Lloyd - November162018/////////////////////////////////////////////////////
 
 		public function req_submit(Request $request, $id){
 			if ($request->isMethod('post')) {
@@ -1378,6 +1377,7 @@ $grpid = isset($employeeData->grpid) ? $employeeData->grpid : 'NONE';
 				// mail
 				$asd = array("name"=>$Uids->owner, "nov"=>$currData->novid);
 				$email = $Uids->email;
+				$uid = $Uids->uid;
 
 				//commented on infoadvance's siteground email problem
 				// Mail::send('employee.others.testmail', $asd, function($msg) use ($email) {
@@ -1389,7 +1389,7 @@ $grpid = isset($employeeData->grpid) ? $employeeData->grpid : 'NONE';
 				// return view('employee.others.NoticeOfViolation', ['AllData'=>$AllData, 'Nov'=>$nov, 'Request'=>$request->all(), 'Signatures'=>$Signatures]);
 				
 				
-				$data = AjaxController::getAllDataEvaluateOneRegFac($request->novappid);
+				/*$data = AjaxController::getAllDataEvaluateOneRegFac($request->novappid);
 
 
 					$rgappid = null; 
@@ -1422,17 +1422,21 @@ $grpid = isset($employeeData->grpid) ? $employeeData->grpid : 'NONE';
 								
 							}
 						}
-					}
+					}*/
 				
 				$compliance = DB::table('compliance_data')
 				->where('mon_id', '=', $request->novmonid)
 				->get();
 
-				$compliance_id = $compliance[0]->compliance_id;
-
-				if(isset($rgappid)){
-					$uid = AjaxController::getUidFrom($rgappid);
+				$compliance_id = null;
+				try { 
+					$compliance_id = $compliance[0]->compliance_id; 
 					AjaxController::notifyClient($compliance_id,$uid,45);
+				} catch (Exception $ex) {}
+
+				if(isset($compliance_id)){
+					//$uid = AjaxController::getUidFrom($rgappid);
+					//AjaxController::notifyClient($compliance_id,$uid,45);
 				}
 
 				// if(isset($request->novappid)){

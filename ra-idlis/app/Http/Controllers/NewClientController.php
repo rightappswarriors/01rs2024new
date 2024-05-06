@@ -4023,6 +4023,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				'plate_number' => $request->plate_number,
 				'ambOwner' => $request->ambOwner
 			];
+
 			//Savings on ambulance
 			DB::table('appform_ambulance')->where(array('id'=>$id))->delete();
 			DB::table('appform_ambulance')->insert($amb_arr);
@@ -4711,7 +4712,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					$appform_ambulance_temp= $appform;//DB::table('appform')->WHERE('appid','=',$appid )->get();
 					$appform_ambulance = null;
 					$reg_ambulance = null;
-
+					//dd($appform_ambulance_temp);
 					if(isset($appform_ambulance_temp))
 					{
 						foreach( $appform_ambulance_temp as $key=>$val)
