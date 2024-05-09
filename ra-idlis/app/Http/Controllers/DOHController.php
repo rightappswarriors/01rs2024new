@@ -12338,24 +12338,24 @@ namespace App\Http\Controllers;
 			{
 				try 
 				{
-
-
-					$allDataSql = "SELECT * FROM mon_form join registered_facility on registered_facility.regfac_id = mon_form.regfac_id WHERE hasLOE IS NOT NULL";
+					$allDataSql = "SELECT mon_form.*, registered_facility.*, mon_status.msdesc FROM mon_form 
+									JOIN registered_facility on registered_facility.regfac_id = mon_form.regfac_id 
+									LEFT JOIN mon_status ON mon_form.msid=mon_status.msid  WHERE hasLOE IS NOT NULL";
 
 					$Cur_useData = AjaxController::getCurrentUserAllData();
 
 					if($Cur_useData['grpid'] == 'NA' || $Cur_useData['rgnid'] == 'HFSRB'){
-						$allDataSql = "SELECT * FROM mon_form join registered_facility on registered_facility.regfac_id = mon_form.regfac_id WHERE hasLOE IS NOT NULL";
+						//$allDataSql = "SELECT * FROM mon_form join registered_facility on registered_facility.regfac_id = mon_form.regfac_id WHERE hasLOE IS NOT NULL";
 					}else{
 						$rg = $Cur_useData['rgnid'];
-						$allDataSql = "SELECT * FROM mon_form join registered_facility on registered_facility.regfac_id = mon_form.regfac_id WHERE hasLOE IS NOT NULL && registered_facility.rgnid = '$rg'";
+						$allDataSql = $allDataSql . " && registered_facility.rgnid = '$rg'";
 					}
-
 
 					// $allDataSql = "SELECT * FROM mon_form join appform on appform.appid = mon_form.appid WHERE hasLOE IS NOT NULL";
 					$allData = DB::select($allDataSql);
 					$allRec = AjaxController::getAllSurveillanceRecommendation();
 					$allVer = AjaxController::getAllVerdict();
+					$allMonStatus = AjaxController::getAllMonitoringStatus();
 
  					$allData = DB::select($allDataSql);
 
@@ -12385,7 +12385,7 @@ namespace App\Http\Controllers;
 						}
 					}
 
-					return view('employee.others.MonitoringUpdateStatus', ['AllData'=>$allData, 'AllRec'=>$allRec, 'AllVer'=>$allVer]);
+					return view('employee.others.MonitoringUpdateStatus', ['AllData'=>$allData, 'AllRec'=>$allRec, 'AllVer'=>$allVer, 'allMonStatus'=>$allMonStatus]);
 				} 
 				catch (Exception $e) 
 				{

@@ -71,7 +71,7 @@
                   </td>
                   <td style="text-align:center">{{$value->novid}}</td>
                   <td style="text-align:center;" class=" font-weight-bold">                       
-                      {{ $value->trns_desc }}
+                      {{ $value->msdesc }}
                   </td>
 
                   <!-- @if($value->isApproved == "1")

@@ -31,15 +31,17 @@
 	        						<td style="text-align: center;">@if($value->novid != "") {{ AjaxController::getNovidById($value->monid, "M")->novid }} @endif</td>
 	        						<td style="text-align: center;">{{\Carbon\Carbon::parse($value->date_issued)->format('M d, Y')}}</td>
 	        						<td style="text-align: center;">{{$value->name_of_faci}}</td>
-	        						@if($value->isApproved == 1)
-	        							<td style="text-align: center; color: white;" class="bg-success"><b>{{"Accepted"}}</b></td>
-	        						@elseif($value->isApproved == 2 || $value->isApproved == "")
-	        							<td style="text-align: center; color: white;" class="bg-danger"><b>{{"Not Accepted"}}</b></td>
-	        						{{-- @elseif($value->verdict == 3)
-	        							<td style="text-align: center; color: white;" class="bg-warning"><b>{{AjaxController::getVerdictById($value->verdict)->vdesc}}</b></td> --}}
+	        						@if(!isset($value->msid))
+	        							<td style="text-align: center; color: black;"><b>{{$value->msdesc}}</b></td>
+	        						@elseif($value->msid == 1)
+	        							<td style="text-align: center; color: white;" class="bg-success"><b>{{$value->msdesc}}</b></td>
+	        						@elseif($value->msid == 3)
+	        							<td style="text-align: center; color: white;" class="bg-warning"><b>{{$value->msdesc}}</b></td>
+	        						@else
+	        							<td style="text-align: center; color: white;" class="bg-danger"><b>{{$value->msdesc}}</b></td>
 	        						@endif
 	        						<td style="text-align: center;">
-	        							<button class="btn btn-info w-100" data-toggle="modal" data-target="#updateModal" onclick="currentStatus('{{($value->isApproved != "")?"Accepted":"Not Accepted"}}', '{{$value->monid}}')">
+	        							<button class="btn btn-info w-100" data-toggle="modal" data-target="#updateModal" onclick="currentStatus('{{$value->msdesc}}', '{{$value->monid}}')">
 	        								<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update
 	        							</button>
 	        						</td>
@@ -83,13 +85,11 @@
 				          		<div class="col-sm-12">
 				          			<select class="form-control" name="asd" {{-- onchange="recextrachange(this)" --}} id="recvselect" data-parsley-required-message="<b>*Status</b> required" required data-parsley="recvselect" required>
 			          					<option disabled hidden selected value="0"></option>
-				          				{{-- @isset($AllVer)
-				          					@foreach($AllVer as $k => $v)
-				          						<option value="{{$v->vid}}">{{$v->vdesc}}</option>
+				          				@isset($allMonStatus)
+				          					@foreach($allMonStatus as $k => $v)
+				          						<option value="{{$v->msid}}">{{$v->msdesc}}</option>
 				          					@endforeach
-				          				@endisset --}}
-				          				<option value="1">Accepted</option>
-				          				<option value="2">Not Accepted</option>
+				          				@endisset 
 				          			</select>
 				          		</div>
 

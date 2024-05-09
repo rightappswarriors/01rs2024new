@@ -243,3 +243,25 @@ INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT g
 INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NDHRHIS001' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
 INSERT INTO x06 (grp_id, mod_id, allow, ad_d, upd, cancel, print, view) SELECT grp_id, 'NDHRHIS002' AS mod_id, 0 AS allow, 0 AS ad_d, 0 AS upd, 0 AS cancel, 0 AS print, 0 AS view  FROM x07;
 
+
+
+CREATE TABLE `mon_status` (
+  `msid` int NOT NULL,
+  `msdesc` text,
+  `msescextra` longtext
+);
+
+INSERT INTO `mon_status` (msid, msdesc, msescextra) VALUES (1, 'Complied', NULL);
+INSERT INTO `mon_status` (msid, msdesc, msescextra) VALUES (2, 'Incomplete', NULL);
+INSERT INTO `mon_status` (msid, msdesc, msescextra) VALUES (3, 'Stern Warning', NULL); 
+INSERT INTO `mon_status` (msid, msdesc, msescextra) VALUES (4, 'Closed', NULL);
+INSERT INTO `mon_status` (msid, msdesc, msescextra) VALUES (5, 'Cease and Desist Order from Operating', NULL);
+
+UPDATE `verdict` SET `vdesc` = 'License Not Needed' WHERE (`vid` = '1');
+UPDATE `verdict` SET `vdesc` = 'Stop Operation ' WHERE (`vid` = '2');
+UPDATE `verdict` SET `vdesc` = 'Applied for License' WHERE (`vid` = '3');
+UPDATE `verdict` SET `vdesc` = 'Licensed' WHERE (`vid` = '4');
+UPDATE `verdict` SET `vdesc` = 'Others', `vdescextra` = '<textarea name=\"others\" class=\"form-control w-100\" placeholder=\"Specify\" data-parsley-required-message=\"<b>*Specification</b> required\" required data-parsley=\"recrecom\" required></textarea>' WHERE (`vid` = '5');
+
+
+ALTER TABLE mon_form ADD COLUMN msid INT NULL;
