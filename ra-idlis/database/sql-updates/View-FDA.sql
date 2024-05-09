@@ -494,7 +494,7 @@ LEFT JOIN class subclass ON appform.subClassid=subclass.classid
 LEFT JOIN trans_status ON appform.FDAstatus=trans_status.trns_id
 LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
 
-WHERE  appform.FDAstatus='FI'  AND appform.savingStat='final' AND appform.isReadyForInspecFDA=1	
+WHERE  appform.savingStat='final' AND appform.isReadyForInspecFDA=1	
 AND ((appform.isCashierApprovePharma=1 AND (appform.proofpaystatPhar!='posting' OR appform.proofpaystatPhar!='insufficient') ) AND appform.FDAStatPhar != 'COC Still Valid') 
 AND (appform.isrecommendedFDAPharma IS NULL OR appform.isrecommendedFDAPharma=2 OR appform.isRecoDecision = 'Return for Correction') 
 AND appform.hfser_id IN ('COA', 'LTO', 'ATO', 'COR')  

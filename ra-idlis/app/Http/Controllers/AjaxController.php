@@ -4889,23 +4889,22 @@ public static function checkConmem($appid)
 
 				if($Cur_useData['grpid'] == 'NA' || $Cur_useData['rgnid'] == 'HFSRB'){
 					$data = DB::table('mon_form')
-					->select('hfaci_grp.hgpdesc', 'trans_status.trns_desc', 'mon_form.*', 'registered_facility.*')
+					->select('hfaci_grp.hgpdesc', 'trans_status.trns_desc', 'mon_form.*', 'mon_status.msdesc', 'registered_facility.*')
 					->leftJoin('registered_facility','mon_form.regfac_id','=','registered_facility.regfac_id')
+					->leftJoin('mon_status','mon_form.msid','=','mon_status.msid')
 					->leftJoin('hfaci_grp','mon_form.type_of_faci','=','hfaci_grp.hgpid')
 					->leftJoin('trans_status','mon_form.status','=','trans_status.trns_id')
 					->get();
 				}else{
 					$data = DB::table('mon_form')
-					->select('hfaci_grp.hgpdesc', 'trans_status.trns_desc', 'mon_form.*', 'registered_facility.*')
+					->select('hfaci_grp.hgpdesc', 'trans_status.trns_desc', 'mon_form.*', 'mon_status.msdesc', 'registered_facility.*')
 					->leftJoin('registered_facility','mon_form.regfac_id','=','registered_facility.regfac_id')
+					->leftJoin('mon_status','mon_form.msid','=','mon_status.msid')
 					->leftJoin('hfaci_grp','mon_form.type_of_faci','=','hfaci_grp.hgpid')
 					->leftJoin('trans_status','mon_form.status','=','trans_status.trns_id')
 					->where('registered_facility.rgnid', $Cur_useData['rgnid'])
 					->get();
 				}
-			
-				// $data = DB::table('mon_form')->join('registered_facility','mon_form.regfac_id','registered_facility.regfac_id')->get();
-				// $data = DB::table('mon_form')->join('appform','appform.appid','mon_form.appid')->get(); 6-21-2021
 				
 				return $data;
 			} catch (Exception $e) {
@@ -9215,10 +9214,23 @@ public static function getAllUidByRegFac($regfac_id) {
 			}
 		}
 
+		public static function getAllMonitoringStatus() {
+			try {
+				$data = DB::table('mon_status')
+				->orderBy('msid', 'ASC')
+							->get();
+
+				return ($data);
+			} catch (Exception $e) {
+				AjaxController::SystemLogs($e->getMessage());
+				return 'ERROR';	
+			}
+		}
+
 		public static function getAllVerdict() {
 			try {
 				$data = DB::table('verdict')
-				->orderBy('vid', 'DESC')
+				->orderBy('vid', 'ASC')
 							->get();
 
 				return ($data);

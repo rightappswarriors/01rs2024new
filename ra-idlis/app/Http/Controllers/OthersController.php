@@ -1704,12 +1704,16 @@ $grpid = isset($employeeData->grpid) ? $employeeData->grpid : 'NONE';
 
 		public function mon_update(Request $request) {
 			if($request->isMethod('post')) {
+				$approved = 0;
 
-				// if($request->asd == 2) $request->asd = null;
+				if($request->asd == 1) {$approved = 1;}
 
 				DB::table('mon_form')
 					->where('monid', '=', $request->monid)
-					->update(['isApproved'=>$request->asd]);
+					->update([
+						'isApproved'=>$approved,
+						'msid'=>$request->asd
+					]);
 
 
 					// here

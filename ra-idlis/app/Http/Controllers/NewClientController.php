@@ -4014,19 +4014,95 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		//Increase/Decrease In Ambulance Vehicle
 		else if($cat_id == 3)
 		{
-			$id = $request->id;
-			$noOfRegAmbulance = $request->noOfRegAmbulance;
-			$amb_arr = [
-				'appid'	=> $appid,
-				'typeamb' => $request->typeamb,
-				'ambtyp' => $request->ambtyp,
-				'plate_number' => $request->plate_number,
-				'ambOwner' => $request->ambOwner
-			];
+			$action = $request->action;
 
-			//Savings on ambulance
-			DB::table('appform_ambulance')->where(array('id'=>$id))->delete();
-			DB::table('appform_ambulance')->insert($amb_arr);
+			if($action == "del"){
+
+				$id = $request->id;
+				DB::table('appform_ambulance')->where(array('appid'=>$appid, 'id'=> $id))->delete();
+			}
+			else if ($action == "upd") {
+				
+				$id = $request->id;
+				$noOfRegAmbulance = $request->noOfRegAmbulance;
+				$amb_arr = [
+					'appid'	=> $appid,
+					'typeamb' => $request->typeamb,
+					'ambtyp' => $request->ambtyp,
+					'plate_number' => $request->plate_number,
+					'ambOwner' => $request->ambOwner
+				];
+
+				//Savings on ambulance
+				DB::table('appform_ambulance')->where('id',$id)->update($amb_arr);
+			}
+			else 
+			{
+				//////////////////////////
+				/*$appform_ambulance_temp= DB::table('appform')->WHERE('appid','=',$appid )->get(); // DB::table('appform_ambulance')->select('typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->get();
+				
+				if (!is_null($appform)) { 
+					$appform_ambulance_temp = [
+						'typeamb' 		=> json_decode($appform->typeamb), 
+						'ambtyp'		=> json_decode($appform->ambtyp), 
+						'plate_number'	=> json_decode($appform->plate_number), 
+						'ambOwner'		=> json_decode($appform->ambOwner)
+					];
+				}
+
+				if(isset($appform_ambulance_temp))
+				{
+					foreach( $appform_ambulance_temp as $key=>$val)
+					{
+						if($key == "typeamb")
+						{
+							$d = $val; 
+
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['typeamb'] = $d[$j];
+						}
+						if($key == "ambtyp")
+						{
+							$d = $val;
+
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['ambtyp'] = $d[$j];
+						}
+						if($key == "plate_number")
+						{
+							$d = $val;
+
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['plate_number'] = $d[$j];
+						}
+						if($key == "ambOwner")
+						{
+							$d = $val;
+
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['ambOwner'] = $d[$j];
+						}
+					}
+				} 
+				*/
+				//dd($appform_ambulance);
+				///////////////////////////
+
+				$id = $request->id;
+				$noOfRegAmbulance = $request->noOfRegAmbulance;
+				$amb_arr = [
+					'appid'	=> $appid,
+					'typeamb' => $request->typeamb,
+					'ambtyp' => $request->ambtyp,
+					'plate_number' => $request->plate_number,
+					'ambOwner' => $request->ambOwner
+				];
+
+				//Savings on ambulance
+				DB::table('appform_ambulance')->where(array('id'=>$id))->delete();
+				DB::table('appform_ambulance')->insert($amb_arr);
+			}
+
 			$amt = 0.00;
 			$NoOfAmb =	DB::table('appform_ambulance')->where(array('appid'=>$appid, 'ambtyp'=>'2'))->count();
 
@@ -4034,7 +4110,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			{				
 				if($hgpid == 34)
 				{
-					$amt = (($NoOfAmb + $noOfRegAmbulance) * 3000);
+					$amt = (($NoOfAmb) * 3000);//(($NoOfAmb + $noOfRegAmbulance) * 3000);
 				}
 				else if($hgpid == 6)
 				{
@@ -4069,6 +4145,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			$remarks = "Increase/Decrease In Ambulance Vehicle.";
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
+
 			return redirect('client1/changerequest/'.$request->regfac_id.'/av')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Ambulance successfully saved.']);
 		}
 		//Change In Service
@@ -4692,14 +4769,14 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					$reg_ambulance_temp = null;
 					$appform_ambulance_temp = null;
 					
-					if (!is_null($appform)) { 
+					/*if (!is_null($appform)) { 
 						$appform_ambulance_temp = [
 							'typeamb' 		=> json_decode($appform->typeamb), 
 							'ambtyp'		=> json_decode($appform->ambtyp), 
 							'plate_number'	=> json_decode($appform->plate_number), 
 							'ambOwner'		=> json_decode($appform->ambOwner)
 						];
-					}
+					}*/
 					if (!is_null($data_reg) ){ 
 						$reg_ambulance_temp = [
 							'typeamb' 		=> json_decode($data_reg->typeamb), 
@@ -4709,11 +4786,11 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						];
 					}
 
-					$appform_ambulance_temp= $appform;//DB::table('appform')->WHERE('appid','=',$appid )->get();
+					//$appform_ambulance_temp= $appform;//DB::table('appform')->WHERE('appid','=',$appid )->get();  DB::table('appform_ambulance')->select('typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->get();
 					$appform_ambulance = null;
 					$reg_ambulance = null;
 					//dd($appform_ambulance_temp);
-					if(isset($appform_ambulance_temp))
+					/*if(isset($appform_ambulance_temp))
 					{
 						foreach( $appform_ambulance_temp as $key=>$val)
 						{
@@ -4746,9 +4823,9 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 									$appform_ambulance[$j]['ambOwner'] = $d[$j];
 							}
 						}
-					} 
+					} */
 
-					//$appform_ambulance= DB::table('appform_ambulance')->select('typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->get();
+					$appform_ambulance= DB::table('appform_ambulance')->select('id', 'typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->get();
 					
 					if(isset($reg_ambulance_temp))
 					{
