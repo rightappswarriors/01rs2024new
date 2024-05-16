@@ -38,6 +38,9 @@ appform.recommendedtime, CASE WHEN appform.recommendedtime IS NOT NULL THEN DATE
 appform.isApprove, appform.approvedBy, 
 appform.approvedDate, CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMAT(appform.approvedDate, "%M %d, %Y") ELSE NULL END AS formattedApprovedDate, 
 appform.approvedTime, CASE WHEN appform.approvedTime IS NOT NULL THEN DATE_FORMAT(appform.approvedTime, "%h:%i %p") ELSE NULL END AS formattedApprovedTime,
+
+appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%M %d, %Y") ELSE NULL END AS formattedXrayValidityDate, 
+appform.pharValidity, CASE WHEN appform.pharValidity IS NOT NULL THEN DATE_FORMAT(appform.pharValidity, "%M %d, %Y") ELSE NULL END AS formattedPharmaValidityDate, 
 /*********** Important Dates ***************/
 
 appform.autoTimeDate, appform.created_at, appform.updated_at,
@@ -97,6 +100,7 @@ appform.appid_payment, appform.isPayEval, appform.isReadyForInspec, appform.proo
  appform.approvedDateFDAPharma, CASE WHEN appform.approvedDateFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedDateFDAPharma, "%M %d, %Y") ELSE NULL END AS formattedApprovedDateFDAPharma, 
  appform.approvedTimeFDAPharma, CASE WHEN appform.approvedTimeFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedTimeFDAPharma, "%h:%i %p") ELSE NULL END AS formattedApprovedTimeFDAPharma, 
  
+ appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
  appform.isReadyForInspecFDA, appform.isRecoDecision, appform.isRecoDecisionPhar, 
  appform.preApproveDateFDA, appform.preApproveTimeFDA, appform.preApproveDateFDAPharma, appform.preApproveTimeFDAPharma,
  appform.FDAStatMach, appform.FDAStatPhar, appform.proofpaystatMach, appform.proofpaystatPhar, FDAstatus    
@@ -163,6 +167,9 @@ appform.recommendedtime, CASE WHEN appform.recommendedtime IS NOT NULL THEN DATE
 appform.isApprove, appform.approvedBy, 
 appform.approvedDate, CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMAT(appform.approvedDate, "%M %d, %Y") ELSE NULL END AS formattedApprovedDate, 
 appform.approvedTime, CASE WHEN appform.approvedTime IS NOT NULL THEN DATE_FORMAT(appform.approvedTime, "%h:%i %p") ELSE NULL END AS formattedApprovedTime,
+
+appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%M %d, %Y") ELSE NULL END AS formattedXrayValidityDate, 
+appform.pharValidity, CASE WHEN appform.pharValidity IS NOT NULL THEN DATE_FORMAT(appform.pharValidity, "%M %d, %Y") ELSE NULL END AS formattedPharmaValidityDate, 
 /*********** Important Dates ***************/
 
 appform.autoTimeDate, appform.created_at, appform.updated_at,
@@ -222,6 +229,7 @@ appform.appid_payment, appform.isPayEval, appform.isReadyForInspec, appform.proo
  appform.approvedDateFDAPharma, CASE WHEN appform.approvedDateFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedDateFDAPharma, "%M %d, %Y") ELSE NULL END AS formattedApprovedDateFDAPharma, 
  appform.approvedTimeFDAPharma, CASE WHEN appform.approvedTimeFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedTimeFDAPharma, "%h:%i %p") ELSE NULL END AS formattedApprovedTimeFDAPharma, 
  
+ appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
  appform.isReadyForInspecFDA, appform.isRecoDecision, appform.isRecoDecisionPhar, 
  appform.preApproveDateFDA, appform.preApproveTimeFDA, appform.preApproveDateFDAPharma, appform.preApproveTimeFDAPharma,
  appform.FDAStatMach, appform.FDAStatPhar, appform.proofpaystatMach, appform.proofpaystatPhar, FDAstatus   
@@ -494,12 +502,23 @@ LEFT JOIN class subclass ON appform.subClassid=subclass.classid
 LEFT JOIN trans_status ON appform.FDAstatus=trans_status.trns_id
 LEFT JOIN region AS asrgn ON appform.assignedRgn=asrgn.rgnid
 
-WHERE  appform.savingStat='final' AND appform.isReadyForInspecFDA=1	
-AND ((appform.isCashierApprovePharma=1 AND (appform.proofpaystatPhar!='posting' OR appform.proofpaystatPhar!='insufficient') ) AND appform.FDAStatPhar != 'COC Still Valid') 
-AND (appform.isrecommendedFDAPharma IS NULL OR appform.isrecommendedFDAPharma=2 OR appform.isRecoDecision = 'Return for Correction') 
-AND appform.hfser_id IN ('COA', 'LTO', 'ATO', 'COR')  
-AND (( appform.noofstation IS NOT NULL AND appform.noofstation > 0) OR ( appform.noofmain IS NOT NULL   AND appform.noofmain > 0)) 
- AND appform.iscancel='0' 
+WHERE  
+	(
+		(	
+			appform.isReadyForInspecFDA=1	
+			AND (
+					(appform.isCashierApprovePharma=1 AND (appform.proofpaystatPhar!='posting' OR appform.proofpaystatPhar!='insufficient') ) 
+					AND appform.FDAStatPhar != 'COC Still Valid'
+				) 
+			AND (appform.isrecommendedFDAPharma IS NULL OR appform.isrecommendedFDAPharma=2 OR appform.isRecoDecision = 'Return for Correction')
+		)	
+		OR	
+		(	appform.FDAStatPhar = "For Notice of Deficiency"	)
+	)	
+	AND appform.savingStat='final' AND appform.hfser_id IN ('COA', 'LTO', 'ATO', 'COR')  
+	AND (	( appform.noofstation IS NOT NULL AND appform.noofstation > 0) OR ( appform.noofmain IS NOT NULL   AND appform.noofmain > 0)	) 
+	AND appform.iscancel='0' 
+	
 ORDER BY appform.updated_at DESC, appform.appid DESC
 );
 

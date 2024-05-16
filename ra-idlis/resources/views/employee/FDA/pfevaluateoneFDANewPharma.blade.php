@@ -472,7 +472,7 @@
     
     <script>
       $("[name=recommendation]").change(function(event) {
-        if($(this).find('option:selected').val() == 'RL'){
+        if($(this).find('option:selected').val() == 'RL' || $(this).find('option:selected').val() == 'NOD'){
           $("[name=fileUp]").removeAttr('required').hide();
         } else {
           $("[name=fileUp]").attr('required',true).show();

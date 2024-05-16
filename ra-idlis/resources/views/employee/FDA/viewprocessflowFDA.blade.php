@@ -33,43 +33,42 @@
                   <td style="text-align: center;" rowspan="2">Options</td>
                   <td style="text-align: center;" rowspan="2">Process Types &<br/> Application Code</td>
                   <td style="text-align: center;"  rowspan="2">Name, Type and Region of the Facility <br/>Applied Date and Payment Confirmation Date</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Cashier Details of</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Pre-Assessment Details of</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Inspection Details of</td>
-                  <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Recommendation Details of</td>
-                  <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Final Decision Details of</td>
+                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  colspan="2">DOH Inspection</td>
+                                  
+                  @if($FDAtype == 'machines')
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">FDA Remarks</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">COC Attachment and Validity</td>
+                  @else
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Cashier Details of</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Pre-Assessment Details of</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Inspection Details of</td>
+                    <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Recommendation Details of</td>
+                    <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Final Decision Details of</td>
+                  @endif 
                   <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Application Status of</td>
                   <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">DOH Status</td>  
                   
               </tr>
               <tr style="font-weight:bold;">
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Target Last Date</td>                      
+                      <td style="text-align: center;">Actual Date</td>                    
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
                       <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
                       <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
                       <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
                       <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
                       <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
@@ -85,10 +84,18 @@
                   @if(count($LotsOfDatas) > 0)
                     @foreach ($LotsOfDatas as $data)
                         <tr>
-                          <td>
-                            <center>                              
+                          <td class="text-center" style="width:50px;">          
                               <button type="button" title="View detailed information for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showData({{$data->appid}},'{{$data->aptdesc}}', '{{$data->authorizedsignature}}','{{$data->brgyname}}', '{{$data->classname}}' ,'{{$data->cmname}}', '{{$data->email}}', '{{$data->facilityname}}','{{$data->hgpdesc}}', '{{$data->formattedDate}}', '{{$data->formattedTime}}', '{{$data->hfser_desc}}','{{$data->ocdesc}} - {{$data->classname}} - {{$data->subclassname}}', '{{$data->provname}}','{{$data->rgn_desc}}', '{{$data->street_name}}', '{{$data->zipcode}}', '{{$data->isrecommended}}', '{{$data->hfser_id}}', '{{$data->status}}', '{{$data->uid}}', '{{$data->trns_desc}}');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-eye"></i></button>
-                            </center>
+                            
+                            @if($FDAtype == 'machines')
+                                     
+                                <button type="button" title="Update Status for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showDataStatus({{$data->appid}},'{{$data->facilityname}}', '{{$data->status}}');" data-toggle="modal" data-target="#ModalStatus" style="padding: 5px;margin:1px;font-size: xx-small;">Update Status</button>
+
+                                <button type="button" title="Edit Remarks for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showDataRemarks({{$data->appid}},'{{$data->facilityname}}', '{{$data->RecoRemarkFDA}}');" data-toggle="modal" data-target="#ModalRemarks" style="padding: 5px;margin:1px;font-size: xx-small;">Edit Remarks</button>
+                                
+                                <button type="button" title="Upload COC for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showDataCOC({{$data->appid}},'{{$data->facilityname}}', '{{$data->xrayVal}}', '{{$data->xrayCOC}}', '{{$data->xrayUp}}');" data-toggle="modal" data-target="#ModalCOC" style="padding: 5px;margin:1px;font-size: xx-small;">Upload COC</button>
+                              
+                            @endif
                           </td>
                           <td style="text-align:center">
                               {{$data->aptdesc}} {{$data->hfser_id}} <br/><strong>{{$data->hfser_id}}R{{$data->rgnid}}-{{$data->appid}}</strong>
@@ -103,17 +110,34 @@
 
                               @if(isset($data->t_date))<br/><br/><I>Applied on</I> {{date("F j, Y", strtotime($data->t_date)) }} @else <br/><br/><span style="color:red;">{{ 'Not Officially Applied Yet.' }}</span> @endif                    
                           </td>
-
-                          {{-- Cashier --}}
+                          <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">                           
+                          {{-- DOH Inspection Target Date--}}     
+                              @if(isset($data->formattedDatePropEval)){{$data->formattedDatePropEval}} @endif 
+                          </td>
+                          <td style="text-align:center;">                         
+                          {{-- DOH Inspection Actual Date--}}     
+                              @if(isset($data->formattedInspectedDate)){{$data->formattedInspectedDate}} @endif 
+                          </td>
                           @if($FDAtype != 'all' && $FDAtype == 'machines')
-                              <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
-                                @if(isset($data->formattedCashierApproveDateFDA)) {{$data->formattedCashierApproveDateFDA}} @endif 
-                                @if(isset($data->formattedCashierApproveTimeFDA)) {{$data->formattedCashierApproveTimeFDA}}  @endif 
-                                
-                                @if(isset($data->CashierApproveByFDA)) <br/><br/> By: {{$data->CashierApproveByFDA}} @endif 
-                                @if(isset($data->CashierApproveIpFDA)) <br/> IP Addr: {{$data->CashierApproveIpFDA}} @endif
-                              </td>
-                          @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                          <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">                         
+                          {{-- FDA Remarks --}}     
+                              @if(isset($data->RecoRemarkFDA)){{$data->RecoRemarkFDA}} @endif 
+                          </td>
+                          <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">                         
+                          {{-- COC Attachment and Validity --}} 
+                              @if(isset($data->formattedXrayValidityDate)){{$data->formattedXrayValidityDate}} @endif 
+                              <br/> ----------------------
+                              @if(isset($data->xrayCOC)){{$data->xrayCOC}} @endif 
+                              <br/> ----------------------
+                              @if(isset($data->xrayUp)){{$data->xrayUp}} @endif 
+                              <br/>    
+                              <a href="{{url('file/download/')}}" style="font-size:x-small">Click Here to download</a>
+                          </td>
+                          @endif 
+
+                          
+                          @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                          {{-- Cashier --}}
                               <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
                                 @if(isset($data->formattedCashierApproveDatePharma)) {{$data->formattedCashierApproveDatePharma}} @endif 
                                 @if(isset($data->formattedCashierApproveTimePharma)) {{$data->formattedCashierApproveTimePharma}} @endif 
@@ -121,18 +145,8 @@
                                 @if(isset($data->CashierApproveByPharma)) <br/><br/> By: {{$data->CashierApproveByPharma}} @endif 
                                 @if(isset($data->CashierApproveIpPharma)) <br/> IP Addr: {{$data->CashierApproveIpPharma}} @endif
                               </td>
-                          @endif 
                           
                           {{-- Pre-Assessment --}}
-                          @if($FDAtype != 'all' && $FDAtype == 'machines')
-                              <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
-                                @if(isset($data->formattedIsPreassessedDate)) {{$data->formattedIsPreassessedDate}} @endif 
-                                @if(isset($data->formattedIsPreassessedTime)) {{$data->formattedIsPreassessedTime}}  @endif 
-                                
-                                @if(isset($data->ispreassessedby)) <br/><br/> By: {{$data->ispreassessedby}} @endif 
-                                @if(isset($data->ispreassessedip)) <br/> IP Addr: {{$data->ispreassessedip}} @endif
-                              </td>
-                          @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
                               <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
                                 @if(isset($data->formattedIsPreassessedDatePharma)) {{$data->formattedIsPreassessedDatePharma}} @endif 
                                 @if(isset($data->formattedIsPreassessedTimePharma)) {{$data->formattedIsPreassessedTimePharma}} @endif 
@@ -140,18 +154,8 @@
                                 @if(isset($data->ispreassessedbypharma)) <br/><br/> By: {{$data->ispreassessedbypharma}} @endif 
                                 @if(isset($data->ispreassessedippharma)) <br/> IP Addr: {{$data->ispreassessedippharma}} @endif
                               </td>
-                          @endif 
                           
                           {{-- Inspection  --}}
-                          @if($FDAtype != 'all' && $FDAtype == 'machines')
-                              <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
-                                @if(isset($data->formattedRecommendedDateFDA)) {{$data->formattedRecommendedDateFDA}} @endif 
-                                @if(isset($data->formattedRecommendedTimeFDA)) {{$data->formattedRecommendedTimeFDA}}  @endif 
-                                
-                                @if(isset($data->recommendedbyFDA)) <br/><br/> By: {{$data->recommendedbyFDA}} @endif 
-                                @if(isset($data->recommendedippaddrFDA)) <br/> IP Addr: {{$data->recommendedippaddrFDA}} @endif
-                              </td>
-                          @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
                               <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
                                 @if(isset($data->formattedRecommendedDateFDAPharma)) {{$data->formattedRecommendedDateFDAPharma}} @endif 
                                 @if(isset($data->formattedRecommendedTimeFDAPharma)) {{$data->formattedRecommendedTimeFDAPharma}} @endif 
@@ -159,18 +163,8 @@
                                 @if(isset($data->recommendedbyFDAPharma)) <br/><br/> By: {{$data->recommendedbyFDAPharma}} @endif 
                                 @if(isset($data->recommendedippaddrFDAPharma)) <br/> IP Addr: {{$data->recommendedippaddrFDAPharma}} @endif
                               </td>
-                          @endif 
 
                           {{-- Recommendation  --}}
-                          @if($FDAtype != 'all' && $FDAtype == 'machines')
-                              <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
-                                @if(isset($data->formattedRecoDateFDA)) {{$data->formattedRecoDateFDA}} @endif 
-                                @if(isset($data->formattedRecoTimeFDA)) {{$data->formattedRecoTimeFDA}}  @endif 
-                                
-                                @if(isset($data->RecobyFDA)) <br/><br/> By: {{$data->RecobyFDA}} @endif 
-                                @if(isset($data->RecoippaddrFDA)) <br/> IP Addr: {{$data->RecoippaddrFDA}} @endif
-                              </td>
-                          @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
                               <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
                                 @if(isset($data->formattedRecoDateFDAPhar)) {{$data->formattedRecoDateFDAPhar}} @endif 
                                 @if(isset($data->formattedRecoTimeFDAPhar)) {{$data->formattedRecoTimeFDAPhar}} @endif 
@@ -178,18 +172,8 @@
                                 @if(isset($data->RecobyFDAPhar)) <br/><br/> By: {{$data->RecobyFDAPhar}} @endif 
                                 @if(isset($data->RecoippaddrFDAPhar)) <br/> IP Addr: {{$data->RecoippaddrFDAPhar}} @endif
                               </td>
-                          @endif 
 
                           {{-- Final Decision --}}
-                          @if($FDAtype != 'all' && $FDAtype == 'machines')
-                              <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
-                                @if(isset($data->formattedApprovedDateFDA)) {{$data->formattedApprovedDateFDA}} @endif 
-                                @if(isset($data->formattedApprovedTimeFDA)) {{$data->formattedApprovedTimeFDA}}  @endif 
-                                
-                                @if(isset($data->approvedByFDA)) <br/><br/> By: {{$data->approvedByFDA}} @endif 
-                                @if(isset($data->approvedIpAddFDA)) <br/> IP Addr: {{$data->approvedIpAddFDA}} @endif
-                              </td>
-                          @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
                               <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"> 
                                 @if(isset($data->formattedApprovedDateFDAPharma)) {{$data->formattedApprovedDateFDAPharma}} @endif 
                                 @if(isset($data->formattedApprovedTimeFDAPharma)) {{$data->formattedApprovedTimeFDAPharma}} @endif 
@@ -249,50 +233,49 @@
                   <td style="text-align: center;" rowspan="2">Options</td>
                   <td style="text-align: center;" rowspan="2">Process Types &<br/> Application Code</td>
                   <td style="text-align: center;"  rowspan="2">Name, Type and Region of the Facility <br/>Applied Date and Payment Confirmation Date</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Cashier Details of</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Pre-Assessment Details of</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Inspection Details of</td>
-                  <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Recommendation Details of</td>
-                  <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Final Decision Details of</td>
+                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  colspan="2">DOH Inspection</td>
+                                  
+                  @if($FDAtype == 'machines')
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">FDA Remarks</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">COC Attachment and Validity</td>
+                  @else
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Cashier Details of</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Pre-Assessment Details of</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Inspection Details of</td>
+                    <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Recommendation Details of</td>
+                    <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Final Decision Details of</td>
+                  @endif 
                   <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Application Status of</td>
                   <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">DOH Status</td>  
                   
               </tr>
               <tr style="font-weight:bold;">
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td style="text-align: center;">Pharmacy</td>
+                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Target Last Date</td>                      
+                      <td style="text-align: center;">Actual Date</td>                    
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td style="text-align: center;">Pharmacy</td>
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td style="text-align: center;">Pharmacy</td>
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td style="text-align: center;">Pharmacy</td>
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif
 
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td style="text-align: center;">Pharmacy</td>
+                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
 
                   @if($FDAtype != 'all' && $FDAtype == 'machines')
                       <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
                   @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td style="text-align: center;">Pharmacy</td>
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
               </tr>
             </tfoot>
@@ -322,6 +305,137 @@
                       <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
                     </div>
                     <div class="col-sm-3"></div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="modal fade" id="ModalStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog  modal-lg " role="document">
+        <div class="modal-content" style="border-radius: 0px;border: none;">
+          <div class="modal-body" style=" background-color: #272b30;color: white;">
+            <h5 class="modal-title text-center"><strong>Update Application Status</strong></h5>
+            <hr>
+            <div class="container">
+                <form id="ViewNowStatus" method="POST"  action="{{asset('/employee/dashboard/processflow/view/FDA/machines')}}" >
+                  <input type="hidden" name="action" value="status">
+                  <input type="hidden" name="appid" id="appid_status" >
+                  <span id="ViewBodyStatus"></span>
+                  <br/>
+                  <div class="row">
+                    <div class="col-sm-3">Status:</div>
+                    <div class="col-sm-8"> 
+                      <select name="FDAStatMach" class="form-control" required style="width: 100%;" onchange="showDiv(this)">
+                            <option disabled hidden selected>Please Select</option>                            
+                            <option value="FI">On Process</option>
+                            <option value="INS">For Inspection</option>
+                            <option value="NOD">For Notice of Deficiency</option>
+                            <option value="FR">For Final Recommendation</option>
+                            <option value="FRDD">Final Recommendation for Disapproval</option>
+                            <option value="DND">Disapproved Application</option>
+                            <option value="A">Approved Application</option>                          
+                      </select>
+                    <div class="col-sm-1"></div>
+                    </div>
+                  </div>
+                  <br/><hr>
+                  <div class="row">                    
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                      <button type="submit" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
+                    </div>
+                    <div class="col-sm-4">
+                      <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="modal fade" id="ModalRemarks" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog  modal-lg " role="document">
+        <div class="modal-content" style="border-radius: 0px;border: none;">
+          <div class="modal-body" style=" background-color: #272b30;color: white;">
+            <h5 class="modal-title text-center"><strong>Update Remarks</strong></h5>
+            <hr>
+            <div class="container">
+                <form id="ViewNowRemarks" method="post">
+                  <input type="hidden" name="action" value="remarks">
+                  <input type="hidden" name="appid" id="appid_remarks" >
+                  <span id="ViewBodyRemarks"></span>
+                  <br/><hr>
+                  <div class="row">                    
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                      <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
+                    </div>
+                    <div class="col-sm-4">
+                      <button type="submit" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="modal fade" id="ModalCOC" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog  modal-lg " role="document">
+        <div class="modal-content" style="border-radius: 0px;border: none;">
+          <div class="modal-body" style=" background-color: #272b30;color: white;">
+            <h5 class="modal-title text-center"><strong>Upload COC</strong></h5>
+            <hr>
+            <div class="container">
+                <form id="ViewNowCOC"  method="post">
+                  <input type="hidden" name="action" value="coc">
+                  <input type="hidden" name="appid" id="appid_coc" >
+                  <span id="ViewBodyCOC">
+                  </span>
+                  <br/>
+                  <div class="row">
+
+                    <div class="col-sm-3">Upload:</div>
+                    <div class="col-sm-9 pt-3"> 
+                      <input type="file" name="xrayUp" id="xrayUp" required> 
+                    </div>
+
+                  </div>
+
+                  <br/>
+                  <div class="row">
+                    <div class="col-sm-3">Validity Date:</div>
+                    <div class="col-sm-9"> 
+                      <input type="date" class="form-control" id="xrayVal" name="xrayVal" placeholder="Validity Date">
+                    </div>
+                  </div>
+                  
+                  <br/>
+                  <div class="row">
+                    <div class="col-sm-3">XRay COC:</div>
+                    <div class="col-sm-9"> 
+                      <input type="text" class="form-control" id="xrayCOC" name="xrayCOC" placeholder="XRay COC">
+                    </div>
+                  </div>
+
+                  <br/><hr>
+                  <div class="row">                    
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                      <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
+                    </div>
+                    <div class="col-sm-4">
+                      <button type="submit" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
+                    </div>
+                    <div class="col-sm-2"></div>
                   </div>
                 </form>
             </div>
@@ -417,6 +531,83 @@
               '</div>'
             );
       }
+
+      function showDataStatus(appid, facilityname, facname){
+          var status = '';
+
+          $('#ViewBodyStatus').empty();
+          $('#ViewBodyStatus').append(
+              '<div class="row">'+
+                  '<div class="col-sm-3">Application ID:' +
+                  '</div>' +
+                  '<div class="col-sm-9 text-bold" style="font-size: x-large;">' + appid +
+                  '</div>' +
+              '</div>' +
+            '<div class="row">'+
+                  '<div class="col-sm-3">Facility Name:' +
+                  '</div>' +
+                  '<div class="col-sm-9">' + facilityname +
+                  '</div>' +
+              '</div>'
+            );
+
+            document.getElementById('appid_status').value = appid;
+      }
+      
+      function showDataRemarks(appid, facilityname, RecoRemarkFDA){
+          var status = '';
+
+          $('#ViewBodyRemarks').empty();
+          $('#ViewBodyRemarks').append(
+              '<div class="row">'+
+                  '<div class="col-sm-3">Application ID:' +
+                  '</div>' +
+                  '<div class="col-sm-9 text-bold" style="font-size: x-large;">' + appid +
+                  '</div>' +
+              '</div>' +
+              '<div class="row">'+
+                  '<div class="col-sm-3">Facility Name:' +
+                  '</div>' +
+                  '<div class="col-sm-9">' + facilityname +
+                  '</div>' +
+              '</div><br/>' +
+              '<div class="row mt-10">'+
+                  '<div class="col-sm-3">Remarks:' +
+                  '</div>' +
+                  '<div class="col-sm-9"><textarea name="RecoRemarkFDA" rows="5" cols="50">' + RecoRemarkFDA + 
+                  '</textarea></div>' +
+              '</div>'
+            );
+
+            
+            document.getElementById('appid_remarks').value = appid;
+      }
+      
+      function showDataCOC(appid, facilityname, xrayVal, xrayCOC, xrayUp){
+          var status = '';
+
+          $('#ViewBodyCOC').empty();
+          $('#ViewBodyCOC').append(
+              '<div class="row">'+
+                  '<div class="col-sm-3">Application ID:' +
+                  '</div>' +
+                  '<div class="col-sm-9 text-bold" style="font-size: x-large;">' + appid +
+                  '</div>' +
+              '</div>' +
+              '<div class="row">'+
+                  '<div class="col-sm-3">Facility Name:' +
+                  '</div>' +
+                  '<div class="col-sm-9">' + facilityname +
+                  '</div>' +
+              '</div>'
+            );
+            
+            document.getElementById('appid_coc').value = appid;
+            document.getElementById('xrayVal').value = xrayVal;
+            document.getElementById('xrayCOC').value = xrayCOC;
+            document.getElementById('xrayUp').value = xrayUp;
+      }
+
       function showEvalInfo(EvalTime, EvalDate, PropTime, PropDate, RecommendedBy/*, RgnRecommended*/, code, idCode){
           $('#ViewEvalButton').attr('onclick','');
           $('#ViewEvalButton').attr('onclick',"location.href='{{ asset('/employee/dashboard/processflow/evaluate') }}/"+idCode+"'");

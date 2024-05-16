@@ -519,7 +519,7 @@ namespace App\Http\Controllers;
 			catch (Exception $e) 
 			{
 				//dd($e);
-				// return $e->getMessage();
+				 return $e->getMessage();
 				AjaxController::SystemLogs($e);
 				session()->flash('system_error','ERROR');
 				return view('employee');
@@ -4069,38 +4069,78 @@ namespace App\Http\Controllers;
 			{
 				try 
 				{
-					$arrType = array();
-					$filter = AjaxController::isRequestForFDA($filter);
-	
-					if($filter == 'machines')
+					if ($request->isMethod('get')) 
 					{
-						$data = SELF::application_filter($request, 'view_fda_status_summary');
-					}
-					elseif($filter == 'pharma')
-					{
-						$data = SELF::application_filter($request, 'view_fda_status_summary_pharma');
-					}
-					else{
-						$data = SELF::application_filter($request, 'view_fda_status_summary');
-					}					
-					
-					if(!$filter){
-						$allType = DB::table('hfaci_serv_type')->select('hfser_id')->get();
-
-						foreach ($allType as $key) {
-							array_push($arrType, $key->hfser_id);
+						$arrType = array();
+						$filter = AjaxController::isRequestForFDA($filter);
+		
+						if($filter == 'machines')
+						{
+							$data = SELF::application_filter($request, 'view_fda_status_summary');
 						}
-					} else {
-						array_push($arrType, strtoupper($filter));
-					}
+						elseif($filter == 'pharma')
+						{
+							$data = SELF::application_filter($request, 'view_fda_status_summary_pharma');
+						}
+						else{
+							$data = SELF::application_filter($request, 'view_fda_status_summary');
+						}					
+						
+						if(!$filter){
+							$allType = DB::table('hfaci_serv_type')->select('hfser_id')->get();
 
-					return view('employee.FDA.viewprocessflowFDA', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'serv' => $arrType, 'FDAtype' => $filter]);
+							foreach ($allType as $key) {
+								array_push($arrType, $key->hfser_id);
+							}
+						} else {
+							array_push($arrType, strtoupper($filter));
+						}
+
+						return view('employee.FDA.viewprocessflowFDA', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'serv' => $arrType, 'FDAtype' => $filter]);
+					}
+					else if ($request->isMethod('post')) 
+					{
+						dd($request);
+						$action = $request->action;
+						if(isset($action))
+						{
+							$returnToSender = 0;
+
+							if($action == "status")
+							{
+								$returnToSender = DB::table('appform')
+									->where('appid',$request->appid)->update([
+										'FDAStatMach' => $request->FDAStatMach
+									]);
+							}
+							else if($action == "remarks")
+							{
+								$returnToSender = DB::table('appform')
+									->where('appid',$request->appid)->update([
+										'RecoRemarkFDA' => $request->RecoRemarkFDA
+									]);
+							}
+							else if($action == "coc")
+							{
+								//xrayVal, xrayCOC, xrayUp
+								$returnToSender = DB::table('appform')
+									->where('appid',$request->appid)->update([
+										'xrayVal' => $request->xrayVal,
+										'xrayCOC' => $request->xrayCOC,
+										'xrayUp' => $request->xrayUp
+									]);								
+							}
+
+							//return ($returnToSender > 0 ? "DONE" : "ERROR");
+							return view('employee.FDA.viewprocessflowFDA', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'serv' => $arrType, 'FDAtype' => $filter]);
+						}						
+					}
 				} 
 				catch (Exception $e) 
 				{
 					AjaxController::SystemLogs($e);
 					session()->flash('system_error','ERROR');
-					return view('employee.processflow.viewprocessflow');
+					return redirect()->route('employee');
 				}
 			}
 			else 
@@ -5326,13 +5366,15 @@ namespace App\Http\Controllers;
 
 					$requestOfClient = AjaxController::isRequestForFDA($requestOfClient);
 
-					if($request->isMethod('get')){
+					if($request->isMethod('get')) {
 
 						try {
 							$arrRet = [
 								'choosen' => $requestOfClient,
 								'AppData' => AjaxController::getAllDataEvaluateOne($appid),
-								'eval' => DB::table('fdaevaluation')->where([['appid',$appid],['requestFrom',($requestOfClient == 'machines' ? 'machines' : 'pharma')]])->orderBy('evalid', 'DESC')->first(),
+								'eval' => DB::table('fdaevaluation')
+											->where([['appid',$appid],['requestFrom',($requestOfClient == 'machines' ? 'machines' : 'pharma')]])
+											->orderBy('evalid', 'DESC')->first(),
 								// 'eval' => DB::table('fdaevaluation')->where([['appid',$appid],['requestFrom',($requestOfClient == 'machines' ? 'machines' : 'pharma')]])->first(),
 								'list' => AjaxController::getRequirementsFDA($appid),
 								'appid' => $appid
@@ -5348,12 +5390,17 @@ namespace App\Http\Controllers;
 							dd($e);
 						}
 
-					}elseif($request->isMethod('post')){
+					} elseif($request->isMethod('post')) {
 
 						$capp = DB::table('appform')->where([['appid', $appid]])->first();
 						$uData = AjaxController::getCurrentUserAllData();
 						$fstat = 'For Recommendation' ;
 						// $fstat = $requestOfClient == 'machines' ? 'For Recommendation' : 'For Final Decision';
+
+						if($request->recommendation == "NOD")
+						{
+							$fstat = "For Notice of Deficiency";
+						}
 
 						if($requestOfClient == 'machines'){
 							$corm = 1;
@@ -5374,7 +5421,7 @@ namespace App\Http\Controllers;
 							$corm =  $capp->corResubmit;
 							$corp = 1;
 							$resub = $requestOfClient == 'machines' ? $corm : $corp;
-
+							
 							$forAppform = array(
 								'isrecommendedFDAPharma' => 1,
 								'recommendedbyFDAPharma' => $uData['cur_user'],
