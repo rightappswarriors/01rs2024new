@@ -578,6 +578,8 @@ Route::match(['get', 'post'], 'employee/dashboard/applist/{filter?}', 'DOHContro
 Route::match(['get', 'post'], 'employee/hhrdb/applist', 'DOHController@listofpersonnel'); // View All
 
 Route::match(['get', 'post'], 'employee/dashboard/processflow/view/FDA/{request?}', 'DOHController@ViewProcessFlowFDA'); // View All
+Route::match(['get', 'post'], 'employee/dashboard/processflow/view/FDA/submit/{request?}', 'DOHController@ViewProcessFlowFDASubmit
+'); // View All
 
 // Evaluate
 Route::match(['get', 'post'],  'employee/dashboard/mf/FDA/pharma_charges', 'DOHController@fdapharma'); // Main, Add

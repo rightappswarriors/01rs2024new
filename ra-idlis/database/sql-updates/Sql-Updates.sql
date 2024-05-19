@@ -267,3 +267,6 @@ UPDATE `verdict` SET `vdesc` = 'Others', `vdescextra` = '<textarea name=\"others
 ALTER TABLE mon_form ADD COLUMN msid INT NULL;
 
 INSERT INTO trans_status (trns_id, trns_desc, allowedpayment, allowedlegend) VALUES ('INS', 'For Inspection', '0', '0');
+
+
+ALTER TABLE appform ADD COLUMN xrayValStart date DEFAULT NULL;

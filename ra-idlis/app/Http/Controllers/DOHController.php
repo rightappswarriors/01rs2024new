@@ -4100,7 +4100,7 @@ namespace App\Http\Controllers;
 					}
 					else if ($request->isMethod('post')) 
 					{
-						dd($request);
+						//dd($request);
 						$action = $request->action;
 						if(isset($action))
 						{
@@ -4125,6 +4125,51 @@ namespace App\Http\Controllers;
 								//xrayVal, xrayCOC, xrayUp
 								$returnToSender = DB::table('appform')
 									->where('appid',$request->appid)->update([
+										'xrayValStart' => $request->xrayValStart,
+										'xrayVal' => $request->xrayVal,
+										'xrayCOC' => $request->xrayCOC,
+										'xrayUp' => $request->xrayUp
+									]);								
+							}
+
+							return ($returnToSender > 0 ? "DONE" : "ERROR");
+							//return view('employee.FDA.viewprocessflowFDA', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'serv' => $arrType, 'FDAtype' => $filter]);
+						}						
+					}
+				} 
+				catch (Exception $e) 
+				{
+					AjaxController::SystemLogs($e);
+					session()->flash('system_error','ERROR');
+					return redirect()->route('employee');
+				}
+			}
+			else 
+			{
+				return redirect()->route('employee');
+			}			
+		}
+
+		public function ViewProcessFlowFDASubmit(Request $request,$filter = 'machines')
+		{
+			if(session()->has('employee_login'))
+			{
+				try 
+				{
+					if ($request->isMethod('post')) 
+					{
+						//dd($request);
+						$action = $request->action;
+						if(isset($action))
+						{
+							$returnToSender = 0;
+
+							if($action == "coc")
+							{
+								//xrayVal, xrayCOC, xrayUp
+								$returnToSender = DB::table('appform')
+									->where('appid',$request->appid)->update([
+										'xrayValStart' => $request->xrayValStart,
 										'xrayVal' => $request->xrayVal,
 										'xrayCOC' => $request->xrayCOC,
 										'xrayUp' => $request->xrayUp
@@ -5433,12 +5478,41 @@ namespace App\Http\Controllers;
 							);
 						}												
 
-						if($request->hasFile('fileUp')){
-
-							$uploadName = FunctionsClientController::uploadFile($request->fileUp)['fileNameToStore'];
+						if($request->recommendation != "NOD")
+						{
+							if($request->hasFile('fileUp')){
+	
+								$uploadName = FunctionsClientController::uploadFile($request->fileUp)['fileNameToStore'];
+								$toInsertFieldsAndValue = array(
+									'requestFrom' => $requestOfClient,
+									'uploadfilename' => $uploadName,
+									'decision' => $request->recommendation,
+									'remarks' => $request->remarks,
+									't_ip' => $request->ip(),
+									't_eval' => session()->get('employee_login')->uid,
+									'appid' => $appid
+								);
+								
+								$isRedirect = DB::table('fdaevaluation')->insert($toInsertFieldsAndValue);
+	
+								if($isRedirect)
+								{
+									if(strtolower($request->recommendation) != 'rfc'){
+										DB::table('appform')->where('appid',$appid)->update($forAppform);
+									}
+									if($request->recommendation == 'COC'){
+										$department = ($requestOfClient == 'machines' ? 'cdrrhr' : 'cdrr');
+										DB::table('fdacert')->insert(['appid' => $appid, 'department' => $department, 'certtype' => 'COC', 'issueby' => session()->get('employee_login')->uid]);
+									}
+									return redirect('employee/dashboard/processflow/evaluate/FDA/'.$appid.'/'.$requestOfClient);
+								}
+							}
+						}
+						else
+						{
 							$toInsertFieldsAndValue = array(
 								'requestFrom' => $requestOfClient,
-								'uploadfilename' => $uploadName,
+								'uploadfilename' => "",
 								'decision' => $request->recommendation,
 								'remarks' => $request->remarks,
 								't_ip' => $request->ip(),
@@ -5460,11 +5534,11 @@ namespace App\Http\Controllers;
 								return redirect('employee/dashboard/processflow/evaluate/FDA/'.$appid.'/'.$requestOfClient);
 							}
 						}
-
-						if(array_key_exists('isupdate', $request->all()))
+						
+						if(array_key_exists('isupdate', $request->all()) || $request->recommendation == "NOD")
 						{
 							$oldData = DB::table('fdaevaluation')->where([['appid',$appid],['requestFrom',$requestOfClient]])->first();
-
+							
 							if(isset($oldData))
 							{
 								DB::table('fdaevaluationhistory')->insert(['evaluation' => $oldData->decision, 'requestfrom' => $oldData->requestFrom, 'remarks' => $oldData->remarks, 'old_ip' => $oldData->t_ip, 'old_tdate' => $oldData->t_det, 't_ip' => $uData['ip'], 'old_teval' => $oldData->t_eval,  'appid' => $appid, 'changedby' => $uData['cur_user']]);
@@ -5478,6 +5552,7 @@ namespace App\Http\Controllers;
 								}
 							}
 						}
+
 					}
 				}
 			}

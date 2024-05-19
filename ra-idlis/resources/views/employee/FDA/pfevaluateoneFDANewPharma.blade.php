@@ -303,7 +303,7 @@
             				View Evaluation Results of <span class="font-weight-bold">{{$AppData->facilityname}}</span>
             			</div>
             		</div>
-                @if(isset($eval->uploadfilename))
+                @if(isset($eval->uploadfilename) && $eval->decision != "NOD")
             		<div class="row pt-5 pb-4">
             			<div class="col-md-12 text-center" style="font-size: 30px;">
             				Download File
