@@ -25,6 +25,9 @@
       <form class="filter-options-form">
             @include('employee.FDA.FDAtableDataFilter') 
       </form>
+
+      
+      <input type="" id="token" value="{{ Session::token() }}" hidden>
       <div class="card-body table-responsive  backoffice-list">
         <div>   
           <table class="table table-hover" style="font-size:13px;" id="1example">
@@ -285,6 +288,7 @@
       </div>
   	</div>
   </div>
+
   <div class="modal fade" id="GodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog  modal-lg " role="document">
         <div class="modal-content" style="border-radius: 0px;border: none;">
@@ -297,9 +301,7 @@
                   </span>
                   <hr>
                   <div class="row">
-                    {{-- <div class="col-sm-6">
-                      <button type="button" class="btn btn-info form-control" id="PreAssessButton" style="border-radius:0;"><span class="fa fa-sign-up"></span>View Preassessment</button>
-                    </div> --}}
+
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
                       <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
@@ -320,37 +322,31 @@
             <h5 class="modal-title text-center"><strong>Update Application Status</strong></h5>
             <hr>
             <div class="container">
-                <form id="ViewNowStatus" method="POST"  action="{{asset('/employee/dashboard/processflow/view/FDA/machines')}}" >
-                  <input type="hidden" name="action" value="status">
+                <form id="ViewNowStatus" method="POST"   data-parsley-validate>
+                  <input type="hidden" name="action" id="action_status" value="status">
                   <input type="hidden" name="appid" id="appid_status" >
                   <span id="ViewBodyStatus"></span>
                   <br/>
                   <div class="row">
                     <div class="col-sm-3">Status:</div>
                     <div class="col-sm-8"> 
-                      <select name="FDAStatMach" class="form-control" required style="width: 100%;" onchange="showDiv(this)">
+                      <select name="FDAStatMach" id="FDAStatMach" class="form-control" required style="width: 100%;" onchange="showDiv(this)">
                             <option disabled hidden selected>Please Select</option>                            
-                            <option value="FI">On Process</option>
-                            <option value="INS">For Inspection</option>
-                            <option value="NOD">For Notice of Deficiency</option>
-                            <option value="FR">For Final Recommendation</option>
-                            <option value="FRDD">Final Recommendation for Disapproval</option>
-                            <option value="DND">Disapproved Application</option>
-                            <option value="A">Approved Application</option>                          
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="No Application">No Application</option>
+                            <option value="On Process">On Process</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Disapproved Application">Disapproved Application</option>
+                            <option value="Denied">Denied</option>                          
                       </select>
                     <div class="col-sm-1"></div>
                     </div>
                   </div>
                   <br/><hr>
                   <div class="row">                    
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                       <button type="submit" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
                     </div>
-                    <div class="col-sm-4">
-                      <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
-                    </div>
-                    <div class="col-sm-2"></div>
                   </div>
                 </form>
             </div>
@@ -366,20 +362,15 @@
             <h5 class="modal-title text-center"><strong>Update Remarks</strong></h5>
             <hr>
             <div class="container">
-                <form id="ViewNowRemarks" method="post">
-                  <input type="hidden" name="action" value="remarks">
+                <form id="ViewNowRemarks" method="post" data-parsley-validate>
+                  <input type="hidden" name="action" id="action_remarks" value="remarks">
                   <input type="hidden" name="appid" id="appid_remarks" >
                   <span id="ViewBodyRemarks"></span>
                   <br/><hr>
                   <div class="row">                    
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-4">
-                      <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                       <button type="submit" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
                     </div>
-                    <div class="col-sm-2"></div>
                   </div>
                 </form>
             </div>
@@ -395,47 +386,43 @@
             <h5 class="modal-title text-center"><strong>Upload COC</strong></h5>
             <hr>
             <div class="container">
-                <form id="ViewNowCOC"  method="post">
-                  <input type="hidden" name="action" value="coc">
+                <form id="ViewNowCOC"  method="post" action="{{asset('employee/nhfr/import/nhfr')}}" enctype="multipart/form-data">
+                  <input type="hidden" name="action" id="action_coc" value="coc">
                   <input type="hidden" name="appid" id="appid_coc" >
                   <span id="ViewBodyCOC">
-                  </span>
-                  <br/>
-                  <div class="row">
-
-                    <div class="col-sm-3">Upload:</div>
-                    <div class="col-sm-9 pt-3"> 
-                      <input type="file" name="xrayUp" id="xrayUp" required> 
-                    </div>
-
-                  </div>
+                  </span> 
 
                   <br/>
                   <div class="row">
-                    <div class="col-sm-3">Validity Date:</div>
+                    <div class="col-sm-3">Start of Validity:</div>
                     <div class="col-sm-9"> 
-                      <input type="date" class="form-control" id="xrayVal" name="xrayVal" placeholder="Validity Date">
+                      <input type="date" class="form-control" id="xrayValStart" name="xrayValStart" placeholder="Start of Validity" required>
                     </div>
                   </div>
                   
                   <br/>
                   <div class="row">
-                    <div class="col-sm-3">XRay COC:</div>
+                    <div class="col-sm-3">End of Validity:</div>
                     <div class="col-sm-9"> 
-                      <input type="text" class="form-control" id="xrayCOC" name="xrayCOC" placeholder="XRay COC">
+                      <input type="date" class="form-control" id="xrayVal" name="xrayVal" placeholder="End of Validity" required>
                     </div>
+                  </div>
+
+                  <br/>
+                  <div class="row">
+
+                    <div class="col-sm-3">Upload:</div>
+                    <div class="col-sm-9"> 
+                      <input type="file" name="xrayUp" id="xrayUp" required accept=".pdf, image/png, image/jpeg"> 
+                    </div>
+
                   </div>
 
                   <br/><hr>
                   <div class="row">                    
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-4">
-                      <button type="button" data-dismiss="modal" class="btn btn-info form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Close</button>
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                       <button type="submit" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
                     </div>
-                    <div class="col-sm-2"></div>
                   </div>
                 </form>
             </div>
@@ -468,8 +455,140 @@
         </div>
       </div>
   </div>
+
   <script type="text/javascript">
-    
+    //ViewNowRemarks
+    $('#ViewNowStatus').on('submit',function(event){
+            event.preventDefault();
+            var form = $(this);
+            form.parsley().validate();
+            if (form.parsley().isValid()){	
+                $.ajax({
+                  method : 'POST',
+                  data : {
+                        _token : $('#token').val(),
+                        action : $('#action_status').val(),
+                        appid : $('#appid_status').val(),
+                        FDAStatMach : $('#FDAStatMach').val()
+                        ///desc : $('#desc_rmk').val(),
+                        //id : $('#APPID').val(),
+                        //pass : $('#chckpass').val(),
+                        //validity : ($("#validityDate").length > 0 ? $("#validityDate").val() : null),
+                       // validityDateFrom : ($("#validityDateFrom").length > 0 ? $("#validityDateFrom").val() : null)
+                  }, success : function(data){
+                                        
+                    console.log(data);
+                    
+                      if (data == 'DONE') {
+                          Swal.fire({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Status successfully updated.',
+                          }).then(() => {
+                            //window.location.href = '{{ asset('employee/dashboard/processflow/approval') }}';
+                            location.reload();
+                          });
+                      } else if (data == 'ERROR'){
+                        $('#AccErrorAlert').show(100); 
+
+                      } 
+                  }, error : function(a,b,c){ 
+                      console.log(c);
+                      $('#AccErrorAlert').show(100);
+                  },
+
+                });
+            }
+        });
+
+    $('#ViewNowRemarks').on('submit',function(event){
+            event.preventDefault();
+            var form = $(this);
+            form.parsley().validate();
+            if (form.parsley().isValid()){	
+                $.ajax({
+                  method : 'POST',
+                  data : {
+                        _token : $('#token').val(),
+                        action : $('#action_remarks').val(),
+                        appid : $('#appid_remarks').val(),
+                        RecoRemarkFDA : $('#RecoRemarkFDA').val()
+                        ///desc : $('#desc_rmk').val(),
+                        //id : $('#APPID').val(),
+                        //pass : $('#chckpass').val(),
+                        //validity : ($("#validityDate").length > 0 ? $("#validityDate").val() : null),
+                       // validityDateFrom : ($("#validityDateFrom").length > 0 ? $("#validityDateFrom").val() : null)
+                  }, success : function(data){
+                                        
+                    console.log(data);
+                    
+                      if (data == 'DONE') {
+                          Swal.fire({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Remarks successfully saved.',
+                          }).then(() => {
+                            //window.location.href = '{{ asset('employee/dashboard/processflow/approval') }}';
+                            location.reload();
+                          });
+                      } else if (data == 'ERROR'){
+                        $('#AccErrorAlert').show(100); 
+
+                      } 
+                  }, error : function(a,b,c){ 
+                      console.log(c);
+                      $('#AccErrorAlert').show(100);
+                  },
+
+                });
+            }
+        });
+
+        $('#ViewNowCOC').on('submit',function(event){
+            event.preventDefault();
+            var form = $(this);
+            form.parsley().validate();
+            if (form.parsley().isValid()){	
+                $.ajax({
+                  method : 'POST',
+                  data : {
+                        _token : $('#token').val(),
+                        action : $('#action_coc').val(),
+                        appid : $('#appid_coc').val(),
+                        ///desc : $('#desc_rmk').val(),
+                        //id : $('#APPID').val(),
+                        //pass : $('#chckpass').val(),
+                        xrayValStart : ($("#xrayValStart").length > 0 ? $("#xrayValStart").val() : null),
+                        xrayVal : ($("#xrayVal").length > 0 ? $("#xrayVal").val() : null)
+                  }, success : function(data){
+                                        
+                    console.log(data);
+                    
+                      if (data == 'DONE') {
+                          Swal.fire({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Remarks successfully saved.',
+                          }).then(() => {
+                            //window.location.href = '{{ asset('employee/dashboard/processflow/approval') }}';
+                            location.reload();
+                          });
+                      } else if (data == 'ERROR'){
+                        $('#AccErrorAlert').show(100); 
+
+                      } 
+                  }, error : function(a,b,c){ 
+                      console.log(c);
+                      $('#AccErrorAlert').show(100);
+                  },
+
+                });
+            }
+        });
+
+  </script>
+
+  <script type="text/javascript">
   	function showData(appid, aptdesc, authorizedsignature, brgyname, classname, cmname, email, facilityname, facname, formattedDate, formattedTime, hfser_desc, ocdesc, provname, rgn_desc, street_name, zipcode, isrecommended, hfser_id, statusX, uid, trns_status){
           var status = '';
           // var paid = appid_payment;
@@ -574,7 +693,7 @@
               '<div class="row mt-10">'+
                   '<div class="col-sm-3">Remarks:' +
                   '</div>' +
-                  '<div class="col-sm-9"><textarea name="RecoRemarkFDA" rows="5" cols="50">' + RecoRemarkFDA + 
+                  '<div class="col-sm-9"><textarea name="RecoRemarkFDA" id="RecoRemarkFDA" rows="5" cols="50" required>' + RecoRemarkFDA + 
                   '</textarea></div>' +
               '</div>'
             );
@@ -637,6 +756,7 @@
                 '</div>'
             );
       }
+      
   </script>
   @endsection
 @else
