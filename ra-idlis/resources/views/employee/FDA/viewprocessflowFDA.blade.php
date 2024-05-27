@@ -36,7 +36,7 @@
                   <td style="text-align: center;" rowspan="2">Options</td>
                   <td style="text-align: center;" rowspan="2">Process Types &<br/> Application Code</td>
                   <td style="text-align: center;"  rowspan="2">Name, Type and Region of the Facility <br/>Applied Date and Payment Confirmation Date</td>
-                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  colspan="2">DOH Inspection</td>
+                  <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  colspan="2">DOH Inspection <br><small style="font-style:italic;">Included the time for Client Compaliance</small></td>
                                   
                   @if($FDAtype == 'machines')
                     <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  rowspan="2"> Radiation Application Status</td>
@@ -98,8 +98,7 @@
                               @if(isset($data->t_date))<br/><br/><I>Applied on</I> {{date("F j, Y", strtotime($data->t_date)) }} @else <br/><br/><span style="color:red;">{{ 'Not Officially Applied Yet.' }}</span> @endif                    
                           </td>
                           <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">                           
-                          {{-- DOH Inspection Target Date--}}     
-                              @if(isset($data->formattedDatePropEval)){{$data->formattedDatePropEval}} @endif 
+                          {{-- DOH Inspection Target Date--}}     @if(isset($data->CashierApproveformattedDate)){{date("F j, Y", strtotime($data->CashierApproveformattedDate. ' + 44 days')) }} @endif
                           </td>
                           <td style="text-align:center;">                         
                           {{-- DOH Inspection Actual Date--}}     

@@ -270,3 +270,8 @@ INSERT INTO trans_status (trns_id, trns_desc, allowedpayment, allowedlegend) VAL
 
 
 ALTER TABLE appform ADD COLUMN xrayValStart date DEFAULT NULL;
+
+
+ALTER TABLE registered_facility ADD COLUMN xrayValStart DATE NULL;
+ALTER TABLE registered_facility ADD COLUMN xrayVal DATE NULL;
+ALTER TABLE registered_facility ADD COLUMN xrayUp varchar(50) NULL;

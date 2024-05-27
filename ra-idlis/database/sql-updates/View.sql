@@ -72,7 +72,13 @@ appform.isRecoDecisionPhar, appform.corResubmitPhar, appform.isRecoFDAPhar, appf
 appform.machDocNeedRev, appform.machDocRevcount, appform.pharDocNeedRev, appform.pharDocRevcount, 
 appform.preApproveTimeFDA, appform.preApproveDateFDA, appform.preApproveTimeFDAPharma, appform.preApproveDateFDAPharma,  appform.no_chklistFDA, 
 appform.isrecommendedFDA, appform.recommendedbyFDA, appform.recommendedtimeFDA, appform.recommendeddateFDA, appform.recommendedippaddrFDA, appform.isrecommendedFDAPharma, appform.recommendedbyFDAPharma, appform.recommendedtimeFDAPharma, appform.recommendeddateFDAPharma, appform.recommendedippaddrFDAPharma, 
-appform.isPayEvalFDA, appform.payEvaldateFDA, appform.payEvaltimeFDA, appform.payEvalipFDA, appform.payEvalbyFDA, appform.isRecoFDA, appform.isRecoDecision, appform.RecobyFDA, appform.RecotimeFDA, appform.RecodateFDA, appform.RecoippaddrFDA, appform.RecoRemarkFDA, appform.RecoRemark, appform.isApproveFDA, appform.approvefdaverd, appform.approvedByFDA, appform.approvedDateFDA, appform.approvedTimeFDA, appform.approvedIpAddFDA, appform.approvedRemarkFDA, appform.isApproveFDAPharma, appform.approvefdaverdpharma, appform.approvedByFDAPharma, appform.approvedDateFDAPharma, appform.approvedTimeFDAPharma, appform.approvedIpAddFDAPharma, appform.approvedRemarkFDAPharma, appform.pharValidity, appform.xrayVal, 
+appform.isPayEvalFDA, appform.payEvaldateFDA, appform.payEvaltimeFDA, appform.payEvalipFDA, appform.payEvalbyFDA, appform.isRecoFDA, appform.isRecoDecision, appform.RecobyFDA, appform.RecotimeFDA, appform.RecodateFDA, appform.RecoippaddrFDA, appform.RecoRemarkFDA, appform.RecoRemark, appform.isApproveFDA, appform.approvefdaverd, appform.approvedByFDA, appform.approvedDateFDA, appform.approvedTimeFDA, appform.approvedIpAddFDA, appform.approvedRemarkFDA, appform.isApproveFDAPharma, appform.approvefdaverdpharma, appform.approvedByFDAPharma, appform.approvedDateFDAPharma, appform.approvedTimeFDAPharma, appform.approvedIpAddFDAPharma, appform.approvedRemarkFDAPharma, 
+
+appform.pharValidity, 
+
+appform.xrayValStart, CASE WHEN appform.xrayValStart IS NOT NULL THEN DATE_FORMAT(appform.xrayValStart, "%m/%d/%Y") ELSE NULL END AS formattedXrayStartValidityDate, 
+appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%m/%d/%Y") ELSE NULL END AS formattedXrayValidityDate, 
+
 appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
 
 /*Validity and License No. */
@@ -109,7 +115,7 @@ ORDER BY appform.updated_at DESC, appform.t_date DESC, appform.appid DESC, appfo
 
 
 DROP VIEW IF EXISTS applist_simple;
-CREATE VIEW applist_details AS
+CREATE VIEW applist_simple AS
 (
 SELECT 
 /* Application Details */
@@ -182,7 +188,13 @@ appform.isRecoDecisionPhar, appform.corResubmitPhar, appform.isRecoFDAPhar, appf
 appform.machDocNeedRev, appform.machDocRevcount, appform.pharDocNeedRev, appform.pharDocRevcount, 
 appform.preApproveTimeFDA, appform.preApproveDateFDA, appform.preApproveTimeFDAPharma, appform.preApproveDateFDAPharma,  appform.no_chklistFDA, 
 appform.isrecommendedFDA, appform.recommendedbyFDA, appform.recommendedtimeFDA, appform.recommendeddateFDA, appform.recommendedippaddrFDA, appform.isrecommendedFDAPharma, appform.recommendedbyFDAPharma, appform.recommendedtimeFDAPharma, appform.recommendeddateFDAPharma, appform.recommendedippaddrFDAPharma, 
-appform.isPayEvalFDA, appform.payEvaldateFDA, appform.payEvaltimeFDA, appform.payEvalipFDA, appform.payEvalbyFDA, appform.isRecoFDA, appform.isRecoDecision, appform.RecobyFDA, appform.RecotimeFDA, appform.RecodateFDA, appform.RecoippaddrFDA, appform.RecoRemarkFDA, appform.RecoRemark, appform.isApproveFDA, appform.approvefdaverd, appform.approvedByFDA, appform.approvedDateFDA, appform.approvedTimeFDA, appform.approvedIpAddFDA, appform.approvedRemarkFDA, appform.isApproveFDAPharma, appform.approvefdaverdpharma, appform.approvedByFDAPharma, appform.approvedDateFDAPharma, appform.approvedTimeFDAPharma, appform.approvedIpAddFDAPharma, appform.approvedRemarkFDAPharma, appform.pharValidity, appform.xrayVal, 
+appform.isPayEvalFDA, appform.payEvaldateFDA, appform.payEvaltimeFDA, appform.payEvalipFDA, appform.payEvalbyFDA, appform.isRecoFDA, appform.isRecoDecision, appform.RecobyFDA, appform.RecotimeFDA, appform.RecodateFDA, appform.RecoippaddrFDA, appform.RecoRemarkFDA, appform.RecoRemark, appform.isApproveFDA, appform.approvefdaverd, appform.approvedByFDA, appform.approvedDateFDA, appform.approvedTimeFDA, appform.approvedIpAddFDA, appform.approvedRemarkFDA, appform.isApproveFDAPharma, appform.approvefdaverdpharma, appform.approvedByFDAPharma, appform.approvedDateFDAPharma, appform.approvedTimeFDAPharma, appform.approvedIpAddFDAPharma, appform.approvedRemarkFDAPharma, 
+
+appform.pharValidity, 
+
+appform.xrayValStart, CASE WHEN appform.xrayValStart IS NOT NULL THEN DATE_FORMAT(appform.xrayValStart, "%m/%d/%Y") ELSE NULL END AS formattedXrayStartValidityDate, 
+appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%m/%d/%Y") ELSE NULL END AS formattedXrayValidityDate, 
+
 appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
 
 /*Validity and License No. */
@@ -270,7 +282,14 @@ appform.appid_payment, appform.isPayEval, appform.isReadyForInspec,
 /*FDA Back Office */
  appform.isPayEvalFDA, appform.payEvalbyFDA, appform.payEvaldateFDA, appform.payEvaltimeFDA, appform.payEvalipFDA,
  appform.isPayEvalFDAPharma, appform.payEvalbyFDAPharma, appform.payEvaldateFDAPharma, appform.payEvaltimeFDAPharma, appform.payEvalipFDAPharma, appform.isCashierApproveFDA, appform.CashierApproveByFDA, appform.CashierApproveDateFDA, appform.CashierApproveTimeFDA, appform.CashierApproveIpFDA, appform.isCashierApprovePharma, appform.CashierApproveByPharma, appform.CashierApproveDatePharma, appform.CashierApproveTimePharma, appform.CashierApproveIpPharma, appform.FDAStatMach , appform.FDAStatPhar, appform.proofpaystatMach, appform.isReadyForInspecFDA, appform.proofpaystatPhar,
-appform.isrecommendedFDAPharma, appform.isrecommendedFDA, appform.isRecoFDA, appform.isRecoFDAPhar, isRecoDecisionPhar, appform.isRecoDecision, appform.isApproveFDAPharma, appform.isApproveFDA, FDAstatus    
+appform.isrecommendedFDAPharma, appform.isrecommendedFDA, appform.isRecoFDA, appform.isRecoFDAPhar, isRecoDecisionPhar, appform.isRecoDecision, appform.isApproveFDAPharma, appform.isApproveFDA, FDAstatus,    
+
+appform.pharValidity, 
+
+appform.xrayValStart, CASE WHEN appform.xrayValStart IS NOT NULL THEN DATE_FORMAT(appform.xrayValStart, "%m/%d/%Y") ELSE NULL END AS formattedXrayStartValidityDate, 
+appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%m/%d/%Y") ELSE NULL END AS formattedXrayValidityDate,
+
+appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp 
 
 FROM appform
 LEFT JOIN hfaci_serv_type ON appform.hfser_id = hfaci_serv_type.hfser_id
