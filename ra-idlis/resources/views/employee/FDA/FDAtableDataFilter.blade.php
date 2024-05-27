@@ -1,4 +1,8 @@
 @php
+    $fo_date_sel = 'APP';
+    $fo_date_1 = date('Y').'-01-31';
+    $fo_date_2 = date('Y').'-12-31';
+
     $fo_aptid = NULL;
     $fo_hfser_id = NULL;
     $fo_ocid = NULL;
@@ -21,6 +25,10 @@
 @if (isset($arr_fo) && !empty($arr_fo))
    @foreach ($arr_fo as $fo => $foval)
     @php
+      if($fo == 'fo_date_sel') { $fo_date_sel =  $foval; }
+      if($fo == 't_date_1') { $fo_date_1 =  $foval; }
+      if($fo == 't_date_2') { $fo_date_2 =  $foval; }
+      
       if($fo == 'aptid') { $fo_aptid =  $foval; }
       if($fo == 'hfser_id') { $fo_hfser_id =  $foval; }
       if($fo == 'ocid') { $fo_ocid =  $foval; }
@@ -69,6 +77,34 @@
       </div>
     </div>
     <div class="box-body border-radius-none">
+
+      <div class="row">
+          <div class="col-md-3">
+            <div class="form-group"> 
+                
+              <select name="fo_date_sel" id="fo_date_sel" class="form-control" style="width: 100%;"  tabindex="-1" aria-hidden="true">
+                  <option value="APP" @if (!isset($fo_date_sel))  selected @elseif (isset($fo_date_sel)) @if ($fo_date_sel ==  'APP' )  selected @endif @endif>Applied Dates Within</option>
+                  {{--  <option value="ISS" @if (!isset($fo_date_sel))  selected @elseif (isset($fo_date_sel)) @if ($fo_date_sel ==  'ISS' )  selected @endif @endif>Issued Dates Within</option>
+                  <option value="PAY" @if (isset($fo_date_sel)) @if ($fo_date_sel ==  'PAY' )  selected @endif @endif>Payment Confirmed Dates Within</option>
+                  <option value="INS" @if (isset($fo_date_sel)) @if ($fo_date_sel ==  'INS' )  selected @endif @endif>Inspection/Evaluation Dates Within</option>
+                  <option value="REC" @if (isset($fo_date_sel)) @if ($fo_date_sel ==  'REC' )  selected @endif @endif>Recommended Dates Within</option>
+                  <option value="APR" @if (isset($fo_date_sel)) @if ($fo_date_sel ==  'APR' )  selected @endif @endif>Issuance/Non Issuance Dates Within</option> --}}
+              </select> 
+
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group"> 
+
+              <div class="row">
+                <div class="col-md-6"><input type="date" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_date_1" id="fo_date_1" value="@if(isset($fo_date_1)){{$fo_date_1}}@endif"></div>
+                <div class="col-md-6"><input type="date" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" name="fo_date_2" id="fo_date_2" value="@if(isset($fo_date_2)){{$fo_date_2}}@endif"></div>
+              </div>
+
+            </div>
+          </div>
+      </div>
 
       <div class="row">
 

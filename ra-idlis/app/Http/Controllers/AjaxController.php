@@ -5586,6 +5586,7 @@ public static function checkConmem($appid)
 				}
 				$t_date_1 = NULL;
 				$t_date_2 = NULL;
+				$fo_date_sel = "t_date";
 				
 				//Filter Area
 				foreach($filter  as $fo => $foval)
@@ -5613,9 +5614,22 @@ public static function checkConmem($appid)
 					else if( $fo == 't_date_2' && isset($foval) && isset($t_date_1))
 					{  
 						$t_date_2 = $foval;
-						$anotherData->whereBetween('t_date', [$t_date_1, $t_date_2]);
+						$anotherData->whereBetween($fo_date_sel, [$t_date_1, $t_date_2]);
 					}
-					else if($fo != 'fo_rows' && $fo != 'fo_pgno' && $fo != 'fo_submit' && $fo != 'fo_rowscnt' && $fo != 'fo_session_grpid' && isset($foval)) 
+					else if( $fo == 'fo_date_sel' && isset($foval) && isset($t_date_1))
+					{  
+						if( $foval == 'APP')
+						{  
+							$fo_date_sel = "t_date";
+						}
+						else if( $foval == 'ISS')
+						{  
+							$fo_date_sel = "approvedDate";
+						}
+					}
+					else //if($fo != 'fo_rows' && $fo != 'fo_pgno' && $fo != 'fo_submit' && $fo != 'fo_rowscnt' && $fo != 'fo_session_grpid' && isset($foval)) 
+					if($fo != 'fo_date_sel' && $fo != 'fo_rows' && $fo != 'fo_pgno' && $fo != 'fo_submit' && $fo != 'fo_rowscnt' && $fo != 'fo_session_grpid' && isset($foval) &&
+					($fo == 't_date_2' && isset($foval) && is_null($t_date_1) == false) ) 
 					{ 						
 						$anotherData->where($fo, '=', $foval);
 					}

@@ -39,16 +39,18 @@
                   <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  colspan="2">DOH Inspection</td>
                                   
                   @if($FDAtype == 'machines')
-                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">FDA Remarks</td>
+                    <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  rowspan="2"> Radiation Application Status</td>
                     <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">COC Attachment and Validity</td>
+                    <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">FDA Remarks</td>
                   @else
                     <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Cashier Details of</td>
                     <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;" @if($FDAtype == 'all') colspan="2" @endif> Pre-Assessment Details of</td>
                     <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Inspection Details of</td>
                     <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Recommendation Details of</td>
                     <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Final Decision Details of</td>
+                    <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  rowspan="2"> Pharmacy Application Status</td>
                   @endif 
-                  <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;"  @if($FDAtype == 'all') colspan="2" @endif> Application Status of</td>
+                  
                   <td style="text-align: center;border-left: darkgray;border-left-width: thin;border-left-style: solid;" rowspan="2">DOH Status</td>  
                   
               </tr>
@@ -56,28 +58,10 @@
                       <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Target Last Date</td>                      
                       <td style="text-align: center;">Actual Date</td>                    
                   @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
-                  @endif 
-
-                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
-                  @endif 
-
-                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
-                  @endif 
-
-                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
-                  @endif
-
-                  @if($FDAtype != 'all' && $FDAtype == 'pharma')
-                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
-                  @endif 
-
-                  @if($FDAtype != 'all' && $FDAtype == 'machines')
-                      <td style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Radiation</td>
-                  @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>                  
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>                 
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>                  
+                      <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>                  
                       <td  style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Pharmacy</td>
                   @endif 
               </tr>
@@ -122,20 +106,27 @@
                               @if(isset($data->formattedInspectedDate)){{$data->formattedInspectedDate}} @endif 
                           </td>
                           @if($FDAtype != 'all' && $FDAtype == 'machines')
-                          <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">                         
-                          {{-- FDA Remarks --}}     
-                              @if(isset($data->RecoRemarkFDA)){{$data->RecoRemarkFDA}} @endif 
-                          </td>
-                          <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">                         
-                          {{-- COC Attachment and Validity --}} 
-                              @if(isset($data->formattedXrayValidityDate)){{$data->formattedXrayValidityDate}} @endif 
-                              <br/> ----------------------
-                              @if(isset($data->xrayCOC)){{$data->xrayCOC}} @endif 
-                              <br/> ----------------------
-                              @if(isset($data->xrayUp)){{$data->xrayUp}} @endif 
-                              <br/>    
-                              <a href="{{url('file/download/')}}" style="font-size:x-small">Click Here to download</a>
-                          </td>
+                            <td style="text-align:center;color:black;border-left: darkgray;border-left-width: thin;border-left-style: solid;">
+                              {{$data->FDAStatMach}}
+                            </td>
+
+                            {{-- COC Attachment and Validity --}} 
+                            <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">
+                            
+                                @if(isset($data->xrayValStart) || isset($data->formattedXrayValidityDate))Validity Date<br/>@endif
+                                @if(isset($data->formattedXrayStartValidityDate)){{$data->formattedXrayStartValidityDate}} @endif                              
+                                @if(isset($data->formattedXrayValidityDate)) to {{$data->formattedXrayValidityDate}} @endif 
+                                <br/><br/>    
+                                @if(isset($data->xrayUp))
+                                <a href="{{url('file/download/')}}/{{$data->xrayUp}} " class="btn btn-info form-control" style="font-size:small">Click Here to download</a>
+                                @endif
+                            </td>
+
+                            <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">                         
+                            {{-- FDA Remarks --}}     
+                                @if(isset($data->RecoRemarkFDA)){{$data->RecoRemarkFDA}} @endif 
+                            </td>
+                            
                           @endif 
 
                           
@@ -187,11 +178,7 @@
                           @endif 
 
 
-                          @if($FDAtype != 'all' && $FDAtype == 'machines')
-                            <td style="color:black;text-align:left;border-left: darkgray;border-left-width: thin;border-left-style: solid;">
-                              {{$data->FDAStatMach}}
-                            </td>
-                          @endif @if($FDAtype != 'all' && $FDAtype == 'pharma')
+                          @if($FDAtype != 'all' && $FDAtype == 'pharma')
                             <td style="text-align:center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">
                               {{$data->FDAStatPhar}}
                             </td>
@@ -378,7 +365,7 @@
         </div>
       </div>
   </div>
-  
+    <!-------------
   <div class="modal fade" id="ModalCOC" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog  modal-lg " role="document">
         <div class="modal-content" style="border-radius: 0px;border: none;">
@@ -430,6 +417,70 @@
         </div>
       </div>
   </div>
+
+------------------>
+
+
+  <div class="modal fade" id="ModalCOC" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="border-radius: 0px;border: none;">
+        <div class="modal-body" style=" background-color: #272b30;color: white;">
+
+          <h5 class="modal-title text-center"><strong>Approval/Issuance of Application</strong></h5>
+          <hr>
+          <div class="col-sm-12 alert alert-danger alert-dismissible fade show" style="display: none" id="AccErrorAlert" role="alert">
+              <strong><i class="fas fa-exclamation"></i></strong>&nbsp;An <strong>error</strong> occurred. Please contact the system administrator.
+              <button type="button" class="close" onclick="$('#AccErrorAlert').hide(1000);" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          
+          <div class="container">
+
+            <form id="AppFormFinal" enctype="multipart/form-data" data-parsley-validate>
+                <input type="text" id="desc_isAppr" value="" disabled hidden>
+                {{csrf_field()}}
+                <input type="hidden" name="action" id="action_coc" value="coc">
+                <input type="hidden" name="appid" id="appid_coc" >
+                <span id="ViewBodyCOC">
+                </span>
+
+                <div class="row pt-3">
+                  <div class="col-sm-4">Start of Validity Date:<span style="color:red;font-weight: bolder">*</span> </div>
+                    <div class="col-sm-8" >
+                      <input type="date" class="form-control" id="xrayValStart" name="xrayValStart" placeholder="Start of Validity" required>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-sm-4">End of Validity Date:<span style="color:red;font-weight: bolder">*</span> </div>
+                    <div class="col-sm-8" >
+                      <input type="date" class="form-control" rows="5" name="xray" id="xray" data-parsley-required-message="<strong>X-Ray Validity Date<strong> required." required="">
+                    </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-sm-4">Upload COC for Machine:<span style="color:red;font-weight: bolder">*</span> </div>
+                    <div class="col-sm-8" >
+                      <input type="file" class="form-control" rows="5" name="xrayCOCUP" id="xrayCOCUP" data-parsley-required-message="<strong>Upload COC for Machine<strong> required." required="">
+                    </div>
+                </div>                   
+                <hr>
+
+                <div class="row">                    
+                    <div class="col-sm-12">
+                      <button type="submit" d="MODALBTN" class="btn btn-success form-control" style="border-radius:0;"><span class="fa fa-save"></span>   Save</button>
+                    </div>
+                  </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!------------------------------->
+
   <div class="modal fade" id="ShowEvalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog {{-- modal-lg --}}" role="document">
         <div class="modal-content" style="border-radius: 0px;border: none;">
@@ -583,6 +634,58 @@
                   },
 
                 });
+            }
+        });
+
+
+        $('#AppFormFinal').on('submit',function(event){
+            event.preventDefault();
+            var form = $(this);
+            form.parsley().validate();
+            if (form.parsley().isValid()){	
+                let data = new FormData(this);
+                data.append('id',$('#APPID').val());
+                data.append('isOk',$('#desc_isAppr').val());
+                data.append('desc',$('#desc_rmk').val());
+                $.ajax({
+                  method : 'POST',
+                  data : data, 
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  success : function(data){
+                      if (data == 'DONE') {
+                        Swal.fire({
+                          type: 'success',
+                          title: 'Success',
+                          text: 'Success.',
+                        }).then(() => {
+                          location.reload();
+                        });
+                      } else if (data == 'ERROR'){
+                        $('#AccErrorAlert').show(100);  
+                      } else if(data == 'WRONGPASSWORD'){
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Error',
+                          text: 'Wrong Password. Please try again.',
+                        }).then(() => {
+                        });
+                      } else {
+                        Swal.fire({
+                          type: 'error',
+                          title: 'COC/RL',
+                          text: data
+                        })
+                      }
+                  }, error : function(a,b,c){ 
+                      console.log(c);
+                      $('#AccErrorAlert').show(100);
+                  },
+
+                });
+            } else {
+              alert('Please check for all requirements');
             }
         });
 

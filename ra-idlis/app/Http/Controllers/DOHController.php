@@ -4067,34 +4067,24 @@ namespace App\Http\Controllers;
 		{
 			if(session()->has('employee_login'))
 			{
-				try 
-				{
+				//try 
+				//{
 					if ($request->isMethod('get')) 
 					{
 						$arrType = array();
 						$filter = AjaxController::isRequestForFDA($filter);
 		
-						if($filter == 'machines')
-						{
-							$data = SELF::application_filter($request, 'view_fda_status_summary');
-						}
-						elseif($filter == 'pharma')
-						{
-							$data = SELF::application_filter($request, 'view_fda_status_summary_pharma');
-						}
-						else{
-							$data = SELF::application_filter($request, 'view_fda_status_summary');
-						}					
+						if($filter == 'machines'){	$data = SELF::application_filter_fda($request, 'view_fda_status_summary');}
+						elseif($filter == 'pharma')	{	$data = SELF::application_filter_fda($request, 'view_fda_status_summary_pharma');	}
+						else{	$data = SELF::application_filter_fda($request, 'view_fda_status_summary');	}					
 						
 						if(!$filter){
+							
 							$allType = DB::table('hfaci_serv_type')->select('hfser_id')->get();
 
-							foreach ($allType as $key) {
-								array_push($arrType, $key->hfser_id);
-							}
-						} else {
-							array_push($arrType, strtoupper($filter));
-						}
+							foreach ($allType as $key) {	array_push($arrType, $key->hfser_id);	}
+
+						} else {	array_push($arrType, strtoupper($filter));	}
 
 						return view('employee.FDA.viewprocessflowFDA', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'serv' => $arrType, 'FDAtype' => $filter]);
 					}
@@ -4102,6 +4092,7 @@ namespace App\Http\Controllers;
 					{
 						//dd($request);
 						$action = $request->action;
+
 						if(isset($action))
 						{
 							$returnToSender = 0;
@@ -4121,33 +4112,87 @@ namespace App\Http\Controllers;
 									]);
 							}
 							else if($action == "coc")
-							{
-								//xrayVal, xrayCOC, xrayUp
-								$returnToSender = DB::table('appform')
-									->where('appid',$request->appid)->update([
+							{									
+								/********************* Upload COC ************************/
+								$reqType = $filter;
+								$appid = $request->appid;
+
+								if ($request->isMethod('post') && $reqType == 'machines') 
+								{	
+									$Cur_useData = AjaxController::getCurrentUserAllData();									
+
+									$toQueryValidate = ($reqType == 'machines' ? 'cdrrhr' : 'cdrr'); $fullName = null;
+									$faciHead = DB::table('hfsrbannexa')->where([['appid',$appid],['isMainRadio',1]])->first();
+
+									if(isset($faciHead)){
+										$fullName = ucwords($faciHead->prefix . ' ' . $faciHead->firstname) . ' ' . $faciHead->middlename . ' ' .  ucwords($faciHead->surname . ' ' . $faciHead->suffix);
+									}
+
+									$fieldsToInsert = [
+										'certtype' => 'COC',
+										'authorizationStatus' => null, 
+										'cocNo' => $request->xrayValStart.'-'.$appid, //Date('Y-m-d',strtotime('now')).'-'.$appid, 
+										'estype' => 'X-Ray', 
+										'headFaci' => null, 
+										'chiefRadioTechno' => $fullName, 
+										'radProOff' => null,
+										'department' => $toQueryValidate,
+										'appid' => $appid, 
+										'issueby' => $Cur_useData['cur_user']];
+
+									if(DB::table('fdacert')->where([['appid',$appid],['department',$toQueryValidate]])->doesntExist()) 
+									{
+										if(DB::table('fdacert')->insert($fieldsToInsert)){
+											$selected = AjaxController::getUidFrom($appid);
+											AjaxController::notifyClient($appid,$selected, 57);												
+										}
+									}
+
+									$xrayCOCUP = null;
+									$status = 'A';
+									$fds = "Approved";
+
+									if($request->hasFile('xrayCOCUP'))
+									{	$xrayCOCUP = FunctionsClientController::uploadFile($request->xrayCOCUP)['fileNameToStore'];	}
+
+									$data = array(
 										'xrayValStart' => $request->xrayValStart,
-										'xrayVal' => $request->xrayVal,
-										'xrayCOC' => $request->xrayCOC,
-										'xrayUp' => $request->xrayUp
-									]);								
+										'xrayVal' => $request->xray,
+										'xrayUp' => $xrayCOCUP,
+
+										'isApproveFDA' => '1',
+										'approvefdaverd' => $request->verd,
+										'approvedByFDA' => $Cur_useData['cur_user'],
+										'approvedDateFDA' => $Cur_useData['date'],
+										'approvedTimeFDA' =>  $Cur_useData['time'],
+										'approvedIpAddFDA' => $Cur_useData['ip'],
+										'approvedRemarkFDA' => $request->desc,
+										'FDAStatMach' =>$fds,
+										'FDAstatus' => $status
+									);
+
+									if(!FunctionsClientController::existOnDB('fdacert',[['appid',$appid],['department',(AjaxController::isRequestForFDA($reqType) == 'machines' ? 'cdrrhr' : 'cdrr')]]) && !isset($request->verd))
+									{	return 'Please add RL/COC first!';	}
+
+									$returnToSender = DB::table('appform')->where('appid', '=', $appid)->update($data);
+									$selected = AjaxController::getUidFrom($appid);
+									AjaxController::notifyClient($appid,$selected, 33);
+								}
+
+								/***************** End of Upload COC **********************/
 							}
 
 							return ($returnToSender > 0 ? "DONE" : "ERROR");
-							//return view('employee.FDA.viewprocessflowFDA', ['LotsOfDatas' => $data['data'], 'arr_fo'=>$data['arr_fo'], 'serv' => $arrType, 'FDAtype' => $filter]);
 						}						
 					}
-				} 
-				catch (Exception $e) 
+				/*} catch (Exception $e) 
 				{
-					AjaxController::SystemLogs($e);
-					session()->flash('system_error','ERROR');
+					AjaxController::SystemLogs($e);	session()->flash('system_error','ERROR');
 					return redirect()->route('employee');
-				}
+				}*/
 			}
 			else 
-			{
-				return redirect()->route('employee');
-			}			
+			{	return redirect()->route('employee');	}			
 		}
 
 		public function ViewProcessFlowFDASubmit(Request $request,$filter = 'machines')
@@ -5442,12 +5487,10 @@ namespace App\Http\Controllers;
 						$fstat = 'For Recommendation' ;
 						// $fstat = $requestOfClient == 'machines' ? 'For Recommendation' : 'For Final Decision';
 
-						if($request->recommendation == "NOD")
-						{
-							$fstat = "For Notice of Deficiency";
-						}
+						if($request->recommendation == "NOD"){	$fstat = "For Notice of Deficiency";}
 
 						if($requestOfClient == 'machines'){
+
 							$corm = 1;
 							$corp = $capp->corResubmitPhar;
 							$resub = $requestOfClient == 'machines' ? $corm : $corp;
@@ -5463,6 +5506,7 @@ namespace App\Http\Controllers;
 							);
 
 						} else {
+
 							$corm =  $capp->corResubmit;
 							$corp = 1;
 							$resub = $requestOfClient == 'machines' ? $corm : $corp;
@@ -5529,7 +5573,8 @@ namespace App\Http\Controllers;
 								}
 								if($request->recommendation == 'COC'){
 									$department = ($requestOfClient == 'machines' ? 'cdrrhr' : 'cdrr');
-									DB::table('fdacert')->insert(['appid' => $appid, 'department' => $department, 'certtype' => 'COC', 'issueby' => session()->get('employee_login')->uid]);
+									DB::table('fdacert')->insert([	'appid' => $appid, 'department' => $department, 'certtype' => 'COC', 
+																	'issueby' => session()->get('employee_login')->uid]);
 								}
 								return redirect('employee/dashboard/processflow/evaluate/FDA/'.$appid.'/'.$requestOfClient);
 							}
@@ -5545,9 +5590,7 @@ namespace App\Http\Controllers;
 
 								if(DB::table('fdaevaluation')->where('evalid', $oldData->evalid)->update(['decision' => $request->recommendation, 't_det' => $uData['date'], 't_ip' => $uData['ip'], 't_eval' => $uData['cur_user']]))
 								{
-									if(strtolower($request->recommendation) != 'rfc'){
-										DB::table('appform')->where('appid',$appid)->update($forAppform);
-									}
+									if(strtolower($request->recommendation) != 'rfc'){	DB::table('appform')->where('appid',$appid)->update($forAppform); }
 									return back()->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Application Updated']);
 								}
 							}
@@ -11559,16 +11602,21 @@ namespace App\Http\Controllers;
 
 				if($request->has('cert')){
 					$toQueryValidate = ($reqType == 'machines' ? 'cdrrhr' : 'cdrr');
+
 					if(DB::table('fdacert')->where([['appid',$appid],['department',$toQueryValidate]])->doesntExist()){
+						
 						if($reqType == 'pharma'){
+
 							if($request->cert == 'rl'){
 								$fieldsToInsert = ['certtype' => 'RL','warehouse' => $request->waAR, 'allied' => $request->rlAR, 'apptype' => $request->rlta, 'estype' => ($reqType == 'machines' ? 'X-Ray' : 'Hospital Pharmacy'), 'otherestype' => $request->rlod, 'department' => $toQueryValidate, 'appid' => $appid, 'issueby' => $Cur_useData['cur_user']];
 							} else if($request->cert == 'coc'){
 								$fieldsToInsert = ['certtype' => 'COC', 'cocNo' => Date('Y-m-d',strtotime('now')).'-'.$appid, 'warehouse' => $request->cocWA, 'allied' => $request->cocAR, 'estype' => ($reqType == 'machines' ? 'X-Ray' : 'Hospital Pharmacy'), 'otherdet' => $request->cocOD, 'otherestype' => $request->cocod, 'department' => $toQueryValidate, 'appid' => $appid, 'issueby' => $Cur_useData['cur_user']];
 							}
 						} else {
+
 							$fullName = null;
 							$faciHead = DB::table('hfsrbannexa')->where([['appid',$appid],['isMainRadio',1]])->first();
+
 							if(isset($faciHead)){
 								$fullName = ucwords($faciHead->prefix . ' ' . $faciHead->firstname) . ' ' . $faciHead->middlename . ' ' .  ucwords($faciHead->surname . ' ' . $faciHead->suffix);
 							}
@@ -11592,6 +11640,7 @@ namespace App\Http\Controllers;
 							AjaxController::notifyClient($appid,$selected,($reqType == 'pharma' ? 58 : 57));
 							return 'true';
 						}
+
 					}
 					return 'false';
 				} else {
@@ -11599,10 +11648,10 @@ namespace App\Http\Controllers;
 						// $ChckPassword = AjaxController::checkPassword($request->pass);
 						$ChckPassword = true;
 						if ($ChckPassword == true) 
-						{
-							
+						{							
 							$pharCOCUP = $xrayCOCUP = null;
 							$status = ($request->isOk == '1') ? 'A' : 'RA';
+
 							if($request->hasFile('pharCOCUP')){
 								$pharCOCUP = FunctionsClientController::uploadFile($request->pharCOCUP)['fileNameToStore'];
 							}
@@ -11611,9 +11660,8 @@ namespace App\Http\Controllers;
 							}
 
 							$fds = "Disapproved";
-							if($request->isOk == '1'){
-								$fds = "For Approval";
-							}
+
+							if($request->isOk == '1'){	$fds = "For Approval";	}
 
 							if($reqType == 'machines'){
 								$data = array(
@@ -11644,19 +11692,15 @@ namespace App\Http\Controllers;
 						 	if(!FunctionsClientController::existOnDB('fdacert',[['appid',$appid],['department',(AjaxController::isRequestForFDA($reqType) == 'machines' ? 'cdrrhr' : 'cdrr')]]) && !isset($request->verd)){
 								return 'Please add RL/COC first!';
 							}
+
 							$test = DB::table('appform')->where('appid', '=', $appid)->update($data);
 							$selected = AjaxController::getUidFrom($appid);
 							AjaxController::notifyClient($appid,$selected,($request->isOk == 1 ? 33 : 32));
-							if ($test) {
-								return 'DONE';
-							} else {
-								return 'ERROR';
-							}
+							
+							if ($test) {	return 'DONE';	} 
+							else {	return 'ERROR';	}
 						}
-						else
-						{
-							return 'WRONGPASSWORD';
-						}
+						else{	return 'WRONGPASSWORD';	}
 					} 
 					catch (Exception $e) 
 					{
@@ -14748,6 +14792,8 @@ namespace App\Http\Controllers;
 				$fo_rows = $request->fo_rows;
 				$fo_pgno = 	$request->fo_pgno;
 				$fo_submit = $request->fo_submit;
+				$fo_date_1 = '';
+				$fo_date_2 = '';
 				
 				if($request->fo_submit == "prev")
 				{
@@ -14759,6 +14805,10 @@ namespace App\Http\Controllers;
 				}
 
 				$arr_fo = array(
+					'fo_date_sel' => $request->fo_date_sel,
+					't_date_1' => $request->fo_date_1,
+					't_date_2' => $request->fo_date_2,
+
 					'aptid' => $request->fo_aptid,
 					'hfser_id' => $request->fo_hfser_id,
 					'ocid' => $request->fo_ocid,
@@ -14782,8 +14832,14 @@ namespace App\Http\Controllers;
 				$fo_rows = "10";
 				$fo_pgno = "1";
 				$fo_submit = "submit";
+				$fo_date_1 = date('Y'). '-01-31';
+				$fo_date_2 = date('Y').  '-12-31';
 
 				$arr_fo = array(
+					'fo_date_sel' => 'APP',
+					't_date_1' => $fo_date_1,
+					't_date_2' => $fo_date_2,
+
 					'aptid' => NULL, 
 					'hfser_id' =>  NULL,
 					'ocid' => NULL,

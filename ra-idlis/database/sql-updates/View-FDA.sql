@@ -39,7 +39,8 @@ appform.isApprove, appform.approvedBy,
 appform.approvedDate, CASE WHEN appform.approvedDate IS NOT NULL THEN DATE_FORMAT(appform.approvedDate, "%M %d, %Y") ELSE NULL END AS formattedApprovedDate, 
 appform.approvedTime, CASE WHEN appform.approvedTime IS NOT NULL THEN DATE_FORMAT(appform.approvedTime, "%h:%i %p") ELSE NULL END AS formattedApprovedTime,
 
-appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%M %d, %Y") ELSE NULL END AS formattedXrayValidityDate, 
+appform.xrayValStart, CASE WHEN appform.xrayValStart IS NOT NULL THEN DATE_FORMAT(appform.xrayValStart, "%m/%d/%Y") ELSE NULL END AS formattedXrayStartValidityDate, 
+appform.xrayVal, CASE WHEN appform.xrayVal IS NOT NULL THEN DATE_FORMAT(appform.xrayVal, "%m/%d/%Y") ELSE NULL END AS formattedXrayValidityDate, 
 appform.pharValidity, CASE WHEN appform.pharValidity IS NOT NULL THEN DATE_FORMAT(appform.pharValidity, "%M %d, %Y") ELSE NULL END AS formattedPharmaValidityDate, 
 /*********** Important Dates ***************/
 
@@ -782,6 +783,7 @@ WHERE
 	   appform.isRecoFDAPhar IS NULL  AND appform.isApproveFDAPharma IS NULL
    )  
 ) 
+AND appform.FDAStatPhar!='For Notice of Deficiency'
 AND appform.hfser_id IN ('COA', 'LTO', 'ATO', 'COR')   
 AND ( ( appform.noofstation IS NOT NULL AND appform.noofstation > 0) OR ( appform.noofmain IS NOT NULL   AND appform.noofmain > 0)  )  	
 AND appform.appid IN (SELECT DISTINCT appid FROM cdrrpersonnel WHERE isTag!='1')
