@@ -10,6 +10,10 @@
             @endforeach
         </datalist>
       @endisset
+
+      @php $_decision = ""; @endphp
+      @isset($eval)  @php $_decision = $eval->decision; @endphp  @endisset
+
       <style type="text/css">
         .control-group {
           display: inline-block;
@@ -152,9 +156,9 @@
       </style>
         <div class="card">
             <div class="card-header bg-white font-weight-bold">
-            <button class="btn btn-primary" onclick="window.history.back();">Back</button>
+            <a class="btn btn-primary" href="{{ asset('employee/dashboard/processflow/evaluate/FDA/'.$choosen) }}">Back</a>
               <input type="" id="token" value="{{ Session::token() }}" hidden>
-               Evaluation 
+              &nbsp; Evaluation 
               
             </div>
             <div class="card-body">
@@ -191,113 +195,19 @@
                   </div>
                   
                 </div>
-               
-            	@if(($AppData->isRecoDecisionPhar == 'Return for Correction' &&  $AppData->corResubmitPhar == 0 )|| !isset($eval))
 
-            	<div class="container pt-5 pb-3">
-
-            <div class="container"></div>
-					<form method="POST" enctype="multipart/form-data">
-						{{csrf_field()}}
-						<div class="row">
-	            			<div class="col-md-12 text-center" style="font-size: 40px;">
-	            				<u>{{($choosen == 'machines' ? 'Machine' : 'Pharmacy')}}</u>
-	            			</div>
-	            		</div>
-	            		<div class="row pt-3">
-	            			<div class="col-md-12 text-center" style="font-size: 30px;">
-	            			Upload Evaluation Results of <span class="font-weight-bold">{{$AppData->facilityname}}</span>
-	            			</div>
-	            		</div>
-	            		<div class="row pt-5 pb-3">
-	            			<div class="col-md d-flex justify-content-center">
-								<img src="{{asset('ra-idlis/public/img/FDADocuments.jpg')}}" alt="fda documents" width="30%">
-							</div>
-						</div>
-	            		<div class="row pt-3 pb-4">
-							<div class="col-md d-flex justify-content-center">
-								<input type="file" name="fileUp" required>
-							</div>
-	            		</div>
-	            		<div class="row">
-	            			<div class="col-md-12">
-	            				<div class="col-md text-center pb-2 pt-3" style="font-size: 20px;">
-	            					Evaluation Recommendation 
-	            				</div>
-                      @if(isset($eval->uploadfilename))
-                        <div class="row pt-5 pb-4">
-                          <div class="col-md-12 text-center" style="font-size: 30px;">
-                            Download File
+                <div class="container pt-5">
+                    <div class="row pb-3">
+                          <div class="col-md-12 text-center" style="font-size: 40px;">
+                            <u>{{($choosen == 'machines' ? 'Machine' : 'Pharmacy')}}</u>
                           </div>
-                          <div class="col-md d-flex justify-content-center pt-3">
-                            <a href="{{url('file/download/'.$eval->uploadfilename)}}" class="btn btn-primary p-3">Download File</a>
-                          </div>
-                        </div>
-                      @endif
-	            				<div class="col-md d-flex justify-content-center">
-	            					<select name="recommendation" class="form-control" required style="width: 43%;" onchange="showDiv(this)">
-	            						<option disabled hidden selected>Please Select</option>
-                        @if($choosen == "machines")
-	            						<option value="Certificate of Compliance  ">Certificate of Compliance  </option>
-	            						<option value="License to Operate for LINAC, Transporatable  X-Ray Facility">License to Operate for LINAC, Transporatable  X-Ray Facility</option>
-	            						<option value="Certificate of Facility Registration (MRI)">Certificate of Facility Registration (MRI)</option>
-                          <option value="Notice of Deficiency (30 Days compliance)">Notice of Deficiency (30 Days compliance)</option>
-                          <option value="Recommendation for Disapproval including forfeiture of payment">Recommendation for Disapproval including forfeiture of payment</option>
-                      
-                        @else
-                          <option value="COCN">Certificate of Compliance</option>
-                          <option value="NOD">Notice of Deficiency (30 Days compliance)</option>
-                          <option value="RLN">Recommendation Letter </option>
-                        @endif
-                          
-                          <!-- <option value="COC">COC</option>
-	            						<option value="RL">RL</option>
-                          <option value="RFD">RFD</option>
-                          <option value="RFC">RFC</option> -->
+                    </div>
+                </div>
 
-	            					</select>
-	            				</div>
-
-	            			</div>
-	            		</div>
-
-                  <div class="row pt-3" id="hidden_div" style="display:none;">
-	            			<div class="col-md-12">
-	            				<div class="col-md text-center pb-2 pt-3" style="font-size: 20px; ">
-                      Validity Date
-	            				</div>
-	            				<div class="col-md d-flex justify-content-center">
-                      <input type="date" name="validitydate" id="validitydate" class="form-control" placeholder="Click Me" style="width: 43%">
-                      </div>
-	            			</div>
-	            		</div>
-
-	            		<div class="row pt-3">
-	            			<div class="col-md-12">
-	            				<div class="col-md text-center pb-2 pt-3" style="font-size: 20px;">
-	            					Remarks
-	            				</div>
-	            				<div class="col-md d-flex justify-content-center">
-	            					<textarea name="remarks" class="form-control" cols="30" rows="10" style="width: 43%"></textarea>
-	            				</div>
-	            			</div>
-	            		</div>
-	            		<div class="row pt-3">
-	            			<div class="col-md d-flex justify-content-center">
-	            				<button class="btn btn-primary" type="submit">Submit </button>
-	            			</div>
-	            		</div>
-					</form>
-            	</div>
-
-				@else
+                @if( (  ( ($AppData->isRecoDecisionPhar == 'Return for Correction' &&  $AppData->corResubmitPhar == 0 ) || !isset($eval)  ) == false ) )
 
 				<div class="container pt-5">
-					<div class="row pb-3">
-            			<div class="col-md-12 text-center" style="font-size: 40px;">
-            				<u>{{($choosen == 'machines' ? 'Machine' : 'Pharmacy')}}</u>
-            			</div>
-            		</div>
+					
 					<div class="row">
             			<div class="col-md-12 text-center" style="font-size: 30px;">
             				View Evaluation Results of <span class="font-weight-bold">{{$AppData->facilityname}}</span>
@@ -344,9 +254,8 @@
 						       		@endswitch
                       
                       </u>
-
-
             				</div>
+
                     <div class="col-md d-flex justify-content-center lead" style="font-size: 26px;" >
                        @if(strtolower($eval->decision) == 'rfc')
                         <div class="row">
@@ -370,7 +279,102 @@
             		</div>
             	</div>
 
-            	@endif
+              <hr/>         
+            	@endif      
+            	@if( (($AppData->isRecoDecisionPhar == 'Return for Correction' &&  $AppData->corResubmitPhar == 0 )|| !isset($eval)) == true || $_decision == "NOD")
+
+            	<div class="container pt-5 pb-3">
+
+                  <div class="container"></div>
+                  <form method="POST" enctype="multipart/form-data">
+                    {{csrf_field()}}
+                    
+                          <div class="row pt-3">
+                            <div class="col-md-12 text-center" style="font-size: 30px;">
+                            @if($_decision == "NOD") Update @else Upload @endif Evaluation Results of <span class="font-weight-bold">{{$AppData->facilityname}}</span>
+                            </div>
+                          </div>
+                          <div class="row pt-5 pb-3">
+                            <div class="col-md d-flex justify-content-center">
+                        <img src="{{asset('ra-idlis/public/img/FDADocuments.jpg')}}" alt="fda documents" width="30%">
+                      </div>
+                    </div>
+                    @if($_decision != "NOD")
+                    <div class="row pt-3 pb-4">
+                      <div class="col-md d-flex justify-content-center">
+                        <input type="file" name="fileUp" required>
+                      </div>
+                    </div>
+                    @endif
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="col-md text-center pb-2 pt-3" style="font-size: 20px;">
+                                Evaluation Recommendation 
+                              </div>
+                              @if(isset($eval->uploadfilename) && $_decision != "NOD")
+                                <div class="row pt-5 pb-4">
+                                  <div class="col-md-12 text-center" style="font-size: 30px;">
+                                    Download File
+                                  </div>
+                                  <div class="col-md d-flex justify-content-center pt-3">
+                                    <a href="{{url('file/download/'.$eval->uploadfilename)}}" class="btn btn-primary p-3">Download File</a>
+                                  </div>
+                                </div>
+                              @endif
+                              <div class="col-md d-flex justify-content-center">
+                                <select name="recommendation" class="form-control" required style="width: 43%;" onchange="showDiv(this)">
+                                  <option disabled hidden selected>Please Select</option>
+                                @if($choosen == "machines")
+                                  <option value="Certificate of Compliance  ">Certificate of Compliance  </option>
+                                  <option value="License to Operate for LINAC, Transporatable  X-Ray Facility">License to Operate for LINAC, Transporatable  X-Ray Facility</option>
+                                  <option value="Certificate of Facility Registration (MRI)">Certificate of Facility Registration (MRI)</option>
+                                  <option value="Notice of Deficiency (30 Days compliance)">Notice of Deficiency (30 Days compliance)</option>
+                                  <option value="Recommendation for Disapproval including forfeiture of payment">Recommendation for Disapproval including forfeiture of payment</option>
+                              
+                                @else
+                                  <option value="COCN">Certificate of Compliance</option>
+                                  <option value="NOD"  @if($_decision == "NOD") selected @endif >Notice of Deficiency (30 Days compliance)</option>
+                                  <option value="RLN">Recommendation Letter </option>
+                                @endif
+
+                                </select>
+                              </div>
+
+                            </div>
+                          </div>
+
+                          <div class="row pt-3" id="hidden_div" style="display:none;">
+                            <div class="col-md-12">
+                              <div class="col-md text-center pb-2 pt-3" style="font-size: 20px; ">
+                              Validity Date
+                              </div>
+                              <div class="col-md d-flex justify-content-center">
+                              <input type="date" name="validitydate" id="validitydate" class="form-control" placeholder="Click Me" style="width: 43%">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row pt-3">
+                            <div class="col-md-12">
+                              <div class="col-md text-center pb-2 pt-3" style="font-size: 20px;">
+                                Remarks
+                              </div>
+                              <div class="col-md d-flex justify-content-center">
+                                <textarea name="remarks" class="form-control" cols="30" rows="10" style="width: 43%">@if(isset($eval) && $eval != null){{$eval->remarks}}@endif</textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row pt-3">
+                            <div class="col-md d-flex justify-content-center">
+                              <button class="btn btn-primary" type="submit">Submit </button>
+                            </div>
+                          </div>
+                  </form>
+            	</div>
+      
+      @endif
+
+      
             </div>
       	</div>
 
