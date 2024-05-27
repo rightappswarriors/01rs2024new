@@ -299,13 +299,11 @@
                         <img src="{{asset('ra-idlis/public/img/FDADocuments.jpg')}}" alt="fda documents" width="30%">
                       </div>
                     </div>
-                    @if($_decision != "NOD")
                     <div class="row pt-3 pb-4">
                       <div class="col-md d-flex justify-content-center">
                         <input type="file" name="fileUp" required>
                       </div>
                     </div>
-                    @endif
                           <div class="row">
                             <div class="col-md-12">
                               <div class="col-md text-center pb-2 pt-3" style="font-size: 20px;">

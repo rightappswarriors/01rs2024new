@@ -11180,7 +11180,12 @@ namespace App\Http\Controllers;
 								'noofsatellite' => $appform->noofsatellite, 'noofdialysis' => $appform->noofdialysis, 'noofmain' => $appform->noofmain, 
 								'cap_inv' => $appform->cap_inv, 'lot_area' => $appform->lot_area, 
 								'typeamb' => $appform->typeamb, 'ambtyp' => $appform->ambtyp, 'plate_number' => $appform->plate_number, 'ambOwner' => $appform->ambOwner, 
-								'noofamb' => $appform->noofamb, 'pharCOC' => $appform->pharCOC, 'xrayCOC' => $appform->xrayCOC,
+								'noofamb' => $appform->noofamb, 
+								'pharCOC' => $appform->pharCOC, 'xrayCOC' => $appform->xrayCOC,
+
+								'xrayValStart' => $appform->xrayValStart,
+								'xrayVal' => $appform->xrayVal,
+								'xrayUp' => $appform->xrayUp,
 
 								'noofbed_dateapproved' 		=> $data['noofbed_dateapproved'],
 								'noofdialysis_dateapproved' => $data['noofdialysis_dateapproved'],

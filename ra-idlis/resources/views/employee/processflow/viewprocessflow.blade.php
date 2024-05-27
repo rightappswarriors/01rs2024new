@@ -148,8 +148,18 @@
                               </h5>
                             </center>
                           </td>  --}}
-                          <td style="color:black;text-align:left;border-left: darkgray;border-left-width: thin;border-left-style: solid;">{{$data->FDAStatMach}}</td>
-                          <td style="text-align:left">{{$data->FDAStatPhar}}</td>
+                          <td style="color:black;text-align:left;border-left: darkgray;border-left-width: thin;border-left-style: solid;">{{$data->FDAStatPhar}}</td>
+                          <td style="text-align:left">{{$data->FDAStatMach}}<br/><br/>
+                                @if(isset($data->xrayValStart) || isset($data->formattedXrayValidityDate))Validity Date<br/>@endif
+                                @if(isset($data->formattedXrayStartValidityDate)){{$data->formattedXrayStartValidityDate}} @endif                              
+                                @if(isset($data->formattedXrayValidityDate)) to {{$data->formattedXrayValidityDate}} @endif 
+                                <br/><br/>    
+                                
+                                @if(isset($data->xrayUp))
+                                    <a href="{{url('file/download/')}}/{{$data->xrayUp}} " class="btn btn-info form-control" style="font-size:small">Click Here to download</a>
+                                @endif
+                        
+                          </td>
                         </tr>
 
                     @endforeach
