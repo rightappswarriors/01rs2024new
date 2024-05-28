@@ -2877,23 +2877,19 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			$hfLocs 				= [
 									'client1/apply/app/LTO/'.$appid, 
 									'client1/apply/app/LTO/'.$appid.'/hfsrb', 
-									'client1/apply/app/LTO/'.$appid.'/fda'
-			];
+									'client1/apply/app/LTO/'.$appid.'/fda'];
 
 			if(isset($hideExtensions)) {
 				$hfLocs = [
 					'client1/apply/employeeOverride/app/LTO/'.$appid, 
 					'client1/apply/employeeOverride/app/LTO/'.$appid.'/hfsrb', 
-					'client1/apply/employeeOverride/app/LTO/'.$appid.'/fda'
-				];
+					'client1/apply/employeeOverride/app/LTO/'.$appid.'/fda'	];
 			}
 
 			if(! isset($hideExtensions)) {
 				$cSes = FunctionsClientController::checkSession(true);
 				
-				if(count($cSes) > 0) {
-					return redirect($cSes[0])->with($cSes[1], $cSes[2]);
-				}
+				if(count($cSes) > 0) {	return redirect($cSes[0])->with($cSes[1], $cSes[2]);	}
 			}
 
 			$appGet = FunctionsClientController::getUserDetailsByAppform($appid, $hideExtensions);
@@ -2924,41 +2920,38 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					$nameofcomp = $appform->nameofcompany;					
 					$savingStat = NULL;
 
-					//try {
-						$validto 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityto';
-						$validfrom 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityfrom';
-						$validity 	= "";
-						$issued_date = "";
+					$validto 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityto';
+					$validfrom 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityfrom';
+					$validity 	= "";
+					$issued_date = "";
 
-						if($hfser_id == 'PTC' && !empty($appform->ptc_approveddate)) {
-							$validity = 'Starting '.date_format(date_create($appform->ptc_approveddate),"F d, Y"); 
-							$issued_date = date_format(date_create($appform->ptc_approveddate),"F d, Y");
-						}
-						elseif($hfser_id == 'LTO' && !empty($appform->lto_approveddate)) {
-							$validity = 'Until '.date_format(date_create($appform->lto_validityto),"F d, Y");
-							$issued_date = date_format(date_create($appform->lto_approveddate),"F d, Y");
-						}
-						elseif($hfser_id == 'COA' && !empty($appform->coa_validityto)) {
-							$validity = 'Until '.date_format(date_create($appform->coa_validityto),"F d, Y"); 
-							$issued_date = date_format(date_create($appform->coa_approveddate),"F d, Y");
-						}
-						elseif($hfser_id == 'ATO' && !empty($appform->ato_validityto)) {
-							$validity = 'Until '.date_format(date_create($appform->ato_validityto),"F d, Y"); 
-							$issued_date = date_format(date_create($appform->ato_approveddate),"F d, Y");
-						}			
-						elseif($hfser_id == 'COR' && !empty($appform->cor_validityto)) {
-							$validity = 'Until '.date_format(date_create($appform->cor_validityto),"F d, Y"); 
-							$issued_date = date_format(date_create($appform->cor_validityto),"F d, Y");
-						}			
-					//} catch (Exception $e) { }	
+					if($hfser_id == 'PTC' && !empty($appform->ptc_approveddate)) {
+						$validity = 'Starting '.date_format(date_create($appform->ptc_approveddate),"F d, Y"); 
+						$issued_date = date_format(date_create($appform->ptc_approveddate),"F d, Y");
+					}
+					elseif($hfser_id == 'LTO' && !empty($appform->lto_approveddate)) {
+						$validity = 'Until '.date_format(date_create($appform->lto_validityto),"F d, Y");
+						$issued_date = date_format(date_create($appform->lto_approveddate),"F d, Y");
+					}
+					elseif($hfser_id == 'COA' && !empty($appform->coa_validityto)) {
+						$validity = 'Until '.date_format(date_create($appform->coa_validityto),"F d, Y"); 
+						$issued_date = date_format(date_create($appform->coa_approveddate),"F d, Y");
+					}
+					elseif($hfser_id == 'ATO' && !empty($appform->ato_validityto)) {
+						$validity = 'Until '.date_format(date_create($appform->ato_validityto),"F d, Y"); 
+						$issued_date = date_format(date_create($appform->ato_approveddate),"F d, Y");
+					}			
+					elseif($hfser_id == 'COR' && !empty($appform->cor_validityto)) {
+						$validity = 'Until '.date_format(date_create($appform->cor_validityto),"F d, Y"); 
+						$issued_date = date_format(date_create($appform->cor_validityto),"F d, Y");
+					}			
 
 					$data['validity']		= $validity;
 					$data['issued_date']	= $issued_date;
 						
 					/********** Appform Ambulance ***********/
-					$appform_ambulance_temp= DB::table('appform')->select('typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->get();
-					$appform_ambulance = null;
-					
+					$appform_ambulance= array();
+					$appform_ambulance_temp = array();
 					if (!is_null($appform)) { 
 						$appform_ambulance_temp = [
 							'typeamb' 		=> json_decode($appform->typeamb), 
@@ -2966,8 +2959,8 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							'plate_number'	=> json_decode($appform->plate_number), 
 							'ambOwner'		=> json_decode($appform->ambOwner)
 						];
-					}					
-					
+					}
+
 					if(isset($appform_ambulance_temp))
 					{
 						foreach( $appform_ambulance_temp as $key=>$val)
@@ -2999,16 +2992,38 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							if($key == "ambOwner")
 							{
 								$d = $val;
-								try{
+								try {
 									for($j=count($d)-1; 0 <= $j; $j--)
 										$appform_ambulance[$j]['ambOwner'] = $d[$j];
 								}catch(Exception $e) {}
 							}
 						}
-					} 
+					}
+
+					if (isset($appform_ambulance))
+					{
+						DB::table('appform_ambulance')->where(array('appid'=>$appid))->delete();
+
+						for($j=0; $j < count($appform_ambulance); $j++)
+						{
+							DB::table('appform_ambulance')->insert([
+								'appid'=> $appid, 
+								'typeamb' =>$appform_ambulance[$j]['typeamb'], 
+								'ambtyp' => $appform_ambulance[$j]['ambtyp'], 
+								'plate_number' => $appform_ambulance[$j]['plate_number'], 
+								'ambOwner' => $appform_ambulance[$j]['ambOwner']
+							]);
+						}		
+					}
+
+					$appform_ambulance= DB::table('appform_ambulance')->select('id', 'typeamb', 'ambtyp', 'plate_number', 'ambOwner')
+											->where('appid','=',$appid)->get();	
+					
+					/***************** End of Ambulance ***************/
 
 					$mainservicelist = FunctionsClientController::get_view_ServiceList($hgpid, 1);
 					$addonservicelist = FunctionsClientController::get_view_ServiceList($hgpid, 2);
+					$asc_services_list	= FunctionsClientController::get_view_ServiceList(1, 1);
 
 					$mainservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 1);
 					$addOnservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 2);
@@ -3075,6 +3090,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						'addOnservices_applied'	=> $addOnservices_applied,
 						'mainservicelist'		=> $mainservicelist,
 						'addonservicelist'		=> $addonservicelist,
+						'asc_services_list'		=> $asc_services_list,
 						'asc_services_applied'	=> $asc_services_applied,
 						'isupdate'			=> 1
 					];
@@ -3086,342 +3102,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					return redirect('client1/home')->with('errRet', ['errAlt'=>'danger', 'errMsg'=>'No Registered Facility Record found. Contact the admin']);
 				}
 
-			/*
-			$user_data = session()->get('uData');
-			$locRet 	= "dashboard.client.update-application";  
-
-			if($user_data){
-				$nameofcomp = DB::table('x08')->where([['uid', $user_data->uid]])->first()->nameofcompany;
-			} else{	$nameofcomp = null;	}
-			//default client url
-			$hfLocs = [
-					'client1/apply/app/LTO/'.$appid, 
-					'client1/apply/app/LTO/'.$appid.'/hfsrb', 
-					'client1/apply/app/LTO/'.$appid.'/fda'
-			];
-			//employee override url if user id is set
-			if(isset($hideExtensions)) {
-				$hfLocs = [
-					'client1/apply/employeeOverride/app/LTO/'.$appid, 
-					'client1/apply/employeeOverride/app/LTO/'.$appid.'/hfsrb', 
-					'client1/apply/employeeOverride/app/LTO/'.$appid.'/fda'
-				];
-			}
-
-			if(! isset($hideExtensions)) {
-				$cSes = FunctionsClientController::checkSession(true);
-				
-				if(count($cSes) > 0) {
-					return redirect($cSes[0])->with($cSes[1], $cSes[2]);
-				}
-			}
 			
-			$appGet = FunctionsClientController::getUserDetailsByAppform($appid, $hideExtensions);
-			//dd($appGet);
-			if(count($appGet) < 1) {
-				return redirect('client1/apply')->with('errRet', ['errAlt'=>'warning', 'errMsg'=>'No application selected.']);
-			}
-			//dd($hfser);
-			if($hfser != $appGet[0]->hfser_id) {
-				return redirect('client1/apply/app/'.$appGet[0]->hfser_id.'/'.$appid.'');
-			}
-			$percentage = FunctionsClientController::getAssessmentTotalPercentage($appid, ''.$appGet[0]->uid.'_'.$appGet[0]->hfser_id.'_'.$appGet[0]->aptid.'');
-			//dd($percentage);
-			if(intval($percentage[0]) < 100) {
-				// return redirect('client1/apply/assessmentReady/'.$appid.'/'.$appGet[0]->hfser_id.'')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Proceed to assessment.']);
-			}
-			$arrRet = []; 
-			$locRet = ""; 
-			$hfaci_sql = "SELECT * FROM hfaci_grp WHERE hgpid IN (SELECT hgpid FROM `facl_grp` WHERE hfser_id = '$hfser')"; 
-			$arrCon = [6];
-			$apptype = $appGet[0]->hfser_id;
-
-			// $usid = FunctionsClientController::getSessionParamObj("uData", "uid");
-			// $grpid = DB::table('x08')->where([['uid', $usid]])->first()->grpid;
-			// $grpid = ' ';
-			// unset($appGet[0]->areacode);  //temporary fix
-			switch($hfser) {
-				case 'CON':
-					session()->forget('ambcharge');
-	
-					$hfser_id = 'CON';
-					$faclArr = [];
-							$facl_grp = FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
-							foreach ($facl_grp as $f) {
-								array_push($faclArr, $f->hgpid);
-							}
-					$arrRet = [
-						// 'grpid' =>  $grpid,
-						// 'nameofcomp' =>  $nameofcomp,
-						'appid' =>  $appid,
-						'appFacName' => FunctionsClientController::getDistinctByFacilityName(),
-						'nameofcomp' =>  $nameofcomp,
-						'hfser' => $hfser_id,
-						'user'=> $user_data,
-						'regions' => Regions::orderBy('sort')->get(),
-						'userInf'=>FunctionsClientController::getUserDetails(),
-						'serv_cap'=>DB::table('facilitytyp')->where([['servtype_id',1],['forSpecialty',0]])->whereIn('hgpid', $arrCon)->get(),
-						'ownership'=>DB::table('ownership')->get(),
-						'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-						'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-						'function'=>DB::table('funcapf')->get(),
-						'facmode'=>DB::table('facmode')->get(),
-						'apptype'=>DB::table('apptype')->get(),
-						'fAddress'=>$appGet,
-						'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-						'condet'=>FunctionsClientController::getCONDetails($appid),
-						'cToken'=>FunctionsClientController::getToken(),
-						'hfer' => $apptype,
-						'hideExtensions'=>$hideExtensions,
-						'aptid'=>$aptid,
-						'arrCon'=>json_encode($arrCon),
-						'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-					]; 
-					// unset($arrRet['fAddress'][0]->areacode);
-					// dd($arrRet);
-					
-					$locRet = "dashboard.client.newapplication";
-					// $locRet = "client1.apply.CON1.conapp";
-					break;
-				case 'PTC':
-					session()->forget('ambcharge');
-					$hfser_id = 'PTC';
-					$faclArr = [];
-					$facl_grp = FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
-					
-					foreach ($facl_grp as $f) {
-						array_push($faclArr, $f->hgpid);
-					}
-
-					$ptc =  DB::table('ptc')->where('appid', $appid)->get();
-
-					$arrRet = [
-						// 'grpid' =>  $grpid,
-						'appid' =>  $appid,
-						'nameofcomp' =>  $nameofcomp,
-						'user'=> $user_data,
-						'hfser' =>  $hfser_id,
-						'appFacName'  => FunctionsClientController::getDistinctByFacilityName(),
-						'regions' => Regions::orderBy('sort')->get(),
-						'hfaci_service_type'    => HFACIGroup::whereIn('hgpid', $faclArr)->get(),
-						'userInf'=>FunctionsClientController::getUserDetails(),
-						'hfaci_serv_type'=>DB::select($hfaci_sql),
-						'serv_cap'=>json_encode(DB::table('facilitytyp')->where([['servtype_id',1]/*,['forSpecialty',0]   /////])->get()),
-						'ownership'=>DB::table('ownership')->get(),
-						'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-						'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-						'function'=>DB::table('funcapf')->get(),
-						'facmode'=>DB::table('facmode')->get(),
-						'fAddress'=>$appGet,
-						'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-						'ptcdet'=>json_encode(FunctionsClientController::getPTCDetails($appid)),
-						'cToken'=>FunctionsClientController::getToken(),
-						'hfer' => $apptype,
-						'hideExtensions'=>$hideExtensions,
-						'aptid'=>$aptid,
-						'ptc'=>$ptc,
-						'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-					]; 
-					// dd($arrRet);
-					$locRet = "dashboard.client.permit-to-construct";
-					// $locRet = "client1.apply.PTC1.ptcapp";
-					break;
-				case 'LTO':
-					$proceesedAmb = [];
-					foreach (AjaxController::getForAmbulanceList(false,'forAmbulance.hgpid') as $key => $value) {
-						array_push($proceesedAmb, $value->hgpid);
-					}
-
-					// 5-12-2021
-					$hfser_id = 'LTO';
-					$faclArr = [];
-							$facl_grp = FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
-							foreach ($facl_grp as $f) {
-								array_push($faclArr, $f->hgpid);
-							}
-
-					$arrRet = [
-						// 'grpid' =>  $grpid,
-						'appid' =>  $appid,
-						'nameofcomp' =>  $nameofcomp,
-						'hfser' =>  $hfser_id,
-						'user'=> $user_data,
-						'regions' => Regions::orderBy('sort')->get(),
-						'hfaci_service_type'    => HFACIGroup::whereIn('hgpid', $faclArr)->get(),
-						'appFacName'            => FunctionsClientController::getDistinctByFacilityName(),
-
-						'userInf'=>FunctionsClientController::getUserDetails(),
-						'hfaci_serv_type'=>DB::select($hfaci_sql),
-						'serv_cap'=>json_encode(DB::table('facilitytyp')->where('servtype_id',1)->get()),
-						'apptype'=>DB::table('apptype')->get(),
-						'ownership'=>DB::table('ownership')->get(),
-						'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-						'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-						'function'=>DB::table('funcapf')->get(),
-						'facmode'=>DB::table('facmode')->get(),
-						'fAddress'=>$appGet,
-						'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-						'ptcdet'=>json_encode(FunctionsClientController::getPTCDetails($appid)),
-						'cToken'=>FunctionsClientController::getToken(),
-						'addresses'=>$hfLocs,
-						'hfer' => $apptype,
-						'hideExtensions'=>$hideExtensions,
-						'ambcharges'=>DB::table('chg_app')->whereIn('chgapp_id', ['284', '472'])->get(),
-						'aptid'=>$aptid,
-						'group' => json_encode(DB::table('facilitytyp')->where('servtype_id','>',1)->whereNotNull('grphrz_name')->get()),
-						'forAmbulance' => json_encode($proceesedAmb),
-						'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-					];
-					
-					 $locRet = "dashboard.client.update-application-lto";
-					//  $locRet = "client1.apply.LTO1.ltoapp";
-					break;
-				case 'COR':
-						session()->forget('ambcharge');
-						$hfser_id = 'COR';
-						$faclArr = [];
-							$facl_grp = FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
-							foreach ($facl_grp as $f) {
-								array_push($faclArr, $f->hgpid);
-							}
-						$arrRet = [
-							// 'grpid' =>  $grpid,
-							'appid' =>  $appid,
-							'nameofcomp' =>  $nameofcomp,
-							'hfser' =>  "COR",
-							'user'=> $user_data,
-							'appFacName'            => FunctionsClientController::getDistinctByFacilityName(),
-							'userInf'=>FunctionsClientController::getUserDetails(),
-							'regions' => Regions::orderBy('sort')->get(),
-							'hfaci_serv_type'=>DB::select($hfaci_sql),
-							'hfaci_service_type'    => HFACIGroup::whereIn('hgpid', $faclArr)->get(),
-							'serv_cap'=>json_encode(DB::table('facilitytyp')->where([['servtype_id',1],['forSpecialty',0]])->get()),
-							'ownership'=>DB::table('ownership')->get(),
-							'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-							'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-							'function'=>DB::table('funcapf')->get(),
-							'facmode'=>DB::table('facmode')->get(),
-							'apptype'=>DB::table('apptype')->get(),
-							'fAddress'=>$appGet,
-							'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-							'cToken'=>FunctionsClientController::getToken(),
-							'hfer' => $apptype,
-							'hideExtensions'=>$hideExtensions,
-							'aptid'=>$aptid,
-							'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-						]; 
-						$locRet = "dashboard.client.certificate-of-registration";
-						// $locRet = "client1.apply.default1.defaultapp";
-						break;
-
-				case 'COA':
-					session()->forget('ambcharge');
-					$hfser_id = 'COA';
-						$faclArr = [];
-							$facl_grp = FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
-							foreach ($facl_grp as $f) {
-								array_push($faclArr, $f->hgpid);
-							}
-					$arrRet = [
-						// 'grpid' =>  $grpid,
-						'appid' =>  $appid,
-						'nameofcomp' =>  $nameofcomp,
-						'appFacName'            => FunctionsClientController::getDistinctByFacilityName(),
-						'hfser' =>  "COA",
-						'user'=> $user_data,
-						'regions' => Regions::orderBy('sort')->get(),
-						'hfaci_service_type'    => HFACIGroup::whereIn('hgpid', $faclArr)->get(),
-						'userInf'=>FunctionsClientController::getUserDetails(),
-						'hfaci_serv_type'=>DB::select($hfaci_sql),
-						'serv_cap'=>json_encode(DB::table('facilitytyp')->where([['servtype_id',1],['forSpecialty',0]])->get()),
-						'ownership'=>DB::table('ownership')->get(),
-						'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-						'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-						'function'=>DB::table('funcapf')->get(),
-						'facmode'=>DB::table('facmode')->get(),
-						'apptype'=>DB::table('apptype')->get(),
-						'fAddress'=>$appGet,
-						'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-						'cToken'=>FunctionsClientController::getToken(),
-						'hfer' => $apptype,
-						'hideExtensions'=>$hideExtensions,
-						'aptid'=>$aptid,
-						'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-					]; 
-					
-					$locRet = "dashboard.client.certificate-of-accreditation";
-					// $locRet = "client1.apply.COA1.coaapp";
-					break;
-				case 'ATO':
-					session()->forget('ambcharge');
-						$hfser_id = 'ATO';
-						$faclArr = [];
-							$facl_grp = FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
-							foreach ($facl_grp as $f) {
-								array_push($faclArr, $f->hgpid);
-							}
-						$arrRet = [
-							// 'grpid' =>  $grpid,
-							'appid' =>  $appid,
-							'nameofcomp' =>  $nameofcomp,
-							'hfser' =>  "ATO",
-							'user'=> $user_data,
-							'regions' => Regions::orderBy('sort')->get(),
-							'appFacName'            => FunctionsClientController::getDistinctByFacilityName(),
-							'userInf'=>FunctionsClientController::getUserDetails(),
-							'hfaci_serv_type'=>DB::select($hfaci_sql),
-							'hfaci_service_type'    => HFACIGroup::whereIn('hgpid', $faclArr)->get(),
-							'serv_cap'=>json_encode(DB::table('facilitytyp')->where([['servtype_id',1],['forSpecialty',0]])->get()),
-							'ownership'=>DB::table('ownership')->get(),
-							'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-							'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-							'function'=>DB::table('funcapf')->get(),
-							'facmode'=>DB::table('facmode')->get(),
-							'apptype'=>DB::table('apptype')->get(),
-							'fAddress'=>$appGet,
-							'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-							'cToken'=>FunctionsClientController::getToken(),
-							'hfer' => $apptype,
-							'hideExtensions'=>$hideExtensions,
-							'aptid'=>$aptid,
-							'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-						]; 
-						$locRet = "dashboard.client.authority-to-operate";
-					break;
-				
-				default:
-					session()->forget('ambcharge');
-					$arrRet = [
-						// 'grpid' =>  $grpid,
-						'appid' =>  $appid,
-						'nameofcomp' =>  $nameofcomp,
-						'userInf'=>FunctionsClientController::getUserDetails(),
-						'regions' => Regions::orderBy('sort')->get(),
-						'hfaci_serv_type'=>DB::select($hfaci_sql),
-						'serv_cap'=>json_encode(DB::table('facilitytyp')->where([['servtype_id',1],['forSpecialty',0]])->get()),
-						'ownership'=>DB::table('ownership')->get(),
-						'class'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NULL OR isSub = '')")),
-						'subclass'=>json_encode(DB::select("SELECT * FROM class WHERE (isSub IS NOT NULL OR isSub != '')")),
-						'function'=>DB::table('funcapf')->get(),
-						'facmode'=>DB::table('facmode')->get(),
-						'apptype'=>DB::table('apptype')->get(),
-						'fAddress'=>$appGet,
-						'servfac'=>json_encode(FunctionsClientController::getServFaclDetails($appid)),
-						'cToken'=>FunctionsClientController::getToken(),
-						'hfer' => $apptype,
-						'hideExtensions'=>$hideExtensions,
-						'aptid'=>$aptid,
-						'apptypenew'=> $request->apptype ? $request->apptype : 'IN'
-					]; 
-					$locRet = "client1.apply.default1.defaultapp";
-					break;
-					// unset($arrRet['fAddress'][0]->areacode);
-			}
-			return view($locRet, $arrRet);
-			*/
-		/*} catch(Exception $e) {
-			return redirect('client1/apply')->with('errRet', ['errAlt'=>'danger', 'errMsg'=>'Error on page Add new Application. Contact the admin']);
-		}*/
 	}
 
 	public function __editApp_submit(Request $request, $hfser, $appid) 
@@ -3622,11 +3303,10 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		}
 		
 		//Change In Service //ANCILLARY/CLINICAL SERVICES  //ADD ON SERVICES
-		else if($grp_id == 10)
+		else if($grp_id == 10 || $grp_id == 11)
 		{
 			$action = $request->action;
 			$regfac_id = $request->regfac_id;
-
 			if($action == "del"){
 
 				$fromRegistered = $request->fromRegistered;
@@ -3669,7 +3349,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			}
 		}
 		//Additional In Service //ADD ON SERVICES
-		else if($grp_id == 11)
+		/*else if()
 		{
 			$action = $request->action;
 			$regfac_id = $request->regfac_id;
@@ -3714,7 +3394,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				//DB::table('appform')->where('appid',$appid)->update(['noofbed' => $request->noofbed_applied, 'noofbed_old'=>$request->noofbed]);
 			}
 			
-		}
+		}*/
 		//Increase/Decrease In Ambulance Vehicle
 		else if($grp_id == 12)
 		{
@@ -3770,9 +3450,6 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			NewGeneralController::appChargeAmb($appcharge, $appid, $uid);
 
 			$remarks = "Increase/Decrease In Ambulance Vehicle.";
-			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
-			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);
-			return redirect('client1/changerequest/'.$request->regfac_id.'/av')->with('errRet', ['errAlt'=>'success', 'errMsg'=>'Ambulance successfully saved.']);
 		}
 		//Authorized Bed Capacity
 		else if($grp_id == 13)
