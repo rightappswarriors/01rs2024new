@@ -357,7 +357,7 @@
 
             </b>
             @if($allowed_edit)
-                <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> 
+                <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#addOnService"><i class="fa fa-plus"></i></button> 
             @endif
         </div>
         <div class="col-sm-12">    
@@ -396,7 +396,7 @@
 
 @if (isset($appform->ambulSurgCli))  
     @if ($appform->ambulSurgCli == 1)  
-        <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-edit"></i></button> @endif</div>
+        <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#mainServiceASC"><i class="fa fa-plus"></i></button> @endif</div>
         <div class="col-md-6">         
             @if (isset($asc_services_applied))  
             
@@ -406,12 +406,12 @@
                             @php $proceed_addon = 1; @endphp
                             <tr>                        
                                 <td class="text-center">
-                                    <button class="btn btn-primary" onclick="showDataAddOnServ(
+                                    <button class="btn btn-primary" onclick="showDataMainServASC(
                                     '{{$d->facid}}',
                                     '{{$d->servtyp}}',
                                     '{{$d->servowner}}',
                                     'edit'
-                                    )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                    )" data-toggle="modal" data-target="#mainServiceASC"><i class="fa fa-edit"></i></button>
                                     <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
                                             data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
                                     </button>
@@ -540,7 +540,7 @@
         @if (isset($appform->addOnServe))  
             @if ($appform->addOnServe == 1)  
                 <!---- For Add On services --->
-                <div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeDialysisStation"><i class="fa fa-plus"></i></button> @endif</div>
+                <div class="col-md-12 change-div"><b class="text-primary">ADD ON SERVICES</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#addOnService"><i class="fa fa-plus"></i></button> @endif</div>
                 <div class="col-sm-12">    
                     <div class="row col-border-right showAmb">
 
@@ -557,18 +557,15 @@
                             </thead>
                             <tbody>
                             @php $proceed_addon = 0; $addon_colspan = 3;  @endphp
+
                             @if (isset($addOnservices_applied))
                                 @foreach ($addOnservices_applied as $d)
                                     @php $proceed_addon = 1; @endphp
                                     <tr>
                                         @if($isupdate == 1)   
                                             <td class="text-center">
-                                                <button class="btn btn-primary" onclick="showDataAddOnServ(
-                                                '{{$d->facid}}',
-                                                '{{$d->servtyp}}',
-                                                '{{$d->servowner}}',
-                                                'edit'
-                                                )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
+                                                <button class="btn btn-primary" onclick="showDataAddOnServ('{{$d->facid}}','{{$d->servtyp}}',
+                                                '{{$d->servowner}}', 'edit'  )" data-toggle="modal" data-target="#addOnService"><i class="fa fa-edit"></i></button>
                                                 <button class="btn btn-danger " onclick="showDataDelServ('{{$d->facid}}', '{{$d->facname}}', '0')" 
                                                         data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
                                                 </button>
@@ -597,7 +594,8 @@
 
 
         @if (isset($appform->ambuDetails))  
-            @if ($appform->ambuDetails == 1)  
+            @if ($appform->ambuDetails == 1)
+              
                 <!---- For Add On services --->
                 <div class="col-md-12 change-div">
                     <b class="text-primary">AMBULANCE DETAILS</b> 
@@ -610,41 +608,51 @@
                 </div>
                 <div class="col-sm-12">    
                     <div class="row col-border-right showAmb">
-                        <table class="table table-bordered">
+                        <table class="table display" id="example" style="overflow-x: scroll;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Option</th>
-                                    <th class="text-center">Ambulance Service(Type 1, Type 2)</th>
-                                    <th class="text-center">Ambulance Type(Owned, Outsoured)</th>
-                                    <th class="text-center">Plate Number</th>
-                                    <th class="text-center">Details</th>
+                                    <th class="text-center" style="width:  auto">Ambulance Service(Type 1, Type 2)</th>
+                                    <th class="text-center" style="width:  auto">Ambulance Type(Owned, Outsoured)</th>
+                                    <th class="text-center" style="width:  auto">Plate Number</th>
+                                    <th class="text-center" style="width:  auto">Owner Name</th>
+                                    <th class="text-center" style="width:  auto"><center>Options</center></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (isset($appform_ambulance))
-                                    @php $aa = 0;  @endphp
-                                    @foreach ($appform_ambulance as $d)
+                            @php $aa = 0;  @endphp
+                            @if (isset($appform_ambulance))
+                                
+                                @foreach ($appform_ambulance as $d)
+                                
+                                    @if(!empty($d->plate_number))
+                                        @php $aa++;    @endphp
+                                        <tr>
+                                    
+                                            <td class="text-center">@if($d->typeamb == 1) Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif </td>
+                                            <td class="text-center">@if($d->ambtyp == "1") Outsourced @else Owned @endif</td>
+                                            <td class="text-center">{{$d->plate_number}}</td>
+                                            <td class="text-center">{{$d->ambOwner}}</td>
 
-                                        @if(!empty($d['plate_number']))
-                                            @php $aa++;    @endphp
-                                            <tr>
-                                        
-                                                <td class="text-center"></td>
-                                                <td class="text-center">@if($d['typeamb'] == 1) Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif </td>
-                                                <td class="text-center">@if($d['ambtyp'] == "1") Outsourced @else Owned @endif</td>
-                                                <td class="text-center">{{$d['plate_number']}}</td>
-                                                <td class="text-center">{{$d['ambOwner']}}</td>
-                                            </tr>
+                                            <td class="text-center">                                                
+                                                <button class="btn btn-primary" onclick="showDataAmb(
+                                                '{{$d->id}}', '{{$d->typeamb}}','{{$d->ambtyp}}','{{$d->plate_number}}','{{$d->ambOwner}}','0', 'upd')" data-toggle="modal" data-target="#changeAmbulanceVehicle"><i class="fa fa-edit"></i></button>
+                                                
+                                                <button class="btn btn-danger " onclick="showDataDelAmb(
+                                                    '{{$d->id}}', '{{$d->typeamb}}','{{$d->ambtyp}}','{{$d->plate_number}}','{{$d->ambOwner}}','0')" data-toggle="modal" data-target="#delAmbulanceVehicle"><i class="fa fa-minus-circle"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                         @endif 
-                                    @endforeach	
-                                @else
-                                    <tr>
-                                        <td colspan="4" class="text-center">No Records found.</td>
-                                    </tr>
-                                @endif
+                                @endforeach	
+
+                            @else
+                                <tr>
+                                    <td colspan="5" class="text-center">No Records found.</td>
+                                </tr>
+                            @endif
                             </tbody>
                             <tfoot>
-                                <tr><td colspan="4" class="text-center">Total Number of Ambulance Apply: @if (isset($appform_ambulance)) {{count($appform_ambulance)}} @endif</td></tr>
+                                <tr><td colspan="5" class="text-center">Total Number of Ambulance Apply: {{$aa}}</td></tr>
                             </tfoot>
                         </table>
                     </div>
@@ -706,3 +714,6 @@
 
 @include('dashboard.client.forms.parts-update.ptc-type-construction')
 @include('dashboard.client.forms.parts-update.ptc-options')
+
+@include('dashboard.client.forms.parts-update.change-asc-form')
+@include('dashboard.client.forms.parts-update.change-service-form')
