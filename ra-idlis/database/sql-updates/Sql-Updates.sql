@@ -275,3 +275,12 @@ ALTER TABLE appform ADD COLUMN xrayValStart date DEFAULT NULL;
 ALTER TABLE registered_facility ADD COLUMN xrayValStart DATE NULL;
 ALTER TABLE registered_facility ADD COLUMN xrayVal DATE NULL;
 ALTER TABLE registered_facility ADD COLUMN xrayUp varchar(50) NULL;
+
+ALTER TABLE registered_facility ADD COLUMN xrayUp2 TEXT NULL;
+
+ALTER TABLE appform ADD COLUMN	xrayUp2 TEXT DEFAULT NULL;
+
+ALTER TABLE appform ADD COLUMN	FDA_updated_at timestamp DEFAULT NULL;
+ALTER TABLE appform ADD COLUMN	FDA_pharma_updated_at timestamp DEFAULT NULL;
+ALTER TABLE appform ADD COLUMN	FDA_updated_by TEXT  DEFAULT NULL;
+ALTER TABLE appform ADD COLUMN	FDA_pharma_updated_by TEXT DEFAULT NULL;
