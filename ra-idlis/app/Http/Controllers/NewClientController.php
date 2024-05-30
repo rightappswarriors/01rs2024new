@@ -3872,6 +3872,10 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				$chgapp_id = "";
 				$fees = FunctionsClientController::get_view_ServiceCharge([$request->facid], "","", "","", TRUE);
 				
+				if($hgpid == '1' && $servtype_id == "1"){
+					$fees = FunctionsClientController::getServiceCharge(array('ASC'), "LTO", "", "", "IN");
+				}
+	
 				foreach ($fees as $d){
 					$chgapp_id = $d->chgapp_id;
 					$facname	= $d->facname;
