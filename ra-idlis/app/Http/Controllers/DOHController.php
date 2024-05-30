@@ -11200,6 +11200,7 @@ namespace App\Http\Controllers;
 								'xrayValStart' => $appform->xrayValStart,
 								'xrayVal' => $appform->xrayVal,
 								'xrayUp' => $appform->xrayUp,
+								'xrayUp2' => $appform->xrayUp2,
 
 								'noofbed_dateapproved' 		=> $data['noofbed_dateapproved'],
 								'noofdialysis_dateapproved' => $data['noofdialysis_dateapproved'],
