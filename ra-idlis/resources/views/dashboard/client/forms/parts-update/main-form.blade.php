@@ -399,7 +399,7 @@
         <div class="col-md-12 change-div"><b class="text-primary">For Ambulatory Surgical Clinic</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#mainServiceASC"><i class="fa fa-plus"></i></button> @endif</div>
         <div class="col-md-6">         
             @if (isset($asc_services_applied))  
-            
+                
                 <table class="table display" id="example" style="overflow-x: scroll;">
                     <tbody>
                         @foreach ($asc_services_applied as $d)
@@ -699,6 +699,12 @@
 @endif 
 
 
+<div class="col-md-12 change-div"><hr/><b class="text-primary">Remarks</b> @if (session()->exists('employee_login')) <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeRemarks"><i class="fa fa-edit"></i></button>   @endif</div>
+<div class="col-sm-12 pb-10">
+    <label class="text-left upd-text-title">DOH Officer Remarks </label>
+    <h6  class="text-center upd-text-info">{{$appform->appComment}}&nbsp;</h6>
+</div>
+
 @include('dashboard.client.forms.parts-update.rename-facility-form')
 @include('dashboard.client.forms.parts-update.address-form')
 @include('dashboard.client.forms.parts-update.facility-contact-details-form')
@@ -717,3 +723,8 @@
 
 @include('dashboard.client.forms.parts-update.change-asc-form')
 @include('dashboard.client.forms.parts-update.change-service-form')
+
+
+@if (session()->exists('employee_login'))
+    @include('dashboard.client.forms.parts-update.remarks')
+@endif

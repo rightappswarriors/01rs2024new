@@ -80,7 +80,7 @@
 
                                 <button type="button" title="Edit Remarks for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showDataRemarks({{$data->appid}},'{{$data->facilityname}}', '{{$data->RecoRemarkFDA}}');" data-toggle="modal" data-target="#ModalRemarks" style="padding: 5px;margin:1px;font-size: xx-small;">Edit Remarks</button>
                                 
-                                <button type="button" title="Upload COC for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showDataCOC({{$data->appid}},'{{$data->facilityname}}', '{{$data->xrayVal}}', '{{$data->xrayCOC}}', '{{$data->xrayUp}}');" data-toggle="modal" data-target="#ModalCOC" style="padding: 5px;margin:1px;font-size: xx-small;">Upload COC</button>
+                                <button type="button" title="Upload COC for {{$data->facilityname}}" class="btn btn-info form-control" onclick="showDataCOC({{$data->appid}},'{{$data->facilityname}}', '{{$data->xrayVal}}', '{{$data->xrayCOC}}', '{{$data->xrayUp}}', '{{$data->xrayUp2}}');" data-toggle="modal" data-target="#ModalCOC" style="padding: 5px;margin:1px;font-size: xx-small;">Upload COC</button>
                               
                             @endif
                           </td>
@@ -106,7 +106,15 @@
                           </td>
                           @if($FDAtype != 'all' && $FDAtype == 'machines')
                             <td style="text-align:center;color:black;border-left: darkgray;border-left-width: thin;border-left-style: solid;">
-                              {{$data->FDAStatMach}}
+                              <strong>{{$data->FDAStatMach}}</strong>
+                              <br/>
+                              @if(isset($data->formattedLastUpdatedFDA)) 
+                                <span style="color: black;font-weight:normal; font-size: small;">
+                                  <i>Last updated on {{ $data->formattedLastUpdatedFDA }} 
+                                      @if(isset($data->FDA_updated_by))<br/>by {{ $data->FDA_updated_by }} @endif.
+                                  </i>
+                                </span><br/>
+                              @endif 
                             </td>
 
                             {{-- COC Attachment and Validity --}} 
@@ -117,8 +125,19 @@
                                 @if(isset($data->formattedXrayValidityDate)) to {{$data->formattedXrayValidityDate}} @endif 
                                 <br/><br/>    
                                 @if(isset($data->xrayUp))
-                                <a href="{{url('file/download/')}}/{{$data->xrayUp}} " class="btn btn-info form-control" style="font-size:small">Click Here to download</a>
+                                    <br/>  
+                                    <a href="{{url('file/download/')}}/{{$data->xrayUp}} " class="btn btn-info form-control" style="font-size:small">
+                                        Click Here to download
+                                    </a>
                                 @endif
+
+                                @if(isset($data->xrayUp2))
+                                    <br/>  <br/>  
+                                    <a href="{{url('file/download/')}}/{{$data->xrayUp2}} " class="btn btn-info form-control" style="font-size:small">
+                                        Click Here to download other file
+                                    </a>
+                                @endif
+
                             </td>
 
                             <td style="text-align:center;border-left: darkgray;border-left-width: thin;border-left-style: solid;">                         
@@ -461,7 +480,13 @@
                     <div class="col-sm-8" >
                       <input type="file" class="form-control" rows="5" name="xrayCOCUP" id="xrayCOCUP" data-parsley-required-message="<strong>Upload COC for Machine<strong> required." required="">
                     </div>
-                </div>                   
+                </div>          
+                <div class="row pt-3">
+                  <div class="col-sm-4">Other Upload:<span style="color:red;font-weight: bolder">*</span> </div>
+                    <div class="col-sm-8" >
+                      <input type="file" class="form-control" rows="5" name="xrayUp2" id="xrayUp2" data-parsley-required-message="<strong>Upload COC for Machine<strong> required." required="">
+                    </div>
+                </div>           
                 <hr>
 
                 <div class="row">                    
@@ -804,7 +829,7 @@
             document.getElementById('appid_remarks').value = appid;
       }
       
-      function showDataCOC(appid, facilityname, xrayVal, xrayCOC, xrayUp){
+      function showDataCOC(appid, facilityname, xrayVal, xrayCOC, xrayUp, xrayUp2){
           var status = '';
 
           $('#ViewBodyCOC').empty();
@@ -827,6 +852,7 @@
             document.getElementById('xrayVal').value = xrayVal;
             document.getElementById('xrayCOC').value = xrayCOC;
             document.getElementById('xrayUp').value = xrayUp;
+            document.getElementById('xrayUp2').value = xrayUp2;
       }
 
       function showEvalInfo(EvalTime, EvalDate, PropTime, PropDate, RecommendedBy/*, RgnRecommended*/, code, idCode){

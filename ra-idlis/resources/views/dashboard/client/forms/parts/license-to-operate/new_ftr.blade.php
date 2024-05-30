@@ -646,9 +646,9 @@ function getFacServCharge (val = null){
                                         ta.push({reference : distinctArr[i]['facname'],amount: amt, chgapp_id:  distinctArr[i]['chgapp_id'] }) 
 
                                         if(distinctArr[i]['facid'].includes('REGIS')){
-                                            not_serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '</td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
+                                            not_serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '<br/><span style="font-size:x-small; color:#ccc;">[' + distinctArr[i]['facid'] + '][' + distinctArr[i]['chgapp_id'] +'</span></td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
                                         } else {
-                                            serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '</td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
+                                            serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '<br/><span style="font-size:x-small; color:#ccc;">[' + distinctArr[i]['facid'] + '][' + distinctArr[i]['chgapp_id'] +']</span></td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
                                         }
                                     }
                                 }

@@ -51,7 +51,9 @@ CREATE VIEW view_facility_services_per_appform AS
 
 SELECT x08_ft.appid, hfaci_grp_a.hgpdesc AS appform_hgpdesc, facilitytyp.assignrgn,  x08_ft.fee_type, 
 x08_ft.facid, facilitytyp.facname, facilitytyp.forSpecialty, facilitytyp.facmid,  facmode.facmdesc, 
- facilitytyp.hgpid, hfaci_grp.hgpdesc AS facilitytyp_hgpdesc, hfaci_grp.status, hfaci_grp.year_validity, facilitytyp.servtype_id,  serv_type.anc_name, serv_type.seq, serv_type.facid AS serv_type_facid, serv_type.grp_name, x08_ft.servowner, x08_ft.servtyp, x08_ft.facid_old
+ facilitytyp.hgpid, hfaci_grp.hgpdesc AS facilitytyp_hgpdesc, hfaci_grp.status, hfaci_grp.year_validity, 
+ facilitytyp.servtype_id,  serv_type.anc_name, serv_type.seq, serv_type.facid AS serv_type_facid, 
+ serv_type.grp_name, x08_ft.servowner, x08_ft.servtyp, x08_ft.facid_old
 FROM appform 
 LEFT JOIN x08_ft ON appform.appid=x08_ft.appid 
 LEFT JOIN facilitytyp ON facilitytyp.facid=x08_ft.facid 

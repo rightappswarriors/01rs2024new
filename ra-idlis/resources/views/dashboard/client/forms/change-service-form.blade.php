@@ -295,6 +295,7 @@
                         <input type="hidden" name="facid_old" id="ms_facid_old" >
                         <input type="hidden" name="servowner" id="ms_servowner" >
                         <input type="hidden" name="servtyp" id="ms_servowner" >
+                        <input type="hidden" name="servtype_id" id="servtype_id" value="1" >
                         <div class="col-sm-12 alert alert-danger alert-dismissible fade show" style="display:none" id="AddErrorAlert" role="alert">
                             <strong><i class="fas fa-exclamation"></i></strong>&nbsp;An <strong>error</strong> occurred. Please contact the system administrator.
                             <button type="button" class="close" onclick="$('#AddErrorAlert').hide(1000);" aria-label="Close">

@@ -101,7 +101,13 @@ appform.appid_payment, appform.isPayEval, appform.isReadyForInspec, appform.proo
  appform.approvedDateFDAPharma, CASE WHEN appform.approvedDateFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedDateFDAPharma, "%M %d, %Y") ELSE NULL END AS formattedApprovedDateFDAPharma, 
  appform.approvedTimeFDAPharma, CASE WHEN appform.approvedTimeFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedTimeFDAPharma, "%h:%i %p") ELSE NULL END AS formattedApprovedTimeFDAPharma, 
  
- appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
+
+ appform.FDA_updated_at, CASE WHEN appform.FDA_updated_at IS NOT NULL THEN DATE_FORMAT(appform.FDA_updated_at, "%M %d, %Y %h:%i %p") ELSE NULL END AS formattedLastUpdatedFDA, 
+ appform.FDA_pharma_updated_at, CASE WHEN appform.FDA_updated_at IS NOT NULL THEN DATE_FORMAT(appform.FDA_updated_at, "%M %d, %Y %h:%i %p") ELSE NULL END AS formattedLastUpdatedFDAPharma, 
+ 
+ appform.FDA_updated_by, appform.FDA_pharma_updated_by,
+
+ appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, appform.xrayUp2, 
  appform.isReadyForInspecFDA, appform.isRecoDecision, appform.isRecoDecisionPhar, 
  appform.preApproveDateFDA, appform.preApproveTimeFDA, appform.preApproveDateFDAPharma, appform.preApproveTimeFDAPharma,
  appform.FDAStatMach, appform.FDAStatPhar, appform.proofpaystatMach, appform.proofpaystatPhar, FDAstatus    
@@ -230,7 +236,12 @@ appform.appid_payment, appform.isPayEval, appform.isReadyForInspec, appform.proo
  appform.approvedDateFDAPharma, CASE WHEN appform.approvedDateFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedDateFDAPharma, "%M %d, %Y") ELSE NULL END AS formattedApprovedDateFDAPharma, 
  appform.approvedTimeFDAPharma, CASE WHEN appform.approvedTimeFDAPharma IS NOT NULL THEN DATE_FORMAT(appform.approvedTimeFDAPharma, "%h:%i %p") ELSE NULL END AS formattedApprovedTimeFDAPharma, 
  
- appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, 
+ appform.FDA_updated_at, CASE WHEN appform.FDA_updated_at IS NOT NULL THEN DATE_FORMAT(appform.FDA_updated_at, "%M %d, %Y %h:%i %p") ELSE NULL END AS formattedLastUpdatedFDA, 
+ appform.FDA_pharma_updated_at, CASE WHEN appform.FDA_updated_at IS NOT NULL THEN DATE_FORMAT(appform.FDA_updated_at, "%M %d, %Y %h:%i %p") ELSE NULL END AS formattedLastUpdatedFDAPharma, 
+ 
+ appform.FDA_updated_by, appform.FDA_pharma_updated_by,
+
+ appform.pharCOC, appform.pharUp, appform.xrayCOC, appform.xrayUp, appform.xrayUp2, 
  appform.isReadyForInspecFDA, appform.isRecoDecision, appform.isRecoDecisionPhar, 
  appform.preApproveDateFDA, appform.preApproveTimeFDA, appform.preApproveDateFDAPharma, appform.preApproveTimeFDAPharma,
  appform.FDAStatMach, appform.FDAStatPhar, appform.proofpaystatMach, appform.proofpaystatPhar, FDAstatus   
