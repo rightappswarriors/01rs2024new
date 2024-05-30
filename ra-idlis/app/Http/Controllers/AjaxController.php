@@ -3697,9 +3697,9 @@ public static function checkConmem($appid)
 			try 
 			{
 				$data = $data = DB::table('chg_app')
-								->join('charges', 'chg_app.chg_code', '=', 'charges.chg_code')
-								->join('orderofpayment', 'chg_app.oop_id', '=', 'orderofpayment.oop_id')
-								->join('apptype', 'chg_app.aptid', '=', 'apptype.aptid')
+								->leftJoin('charges', 'chg_app.chg_code', '=', 'charges.chg_code')
+								->leftJoin('orderofpayment', 'chg_app.oop_id', '=', 'orderofpayment.oop_id')
+								->leftJoin('apptype', 'chg_app.aptid', '=', 'apptype.aptid')
 								->leftJoin('hfaci_serv_type', 'hfaci_serv_type.hfser_id', '=', 'chg_app.hfser_id')
 								// ->join('chg_app', 'chg_oop.chgapp_id', '=', 'chg_app.chgapp_id')
 								// ->where('chg_oop.oop_id', '=', $request->id)

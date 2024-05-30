@@ -76,57 +76,80 @@
                 <div class="col-md-4">
                     @include('dashboard.client.forms.parts.payment.payment-form-change')
                 </div>
-                
-                <!---  Main Form Submit -->
-                @if($savingStat =='final')
+                @if (session()->exists('employee_login'))
                     
-                    <div class="col-md-8">
-                        <div class="text-center" style="margin:auto; margin-top:10px;">
-                            <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/apply')}}">
-                                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Application Dashboard
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                    
-                    </div>
+                        <div class="col-md-8 text-center pt-5">
 
-                @elseif(($functype == 'main' || $functype == '') && $savingStat !='final')
-                
-                    @isset($appid)
-                        @if($appid > 0)
-                        <div class="col-md-8">
-                                <div class="col-md-12 text-center">
+                            <div class="row">
+                                <div class="col-md-3"> </div>
+                                <div class="col-md-6 text-center">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary action-btn"  style="margin:auto; margin-top:10px;" value="submit" name="submit" id="submit" data-toggle="modal" data-target="#confirmSubmitModalLto">
-                                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Proceed to Requirements
-                                        </button>                                            
-                                    </div> 
-                                </div>                                    
+                                        <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/apply')}}">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Application Dashboard
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"> </div>
                             </div>
-
-                            @include('dashboard.client.forms.parts-update.modal-submission-confirmation')
-                        @endif
-                    @endisset
-                
-                @else
-                    
-                    <div class="col-md-8">
-                        <div class="text-center" style="margin:auto; margin-top:10px;">
-                            <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/changerequest')}}/{{$registered_facility->regfac_id}}/main">
-                                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Main Form
-                            </a>
+                            
                         </div>
-                    </div>
+                        <div class="col-md-4">
+                        
+                        </div>
+                @else
+
+                    <!---  Main Form Submit -->
+                    @if($savingStat =='final')
+                        
+                        <div class="col-md-8">
+                                    <div class="col-md-6 text-center">
+                                        <div class="form-group">
+                                <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/apply')}}">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Application Dashboard
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                        
+                        </div>
+
+                    @elseif(($functype == 'main' || $functype == '') && $savingStat !='final' )
                     
-                    <div class="col-md-4">
+                        @isset($appid)
+                            @if($appid > 0)
+                            <div class="col-md-8">
+                                    <div class="col-md-12 text-center">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary action-btn"  style="margin:auto; margin-top:10px;" value="submit" name="submit" id="submit" data-toggle="modal" data-target="#confirmSubmitModalLto">
+                                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Proceed to Requirements
+                                            </button>                                            
+                                        </div> 
+                                    </div>                                    
+                                </div>
+
+                                @include('dashboard.client.forms.parts-update.modal-submission-confirmation')
+                            @endif
+                        @endisset
                     
-                    </div>
+                    @else
+                        
+                        <div class="col-md-8">
+                            <div class="text-center" style="margin:auto; margin-top:10px;">
+                                <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/apply')}}">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Application Dashboard
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                        
+                        </div>
+
+                    @endif
+                    <!---  Main Form  -->
 
                 @endif
-                <!---  Main Form  -->
-
-
 
             </div>
 

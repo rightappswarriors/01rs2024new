@@ -4092,6 +4092,9 @@ namespace App\Http\Controllers;
 					{
 						//dd($request);
 						$action = $request->action;
+						$employeeData = session('employee_login'); 
+						$last_updatedon = Date('Y-m-d H:i:s',strtotime('now'));
+						$updated_by = $employeeData->uid;
 
 						if(isset($action))
 						{
@@ -4101,7 +4104,9 @@ namespace App\Http\Controllers;
 							{
 								$returnToSender = DB::table('appform')
 									->where('appid',$request->appid)->update([
-										'FDAStatMach' => $request->FDAStatMach
+										'FDAStatMach' => $request->FDAStatMach,
+										'FDA_updated_at' => $last_updatedon,
+										'FDA_updated_by' => $updated_by 
 									]);
 							}
 							else if($action == "remarks")
@@ -4149,16 +4154,21 @@ namespace App\Http\Controllers;
 									}
 
 									$xrayCOCUP = null;
+									$xrayUp2 = null;
 									$status = 'A';
 									$fds = "Approved";
-
+									
 									if($request->hasFile('xrayCOCUP'))
 									{	$xrayCOCUP = FunctionsClientController::uploadFile($request->xrayCOCUP)['fileNameToStore'];	}
+									
+									if($request->hasFile('xrayUp2'))
+									{	$xrayUp2 = FunctionsClientController::uploadFile($request->xrayUp2)['fileNameToStore'];	}
 
 									$data = array(
 										'xrayValStart' => $request->xrayValStart,
 										'xrayVal' => $request->xray,
 										'xrayUp' => $xrayCOCUP,
+										'xrayUp2' => $xrayUp2,
 
 										'isApproveFDA' => '1',
 										'approvefdaverd' => $request->verd,
@@ -4461,8 +4471,9 @@ namespace App\Http\Controllers;
 						$archive_loc = $archive_loc->archive_loc . "\\";
 						
 						$employeeData = AjaxController::getCurrentUserAllData();
-						$updated_at = $employeeData['date'].' '.$employeeData['time'];
-						$updated_by = $employeeData['cur_user'];
+						$updated_at = Date('Y-m-d H:i:s',strtotime('now'));
+						//$updated_at = $employeeData['date'].' '.$employeeData['time'];
+						$updated_by = $employeeData->uid;
 						$ipaddress = $employeeData['ip'];
 						$localip =  $employeeData['ip'];
 						$computername = "...";
@@ -4628,8 +4639,11 @@ namespace App\Http\Controllers;
 						$archive_loc = $archive_loc->archive_loc . "\\";
 						
 						$employeeData = AjaxController::getCurrentUserAllData();
-						$updated_at = $employeeData['date'].' '.$employeeData['time'];
-						$updated_by = $employeeData['cur_user'];
+						
+						$updated_at = Date('Y-m-d H:i:s',strtotime('now'));
+						//$updated_at = $employeeData['date'].' '.$employeeData['time'];
+						$updated_by = $employeeData->uid;
+						//$updated_by = $employeeData['cur_user'];
 						$ipaddress = $employeeData['ip'];
 						$localip =  $employeeData['ip'];
 						$computername = "...";

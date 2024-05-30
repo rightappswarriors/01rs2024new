@@ -831,15 +831,37 @@ class FunctionsClientController extends Controller {
 		}
 	}
 
-	public static function get_view_facility_hgpid_per_appform($appid, $hgpid = 0, $orderby_servtype_id = 'ASC', $WHERE=null)
+	public static function get_view_facility_hgpid_per_appform($appid, $servtype_id = 0, $orderby_servtype_id = 'ASC', $WHERE=null)
 	{/*$appid = '9193';*/
 		try {
 			$retArr = [];
 			$retArr = DB::table('view_facility_services_per_appform')->where('appid','=',$appid)->where('facid','not like','%-REGIS');
 			
-			$retArr = 	$retArr->where('servtype_id','=',$hgpid)->ORDERBY('anc_name','ASC')->ORDERBY('facid','ASC');
+			$retArr = 	$retArr->where('servtype_id','=',$servtype_id);
+
+			if($WHERE != null)
+			{
+				//$retArr = 	$retArr->where($WHERE);
+			}
+			$retArr = $retArr->ORDERBY('anc_name','ASC')->ORDERBY('facid','ASC');
 
 			$retArr = 	$retArr->get();
+
+			return $retArr;
+		}
+		catch(Exception $e) {
+			return $e;
+			dd($e);
+		}
+	}
+
+	public static function get_view_applied_asc_per_appform($appid)
+	{/*$appid = '9193';*/
+		try {
+			$retArr = [];
+			$retArr = DB::table('view_facility_services_per_appform')
+						->where('appid','=',$appid)->where('facid','not like','%-REGIS')->where('hgpid','=','1')->where('hgpid','=','1')->where('servtype_id','=','1')
+						->ORDERBY('anc_name','ASC')->ORDERBY('facid','ASC')->get();
 
 			return $retArr;
 		}
@@ -970,7 +992,6 @@ class FunctionsClientController extends Controller {
 					->select('facilitytyp.facname', 'chg_app.amt', 'chg_app.chgapp_id', 'serv_chg.facid')
 					->get();
 				}
-				// dd($retArr);
 			}
 
 			return $retArr;
@@ -1010,10 +1031,15 @@ class FunctionsClientController extends Controller {
 					}
 
 					$retArr = $retArr->orderBy('servtype_id','asc');
-				}else{
+				}
+				else if($hgpid == "1" && $servtype_id == 2){
+				
+					$retArr = $retArr->where('hgpid','=',$hgpid)->where('servtype_id', $servtype_id)->where('specified','like','ASC-%');
+				}
+				else {
 				
 					$retArr = $retArr->where('hgpid','=',$hgpid);
-				}	
+				}
 								
 				if($hgpid != "6")
 				{

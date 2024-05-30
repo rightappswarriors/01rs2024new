@@ -2892,6 +2892,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				if(count($cSes) > 0) {	return redirect($cSes[0])->with($cSes[1], $cSes[2]);	}
 			}
 
+
 			$appGet = FunctionsClientController::getUserDetailsByAppform($appid, $hideExtensions);
 
 			$data = [
@@ -2950,71 +2951,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					$data['issued_date']	= $issued_date;
 						
 					/********** Appform Ambulance ***********/
-					$appform_ambulance= array();
-					$appform_ambulance_temp = array();
-					if (!is_null($appform)) { 
-						$appform_ambulance_temp = [
-							'typeamb' 		=> json_decode($appform->typeamb), 
-							'ambtyp'		=> json_decode($appform->ambtyp), 
-							'plate_number'	=> json_decode($appform->plate_number), 
-							'ambOwner'		=> json_decode($appform->ambOwner)
-						];
-					}
-
-					if(isset($appform_ambulance_temp))
-					{
-						foreach( $appform_ambulance_temp as $key=>$val)
-						{							
-							if($key == "typeamb")
-							{
-								$d = $val;
-								try{
-									for($j=count($d)-1; 0 <= $j; $j--)
-										$appform_ambulance[$j]['typeamb'] = $d[$j];
-								}catch(Exception $e) {}
-							}
-							if($key == "ambtyp")
-							{
-								$d = $val;
-								try{
-									for($j=count($d)-1; 0 <= $j; $j--)
-										$appform_ambulance[$j]['ambtyp'] = $d[$j];
-								}catch(Exception $e) {}
-							}
-							if($key == "plate_number")
-							{
-								$d = $val;
-								try{
-									for($j=count($d)-1; 0 <= $j; $j--)
-										$appform_ambulance[$j]['plate_number'] = $d[$j];
-								}catch(Exception $e) {}
-							}
-							if($key == "ambOwner")
-							{
-								$d = $val;
-								try {
-									for($j=count($d)-1; 0 <= $j; $j--)
-										$appform_ambulance[$j]['ambOwner'] = $d[$j];
-								}catch(Exception $e) {}
-							}
-						}
-					}
-
-					if (isset($appform_ambulance))
-					{
-						DB::table('appform_ambulance')->where(array('appid'=>$appid))->delete();
-
-						for($j=0; $j < count($appform_ambulance); $j++)
-						{
-							DB::table('appform_ambulance')->insert([
-								'appid'=> $appid, 
-								'typeamb' =>$appform_ambulance[$j]['typeamb'], 
-								'ambtyp' => $appform_ambulance[$j]['ambtyp'], 
-								'plate_number' => $appform_ambulance[$j]['plate_number'], 
-								'ambOwner' => $appform_ambulance[$j]['ambOwner']
-							]);
-						}		
-					}
+					SELF::save_ambulance_from_appform_to_appform_ambulance($appid);
 
 					$appform_ambulance= DB::table('appform_ambulance')->select('id', 'typeamb', 'ambtyp', 'plate_number', 'ambOwner')
 											->where('appid','=',$appid)->get();	
@@ -3027,7 +2964,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 
 					$mainservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 1);
 					$addOnservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 2);
-					$asc_services_applied	= FunctionsClientController::get_view_facility_hgpid_per_appform($appid, 1, 'ASC');
+					$asc_services_applied	= FunctionsClientController::get_view_applied_asc_per_appform($appid); //dd($asc_services_applied);
 					$chk			=  DB::table('x08_ft')->where([['appid', $appid]])->first();
 					$chkFacid 		= new stdClass();
 					$proceesedAmb 	= []; 
@@ -3056,6 +2993,8 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					foreach (AjaxController::getForAmbulanceList(false,'forAmbulance.hgpid') as $key => $value) {
 						array_push($proceesedAmb, $value->hgpid);
 					}
+
+					//dd($asc_services_applied);
 					
 					$data3 = [
 						// 'grpid' =>  $grpid,
@@ -3101,8 +3040,81 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				else{
 					return redirect('client1/home')->with('errRet', ['errAlt'=>'danger', 'errMsg'=>'No Registered Facility Record found. Contact the admin']);
 				}
+	}
 
-			
+	public function save_ambulance_from_appform_to_appform_ambulance($appid)
+	{
+		try
+		{
+			$appform = DB::table("appform")->SELECT('typeamb', 'ambtyp', 'plate_number', 'ambOwner')->where('appid','=',$appid)->first();
+			$appform_ambulance= array();
+			$appform_ambulance_temp = array();
+
+			if (!is_null($appform)) { 
+				$appform_ambulance_temp = [
+					'typeamb' 		=> json_decode($appform->typeamb), 
+					'ambtyp'		=> json_decode($appform->ambtyp), 
+					'plate_number'	=> json_decode($appform->plate_number), 
+					'ambOwner'		=> json_decode($appform->ambOwner)
+				];
+			}
+
+			if(isset($appform_ambulance_temp))
+			{
+				foreach( $appform_ambulance_temp as $key=>$val)
+				{							
+					if($key == "typeamb")
+					{
+						$d = $val;
+						try{
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['typeamb'] = $d[$j];
+						}catch(Exception $e) {}
+					}
+					if($key == "ambtyp")
+					{
+						$d = $val;
+						try{
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['ambtyp'] = $d[$j];
+						}catch(Exception $e) {}
+					}
+					if($key == "plate_number")
+					{
+						$d = $val;
+						try{
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['plate_number'] = $d[$j];
+						}catch(Exception $e) {}
+					}
+					if($key == "ambOwner")
+					{
+						$d = $val;
+						try {
+							for($j=count($d)-1; 0 <= $j; $j--)
+								$appform_ambulance[$j]['ambOwner'] = $d[$j];
+						}catch(Exception $e) {}
+					}
+				}
+			}
+
+			if (isset($appform_ambulance))
+			{
+				DB::table('appform_ambulance')->where(array('appid'=>$appid))->delete();
+
+				for($j=0; $j < count($appform_ambulance); $j++)
+				{
+					DB::table('appform_ambulance')->insert([
+						'appid'=> $appid, 
+						'typeamb' =>$appform_ambulance[$j]['typeamb'], 
+						'ambtyp' => $appform_ambulance[$j]['ambtyp'], 
+						'plate_number' => $appform_ambulance[$j]['plate_number'], 
+						'ambOwner' => $appform_ambulance[$j]['ambOwner']
+					]);
+				}		
+			}
+		}
+		catch (Exception $e) {}
 	}
 
 	public function __editApp_submit(Request $request, $hfser, $appid) 
@@ -3541,6 +3553,12 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 
 			DB::table('appform')->where('appid',$appid)->update(['noofmain' => $request->noofmain, 'noofsatellite'=>$request->noofsatellite]);
 		}
+		else if($grp_id == 20)
+		{			
+			DB::table('appform')->where('appid',$appid)->update([
+				'appComment'=>$request->appComment
+			]);
+		}
 		//Final Submission
 		else if($grp_id == 100000)
 		{
@@ -3583,11 +3601,13 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		$savingStat = NULL;
 		$hgpid = 0;
 		$addOnDesc = NULL;
+		$aptid = NULL;
 
 		if (!is_null($appform)) { 
 			$appid 		= $appform->appid;
 			$savingStat = $appform->savingStat;
 			$hgpid = $appform->hgpid; 
+			$aptid = $appform->aptid; 
 		}
 
 		if($appid < 1) {	$appid = $this->insertAppForm($regfac_id);	}
@@ -3879,6 +3899,9 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		else if($cat_id == 5)
 		{
 			$action = $request->action;
+			$servtype_id = $request->servtype_id;
+
+			//dd($request);
 
 			if($action == "del"){
 
@@ -3901,6 +3924,10 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			else{
 				$chgapp_id = "";
 				$fees = FunctionsClientController::get_view_ServiceCharge([$request->facid], "","", "","", TRUE);
+				
+				if($hgpid == '1' && $servtype_id == "1"){
+					$fees = FunctionsClientController::getServiceCharge(array('ASC'), "LTO", "", "", "IN");
+				}
 	
 				foreach ($fees as $d){
 					$chgapp_id = $d->chgapp_id;
