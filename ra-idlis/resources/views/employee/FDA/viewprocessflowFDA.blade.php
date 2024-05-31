@@ -482,9 +482,9 @@
                     </div>
                 </div>          
                 <div class="row pt-3">
-                  <div class="col-sm-4">Other Upload:<span style="color:red;font-weight: bolder">*</span> </div>
+                  <div class="col-sm-4">Other Upload: </div>
                     <div class="col-sm-8" >
-                      <input type="file" class="form-control" rows="5" name="xrayUp2" id="xrayUp2" data-parsley-required-message="<strong>Upload COC for Machine<strong> required." required="">
+                      <input type="file" class="form-control" rows="5" name="xrayUp2" id="xrayUp2" >
                     </div>
                 </div>           
                 <hr>
