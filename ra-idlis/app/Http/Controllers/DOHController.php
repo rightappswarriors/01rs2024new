@@ -4094,7 +4094,7 @@ namespace App\Http\Controllers;
 						$action = $request->action;
 						$employeeData = session('employee_login'); 
 						$last_updatedon = Date('Y-m-d H:i:s',strtotime('now'));
-						$updated_by = $employeeData->uid;
+						try { $updated_by = $employeeData->uid; } catch (Exception $e) { $updated_by = "";}
 
 						if(isset($action))
 						{
@@ -4473,7 +4473,9 @@ namespace App\Http\Controllers;
 						$employeeData = AjaxController::getCurrentUserAllData();
 						$updated_at = Date('Y-m-d H:i:s',strtotime('now'));
 						//$updated_at = $employeeData['date'].' '.$employeeData['time'];
-						$updated_by = $employeeData->uid;
+						//$updated_by = $employeeData->uid;
+
+						$updated_by = $employeeData['cur_user'];
 						$ipaddress = $employeeData['ip'];
 						$localip =  $employeeData['ip'];
 						$computername = "...";
@@ -4639,11 +4641,11 @@ namespace App\Http\Controllers;
 						$archive_loc = $archive_loc->archive_loc . "\\";
 						
 						$employeeData = AjaxController::getCurrentUserAllData();
-						
+						//dd($employeeData);
 						$updated_at = Date('Y-m-d H:i:s',strtotime('now'));
 						//$updated_at = $employeeData['date'].' '.$employeeData['time'];
-						$updated_by = $employeeData->uid;
-						//$updated_by = $employeeData['cur_user'];
+						//$updated_by = $employeeData->uid;
+						$updated_by = $employeeData['cur_user'];
 						$ipaddress = $employeeData['ip'];
 						$localip =  $employeeData['ip'];
 						$computername = "...";
