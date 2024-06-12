@@ -1565,14 +1565,20 @@ CREATE VIEW viewAppFormForUpdate AS
 	SELECT appform.*, x08.nameofcompany, barangay.brgyname, city_muni.cmname, province.provname, region.rgn_desc, asrgn.rgn_desc AS asrgn_rgndesc,
 	ownership.ocdesc AS ownership_desc, class.classname,  subclass.classname AS subclassname, funcapf.funcdesc,  facmode.facmdesc, 
 	hfaci_grp.hgpdesc, hfaci_grp.hgpdesc AS facilitytype,  apptype.aptdesc, hfaci_serv_type.hfser_desc,
-	registered_facility.con_id, registered_facility.lto_id, registered_facility.ato_id, registered_facility.coa_id, registered_facility.cor_id,
+	registered_facility.con_id, 
 	registered_facility.ptc_id,
+	registered_facility.lto_id, registered_facility.ato_id, registered_facility.coa_id, registered_facility.cor_id,
 	registered_facility.ptc_approveddate, registered_facility.lto_validityto, registered_facility.coa_validityto, registered_facility.ato_validityto, registered_facility.cor_validityto,
 	registered_facility.lto_approveddate, registered_facility.coa_approveddate, registered_facility.ato_approveddate, registered_facility.cor_approveddate,
 	hfaci_grp.isHospital, hfaci_grp.otherClinicService, hfaci_grp.clinicLab, hfaci_grp.dialysisClinic, hfaci_grp.ambulSurgCli, hfaci_grp.ambuDetails, hfaci_grp.addOnServe,
 	hfaci_grp.hasbedcapacity, hfaci_grp.pharmacy, 
 	hfaci_grp.dialysisClinic_ptc, hfaci_grp.hasbedcapacity_ptc, hfaci_grp.hasbedcapacityadj_ptc, hfaci_grp.hassinglebedcapacity_ptc, hfaci_grp.hasdoublebedcapacity_ptc,
-    ptc.type AS ptc_type, CASE WHEN ptc.type='1' THEN 'Expansion/Renovation/Substantial Alteration' ELSE 'New Construction' END AS ptc_type_desc, ptc.others AS ptc_others, ptc.propbedcap AS ptc_propbedcap, ptc.conCode AS ptc_conCode, ptc.ltoCode AS ptc_ltoCode, ptc.propstation AS ptc_propstation,
+    ptc.type AS ptc_type, CASE WHEN ptc.type='1' THEN 'Expansion/Renovation/Substantial Alteration' ELSE 'New Construction' END AS ptc_type_desc, ptc.others AS ptc_others, ptc.propbedcap AS ptc_propbedcap, 
+	
+	CASE WHEN ptc.conCode IS NOT NULL THEN ptc.conCode ELSE appform.conCode END AS ptc_conCode, 
+	CASE WHEN ptc.ltoCode IS NOT NULL THEN ptc.ltoCode ELSE appform.ltoCode END AS ptc_ltoCode, 
+
+	ptc.propstation AS ptc_propstation,
     ptc.incbedcapfrom AS ptc_incbedcapfrom, ptc.incbedcapto AS ptc_incbedcapto, ptc.incstationfrom AS ptc_incstationfrom, ptc.incstationto AS ptc_incstationto,
     ptc.construction_description AS ptc_construction_description, ptc.renoOption AS ptc_renoOption, ptc.singlebed AS ptc_singlebed, ptc.doubledeck AS ptc_doubledeck 
 	

@@ -260,54 +260,42 @@
 @endif
 
 <!-- Authorization Number -->
-<div class="col-md-12 change-div"><b class="text-primary">LATEST AUTHORIZATION NUMBER</b>  @if($allowed_edit)<button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeLatestAuthorization"><i class="fa fa-edit"></i></button> @endif</div>
+<div class="col-md-12 change-div"><b class="text-primary">LATEST AUTHORIZATION NUMBER</b>  
+    @if($allowed_edit)
+        <button class="btn btn-primary btn-sm" name="edit" data-toggle="modal" data-target="#changeLatestAuthorization"><i class="fa fa-edit"></i></button> 
+    @endif
+</div>
 
 @if(isset($appform->hfser_id))
-    @if($appform->hfser_id == 'PTC')
         <div class="col-sm-6">
             <label class="text-left upd-text-title">Certificate of Need No. (if applicable)   </label>
             <h6  class="text-center upd-text-info">{{$appform->ptc_conCode}}&nbsp;</h6>
         </div>
 
-        <div class="col-sm-6">
-            <!-- label class="text-left upd-text-title">Date Issued </label>
-            <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6 -->
-        </div>
-
-        <div class="col-sm-6">
-            <label class="text-left upd-text-title">Latest LTO/COA/COR/ATO Number (if applicable)   </label>
-            <h6  class="text-center upd-text-info">{{$appform->ptc_ltoCode}}&nbsp;</h6>
-        </div>
-
-        <div class="col-sm-6">
-            <!-- label class="text-left upd-text-title">Date Issued </label>
-            <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6 -->
-        </div>
-    @endif
-@endif
-
-@if(isset($appform->hfser_id))
-    @if($appform->hfser_id != 'PTC')
+        @if($appform->hfser_id != 'PTC')
         <div class="col-sm-6">
             <label class="text-left upd-text-title">Permit to Construct No. (if applicable)   </label>
-            <h6  class="text-center upd-text-info">{{$appform->ptc_id}}&nbsp;</h6>
+            <h6  class="text-center upd-text-info">{{$appform->ptcCode}}&nbsp;</h6>
         </div>
-
+        <!--
         <div class="col-sm-6">
             <label class="text-left upd-text-title">Date Issued </label>
             <h6  class="text-center upd-text-info">@isset($issued_date){{$issued_date}}@endisset&nbsp;</h6>
         </div>
-
+        -->
+        
+        @endif
         <div class="col-sm-6">
             <label class="text-left upd-text-title">Latest {{$appform->hfser_id}}  Number  </label>
-            <h6  class="text-center upd-text-info">{{$appform->con_id}} {{$appform->lto_id}} {{$appform->ato_id}} {{$appform->coa_id}} {{$appform->cor_id}}&nbsp;</h6>
+            <h6  class="text-center upd-text-info"> {{$appform->ptc_ltoCode}} {{$appform->con_id}} {{$appform->lto_id}} {{$appform->ato_id}} {{$appform->coa_id}} {{$appform->cor_id}}&nbsp;</h6>
         </div>
 
+        <!--
         <div class="col-sm-6">
             <label class="text-left upd-text-title">Validity Period </label>
             <h6  class="text-center upd-text-info">@isset($validity){{$validity}}@endisset&nbsp;</h6>
         </div>
-    @endif
+        -->
 @endif
                                    
 <!-- Type of Health Facility / Service -->

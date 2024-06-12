@@ -2865,15 +2865,14 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 	{
 		//try 
 		//{	
-			$reg_fac_id 			= $appid; 
-			$functype 				= 'main';
-			$appform_changeaction 	= null;
-			$nameofcomp 			= null;
-			$validity 				= "";
 			$user_data 				= session()->get('uData');
-			$hgpid					= null;
+			$reg_fac_id 			= $appid; 
 			$appform 				= DB::table('viewAppFormForUpdate')->where('appid','=',$appid)->first();
+			$functype 				= 'main';
+			$validity 				= "";
+			$nameofcomp 			= null;
 			$savingStat 			= null;
+			$hgpid					= null;
 			$hfLocs 				= [
 									'client1/apply/app/LTO/'.$appid, 
 									'client1/apply/app/LTO/'.$appid.'/hfsrb', 
@@ -2885,13 +2884,11 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					'client1/apply/employeeOverride/app/LTO/'.$appid.'/hfsrb', 
 					'client1/apply/employeeOverride/app/LTO/'.$appid.'/fda'	];
 			}
-
 			if(! isset($hideExtensions)) {
 				$cSes = FunctionsClientController::checkSession(true);
 				
 				if(count($cSes) > 0) {	return redirect($cSes[0])->with($cSes[1], $cSes[2]);	}
 			}
-
 
 			$appGet = FunctionsClientController::getUserDetailsByAppform($appid, $hideExtensions);
 
@@ -2901,28 +2898,29 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 				'regfac_id'				=> $reg_fac_id,
 				'functype'				=> $functype,
 				'appform'				=> $appform,
-				'fAddress'				=>$appGet,
+				/*'fAddress'				=>$appGet,*/
 				'validity'				=> null,
 				'issued_date'			=> null,
 				'appform_changeaction'	=> null,					
 				'regservices'			=> null,
-				'addresses'				=>$hfLocs,
+				'addresses'				=> $hfLocs,
 				'chgfil_reg'			=> FunctionsClientController::getChargesByAppID($appid, "Facility Registration Fee", TRUE),
 				'chgfil_sf'				=> FunctionsClientController::getChargesByAppID($appid, "Service Fee", TRUE),
 				'chgfil_af'				=> FunctionsClientController::getChargesByAppID($appid, "Ambulance Fee", TRUE),
-				'savingStat'			=> 	$savingStat
+				'savingStat'			=> $savingStat
 			];
 
 			//try {
 				if(true) 
 				{
 					$locRet 	= "dashboard.client.update-application";
+					$aptid = $appform->aptid;
 					$hfser_id 	=  $appform->hfser_id;
 					$nameofcomp = $appform->nameofcompany;					
 					$savingStat = NULL;
 
-					$validto 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityto';
-					$validfrom 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityfrom';
+					//$validto 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityto';
+					//$validfrom 	= ($hfser_id == 'PTC') ? "" : strtolower($hfser_id).'_validityfrom';
 					$validity 	= "";
 					$issued_date = "";
 
@@ -2954,8 +2952,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					SELF::save_ambulance_from_appform_to_appform_ambulance($appid);
 
 					$appform_ambulance= DB::table('appform_ambulance')->select('id', 'typeamb', 'ambtyp', 'plate_number', 'ambOwner')
-											->where('appid','=',$appid)->get();	
-					
+											->where('appid','=',$appid)->get();						
 					/***************** End of Ambulance ***************/
 
 					$mainservicelist = FunctionsClientController::get_view_ServiceList($hgpid, 1);
@@ -2965,10 +2962,9 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					$mainservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 1);
 					$addOnservices_applied	= FunctionsClientController::get_view_facility_services_per_appform($appid, 2);
 					$asc_services_applied	= FunctionsClientController::get_view_applied_asc_per_appform($appid); //dd($asc_services_applied);
-					$chk			=  DB::table('x08_ft')->where([['appid', $appid]])->first();
-					$chkFacid 		= new stdClass();
+					//$chk			=  DB::table('x08_ft')->where([['appid', $appid]])->first();
+					//$chkFacid 		= new stdClass();
 					$proceesedAmb 	= []; 
-					$arrRet1 		= []; 
 					$faclArr 		= []; 
 					$facl_grp 		= FACLGroup::where('hfser_id', $hfser_id)->select('hgpid')->get();
 					$appGet 		= FunctionsClientController::getUserDetailsByAppform($appid, NULL);	
@@ -2977,7 +2973,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					
 					foreach ($facl_grp as $f) {	array_push($faclArr, $f->hgpid);	}
 
-					if($chk)
+					/*if($chk)
 					{
 						$chkFacid->facid = $chk->facid;
 	
@@ -2989,7 +2985,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							$sql4 = "SELECT hgpid, hgpdesc FROM hfaci_grp WHERE hgpid IN ($sql1)";	
 							//$arrRet1 = [DB::select($sql1), [$chkFacid], DB::select($sql3), DB::select($sql4)];
 						}
-					}
+					}*/
 					foreach (AjaxController::getForAmbulanceList(false,'forAmbulance.hgpid') as $key => $value) {
 						array_push($proceesedAmb, $value->hgpid);
 					}
@@ -2998,8 +2994,8 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					
 					$data3 = [
 						// 'grpid' =>  $grpid,
-						'aptid'				=> 'IC',
-						'apptypenew'		=> 'IC',						
+						'aptid'				=> $aptid,
+						'apptypenew'		=> $aptid,						
 						'nameofcomp'		=> $nameofcomp,
 						'hfser'				=> $hfser_id,
 						'user'				=> $user_data,
@@ -3224,11 +3220,24 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 		//Update Latest Authorization Number
 		else if($grp_id == 7)
 		{
-			/*DB::table('appform')->where('appid',$appid)->update([
-				'ptc_id'	=>$request->ptc_id,
-				'approvingauthority'	=>$request->approvingauthority,
-				'head_of_facility_name'	=>$request->head_of_facility_name
-			]);*/
+			$hfser_id = $request->hfser_id;
+			$conCode = $request->conCode;			
+			$ptcCode = $request->ptcCode;
+			$ltoCode = $request->ltoCode;
+
+			DB::table('appform')->where('appid',$appid)->update([
+				'conCode'	=>$conCode,
+				'ptcCode'	=>$ptcCode,
+				'ltoCode'	=>$ltoCode
+			]);
+
+			if($hfser_id == "PTC") 
+			{
+				DB::table('ptc')->where('appid',$appid)->update([
+					'conCode'	=>$conCode,
+					'ltoCode'	=>$ltoCode
+				]);
+			}
 		}
 		//Update Classification of Hospital
 		else if($grp_id == 9)
