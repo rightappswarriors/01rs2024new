@@ -237,26 +237,33 @@
 										</td>
 										<td class="text-center">{{$each[0]->documentSent}}</td>
 										<td class="text-center">
+											
+
 											@if(in_array(strtolower($each[0]->hfser_id), ['lto','coa','ato','cor']))
 
-												<div class="btn-group mb-1">
-												<button class="btn btn-block btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-													Requirements 
-												</button>
-												<div class="dropdown-menu">
-													@if($each[0]->noofmain > 0  || $each[0]->hasRadio )
-															<div style="margin-left: 10px;margin-right: 10px;">
-															<a class="dropdown-item " style="border-radius: 3px;" href="{{asset('client1/apply/app/'.$each[0]->hfser_id.'/')}}/{{$each[0]->appid}}/fda">FDA Requirements</a>
-															</div>									    
-															<div class="dropdown-divider"></div>
-														
-													@endif
-															<div style="margin-left: 10px;margin-right: 10px;">
-															<a class="dropdown-item  " style="border-radius: 3px;"  href="{{asset('client1/apply/app/'.$each[0]->hfser_id.'/')}}/{{$each[0]->appid}}/hfsrb">DOH Requirements</a>
-															</div>	
-												</div>
-												</div>
+												@if($each[0]->aptid == "IC" && FunctionsClientController::isAppIC_ReqFDA($each[0]->appid) == false)
 
+												@else
+													<div class="btn-group mb-1">
+														<button class="btn btn-block btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															Requirements 
+														</button>
+														<div class="dropdown-menu">
+															@if($each[0]->noofmain > 0  || $each[0]->hasRadio )
+
+																<div style="margin-left: 10px;margin-right: 10px;">
+																	<a class="dropdown-item " style="border-radius: 3px;" href="{{asset('client1/apply/app/'.$each[0]->hfser_id.'/')}}/{{$each[0]->appid}}/fda">FDA Requirements</a>
+																</div>									    
+																<div class="dropdown-divider"></div>
+																
+															@endif
+
+															<div style="margin-left: 10px;margin-right: 10px;">
+																<a class="dropdown-item  " style="border-radius: 3px;"  href="{{asset('client1/apply/app/'.$each[0]->hfser_id.'/')}}/{{$each[0]->appid}}/hfsrb">DOH Requirements</a>
+															</div>
+														</div>
+													</div>
+												@endif
 											@else
 											
 												@if($each[0]->isRecommended == 1)

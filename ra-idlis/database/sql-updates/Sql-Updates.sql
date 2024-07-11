@@ -289,3 +289,7 @@ ALTER TABLE appform ADD COLUMN	FDA_pharma_updated_by TEXT DEFAULT NULL;
 
 
 ALTER TABLE appform ADD COLUMN ltoCode Text DEFAULT NULL;
+
+
+
+ALTER TABLE change_action_type ADD COLUMN reqFDA boolean DEFAULT false;

@@ -1925,4 +1925,19 @@ class FunctionsClientController extends Controller {
 		return false;
 	}
 
+	public static function isAppIC_ReqFDA($appid) {
+
+		$flag = false;
+		$reqFDA = DB::table('appform_changeaction')->select('reqFDA')
+					->leftJoin('change_action_type','change_action_type.cat_id','=','appform_changeaction.cat_id')
+					->where('appform_changeaction.appid','=',$appid)
+					->where('appform_changeaction.cat_id','!=','100000')
+					->where('change_action_type.reqFDA','=','1')
+					->count();
+					
+		if($reqFDA > 0) {	$flag = true;	}
+
+		return $flag;
+	}
+
 }
