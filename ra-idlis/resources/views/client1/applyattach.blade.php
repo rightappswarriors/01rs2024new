@@ -364,18 +364,30 @@
 			})
 		})
 
-		@if($prompt == true)
-
-		alert('Uploaded requirements are submitted.');
-		
-
 		var aptid = '{{$appform->aptid}}';
 		var hfser_id = '{{$appform->hfser_id}}';
+		var paymentPage = '{{$paymentPage}}';
+
+		@if($prompt == true)
+
 
 		//if(aptid == 'R' && hfser_id == 'COA'){
-			if(hfser_id == 'LTO' || hfser_id == 'COA' || hfser_id == 'ATO' || hfser_id == 'COR'){
+			if(paymentPage){
+
+				alert('Uploaded requirements are submitted. We are redirecting to the Select Payment Method page which may take a while.\n\nIf you cant wait, you may follow these steps:\n1.) Go to list of application (Home > Application) page,\n2.) Look for the application number.\n3.) At the Option Column, click the operation > Select Payment Method.');
+
+				window.location.href = "{{url('client1/payment/'.FunctionsClientController::getToken().'/'.$appform->appid)}}"
+
+			} else if(hfser_id == 'LTO' || hfser_id == 'COA' || hfser_id == 'ATO' || hfser_id == 'COR'){
+
+				alert('Uploaded requirements are submitted. We are redirecting to requirement page.');
+
 				window.location.href = "{{asset('client1/apply/app/"+hfser_id+"/')}}/{{$appform->appid}}/hfsrb"
-			}else{
+
+			} else{
+
+				alert('Uploaded requirements are submitted. We are redirecting to list of application (Home > Application) page.');
+
 				window.location.href = "{{url('client1/apply')}}"
 			}
 		
