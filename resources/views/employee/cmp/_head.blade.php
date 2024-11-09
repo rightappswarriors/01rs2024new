@@ -1,5 +1,11 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link rel="icon" href="{{asset('ra-idlis/public/img/Seal_of_the_Department_of_Health_of_the_Philippines-32x32.png')}}" sizes="32x32">
+<link rel="icon" href="{{asset('ra-idlis/public/img/Seal_of_the_Department_of_Health_of_the_Philippines-192x192.png')}}" sizes="192x192">
+<link rel="apple-touch-icon" href="{{asset('ra-idlis/public/img/Seal_of_the_Department_of_Health_of_the_Philippines-180x180.png')}}">
+<meta name="msapplication-TileImage" content="{{asset('ra-idlis/public/img/Seal_of_the_Department_of_Health_of_the_Philippines-270x270.png')}}">
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="shortcut icon" href="https://doh.gov.ph/sites/default/files/favicon.ico" type="image/vnd.microsoft.icon">

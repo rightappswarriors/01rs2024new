@@ -24,29 +24,31 @@
 		<table class="table table-hover" id="tApp">
 		      		<thead style="background-color: #428bca; color: white" id="theadapp">
 		      			<tr>
-							<th>Name</th>
-							<th>Profession</th>
-							<th>Designation/Position</th>
-							<th>Qualification</th>
-							<th>TIN</th>
-							<th>Email</th>
-							<th>Area of Assignment</th>
-							<th>PRC</th>							
-							<th>Certificate of Training</th>
+							<th class="text-center">Name</th>
+							<th class="text-center">Profession</th>
+							<th class="text-center">Designation<br/>/Position</th>
+							<th class="text-center">Qualification</th>
+							<th class="text-center">TIN</th>
+							<th class="text-center">Email</th>
+							<th class="text-center">Area of Assignment</th>
+							<th class="text-center">PRC</th>							
+							<th class="text-center">Certificate of Training</th>
 							{{-- <th>Government ID</th> --}}
 							<th>Option</th>
 						</tr>
 		      		</thead>
 		      		<tbody id="loadHere">
 		      			@foreach($cdrrpersonnelnew as $personnel)
-		      			{{-- @foreach($cdrrpersonnel as $personnel) --}}
 							<tr>
-								<td>{{ucwords($personnel->name) }}</td>
-								<td>{{$personnel->posname}}</td>
+								<td class="text-center">
+									@if($personnel->isTag == 1)<i class="fa fa-tag" aria-hidden="true" style="color:red"></i>&nbsp; @endif
+									{{ucwords($personnel->firstname) }} {{ucwords($personnel->middlename) }} {{ucwords($personnel->surname) }} {{ucwords($personnel->suffix) }}
+									@if($personnel->isTag == 1)<br/><span style="font-size: xx-small; color: red;">[ T a g g e d ]</span>@endif
+								</td>
+								<td class="text-center">{{$personnel->posname}}</td>
 							
-								{{-- <td>{{$personnel->pos}}</td> --}}
-								<td>{{$personnel->designation}}</td>
-								<td>
+								<td class="text-center">{{$personnel->designation}}</td>
+								<td class="text-center">
 									@php 
 									$personel_professions = json_decode($personnel->profession);
 
@@ -60,9 +62,9 @@
 
 									@endphp
 								</td>
-								<td>{{$personnel->tin}}</td>
-								<td>{{$personnel->email}}</td>
-								<td>{{$personnel->area}}</td>
+								<td class="text-center">{{$personnel->tin}}</td>
+								<td class="text-center">{{$personnel->email}}</td>
+								<td class="text-center">{{$personnel->area}}</td>
 								<td class="text-center">
 									@isset($personnel->prc)
 										<a target="_blank" href="{{ route('OpenFile', $personnel->prc)}}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>

@@ -17,6 +17,12 @@
         var invalids = 0;
         var invmssg = " ";
 
+        if($('#aptidnew').val() == "R"){
+
+            if($('#license_number').val() == ""){errorPar +=1;  errors +=1; ermsgP+= "\nPrevious License Number, "; ermsg += "\nPrevious License Number, "}
+            if($('#license_validity').val() == ""){errorPar +=1;  errors +=1; ermsgP+= "\nPrevious License Validity Date, "; ermsg += "\nPrevious License Validity Date, "}
+        }
+
         if($('#facility_name').val() == ""){errorPar +=1;  errors +=1; ermsgP+= "\nFacility Name, "; ermsg += "\nFacility Name, "}
 
         // Disregard if update
@@ -120,7 +126,7 @@
                 //     console.log(errors)
                 // }
         }
-        if( $('input[name="hgpid"]:checked').val() == 6){
+        if( $('input[name="hgpid"]:checked').val() == 6 ||  $('input[name="hgpid"]:checked').val() == 34){
             var tram = document.getElementsByClassName('tr_amb')
 
             if(tram.length <= 0){
@@ -199,12 +205,6 @@
                 }
             }
          }
-
-      
-        
-
-
-   
     }
 
 
@@ -326,18 +326,26 @@ function submitProper(e){
         con_catch:              con_catch,
         con_hospital:           con_hospital,
         hgpid:                  $('input[name="hgpid"]:checked').val(),
-        assignedRgn:             $('#assignedRgn').val(),//6-3-2021
+        assignedRgn:            $('#assignedRgn').val(),//6-3-2021
         
-        appchargenew:             $('#tempAppChargenew').val(),//appchargetemp
-        appchargeHgpnew:             $('#tempAppChargeHgpidnew').val(),//appchargetemp
-        appcharge:             $('#tempAppCharge').val(),//appchargetemp
-        appchargeHgp:             $('#tempAppChargeHgpid').val(),//appchargetemp
-        appChargeAmb:             $('#tempAppChargeAmb').val(),//appchargetemp,
+        appchargenew:           $('#tempAppChargenew').val(),//appchargetemp
+        appchargeHgpnew:        $('#tempAppChargeHgpidnew').val(),//appchargetemp
+        appcharge:              $('#tempAppCharge').val(),//appchargetemp
+        appchargeHgp:           $('#tempAppChargeHgpid').val(),//appchargetemp
+        appChargeAmb:           $('#tempAppChargeAmb').val(),//appchargetemp,
 
         noofdialysis:           $('#noofdialysis').val(),
-        remarks:             $('#remarks').val(),
+        remarks:                $('#remarks').val(),
 
-        // tempAppChargeAmb
+        license_number:         null,
+        license_validity:       null,
+        head_of_facility_name:             $('#head_of_facility_name').val(),
+    }
+
+    if(data.aptid == "R")
+    {
+        data.license_number = $('#license_number').val();
+        data.license_validity = $('#license_validity').val();
     }
 
     if(data.hfser_id == 'PTC')

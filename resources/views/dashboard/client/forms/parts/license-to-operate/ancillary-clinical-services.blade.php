@@ -1,6 +1,7 @@
 <div class=" ancillary" style="width: 100%;" hidden>
     <div class="mb-2 col-md-12">&nbsp;</div>
     <div class="col-md-12"><b class="text-primary">Ancillary/Clinical Services</b></div>
+
     <div class="col-md-12">
         <div class="mb-3">
             <div class="row">
@@ -104,4 +105,5 @@
         </div>
     </div>
 </div>
+
 </div>

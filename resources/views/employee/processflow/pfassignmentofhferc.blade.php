@@ -36,7 +36,7 @@
               <th scope="col" class="text-center">Application Code</th>
               <th scope="col" class="text-center">Name of Facility</th>
               <th scope="col" class="text-center">Type of Facility</th>
-              <th scope="col" class="text-center">Revision</th>
+              <th scope="col" class="text-center">Latest Revision</th>
               <td scope="col" style="text-align: center;">Payment Confirmation Date</td>
               <td scope="col" style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Target Last Day of HFERC Evaluation</td>
               <td scope="col" style="text-align: center;">Actual Date of  HFERC Evaluation</td>
@@ -57,11 +57,7 @@
                     <td class="text-left"><strong>{{$data->facilityname}}</strong></td>
                     <td class="text-left">{{ $data->hgpdesc ?? 'NOT FOUND'}}</td>
                     <td class="text-center">
-                    @if ($data->trns_desc == "For Final Recommendation")
-                      {{AjaxController::maxRevisionFor($data->appid)}}
-                      @else 
-                      {{AjaxController::maxRevisionFor($data->appid) + 1}}
-                      @endif
+                    {{AjaxController::maxRevisionFor($data->appid)}}
                     </td>
                     <td style="text-align:left">@if(isset($data->CashierApproveformattedDate)){{$data->CashierApproveformattedDate}} @else <span style="color:red;">{{ 'Not Officially Applied Yet' }}</span> @endif </td>
                     <td style="text-align:left; border-left: darkgray;border-left-width: thin;border-left-style: solid;">@if(isset($data->CashierApproveformattedDate)){{date("F j, Y", strtotime($data->CashierApproveformattedDate. ' + 14 days')) }} @endif </td>
@@ -92,7 +88,7 @@
               <th scope="col" class="text-center">Application Code</th>
               <th scope="col" class="text-center">Name of Facility</th>
               <th scope="col" class="text-center">Type of Facility</th>
-              <th scope="col" class="text-center">Revision</th>
+              <th scope="col" class="text-center">Latest Revision</th>
               <td scope="col" style="text-align: center;">Payment Confirmation Date</td>
               <td scope="col" style="text-align: center; border-left: darkgray;border-left-width: thin;border-left-style: solid;">Target Last Day of HFERC Evaluation</td>
               <td scope="col" style="text-align: center;">Actual Date of  HFERC Evaluation</td>

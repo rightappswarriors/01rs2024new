@@ -97,6 +97,8 @@ class PtcAppController extends Controller
         $appform->aptid                 = $request->aptid;
         $appform->appComment            = $request->remarks;
         $appform->con_number            = $request->connumber;
+        
+        $appform->head_of_facility_name = $request->head_of_facility_name;
         // $appform->savingStat            = $request->saveas;
 
         if($request->saveas == 'final'){

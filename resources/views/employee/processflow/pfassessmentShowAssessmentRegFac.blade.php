@@ -198,7 +198,6 @@
                  		    <input type="hidden" name="xid" value=" {{ app('request')->input('xid') }}">
                  		    <input type="hidden" name="pid" value=" {{ app('request')->input('pid') }}">
                  		    <input type="hidden" name="monid" value=" {{$isMon}}">
-		        			{!!($isMon ? '<input type="hidden" name="monid" value="'.$isMon.'">' :'')!!}
 		        			<div class="container-fluid divs">
 		        				<div class="container-fluid divs">
 		        					@if(count($head) > 0)

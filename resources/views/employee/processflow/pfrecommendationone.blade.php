@@ -17,24 +17,22 @@
              
               <td width="100%">
                 @if(isset($apdat))
-                <h2>{{strtoupper($apdat->facilityname)}} </h2>
-                <h4>{{$apdat->hfser_id}}R{{$apdat->rgnid}}-{{$apdat->appid}} </h4>
+                <h2>[<strong>{{$apdat->hfser_id}}R{{$apdat->rgnid}}-{{$apdat->appid}}</strong>] {{strtoupper($apdat->facilityname)}}</h2>
                 @endif
                  <span>
                   <label>Process Type:&nbsp;</label>
-                  <span class="font-weight-bold">@if($apdat->aptid == 'R'){{'Renewal'}}@elseif($apdat->aptid == 'IN'){{'Initial New'}}@elseif($apdat->aptid == 'IC'){{'Initial Change'}} @else {{'Unidentified'}} @endif
-                  @if(isset($apdat->hfser_id)){{' '.$apdat->hfser_id}}@endif
+                  <span class="font-weight-bold">
+                    @if($apdat->aptid == 'R'){{'Renewal'}}@elseif($apdat->aptid == 'IN'){{'Initial New'}}@elseif($apdat->aptid == 'IC'){{'Initial Change'}} @else {{'Unidentified'}} @endif
+                    @if(isset($apdat->hfser_id)){{' '.$apdat->hfser_id}}@endif
                   </span>
                 </span>
-                <!-- <h2>@isset($AppData) {{$AppData->facilityname}} @endisset </h2> -->
-                <h5>@isset($AppData) {{
-                    $AppData->street_number?  strtoupper($AppData->street_number).',' : ' '
-                  }}
-                  {{
-                    $AppData->streetname?  strtoupper($AppData->streetname).',': ' '
-                  }} 
-             
-             {{strtoupper($AppData->brgyname)}}, {{$AppData->cmname}}, {{$AppData->provname}} @endisset</h5>
+                <h5>
+                  @isset($AppData) 
+                    {{  $AppData->street_number?  strtoupper($AppData->street_number).',' : ' '  }}
+                    {{ $AppData->streetname?  strtoupper($AppData->streetname).',': ' '  }}   
+                    {{strtoupper($AppData->brgyname)}}, {{$AppData->cmname}}, {{$AppData->provname}} 
+                  @endisset
+                </h5>
              
                 <h6>@isset($AppData) Status: @if ($AppData->isRecoForApproval === null) <span style="color:blue">For Recommendation Evaluation</span> @elseif($AppData->isRecoForApproval == 1)  <span style="color:green">Recommended for Approval</span> @else <span style="color:red">Disapproved for Approval</span> @endif @endisset</h6>
               @if($AppData->requestReeval == '1') <h6 style="color:blue">For Re-evaluation</h6> @endif
@@ -398,17 +396,11 @@
           @endif
           @endif
 
-
-
-
-
-
-
           {{-- /////////////////// --}}
           {{-- /////////////////// --}}
           <div class="card">
             {{-- START HEAD --}}
-            @if((strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa') && $AppData->aptid != 'R')
+            @if((strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa' || strtolower($AppData->hfser_id) == 'ato' || strtolower($AppData->hfser_id) == 'cor') && $AppData->aptid != 'R')
             <div class="card-header @isset($AppData) @if($AppData->isInspected == null) list-group-item-info @elseif($AppData->isrecommended == 1) list-group-item-success  @else list-group-item-danger @endif @endisset" id="headingOne" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne" style="">
               <div class="mb-0">
                 <button class="btn btn-link @isset($AppData) @if($AppData->isInspected == null) list-group-item-info @elseif($AppData->isrecommended == 1) list-group-item-success  @else list-group-item-danger @endif @endisset" type="button" style="text-decoration:none">
@@ -417,8 +409,6 @@
               </div>
             </div>
             
-          
-
              {{-- END HEAD --}}
              {{-- START BODY --}}
             <div id="collapseFour"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -519,9 +509,8 @@
             {{-- END BODY --}}
           </div>
 
-                 
           @if(isset($complianceDetails[0]) && $AppData->aptid != 'R')             
-          <div class="card">
+          <div class="card" {{$complianceDetails[0]->last_update ?  '' :  'hidden'}} >
             {{-- START HEAD --}}
             <div class="card-header @isset($complianceDetails) @if($complianceDetails[0]->is_for_compliance == 1) list-group-item-info @elseif($complianceDetails[0]->is_for_compliance  == 2) list-group-item-success  @else list-group-item-danger @endif @endisset" id="headingThree" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne" style="">
               <div class="mb-0">
@@ -586,13 +575,9 @@
           @endif
 
 
-          @if((strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa') && isset($canView[1]) && $canView[1])
+          @if((strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa' || strtolower($AppData->hfser_id) == 'ato' || strtolower($AppData->hfser_id) == 'cor') && isset($canView[1]) && $canView[1])
           {{-- fda start --}}
-
-
-
-   
-
+          
           <div class="card">
             {{-- START HEAD --}}
             @if($AppData->isApproveFDA != 1)
@@ -681,7 +666,7 @@
           @endif
 
           
-          @if((strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa' ) && isset($AppData->noofmain) )
+          @if((strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa'  || strtolower($AppData->hfser_id) == 'ato' || strtolower($AppData->hfser_id) == 'cor' ) && isset($AppData->noofmain) )
           <!-- if(strtolower($AppData->hfser_id) == 'lto' || strtolower($AppData->hfser_id) == 'coa' && isset($canView[0]) && $canView[0]) -->
           {{-- fda start --}}
           <div class="card">
@@ -770,37 +755,127 @@
           {{-- fda end --}}
           @endif
           {{-- /////////////////// --}}
+
+        <?php $forrecommendation=false; ?>
+        
+        @isset($AppData) 
+            @if( $apdat->hfser_id == 'PTC' )
+                @if($otherDetails->HFERC_eval == null) 
+                  <?php $forrecommendation=true; ?>
+                @endif 
+            @elseif($AppData->status == "FR"  || $AppData->aptid == 'R')
+                @if($count <= 0 || !isset($AppData->isRecoForApproval))
+                  <?php $forrecommendation=true; ?>
+                @else                 
+                  <?php $forrecommendation=false; ?>
+                @endif
+            @endif
+        @endisset
+
+        @isset($AppData->RecommedationEvaluator) 
+            @if($AppData->RecommedationEvaluator != "Not Available")
+          {{-- /////////////////// --}}
+          <div class="card">
+            {{-- START HEAD --}}
+            <div class="card-header @isset($AppData) @if($AppData->isRecoForApproval == 1) list-group-item-success  @else list-group-item-danger @endif @endisset" id="headingSix" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseOne" style="">
+              <div class="mb-0">
+                <button class="btn btn-link @isset($AppData) @if($AppData->isRecoForApproval == 1) list-group-item-success  @else list-group-item-danger @endif @endisset" type="button" style="text-decoration:none">
+                  <h3>Recommendation for Approval</h3>
+                </button>
+              </div>
+            </div>
+             {{-- END HEAD --}}
+             {{-- START BODY --}}
+            <div id="collapseSix"  class="collapse show" aria-labelledby="headingSix" data-parent="#accordionExample">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-5">
+                      <table class="table table-borderless table-sm">
+                        <thead><tr><th width="40%"></th><th width="60%"></th></tr></thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Status :</th>
+                            <td>@isset($AppData) @if($AppData->isRecoForApproval === null) <span style="color:red;font-weight: bolder">Recommended for Disapproval</span> @elseif($AppData->isRecoForApproval === 1)<span style="color:green;font-weight: bolder">Recommended for Approval</span>@else<span style="color:red;font-weight: bolder">Recommended for Disapproval</span>@endif @endisset</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Time :</th>
+                            <td>@isset($AppData->fRecoForApprovalTime) <span style="color:green;font-weight: bolder">{{$AppData->fRecoForApprovalTime}}</span> @else <span style="color:red;font-weight: bolder">Not Available</span> @endisset</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Date :</th>
+                            <td>@isset($AppData->fRecoForApprovalDate) <span style="color:green;font-weight: bolder">{{$AppData->fRecoForApprovalDate}}</span> @else <span style="color:red;font-weight: bolder">Not Available</span> @endisset</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Recommended by:</th>
+                            <td>@isset($AppData->RecommedationEvaluator) <span style="color:green;font-weight: bolder">{{$AppData->RecommedationEvaluator}}</span> @else <span style="color:red;font-weight: bolder">Not Available</span> @endisset</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Remark:</th>
+                            <td>@isset($AppData->RecoRemark) <span style="color:green;font-weight: bolder">{{$AppData->RecoRemark}}</span> @else <span style="color:red;font-weight: bolder">None</span> @endisset</td>
+                          </tr>
+                        </tbody>
+                      </table>  
+                  </div>
+                  {{-- <div class="col-sm-5">
+                    <center>
+                      @isset($AppData)
+                        @if($AppData->isPayEval != null)
+                          <button class="btn btn-primarys" onclick="window.location.href='{{ asset('/employee/dashboard/lps/cashier') }}/{{$AppData->appid}}?from=rec'"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View Cashier Evaluation</button>
+                        @else
+                          &nbsp;
+                        @endif
+                      @endisset
+                    </center>
+                  </div> --}}
+                </div>
+              </div>
+            </div>
+            {{-- END BODY --}}
+          </div>
+          {{-- /////////////////// --}}
+              @endif
+          @endisset   
+
+
           </div>
         </div>
 
-        @isset($AppData)
-          @if($AppData->status == "FR"  || $AppData->aptid == 'R' || $apdat->hfser_id == 'PTC')
-            
-            <hr>
-            <div class="container">
-              @if($count <= 0 || !isset($AppData->isRecoForApproval))
-              <center>
-            
+        <?php  ?>
+
+
+        <?php $forrecommendation=false; ?>        
+        <hr>
+        <div class="container">
+        @isset($AppData) 
+            @if( $apdat->hfser_id == 'PTC' )
+                 @if(!isset($AppData->isRecoForApproval))
+
+                  <?php $forrecommendation=true; ?>
+
+                @endif 
+            @elseif($AppData->status == "FR"  || $AppData->aptid == 'R')
+                @if($count <= 0 || !isset($AppData->isRecoForApproval))
+
+                  <?php $forrecommendation=true; ?>
+
+                @else 
+                <h4 class="text-center">Nothing to recommend yet because either of the following reasons:</h4>
+                <ul class="text-center">
+                    <li>Probably there is no evaluations nor assessment yet.</li>
+                    <li>Application already recommended.</li>
+                </ul>
+                @endif
+            @endif
+        @endisset
+
+          @if($forrecommendation == true)
+              <center>            
                 <button class="btn btn-primarys" onclick="toggleModal(true)" style="background-color: #28a745" data-toggle="modal" data-target="#AccepttGodModal">Approve</button>&nbsp;
                 <button class="btn btn-primarys" onclick="toggleModal(false)" style="background-color: #FF2200" data-toggle="modal" data-target="#AccepttGodModal">Disapprove</button>
-            
-              </center>
-              @else 
-              <h4 class="text-center">Nothing to recommend yet because either of the following reasons:</h4>
-              <ul class="text-center">
-                  <li>Probably there is no evaluations nor assessment yet.</li>
-                  <li>Application already recommended.</li>
-              </ul>
-              @endif
-            </div>  
-          @else
-            <h4 class="text-center">Nothing to recommend yet because either of the following reasons:</h4>
-            <ul class="text-center">
-              <li>Application forwarded is not for recommendation yet.</li>
-              <li>Application forwarded is not a renewal process nor PTC.</li>
-            </ul>
-          @endif     
-        @endisset
+              </center>            
+          @endif   
+        
+        </div>  
       </div>
       </div>
     </div>
@@ -896,7 +971,17 @@
                             title: 'Success',
                             text: 'Successfully Recommended this application to approval.',
                           }).then(() => {
-                            window.location.href = '{{ asset('employee/dashboard/processflow/pfrecommendationone') }}';
+                            window.location.href = '{{ asset('employee/dashboard/processflow/recommendation') }}';
+                          });
+                      } 
+                      else if (data == 'DISAPPROVED') {
+                          $("#AccepttGodModal").modal('toggle');
+                          Swal.fire({
+                            type: 'error',
+                            title: 'Disapproved',
+                            text: 'This application is successfully disapproved for recommendation of final approval.',
+                          }).then(() => {
+                            window.location.href = '{{ asset('employee/dashboard/processflow/recommendation') }}';
                           });
                       } else if (data == 'ERROR'){
                         $('#AccErrorAlert').show(100);  

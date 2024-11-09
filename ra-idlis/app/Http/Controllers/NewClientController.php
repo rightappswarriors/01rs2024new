@@ -2552,7 +2552,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					//$pharma = NewClientController::hasEmptyRequiredReqFDAPersonnel(['prc','coe']);
 					$pharma = FunctionsClientController::hasEmptyDBFields('cdrrpersonnel',['appid' => $appid],['prc','coe']);
 					$mach = FunctionsClientController::hasEmptyDBFields('cdrrhrpersonnel',['appid' => $appid],['prc','bc','coe']);
-					$pharmaattc = DB::table('cdrrhrotherattachment')->where([['appid', $appid]])->first();  // this is not pharmacy, but, other attachment of Radiology.
+					//$pharmaattc = DB::table('cdrrhrotherattachment')->where([['appid', $appid]])->first();  // this is not pharmacy, but, other attachment of Radiology.
 					$servcat = DB::table('cdrrhrxrayservcat')->where([['appid', $appid]])->first();
 					$requiredQualifications =  DB::table('cdrrhrpersonnel')
 												->select('cdrrhrpersonnel.*','hfsrbannexa.*')
@@ -2625,9 +2625,10 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 						}
 					}
 
-					if(($required1 == true && $required2 == true && $required3 == true ) && ($pharma[2] == true || $appform->hfser_id == 'COA') && $machfilt1 == true && !is_null($pharmaattc)&& $chkserve == true && $renewal_checker == true){
+					if(($required1 == true && $required2 == true && $required3 == true ) && ($pharma[2] == true || $appform->hfser_id == 'COA') && $machfilt1 == true /*&& !is_null($pharmaattc)*/&& $chkserve == true && $renewal_checker == true)
+					{
 
-						if(!$pharma[0] && !$machfilt2  && !is_null($pharmaattc) && $chkserve == true ){
+						if(!$pharma[0] && !$machfilt2  /*&& !is_null($pharmaattc) */&& $chkserve == true ){
 				
 							$ret = DB::table('appform')->where('appid',$appid)->update(['isReadyForInspecFDA' => 1]);
 							if($ret){
@@ -2732,9 +2733,9 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							}
 
 							$attchp = "";
-							if(is_null($pharmaattc)){
+							/*if(is_null($pharmaattc)){
 								$attchp = "\n - No Attachment found at Other Attachments (CDRRHR)";
-							}
+							}*/
 
 							$sp = "";
 							if(is_null($servcat) && !is_null($checkRadio)){
@@ -2753,9 +2754,9 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							$mssg .= " \n - Personnel on Pharmacy and Radiology and make sure to submit all requirements";
 						}
 
-						if(is_null($pharmaattc)){
+						/*if(is_null($pharmaattc)){
 							$mssg .= " \n - No Attachment found at Other Attachments (CDRRHR)";
-						}
+						}*/
 
 						if($required1 != true){
 							$mssg .= " \n - Please input Chief X-ray Technologist or Chief Radiologic Technologist";
@@ -3861,6 +3862,18 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 			$appcharge = json_encode($arr);
 			NewGeneralController::appChargeAmb($appcharge, $appid, $uid);
 
+			if($request->typeamb =='1')
+			{
+				$amb_facid = "AOASPT1";
+			}
+			else if($request->typeamb =='2')
+			{				
+				$amb_facid = "AOASPT2";
+			}
+
+			DB::table('x08_ft')->where(array('facid' => $amb_facid, 'appid' => $appid))->delete();
+			DB::table('x08_ft')->insert(['uid' => $uid, 'appid' => $appid, 'reg_facid' => $regfac_id, 'facid' => $amb_facid]);
+	
 			$remarks = "Increase/Decrease In Ambulance Vehicle.";
 			DB::table('appform_changeaction')->where(array('cat_id' => $cat_id, 'appid' => $appid))->delete();
 			DB::table('appform_changeaction')->insert(['cat_id' => $cat_id, 'appid' => $appid, 'remarks' => $remarks]);

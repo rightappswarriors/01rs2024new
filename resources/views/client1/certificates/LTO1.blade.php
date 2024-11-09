@@ -77,7 +77,8 @@
 						</div>
 						<div class="col-md-1" style="display: inline">:</div>
 						<div class="col-md-5 contr" style="float:left;display: inline;">
-							<strong>{{((isset($retTable[0]->facilityname)) ? $retTable[0]->facilityname : "CURRENT_FACILITY")}}</strong>
+							<strong>{{((isset($retTable[0]->facilityname)) ? $retTable[0]->facilityname : "CURRENT_FACILITY")}} </strong> 
+							<span style="font-size: small; font-style: italic;">{{((isset($retTable[0]->rename_dateapproved)) ? "(". date_format(date_create($retTable[0]->rename_dateapproved),"m/d/Y") .")": "")}}</span>
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
 					</div>
@@ -89,7 +90,7 @@
 						</div>
 						<div class="col-md-1" style="display: inline">:</div>
 						<div class="col-md-5 contr" style="float:left;display: inline;">
-							{{((isset($facname)) ? strtoupper($facname)  : "No Health Service")}}
+							{{((isset($retTable[0]->hgpdesc)) ? strtoupper($retTable[0]->hgpdesc) : "No Health Service")}}
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
 					</div>
@@ -115,7 +116,16 @@
 								</div>
 								<div class="col-md-1" style="display: inline">:</div>
 								<div class="col-md-5 contr" style="float:left;display: inline;">
-									{{ $str_new  }}
+									{{ $str_new  }} 
+									<span style="font-size: small; font-style: italic;">
+										@if($retTable[0]->hgpid == "4")
+											<!---Classification -->
+											{{((isset($retTable[0]->classification_dateapproved)) ? "(".date_format(date_create($retTable[0]->classification_dateapproved),"m/d/Y").")" : "")}}
+										@else
+											<!--- Service Capability -->
+											{{((isset($retTable[0]->changeonservice_dateapproved)) ? "(". date_format(date_create($retTable[0]->changeonservice_dateapproved),"m/d/Y") .")" : "")}}
+										@endif										
+									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
 							</div>					
@@ -136,7 +146,10 @@
 											{{$retTable[0]->funcid == 1 ? 'General': ''}}
 											{{$retTable[0]->funcid == 2 ? 'Special': ''}}
 											{{$retTable[0]->funcid == 3 ? 'Not Applicable': ''}}
-										@endif
+										@endif 
+										<span style="font-size: small; font-style: italic;">
+											{{((isset($retTable[0]->classification_dateapproved)) ? "(".date_format(date_create($retTable[0]->classification_dateapproved),"m/d/Y").")" : "")}}
+										</span>
 									</div>
 									<div class="col-md-1" style="display: inline">&nbsp;</div>
 								</div>					
@@ -150,14 +163,21 @@
 						</div>
 						<div class="col-md-1" style="display: inline">:</div>
 						<div class="col-md-5 contr" style="float:left;display: inline;">
-							@php
-								$loc = ( ($retTable[0]->street_name ? ucwords(strtolower($retTable[0]->street_name)).', ' : ' ')  .   ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' ).ucwords(strtolower($retTable[0]->brgyname)).', '.ucwords(strtolower($retTable[0]->cmname)).', '.ucwords(strtolower($retTable[0]->provname)));
-
-								$stringloc = preg_replace_callback('/\b(?=[LXIVCDM]+\b)([a-z]+)\b/i', 
-												function($matches) {	return strtoupper($matches[0]); }
-											, $loc);
+							@php								
+								/*$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+										.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
+										.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
+										.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8")).' '.strtoupper($retTable[0]->rgn_desc)
+									);*/
+								$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+									.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
+									.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
+									.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8"))
+								);
+								
+								$stringloc = preg_replace_callback('/\b(?=[LXIVCDM]+\b)([a-z]+)\b/i', function($matches) {   return strtoupper($matches[0]); }, $loc);	
 							@endphp
-							{{((isset($retTable[0])) ?	$stringloc	: 'No Location.')}}
+							{{((isset($retTable[0])) ?	$loc	: 'No Location.')}}		
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
 					</div>
@@ -183,7 +203,10 @@
 								</div>
 								<div class="col-md-1" style="display: inline;float: left">:</div>
 								<div class="col-md-5 contr" style="float:left;display: inline;">			
-									<strong>{{((isset($retTable[0]->noofbed)) ? $retTable[0]->noofbed : "NA")}}</strong>
+									{{((isset($retTable[0]->noofbed)) ? $retTable[0]->noofbed : "NA")}}
+									<span style="font-size: small; font-style: italic;">
+										{{((isset($retTable[0]->noofbed_dateapproved)) ? "(". date_format(date_create($retTable[0]->noofbed_dateapproved),"m/d/Y") .")" : "")}}
+									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
 							</div>
@@ -199,7 +222,11 @@
 								</div>
 								<div class="col-md-1" style="display: inline;float: left">:</div>
 								<div class="col-md-5 contr" style="float:left;display: inline;">							
-									<strong>{{((isset($retTable[0]->noofdialysis)) ? $retTable[0]->noofdialysis : "NA")}}</strong>
+									{{((isset($retTable[0]->noofdialysis)) ? $retTable[0]->noofdialysis : "NA")}}
+									<span style="font-size: small; font-style: italic;"> 
+										
+										{{((isset($retTable[0]->noofdialysis_dateapproved)) ? "(". date_format(date_create($retTable[0]->noofdialysis_dateapproved),"m/d/Y") .")" : "")}}
+									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
 							</div>
@@ -240,14 +267,17 @@
 								<div class="col-md-1" style="display: inline;float: left">
 									:</div>
 								<div class="col-md-5 contr" style="float:left;display: inline;">
-									@php echo $ambulance_display; @endphp
+									@php echo $ambulance_display; @endphp 
+									<span style="font-size: small; font-style: italic;">
+										{{((isset($retTable[0]->ambulance_dateapproved)) ? "(".date_format(date_create($retTable[0]->ambulance_dateapproved),"m/d/Y").")" : "")}}
+									</span>
 								</div>
 								<div class="col-md-1" style="display: inline">&nbsp;</div>
 							</div>
 						@endif
 					@endif
 
-					<div class="row">
+					<!-- div class="row">
 						<div class="col-md-1"  >&nbsp;</div>
 						<div class="col-md-4 contl" >
 							License Number
@@ -257,7 +287,7 @@
 							{{$retTable[0]->rgnid.'-'.$formatted_str.'-'.date('y', strtotime(str_replace('-','/', $retTable[0]->t_date))).'-'. strtoupper($disercap).'-'.($retTable[0]->ocid == 'G'? '1':'2') }}
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
-					</div>
+					</div --->
 
 					<div class="row">
 						<div class="col-md-1"  >&nbsp;</div>
@@ -269,8 +299,8 @@
 							@if($retTable[0]->aptid != 'R' )
 								{{date('j F Y', strtotime($retTable[0]->approvedDate))}} – {{date('j F Y',  strtotime($otherDetails[0]->valto))}}
 							@else
-								{{date('j F Y', strtotime($retTable[0]->approvedDate))}} – {{date('j F Y',  strtotime($retTable[0]->validDate))}}
-							@endif
+								01 January {{date('Y', strtotime('+1 year', strtotime($retTable[0]->approvedDate)))}} – {{date('j F Y',  strtotime($retTable[0]->validDate))}}
+							@endif 
 						</div>
 						<div class="col-md-1" style="display: inline">&nbsp;</div>
 					</div>
@@ -289,29 +319,42 @@
 								console.log('{{$retTable[0]->addonDesc}}')
 							</script>
 							<div class="col-md-5 pl-5 mt-3 contr" >
-								@if($disercap != 'level3' && isset($retTable[0]->noofdialysis) && $retTable[0]->noofdialysis > 0)
+								
+								@if($disercap != 'level3' && $retTable[0]->hgpid != "5" && isset($retTable[0]->noofdialysis) && $retTable[0]->noofdialysis > 0)
 									{{((isset($retTable[0]->noofdialysis)) ? "Dialysis Clinic (".$retTable[0]->noofdialysis."), " : "")}} 	
-								@endif
-								@foreach($addons as $add)
-									@php
-										$ons = json_decode($retTable[0]->addonDesc);
-										$exadd = 'no';
-										$aowner = ' ';
+								@endif		
 
-										foreach($ons as $o){
-											if($o->facid_name  == $add && $o->servtyp == 1){
-												$exadd = 'yes';
-												$aowner = $o->servowner;
+									@foreach($addons as $add)
+										@php
+											$ons = json_decode($retTable[0]->addonDesc);
+											$exadd = 'no';
+											$aowner = ' ';
+											
+											if($ons != null)
+											{											
+												foreach($ons as $o){
+													if($o->facid_name  == $add && $o->servtyp == 1){
+														$exadd = 'yes';
+														$aowner = $o->servowner;
+													}
+												}
 											}
-										}
-									@endphp
+										@endphp
 
-									@if($exadd == 'yes')
-										{{$add}} (Owner: {{$aowner}})
-									@else
-										{{$add}}
-									@endif									
-								@endforeach
+										@if($exadd == 'yes')
+											{{$add}} (Owner: {{$aowner}})
+										@else
+											{{$add}}
+										@endif									
+									@endforeach 
+								<span style="font-size: small; font-style: italic;">
+									@if(isset($retTable[0]->changeonservice_dateapproved))
+										({{date_format(date_create($retTable[0]->changeonservice_dateapproved),"m/d/Y")}})
+									@elseif(isset($retTable[0]->addonservice_dateapproved))
+										({{date_format(date_create($retTable[0]->addonservice_dateapproved),"m/d/Y") }})
+									@endif
+								</span>
+								
 							</div>
 						</div>
 					@endif

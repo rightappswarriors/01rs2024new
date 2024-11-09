@@ -246,6 +246,9 @@ function submitProper (e){
         appchargenew:             $('#tempAppChargenew').val(),//appchargetemp
         appchargeHgpnew:             $('#tempAppChargeHgpidnew').val(),//appchargetemp
         // aptid: "IN"
+        license_number:         null,
+        license_validity:       null,
+        head_of_facility_name:             $('#head_of_facility_name').val(),    
     }
 
     if(data.hfser_id == 'PTC')

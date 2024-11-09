@@ -82,18 +82,33 @@
 				</tbody>
 			</table> --}}
 			@if (session()->exists('uData'))
-			
-			<div class="col-md-12 text-left font-weight-bold text-center">
-				<a href="{{url('client1/apply/attachment/')}}/{{$hfser_id}}/{{$appid}}" class="btn btn-primary">Proceed to attachments <i class="fa fa-chevron-right"></i> </a>
 
-			{{-- @if($hfser_id == 'COA')
-		     	<a href="{{url('client1/apply/attachment/')}}/COA/{{$appid}}" class="btn btn-primary">Proceed to attachments <i class="fa fa-chevron-right"></i> </a>
-			@else
-				<a href="{{url('client1/apply/app/LTO/'.$appid.'/'.'hfsrb')}}" class="btn btn-primary">Proceed to DOH Requirements <i class="fa fa-chevron-right"></i> </a>
-			@endif	--}}
-				
-		
-			</div>
+			@if(isset($aptid) && !empty($aptid))
+			
+
+			{{--  @if($aptid=="IC") --}}
+					<div class="col-md-12 text-left font-weight-bold text-center">
+						<a href="{{url('client1/apply/attachment/')}}/{{$hfser_id}}/{{$appid}}" class="btn btn-primary">Proceed to attachments <i class="fa fa-chevron-right"></i> </a>		
+					</div>
+				{{-- @else
+					<div class="col-md-12 text-left font-weight-bold text-center">
+						<a href="{{asset('client1/printPayment')}}/{{FunctionsClientController::getToken()}}/{{$appid}}" class="btn btn-primary" style="border-radius: 3px;"  href="#">View Order of Payment on DOH <i class="fa fa-chevron-right"></i> </a>			
+					</div>
+				@endif --}}
+			
+			@else			<div class="col-md-12 text-left font-weight-bold text-center">
+					<a href="{{url('client1/apply/attachment/')}}/{{$hfser_id}}/{{$appid}}" class="btn btn-primary">Proceed to attachments <i class="fa fa-chevron-right"></i> </a>
+
+				{{-- @if($hfser_id == 'COA')
+					<a href="{{url('client1/apply/attachment/')}}/COA/{{$appid}}" class="btn btn-primary">Proceed to attachments <i class="fa fa-chevron-right"></i> </a>
+				@else
+					<a href="{{url('client1/apply/app/LTO/'.$appid.'/'.'hfsrb')}}" class="btn btn-primary">Proceed to DOH Requirements <i class="fa fa-chevron-right"></i> </a>
+				@endif	--}}
+					
+				@endif
+				</div>
+			
+			
 			@endif
 			{{-- </div> --}}
 		</div>

@@ -37,22 +37,22 @@ class AtoAppController extends Controller
         // DB::insert('insert into x08_ft (uid, appid, facid) values (?, ?, ?)', ['fds', 'ff', 'fds']);
         if($request->rgnid != "")
         {
-            $appform->rgnid                 = $request->rgnid;
+            $appform->rgnid             = $request->rgnid;
         }
         if($request->provid != "")
         {
-            $appform->provid                = $request->provid;
+            $appform->provid            = $request->provid;
         }
         if($request->cmid != "")
         {
-            $appform->cmid                  = $request->cmid;
+            $appform->cmid              = $request->cmid;
         }
         if($request->brgyid != "")
         {
-            $appform->brgyid                = $request->brgyid;
+            $appform->brgyid            = $request->brgyid;
         }
         if($stat == 'new'){
-            $appform->uid                   = $request->uid;
+            $appform->uid               = $request->uid;
         }
 
         $appform->hfser_id              = $request->hfser_id;
@@ -95,6 +95,10 @@ class AtoAppController extends Controller
         $appform->aptid                 = $request->aptid;
         $appform->hgpid                 = $request->hgpid;//6-22-2021
         $appform->appComment                 = $request->remarks;
+        $appform->license_number        = $request->license_number;
+        $appform->license_validity      = $request->license_validity;
+        
+        $appform->head_of_facility_name = $request->head_of_facility_name;
         // $appform->savingStat            = $request->saveas;
 
         if($request->saveas == 'final'){

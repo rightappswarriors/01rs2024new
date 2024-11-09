@@ -19,6 +19,8 @@ COC - FDA
 		.table th{
 			vertical-align : middle;text-align:center!important;
 		}
+
+		p, div {font-family: "Times New Roman"}
 	</style>
 	<div class="container mt-5 mb-5">
 		<div class="card">
@@ -44,7 +46,7 @@ COC - FDA
 					<div class="row">
 						<div class="col-md-3 text-right">Authorization Status :</div>
 						{{-- <div class="col-md-1">:</div> --}}
-						<div class="col-md-6">{{$data->authorizationStatus}}</div>
+						<div class="col-md-6">@if($data->aptid == "R") Renewal @else Initial @endif</div>
 					</div>
 					<div class="row pt-1">
 						<div class="col-md-3 text-right">CDRRHR-RRD-COC No. :</div>
@@ -83,17 +85,20 @@ COC - FDA
 						{{$data->facilityname}}
 					</div>
 					<div class="text-justify mt-4">
-						with business address at <u class="font-weight-bold">{{$data->street_number . ' ' .$data->street_name . ' ' . AjaxController::getAddressByLocation($data->rgnid,$data->provid,$data->cmid,$data->brgyid)}}</u> for having complied with the relevant administrative order/s issued
-						by the Department of Health on the Basic Standards on Radiation Protection by the Center for Device Regulation,
+						<p>
+						with business address at <u class="font-weight-bold">{{$data->street_number . ' ' .$data->street_name . ' ' . AjaxController::getAddressByLocation($data->rgnid,$data->provid,$data->cmid,$data->brgyid)}}</u> for having complied with the relevant administrative order/s issued by the Department of Health on the Basic Standards on Radiation Protection by the Center for Device Regulation,
 						Radiation Health, and Research (CDRRHR) of the Food and Drug Administration, Department of Health.
-						This certificate is the basis of the HFSRB/ROs for the inclusion of the medical x-ray facility in the license to
-						operate/certificate of accreditation of facilities under the one-stop-shop licensure system.
-						The facility shall report to the CDRRHR/HFSRB in writing any change/s affecting the condition/s of this
-						certificate of compliance (COC). This certificate is valid until <span class=" font-weight-bold"> <u>December 31, {{Date('Y',strtotime($data->issuedate))}}</span></u> , provided no change/s on the
+						</p>
+						<p>
+							This certificate is the basis of the HFSRB/ROs for the inclusion of the medical x-ray facility in the license to operate/certificate of accreditation of facilities under the one-stop-shop licensure system.
+						</p>
+						<p>
+						The facility shall report to the CDRRHR/HFSRB in writing any change/s affecting the condition/s of this certificate of compliance (COC). This certificate is valid  <u><span class=" font-weight-bold" style="font-size: x-large;"> from 
+						{{Date('F j, Y',strtotime($data->issuedate))}} to December 31, {{Date('Y',strtotime($data->issuedate))}}</span></u> , provided no change/s on the
 						condition of this COC has been made.
-					</div>
-					<div class="text-justify mt-4 font-weight-bold">
-						Given in Manila, Philippines this {{Date('F j, Y',strtotime($data->issuedate))}}.
+						</p>
+
+						<p>Given in Manila, Philippines this {{Date('F j, Y',strtotime($data->issuedate))}}.</p>
 					</div>
 				</div>
 
@@ -166,12 +171,10 @@ COC - FDA
 						<span class="font-weight-bold">Machine Data:</span>
 						<div class="container mt-4 mb-4 table-responsive">
 							<table class="table">
-
-
 							
 								<thead>
 									<tr>
-										<th rowspan="2" >Manufacturer (Control Console/Tube)</th>
+										<th colspan="2" >Manufacturer (Control Console/Tube)</th>
 										<th rowspan="2">Maximum mA</th>
 										<th rowspan="2">Maximum kVp</th>
 										<th colspan="2">Serial No.</th>
@@ -179,22 +182,27 @@ COC - FDA
 									</tr>
 									<tr>
 										<th>Control Console</th>
-										<th>Tube</th>
+										<th>Tube Housing</th>
+										<th>Control Console</th>
+										<th>Tube Housing</th>
 									</tr>
 								</thead>
 								<tbody>
+
 									@isset($machineData)
 										@foreach($machineData as $mData)
 										<tr>
 											<td>{{$mData->brandtubehead}}</td>
+											<td>{{$mData->brandtubeconsole}}</td>
 											<td>{{$mData->maxma}}</td>
 											<td>{{$mData->maxkvp}}</td>
 											<td>{{$mData->serialtubehead}}</td>
 											<td>{{$mData->serialconsole}}</td>
-											<td></td>
+											<td>{{$mData->appuse}}</td>
 										</tr>
 										@endforeach
 									@endisset
+
 								</tbody>
 							</table>
 						</div>

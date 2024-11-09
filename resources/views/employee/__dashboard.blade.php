@@ -176,31 +176,6 @@ $ptccount=0;
         <!-- /.info-box -->
       </div>
       <!-- /.col -->
-{{--       <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-red"><i class="fa fa-files-o"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text" style="white-space: normal;">Near Deadlines Applications</span>
-            <span class="info-box-number">0/span>
-          </div>
-
-        </div>
-
-      </div> --}}
-      <!-- /.col -->
-{{--       <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-yellow"><i class="fa fa-clock-o"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text" style="white-space: normal;">Stop Clock Applications</span>
-            <span class="info-box-number">0</span>
-          </div>
-        </div>
-
-      </div> --}}
-      <!-- /.col -->
     </div>
     <!-- /.row -->
 

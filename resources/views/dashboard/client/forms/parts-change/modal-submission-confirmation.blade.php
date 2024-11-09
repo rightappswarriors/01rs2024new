@@ -1,11 +1,4 @@
 
-    <div class="form-group col-md-12 text-center">
-        <button id="submit"  class="btn btn-info action-btn" type="button" value="submit" name="submit" data-toggle="modal" data-target="#confirmSubmitModalLto">
-            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-            Submit Form
-        </button>
-        <input id="saveasn"  name="saveasn" value="partial" type="hidden" />
-    </div> 
 
 <div class="modal fade" id="confirmSubmitModalLto" tabindex="-1" aria-labelledby="confirmSubmitModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -30,11 +23,24 @@
                     <i class="fa fa-times" aria-hidden="true"></i>
                     No, Recheck details
                 </button>
-                <button onClick="savePartialLto('final')" type="submit" class="btn btn-success">
-                    <!-- href={{ asset('client/dashboard/application/requirements/') }} -->
-                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                    Proceed
+                <form id="change_mainform" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST" >
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="cat_id" id="cat_id" value="100000">
+                                                <input type="hidden" name="hfser_id" value="{{$registered_facility->hfser_id}}">   
+                                                <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
+                                                <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">  
+                                                <input type="hidden" class="form-control" id="aptidnew" name="aptidnew" value="IC">       
+                                                <input type="hidden" class="form-control" id="aptid" name="aptid" value="IC">       
+                                                <input id="saveasn"  name="saveasn" value="partial" type="hidden" />
+                                               
+                                            
+
+                            <button type="submit" class="btn btn-success">
+                                <!-- href={{ asset('client/dashboard/application/requirements/') }} -->
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                Proceed
                 </button>
+                </form>  
             </div>
         </div>
     </div>

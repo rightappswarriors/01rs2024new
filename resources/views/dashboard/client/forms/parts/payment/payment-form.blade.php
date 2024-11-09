@@ -42,9 +42,9 @@
                                 </tr>
                             </tbody>
                             @endif
-                            <tbody id="totalfees" style="display:none;"">
+                            <tbody id="totalfees" style="display:none;">
                                 <tr>
-                                    <td colspan="2"><br/><center><b style="font-size:150%;">TOTAL FEES: ₱0.00</b></center></td>
+                                    <td colspan="2"><br/><center><b style="font-size:150%;">TOTAL FEES: ₱ <input type="text" name="total_amt_id" id="total_amt_id" value="0.00" readonly="readonly" style="border:none;text-align: center;font-weight: bold;"></b></center></td>
                                 </tr>
                             </tbody>
                         </table>

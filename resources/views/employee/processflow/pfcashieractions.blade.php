@@ -54,7 +54,7 @@
             </h5>
             <label>Process Type:&nbsp;</label>
             <span class="font-weight-bold">
-              @if($AppData->aptid == 'R'){{'Renewal'}}@elseif($AppData->aptid == 'IN'){{'Initial New'}}@else{{'Unidentified'}}@endif
+              @if($AppData->aptid == 'R'){{'Renewal'}}@elseif($AppData->aptid == 'IN'){{'Initial New'}}@elseif($AppData->aptid == 'IC'){{'Initial Change'}}@endif
               @if(isset($AppData->hfser_id)){{' '.$AppData->hfser_id}}@endif
             </span>
 

@@ -87,6 +87,11 @@ class CorAppController extends Controller
         $appform->appComment                 = $request->remarks;
         // $appform->savingStat            = $request->saveas;
 
+        $appform->license_number        = $request->license_number;
+        $appform->license_validity      = $request->license_validity;
+        
+        $appform->head_of_facility_name = $request->head_of_facility_name;
+
         if($request->saveas == 'final'){
             $appform->draft = null;
         }

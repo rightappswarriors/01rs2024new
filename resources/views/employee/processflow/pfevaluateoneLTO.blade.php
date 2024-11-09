@@ -159,7 +159,9 @@
               <input type="" id="token" value="{{ Session::token() }}" hidden>
               
               @if($office == 'xray')
-              <button class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" onclick="window.history.back();">Back</button>
+                <a href="{{asset('employee/dashboard/processflow/pre-assessment/FDA/xray')}}">
+                  <button class="btn btn-primary  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" >Back</button>
+                </a>
               @elseif($office == 'pharma')
                 <a href="{{asset('employee/dashboard/processflow/pre-assessment/FDA/pharma')}}">
                   <button class="btn btn-primary  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" >Back</button>
@@ -169,12 +171,21 @@
                   <button class="btn btn-primary  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" >Back</button>
                 </a>
               @endif 
-              &nbsp; Technical Evaluation
+              &nbsp; 
+              
+              @if($office == 'xray')
+                    Pre-assessment (Radiation)
+              @elseif($office == 'pharma')
+                    Pre-assessment (Pharmacy)
+              @else
+                    Technical Evaluation
+              @endif 
+              
               
                @if($office == 'pharma')
-                    <div style="float: right;">
-                      <a class="btn {{(FunctionsClientController::existOnDB('cdrrpersonnel',[['appid',$AppData->appid],['isTag',1]]) ? 'bg-danger': 'btn-primary')}} p-3 text-white" target="_blank" href="{{url('client1/apply/fda/CDRR/view/personnel/').'/'.$AppData->appid.'/tag'}}">Tag Pharmacist</a>
-                    </div>
+                  <div style="float: right;">
+                    <a class="btn {{(FunctionsClientController::existOnDB('cdrrpersonnel',[['appid',$AppData->appid],['isTag',1]]) ? 'bg-danger': 'btn-primary')}} p-3 text-white" target="_blank" href="{{url('client1/apply/fda/CDRR/view/personnel/').'/'.$AppData->appid.'/tag'}}">({{$tagcount}}) Tag Pharmacist</a>
+                  </div>
                @endif
 
                
@@ -230,27 +241,35 @@
                     <strong>Requirements </strong>
 
                   </td>
-                  <td scope="col" width="40%">
+                  <td scope="col">
                     <a style="float: right;" href="{{$linkToEdit}}?grplo=rlo{{$AppData->aptid == 'R' ? '&type=r': ''}}" target="_blank" class="btn btn-info">
                         <i class="fa fa-eye" aria-hidden="true"></i> View Application
                       </a>                      
                   <span style="float: right;">&nbsp;&nbsp;</span>
-                  
-
-
+                
                   @if($office == 'xray')
-				
-
                       <a style="float: right;" href="{{asset('client1/printPaymentFDA')}}/{{FunctionsClientController::getToken()}}/{{$AppData->appid}}" target="_blank" class="btn btn-info">
-                    <i class="fa fa-eye" aria-hidden="true"></i> Order of Payment
-                  </a>
+                    <i class="fa fa-eye" aria-hidden="true"></i> Preview Order of Payment</a>
+                    <span style="float: right;">&nbsp;&nbsp;</span>
 									@endif
 									@if($office == 'pharma')
-							
+
                       <a style="float: right;" href="{{asset('client1/printPaymentFDACDRR')}}/{{FunctionsClientController::getToken()}}/{{$AppData->appid}}" target="_blank" class="btn btn-info">
-                    <i class="fa fa-eye" aria-hidden="true"></i> Order of Payment
-                  </a>
+                    <i class="fa fa-eye" aria-hidden="true"></i> Preview Order of Payment</a>
+                    <span style="float: right;">&nbsp;&nbsp;</span>
 									@endif		
+                  @if($office == 'xray')			
+                      <a style="float: right;" href="{{asset('employee/dashboard/processflow/FDA/machines/orderofpayment/')}}/{{$AppData->appid}}" target="_blank" class="btn btn-primary ">
+                      <i class="fa fa-edit" aria-hidden="true"></i> Override Order of Payment</a>
+                      <span style="float: right;">&nbsp;&nbsp;</span>
+                  @endif
+
+                  {{-- @if($office == 'pharma')			
+                      <a style="float: right;" href="{{asset('employee/dashboard/processflow/FDA/pharma/orderofpayment/')}}/{{$AppData->appid}}" target="_blank" class="btn btn-primary ">
+                      <i class="fa fa-edit" aria-hidden="true"></i> Override Order of Payment</a>
+                      <span style="float: right;">&nbsp;&nbsp;</span>
+                  @endif  --}}
+
                   </td>
                 </tr>
               </thead>
@@ -281,35 +300,35 @@
                       @php $idnt+=1; @endphp
                      <script>
                        console.log('{!! json_encode($req[2][0]) !!}')
-                       </script>
+                      </script>
+
                       @if($office == 'pharma' || $office == 'xray')
-                       <span class="{{$req[2][0]->id.$req[2][0]->id}}_span_edit" @if($req[2][0]->evaluation !== NULL)style="display: none"@endif>
-                          <div class="row booleans laSelected {{$class}}" apup="{{$req[2][0]->id}}" >
-                             <div class="col-6">
-                               <div class="control-group">
-                                <label class="control control--radio">Yes
-                                  <input value="1" type="radio" name="{{$req[2][0]->id}}_rad_{{$req[2][0]->id}}{{$idnt}}" @if($req[2][0]->evaluation !== NULL AND $req[2][0]->evaluation == 1)checked=""@endif>
-                                  <div class="control__indicator"></div>
-                                  </label>
-                               </div> 
-                             </div>
+                        <span class="{{$req[2][0]->id.$req[2][0]->id}}_span_edit" @if($req[2][0]->evaluation !== NULL)style="display: none"@endif>
+                            <div class="row booleans laSelected {{$class}}" apup="{{$req[2][0]->id}}" >
                               <div class="col-6">
                                 <div class="control-group">
-                                   <label class="control control--radio">No
-                                     <input value="0" type="radio" name="{{$req[2][0]->id}}_rad_{{$req[2][0]->id}}{{$idnt}}" @if($req[2][0]->evaluation !== NULL AND $req[2][0]->evaluation == 0)checked=""@endif>
-                                     <div class="control__indicator"></div>
-                                   </label>
-                                 </div> 
+                                  <label class="control control--radio">Yes
+                                    <input value="1" type="radio" name="{{$req[2][0]->id}}_rad_{{$req[2][0]->id}}{{$idnt}}" @if($req[2][0]->evaluation !== NULL AND $req[2][0]->evaluation == 1)checked=""@endif>
+                                    <div class="control__indicator"></div>
+                                    </label>
+                                </div> 
                               </div>
-                          </div>
-                          <p style="text-align: left;">Remarks:</p>
-                          <textarea name="{{$idnt}}{{$req[2][0]->id}}_txt" class="form-control" rows="5">@if($req[2][0]->evaluation !== NULL){{$req[2][0]->remarks}}@endif</textarea>
-                          <br>
-                          <button type="button" title="Save" onclick="saveEvals()" class="btn btn-success" style="display: none"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-                          <button type="button" title="Cancel Edit" onclick="').toggle()" class="btn btn-danger" style="display: none"><i class="fa fa-times" aria-hidden="true"></i></button>
-                        </span>
+                                <div class="col-6">
+                                  <div class="control-group">
+                                    <label class="control control--radio">No
+                                      <input value="0" type="radio" name="{{$req[2][0]->id}}_rad_{{$req[2][0]->id}}{{$idnt}}" @if($req[2][0]->evaluation !== NULL AND $req[2][0]->evaluation == 0)checked=""@endif>
+                                      <div class="control__indicator"></div>
+                                    </label>
+                                  </div> 
+                                </div>
+                            </div>
+                            <p style="text-align: left;">Remarks:</p>
+                            <textarea name="{{$idnt}}{{$req[2][0]->id}}_txt" class="form-control" rows="5">@if($req[2][0]->evaluation !== NULL){{$req[2][0]->remarks}}@endif</textarea>
+                            <br>
+                            <button type="button" title="Save" onclick="saveEvals()" class="btn btn-success" style="display: none"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                            <button type="button" title="Cancel Edit" onclick="').toggle()" class="btn btn-danger" style="display: none"><i class="fa fa-times" aria-hidden="true"></i></button>
+                          </span>
                         @endif
-
                         
                         <span class="{{$req[2][0]->id.$req[2][0]->id}}_span_edit" @if($req[2][0]->evaluation === NULL)style="display: none"@else style=""@endif>
                             @if($req[2][0]->evaluation == 1) 
@@ -405,21 +424,16 @@
             {{-- @endif --}}
             
             <div class="col-sm-12 d-flex justify-content-center">
-
           @if($office == 'pharma' || $office == 'xray')
               @if(!empty($documentDate))
                 @isset($AppData)
                   @if ($triggerThis)
-                  {{-- @if ($AppData->isrecommended == 2 || $AppData->isrecommended == null) --}}
-                  @if(count($requirements) != $forNosent || $office == 'pharma')
-
-                 
-                         
-                 <button type="button" id="approveButton" class="btn btn-success" onclick="Recommended4Inspection('ApproveApplication');">Approve</button>
-                @endif
-                  &nbsp;
-                  &nbsp;             
-                  <button type="button" id="reviseButton" class="btn btn-warning" onclick="Recommended4Inspection('ReviseApplication')">Need for Revision</button>
+                    {{-- @if ($AppData->isrecommended == 2 || $AppData->isrecommended == null) --}}
+                    @if(count($requirements) != $forNosent || $office == 'pharma')                 
+                      <button type="button" id="approveButton" class="btn btn-success" onclick="Recommended4Inspection('ApproveApplication');">Approve</button>
+                    @endif
+                    &nbsp; &nbsp;             
+                    <button type="button" id="reviseButton" class="btn btn-warning" onclick="Recommended4Inspection('ReviseApplication')">Need for Revision</button>
                   @endif
                 @endisset
               @else
@@ -480,7 +494,7 @@
           </div>
 
           <div>
-       
+            
           @if($office != 'pharma' && $office != 'xray')
             @if($AppData->aptid == 'R')
               <div class="col mt-3" style="width: 300px">
@@ -554,78 +568,79 @@
 
       function Recommended4Inspection(classTOCall){
         var flag;
-           var IDs = $('.laSelected').map(function () {return $(this).attr('apup')}).get();
-           
+        var IDs = $('.laSelected').map(function () {return $(this).attr('apup')}).get();  
         var ifCheck = [], chckRmrks = [];
         var x = 0, y = '';
+        
         if(IDs.length > 0) {
+          
           var inpt = 0;
-            for (var i = 0; i < IDs.length; i++) {
-              inpt +=1;
-              var sad = (typeof($('input[name="'+IDs[i]+'_rad_'+IDs[i]+inpt+'"]:checked').val()) == 'undefined') ? null :  parseInt($('input[name="'+IDs[i]+'_rad_'+IDs[i]+inpt+'"]:checked').val());
-              // var sad = (typeof($('input[name="'+IDs[i]+'_rad_'+IDs[i]+'"]:checked').val()) == 'undefined') ? null :  parseInt($('input[name="'+IDs[i]+'_rad_'+IDs[i]+'"]:checked').val());
-              console.log($('input[name="'+IDs[i]+'_rad_'+IDs[i]+inpt+'"]:checked').val());
-              console.log(IDs[i]+'_rad_'+IDs[i]+inpt);
-              ifCheck.push(sad);
-              chckRmrks.push($('textarea[name="'+inpt+IDs[i]+'_txt"]').val());
-              if ((sad == 0) && ($('textarea[name="'+inpt+IDs[i]+'_txt"]').val() == '') ) {
-                 x = 1; y = IDs[i];
-                 break;
-              }
-              
-            } 
+          
+          for (var i = 0; i < IDs.length; i++) {
+            inpt +=1;
+            var sad = (typeof($('input[name="'+IDs[i]+'_rad_'+IDs[i]+inpt+'"]:checked').val()) == 'undefined') ? null :  parseInt($('input[name="'+IDs[i]+'_rad_'+IDs[i]+inpt+'"]:checked').val());
+            // var sad = (typeof($('input[name="'+IDs[i]+'_rad_'+IDs[i]+'"]:checked').val()) == 'undefined') ? null :  parseInt($('input[name="'+IDs[i]+'_rad_'+IDs[i]+'"]:checked').val());
+            console.log($('input[name="'+IDs[i]+'_rad_'+IDs[i]+inpt+'"]:checked').val());
+            console.log(IDs[i]+'_rad_'+IDs[i]+inpt);
+            ifCheck.push(sad);
+            chckRmrks.push($('textarea[name="'+inpt+IDs[i]+'_txt"]').val());
 
-            console.log(ifCheck);
+            if ((sad == 0) && ($('textarea[name="'+inpt+IDs[i]+'_txt"]').val() == '') ) {
+                x = 1; y = IDs[i];
+                break;
+            }              
+          }
 
-             ifCheck.forEach(function(index, el) {
-               if(index == null){
-                flag = 'uncheck';
+          console.log(ifCheck);
+
+          ifCheck.forEach(function(index, el) {
+            if(index == null){
+            flag = 'uncheck';
+            checkForError.push(flag);
+            } else {
+              if(index == 0 && chckRmrks[el] == ""){
+                flag = 'remarks';
                 checkForError.push(flag);
-               } else {
-                  if(index == 0 && chckRmrks[el] == ""){
-                    flag = 'remarks';
-                    checkForError.push(flag);
-                  }
-               } 
-             });
-             if($.inArray('uncheck', checkForError) >= 0){
-              Swal.fire({
-                type: 'error',
-                title: 'Error',
-                text: 'Please evaluate all list first before proceedings.',
-              })
-              checkForError = [];
-             } else if($.inArray('remarks', checkForError) >= 0){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Error',
-                  text: 'Remarks required if evaluated with NO.',
-                })
-                checkForError = [];
-             } else {
-                let count = 0;
-                let tables = {!!$tables!!};
+              }
+            } 
+          });
+          if($.inArray('uncheck', checkForError) >= 0){
+            Swal.fire({
+              type: 'error',
+              title: 'Error',
+              text: 'Please evaluate all list first before proceedings.',
+            })
+            checkForError = [];
+          } else if($.inArray('remarks', checkForError) >= 0){
+            Swal.fire({
+              type: 'error',
+              title: 'Error',
+              text: 'Remarks required if evaluated with NO.',
+            })
+            checkForError = [];
+          } else {
+            let count = 0;
+            let tables = {!!$tables!!};
 
-                if(classTOCall == 'ApproveApplication'){
-                  approve = 1;
-                } else {
-                  approve = 0;
-                }
+            if(classTOCall == 'ApproveApplication'){
+              approve = 1;
+            } else {
+              approve = 0;
+            }
+                          
+            ifCheck.forEach(function(index, el) {
+                // setTimeout(function () {
+                  $.ajax({
+                    url:'{{asset('employee/dashboard/processflow/LTO/evaluate/')}}',
+                    method: "post",
+                    data: {_token:$("input[name=_token]").val(), appid:apid, table: tables[count], eval:ifCheck[count], id:IDs[count],remarks:chckRmrks[count], approve: approve, requestFor: '{{$office}}'}
+                  })
+                // }, 1000);
+              count++;
+            });
 
-                
-                ifCheck.forEach(function(index, el) {
-                    // setTimeout(function () {
-                      $.ajax({
-                        url:'{{asset('employee/dashboard/processflow/LTO/evaluate/')}}',
-                        method: "post",
-                        data: {_token:$("input[name=_token]").val(), appid:apid, table: tables[count], eval:ifCheck[count], id:IDs[count],remarks:chckRmrks[count], approve: approve, requestFor: '{{$office}}'}
-                      })
-                    // }, 1000);
-                  count++;
-                });
-
-                window[classTOCall]();
-             }
+            window[classTOCall]();
+          }
               // if (allIsNull == false) {
               //   if (x == 0) {
               //       $.ajax({

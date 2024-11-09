@@ -1,311 +1,337 @@
-@extends('main')
-@section('content')
-@include('client1.cmp.__home')
-<body>
-    @include('client1.cmp.nav')
-    @include('client1.cmp.breadcrumb')
-    @include('client1.cmp.msg')
-    @include('dashboard.client.templates.step')
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <style type="text/css">
-        #style-15::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        #style-15::-webkit-scrollbar {
-            width: 10px;
-            background-color: #F5F5F5;
-        }
-
-        #style-15::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            background-color: #FFF;
-            background-image: -webkit-gradient(linear,
-                    40% 0%,
-                    75% 84%,
-                    from(#4D9C41),
-                    to(#19911D),
-                    color-stop(.6, #54DE5D))
-        }
-    </style>
-
-    @include('dashboard.client.forms.loadertyle')
-
-    @php 
-        
-    @endphp
-    
-    <div style="display: block;" id="myDivLo">
-            <div class="container-fluid mt-5 mb-5">
-                <div class="row">
-                    <div class="col-md-8">
-                    <i style="position: absolute; left:30px; font-size: 25px; cursor: pointer;" onclick="window.print()" class="fa fa-print" aria-hidden="true"></i>
-<!-- <i style="position: absolutes; top: 10px;right: 2px; font-size: 25px; cursor: pointer;" onclick="window.print()" class="fa fa-print" aria-hidden="true"></i> -->                        <h2 class=" text-center pt-2"> <img src="https://idlis.infoadvance.com.ph/ra-idlis/public/img/doh2.png" style="width:50px;"> APPLICATION FORM</h2>
-                    </div>
-                    <div class="col-md-8">
-<section class="container-fluid">
-<div class="card">
-    <div class="card-header">
-        <p class="lead text-center text-danger">Please note: Red asterisk (*) is a required field and may be encountered throughout the system </p>
+<div class=" ambuDetails" style="width: 100%;">
+    <div class="col-md-12 ">
+        <strong class="text-primary "> Ambulance Details:</strong>
     </div>
-    <div class="card-body">
-        <form action="{{asset('/client1/apply/change_request_submit')}}" method="POST" class="row">
-            {{ csrf_field() }}
-            <!-- Application Details -->
-            <input type="hidden" name="cat_id" id="cat_id" value="3">
-            <input type="hidden" name="uid" id="uid" value="{{$uid}}">
-            <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-            <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
-            <input type="hidden" name="noofbed_old" id="noofbed_old" value="{{number_format($registered_facility->noofbed,0)}}">     
-               
-            <!-- Application Details -->            
-            <div class="form-group col-md-4">
-                <label>System Registered ID: <strong class="text-xl">{{$registered_facility->regfac_id}}</strong></label>
-            </div>
-            <div class="form-group col-md-4">
-                <label>NHFR Code: <strong class="text-xl">{{$registered_facility->nhfcode}}</strong></label>
-            </div>
-            <div class="form-group col-md-4">
-                <h4>Application ID: <strong class="text-xl"></strong></h4>
-            </div>
+    <!-- <div class="showifHospital ambuDetails" style="width: 100%;" hidden> -->
+</div>
 
-            <div class="form-group col-md-6">
-                <label for="approving_authority_pos">Application Type<span class="text-danger">*</span></label>
-                <input type="hidden" class="form-control" id="aptidnew" name="aptidnew">           
-                <label><strong class="text-xl">Initial Change</strong></label>
-            </div>
+@php 
+    $_aptid = $aptid;
+    $_aptdesc = "Change Request";
+    $_dispSubmit = true;
+    $_dispData = "Update Details";
 
-            <div class="form-group col-md-6">
-                <label for="typeOfApplication">Type of Authorization <span class="text-danger">*</span></label>
+    $main_serv_desc = "Ambulance Services"; 
+    $addon_serv_desc = "Add Ons / Ancilliary / Other Services";
+    $main_colspan = 2;
+    $addon_colspan = 2;
+    $colspan = 4;
+@endphp
+@if($isupdate == 1) @php ++$main_colspan; ++$addon_colspan;  $colspan = 5; @endphp @endif
+<div class="row">
+    <div class="col-md-12">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a class="nav-link active" id="v-main-applied-tab" data-toggle="tab" href="#v-main-applied" role="tab" aria-controls="v-main-applied" aria-selected="true">
+                        <i class="fa fa-file"></i> List of Services  to Apply
+                    </a> 
+                </li>
+                <li>
+                    <a class="nav-link" id="v-main-reg-tab" data-toggle="pill" href="#v-main-reg" role="tab" aria-controls="v-main-reg" aria-selected="false">
+                        <i class="fa fa-check"></i> List of Registered Services
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-5">	
 
-                <label><strong class="text-xl">{{$registered_facility->hfser_desc}}</strong></label>
-            </div>
+                <div class="tab-pane active" id="v-main-applied">
 
-            <div class="form-group col-md-6">
-                <label for="approving_authority_pos">License/Accreditation Number : </label>
-                <label><strong class="text-xl">{{$registered_facility->con_id}} {{$registered_facility->ptc_id}} {{$registered_facility->lto_id}} {{$registered_facility->ato_id}} {{$registered_facility->coa_id}} {{$registered_facility->cor_id}}</strong></label>
-            </div>
+                    <div class="col-md-12 text-center">
+                        <h3 class="text-uppercase font-weight-bold">List of {{$main_serv_desc}} to Apply</h3>
+                    </div>                  
+                    <div class="col-md-12">  
+                            {{csrf_field()}}
+                            <input type="hidden" name="uid" id="uid" value="{{isset($user->uid) ? $user->uid : '' }}"/>
+                            <input type="hidden" name="appid" id="appid" />      
+                            @if($isaddnew == 1)        
+                                <div class="row">
+                                    <div class="text-center">
+                                        <a class="btn btn-success action-btn" href="#" title="Add New {{$main_serv_desc}}" data-toggle="modal" data-target="#mainService">
+                                            <i class="fa fa-plus-circle"></i>&nbsp;Add New {{$main_serv_desc}}
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+                            <table class="table display" id="example" style="overflow-x: scroll;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width:  auto">Ambulance Service(Type 1, Type 2)</th>
+                                        <th class="text-center" style="width:  auto">Ambulance Type(Owned, Outsoured)</th>
+                                        <th class="text-center" style="width:  auto">Plate Number</th>
+                                        <th class="text-center" style="width:  auto">Owner Name</th>
+                                        
+                                        @if($isupdate == 1)        
+                                            <th class="text-center" style="width:  auto">
+                                                <center>Options</center>
+                                            </th>
+                                        @endif    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @php $aa = 0;  @endphp
+                                @if (isset($appform_ambulance))
+                                    
+                                    @foreach ($appform_ambulance as $d)
+                                    
+                                        @if(!empty($d->plate_number))
+                                            @php $aa++;    @endphp
+                                            <tr>
+                                        
+                                                <td class="text-center">@if($d->typeamb == 1) Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif </td>
+                                                <td class="text-center">@if($d->ambtyp == "1") Outsourced @else Owned @endif</td>
+                                                <td class="text-center">{{$d->plate_number}}</td>
+                                                <td class="text-center">{{$d->ambOwner}}</td>
 
-            <div class="form-group col-md-6">
-                <label for="approving_authority_pos">Validity Date : </label>
-                <label><strong>{{$validity}}</strong></label>
-            </div>
+                                            @if($isupdate == 1)   
 
-            <div class="form-group col-md-12">
-                <label for="facility_name">Registered Facility Name : <span class="text-danger">*</span> </label>
-                <h3 class="text-center text-uppercase"><strong>{{$registered_facility->facilityname_old}}</strong></h3>
-            </div>
+                                                <td class="text-center">
+                                                    
+                                                    <button class="btn btn-primary" onclick="showDataAmb(
+                                                    '{{$d->id}}', '{{$d->typeamb}}','{{$d->ambtyp}}','{{$d->plate_number}}','{{$d->ambOwner}}','0', 'upd')" data-toggle="modal" data-target="#mainService"><i class="fa fa-edit"></i></button>
+                                                    
+                                                    <button class="btn btn-danger " onclick="showDataDelAmb(
+                                                     '{{$d->id}}', '{{$d->typeamb}}','{{$d->ambtyp}}','{{$d->plate_number}}','{{$d->ambOwner}}','0')" data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                                                    </button>
+                                                </td>
 
-            @if($registered_facility->facilityname != $registered_facility->facilityname_old)
-                <div class="form-group col-md-12">
-                    <label for="facility_name"><i>Rename Facility to <span class="text-danger">*</span></i> </label>
-                    <div class="input-group">
-                        <input type="text" name="facilityname" readonly="" class="form-control text-center text-uppercase" placeholder="FACILITY NAME" value="{{$registered_facility->facilityname}}" id="facility_name" onblur="checkFacilityNameNew(this.value)" required=""> 
+                                            @endif 
+                                        </tr>
+                                            @endif 
+                                    @endforeach	
+                                @else
+                                    <tr>
+                                        <td colspan="{{$main_colspan+2}}" class="text-center">No Records found.</td>
+                                    </tr>
+                                @endif
+                                </tbody>
+                                <tfoot>
+                                    <tr><td colspan="{{$colspan}}" class="text-center">Total Number of Ambulance Apply: {{$aa}}</td></tr>
+                                </tfoot>
+                            </table>
                     </div>
+
                 </div>
-            @endif
+                <div class="tab-pane" id="v-main-reg">
 
-            <div class="form-group col-md-12">
-                <label for="facility_name">Registered Facility Address : <span class="text-danger">*</span> </label>
-                <label class="text-center text-uppercase"><strong>{{$registered_facility->mailingAddress}}</strong></label>
-            </div>
-
-            @if($registered_facility->facilitytype != $registered_facility->facilitytype)
-                <div class="form-group col-md-12">
-                    <label for="facility_name">Change in Facility Address to<span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <input type="text" name="facilityaddress" readonly="" class="form-control" placeholder="FACILITY ADDRESS" value="{{$registered_facility->mailingAddress}}" id="facility_name" required=""> 
-                    </div>
-                </div>
-            @endif
-
-
-            <div class=" ambuDetails" style="width: 100%;">
-                <div class="col-md-12 ">
-                    <b class="text-primary "> Ambulance Details:
-                    </b>
-                </div>
-                <!-- <div class="showifHospital ambuDetails" style="width: 100%;" hidden> -->
-
-                <div class="col-md-12">
-                    <span class="text-danger">NOTE: For Owned ambulance, Payments are as follows:</span> <br>
-                    Ambulance Service Provider = ₱ 5,000
-                    Ambulance Unit (Per Unit) = ₱ 1,000
-                </div>
-                <div style="width:95%; padding-left: 35px">
-                    <div class="mb-2 col-md-12">&nbsp;</div>
-
-
-                    <div class="row col-border-right showAmb">
-                    
-                        <table class="table table-bordered">
+                    <div class="col-md-12 text-center">
+                        <h3 class="text-uppercase font-weight-bold">List of Registered {{$main_serv_desc}}</h3>
+                    </div>                  
+                    <div class="col-md-12">  
+                        <table class="table display" id="example" style="overflow-x: scroll;">
                             <thead>
                                 <tr>
-                                    <td> <button class="btn btn-success" id="buttonId"><i class="fa fa-plus-circle"></i></button> </td>
-                                    <th>Ambulance Service(Type 1, Type 2)</th>
-                                    <th>Ambulance Type(Owned, Outsoured)</th>
-                                    <th>Details</th>
+                                    <th class="text-center" style="width:  auto">Ambulance Service(Type 1, Type 2)</th>
+                                    <th class="text-center" style="width:  auto">Ambulance Type(Owned, Outsoured)</th>
+                                        <th class="text-center" style="width:  auto">Plate Number</th>
+                                        <th class="text-center" style="width:  auto">Owner Name</th>
+                                    {{-- @if($isupdate == 1)        
+                                        <th class="text-center" style="width:  auto">
+                                            <center>Options</center>
+                                        </th>
+                                    @endif   --}} 
                                 </tr>
                             </thead>
-                            <tbody id="body_amb">
-                                <tr id="tr_amb" hidden>
-                                    <!-- preventDef -->
-                                    <!-- onclick="if(! this.parentNode.parentNode.hasAttribute('id')) { this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); }" -->
-                                    <!-- onClick="$(this).closest('tr').remove();" -->
-                                    <td onclick="preventDef()"> <button class="btn btn-danger " onclick="if(! this.parentNode.parentNode.hasAttribute('id')) { this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); }"><i class="fa fa-minus-circle"></i></button> </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" for="typeamb"><i class="fa fa-info" data-toggle="tooltip" data-placement="top" title="Lorem ipsum dolar"></i></label>
-                                            </div>
-                                            <select class="form-control ctyamb" id="typeamb" name="typeamb">
-                                                <option selected value hidden disabled>Please select</option>
-                                                <option value="1">Type 1 (Basic Life Support)</option>
-                                                <option value="2">Type 2 (Advance Life Support)</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <select class="form-control cambt" id="ambtyp" name="ambtyp">
-                                            <option selected value hidden disabled>Please Select</option>
-                                            <option value="1">Outsourced</option>
-                                            <option value="2">Owned</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <input type="text" class="form-control cpn" id="plate_number" name="plate_number" placeholder="Plate Number/Conduction Sticker">
-                                            </div>
-                                            <div class="col-md" id="ambownerdiv" hidden>
-                                                <input type="text" class="form-control" id="ambOwner" name="ambOwner" placeholder="Owner">
-                                            </div>
-                                        </div>
-
-                                    </td>
+                            <tbody>
+                            @if (isset($reg_ambulance))
+                                    @foreach ($reg_ambulance as $d)
+                                        @if(!empty($d["plate_number"]))
+                                        <tr>
+                                            <td class="text-center">@if($d["typeamb"] == "1") Type 1 (Basic Life Support) @else Type 2 (Advance Life Support) @endif</td>
+                                            <td class="text-center">@if($d["ambtyp"] == "1") Outsourced @else Owned @endif</td>
+                                            <td class="text-center">{{$d["plate_number"]}}</td>
+                                            <td class="text-center">{{$d["ambOwner"]}}</td>
+                                            
+                                        {{-- @if($isupdate == 1)   
+                                            <td class="text-center">                                                
+                                                <button class="btn btn-primary" onclick="showDataAmb( '',
+                                                    '{{$d["typeamb"]}}','{{$d["ambtyp"]}}','{{$d["plate_number"]}}','{{$d["ambOwner"]}}', '1' )" data-toggle="modal" data-target="#mainService"><i class="fa fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger " onclick="showDataDelAmb(
+                                                    '{{$d["typeamb"]}}','{{$d["ambtyp"]}}','{{$d["plate_number"]}}','{{$d["ambOwner"]}}',
+                                                    '1')" data-toggle="modal" data-target="#delService"><i class="fa fa-minus-circle"></i>
+                                                </button> 
+                                            </td>
+                                        @endif --}} 
+                                    </tr>
+                                        @endif 
+                                @endforeach	
+                            @else
+                                <tr>
+                                    <td colspan="2" class="text-center">No Records found.</td>
                                 </tr>
+                            @endif
                             </tbody>
+                            <tfoot>
+                                <td colspan="{{$colspan}}" class="text-center"> Total Number of Registered Ambulance:  @if (isset($reg_ambulance)) {{count($reg_ambulance) -1}} @else 0 @endif</td>
+                            </tfoot>
                         </table>
                     </div>
 
                 </div>
+
             </div>
 
-            <button type="submit" class="btn btn-primary action-btn"  style="margin:auto; margin-top:10px;">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i> Submit Application
-            </button>
+        </div> 
+    </div> 
+    
+    
+</div>
 
-        </form>
+
+<div class="modal fade" id="mainService" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="border-radius: 0px;border: none;">
+            <div class="modal-body text-justify" style=" background-color: #272b30;
+            color: white;">
+                <h5 class="modal-title text-center"><strong>Add New {{$main_serv_desc}}</strong></h5>
+                <hr>
+                <div class="container">
+                    <form id="frmMainService" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="cat_id"value="{{$cat_id}}">
+                        <input type="hidden" name="appid" value="{{$appid}}">         
+                        <input type="hidden" name="regfac_id" value="{{$regfac_id}}">   
+                        <input type="hidden" name="noOfRegAmbulance" id="noOfRegAmbulance" value=" @if (isset($reg_ambulance)) {{count($reg_ambulance) -1}} @else 0 @endif">  
+                        <input type="hidden" name="id" id="id" value="">  
+                        <input type="hidden" name="action" id="action" value="add">
+                        <div class="col-sm-12 alert alert-danger alert-dismissible fade show" style="display:none" id="AddErrorAlert" role="alert">
+                            <strong><i class="fas fa-exclamation"></i></strong>&nbsp;An <strong>error</strong> occurred. Please contact the system administrator.
+                            <button type="button" class="close" onclick="$('#AddErrorAlert').hide(1000);" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="col-sm-4">{{$main_serv_desc}} Type:</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0;">
+                            <select name="typeamb" id="typeamb" class="form-control select2-hidden-accessible ctyamb" style="width: 100%" data-select2-id="newserv" tabindex="-1" aria-hidden="true">
+                                                         
+                                <option value="" disabled="" readonly="" hidden="" selected="" data-select2-id="2">Please Select</option>
+                                <option value="1">Type 1 (Basic Life Support)</option>
+                                <option value="2">Type 2 (Advance Life Support)</option>
+                            </select>
+                        </div>			
+                        <div class="col-sm-4">Ambulance Type (Owned, Outsoured):</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0;">
+                            <select name="ambtyp" id="ambtyp" class="form-control select2-hidden-accessible cambt" style="width: 100%:" data-select2-id="newserv" tabindex="-1" aria-hidden="true">
+                                <option value="" disabled="" readonly="" hidden="" selected="" data-select2-id="2">Please Select</option>
+                                <option value="1">Outsourced</option>
+                                <option value="2">Owned</option>
+                            </select>
+                        </div>					
+                        <div class="col-sm-4">Plate Number / Conduction Sticker:</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0;">
+                            <input type="text" id="plate_number" name="plate_number" placeholder="Plate Number/Conduction Sticker" class="form-control" required="">
+                        </div>			
+                        <div class="col-sm-4" id="ambownerdiv">Owner:</div>
+                        <div class="col-sm-8" id="ambownerdiv2" style="margin:0 0 .8em 0;">
+                            <input type="text" id="ambOwner" name="ambOwner" placeholder="Owner" class="form-control" required="">
+                        </div>	
+                        <br/>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-success form-control" style="border-radius:0;">
+                                <span class="fa fa-sign-up"></span>Save
+                            </button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 
 
-<style>
-    .action-btn {
-        margin:20px;
-    }
-    .feedback {
-        width: 100%;
-        display: block;
-    }
-    .custom-selectpicker {
-        border: 1px solid #ced4da;
-    }
-    .region {
-        display: none;
-    }
-    .province {
-        display: none;
-    }
-</style>
+<div class="modal fade" id="delService" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="border-radius: 0px;border: none;">
+            <div class="modal-body text-justify" style=" background-color: #272b30;
+            color: white;">
+                <h5 class="modal-title text-center"><strong>Delete {{$main_serv_desc}}</strong></h5>
+                <hr>
+                <div class="container">
+                    <form id="frmMainService" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="cat_id"value="{{$cat_id}}">
+                        <input type="hidden" name="appid" value="{{$appid}}">         
+                        <input type="hidden" name="regfac_id" value="{{$regfac_id}}">   
+                        <input type="hidden" name="noOfRegAmbulance" id="noOfRegAmbulance" value=" @if (isset($reg_ambulance)) {{count($reg_ambulance) -1}} @else 0 @endif">  
+                        <input type="hidden" name="id" id="del_id" value="">  
+                        <input type="hidden" name="action" value="del">                        
+                        <input type="hidden" id="del_ambtyp_id" name="ambtyp" class="form-control" readonly required="">
+                        <input type="hidden" id="del_typeamb_id" name="typeamb" class="form-control" readonly required="">
 
-       </div>
+                        <div class="col-sm-12 alert alert-danger alert-dismissible fade show" style="display:none" id="AddErrorAlert" role="alert">
+                            <strong><i class="fas fa-exclamation"></i></strong>&nbsp;An <strong>error</strong> occurred. Please contact the system administrator.
+                            <button type="button" class="close" onclick="$('#AddErrorAlert').hide(1000);" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="col-sm-4">{{$main_serv_desc}} Type:</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0;">
+                            <select id="del_typeamb" class="form-control select2-hidden-accessible ctyamb" style="width: 100%" data-select2-id="newserv" tabindex="-1" aria-hidden="true">     
+                                <option value="" disabled="" readonly="" hidden="" selected="" data-select2-id="2">Please Select</option>
+                                <option value="1">Type 1 (Basic Life Support)</option>
+                                <option value="2">Type 2 (Advance Life Support)</option>
+                            </select>
+                        </div>			
+                        <div class="col-sm-4">Ambulance Type (Owned, Outsoured):</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0;">                        
+                            <select id="del_ambtyp" class="form-control select2-hidden-accessible cambt" style="width: 100%:" data-select2-id="newserv" tabindex="-1" aria-hidden="true">
+                                <option value="" disabled="" readonly="" hidden="" selected="" data-select2-id="2">Please Select</option>
+                                <option value="1">Outsourced</option>
+                                <option value="2">Owned</option>
+                            </select>
+                        </div>					
+                        <div class="col-sm-4">Plate Number / Conduction Sticker:</div>
+                        <div class="col-sm-8" style="margin:0 0 .8em 0;">
+                            <input type="text" id="del_plate_number" name="plate_number" placeholder="Plate Number/Conduction Sticker" class="form-control" readonly required="">
+                        </div>			
+                        <div class="col-sm-4" id="ambownerdiv">Owner:</div>
+                        <div class="col-sm-8" id="ambownerdiv2" style="margin:0 0 .8em 0;">
+                            <input type="text" id="del_ambOwner" name="ambOwner" placeholder="Owner" class="form-control" required="">
+                        </div>	
+                        <br/>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-danger form-control" style="border-radius:0;">
+                                <span class="fa fa-sign-up"></span>Delete
+                            </button>
+                        </div> 
+                    </form>
+                </div>
             </div>
-            <!-- Modals -->
-            
-            <!-- Modal -->
-         
+        </div>
+    </div>
 </div>
-</div>
-    @include('dashboard.client.forms.loaderscript')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-    <script>
-        const base_url = '{{URL::to('/')}}';
-    </script>
-    <script src="{{asset('ra-idlis/public/js/clients/application-form.js')}}"></script>
-    <script>
-         
-         function initialAmbulDetails(typeamb, ambtyp, plate_number, ambOwner){
-            if(typeamb.length > 0){
-                var nltypa =  document.getElementById("tr_amb" ).querySelectorAll('#typeamb');
-                nltypa[0].value = typeamb[0];  
-                
-                var nlamntyp =  document.getElementById("tr_amb" ).querySelectorAll('#ambtyp');
-                nlamntyp[0].value = ambtyp[0]; 
 
-                var nlpn =  document.getElementById("tr_amb" ).querySelectorAll('#plate_number');
-                nlpn[0].value = plate_number[0]; 
 
-                                        var nlao =  document.getElementById("tr_amb" ).querySelectorAll('#ambOwner');
-                                        var nlaodiv =  document.getElementById("tr_amb" ).querySelectorAll('#ambownerdiv');
-                                        
-                                        if(ambtyp[0] == 1){
-                                            nlaodiv[0].removeAttribute('hidden')
-                                            nlao[0].value = ambOwner[0]; 
-                                        }
-                                        
-                for(var ta = 1; ta < typeamb.length ; ta++){
-                
-                                    var trAdon =   document.getElementById("tr_amb");
-                                    var cln = trAdon.cloneNode(true);
-                                    cln.removeAttribute("id");
-                                    cln.removeAttribute("hidden");
-                                    cln.setAttribute("class", "tr_amb");
-                                    cln.className += cln.className ? " "+"amb"+ta : "amb"+ta
-                                    document.getElementById("body_amb").appendChild(cln);
+<div id="clickable"> </div>
 
-                                    var nltypa =  document.getElementsByClassName("amb"+ta )[0].querySelectorAll('#typeamb');
-                                    nltypa[0].value = typeamb[ta]; 
 
-                                    var nlamntyp =  document.getElementsByClassName("amb"+ta )[0].querySelectorAll('#ambtyp');
-                                    nlamntyp[0].value = ambtyp[ta]; 
+<script>
 
-                                    var nlpn =  document.getElementsByClassName("amb"+ta )[0].querySelectorAll('#plate_number');
-                                    nlpn[0].value = plate_number[ta];  
-                                    
-                        
-                                        var nlao =  document.getElementsByClassName("amb"+ta )[0].querySelectorAll('#ambOwner');
-                                        var nlaodiv =  document.getElementsByClassName("amb"+ta )[0].querySelectorAll('#ambownerdiv');
-                                        if(ambtyp[ta] == 1){
-                                            nlaodiv[0].removeAttribute('hidden')
-                                            nlao[0].value = ambOwner[ta]; 
-                                        }
-                
-                }
-            }
+    function showDataAmb(id, typeamb, ambtyp, plate_number, ambOwner, fromRegistered, action){
 
-        }
+        $("#id").val(id);
+        $("#typeamb").val(typeamb);
+        $("#ambtyp").val(ambtyp);
+        $("#plate_number").val(plate_number);
+        $("#ambOwner").val(ambOwner);
+        $("#action").val(action);
+    }
+    
+    function showDataDelAmb(id, typeamb, ambtyp, plate_number, ambOwner, fromRegistered){
 
-        document.getElementById("buttonId").addEventListener("click", function(event) {
-            event.preventDefault()
-            var itm = document.getElementById("tr_amb");
-            var cln = itm.cloneNode(true);
-            cln.removeAttribute("id");
-            cln.removeAttribute("hidden");
-            cln.setAttribute("class", "tr_amb");
-            document.getElementById("body_amb").appendChild(cln);
-        });
-    </script>
-    @include('client1.cmp.footer')
-    @include('dashboard.client.forms.generalFormScript')
-</body>
-@endsection
+        $("#del_id").val(id);
+        $("#del_typeamb_id").val(typeamb);
+        $("#del_ambtyp_id").val(ambtyp);
+        $("#del_typeamb").val(typeamb);
+        $("#del_ambtyp").val(ambtyp);
+        $("#del_plate_number").val(plate_number);
+        $("#del_ambOwner").val(ambOwner);
+        $("#fromRegistered").val(fromRegistered);
+    }
+
+</script>

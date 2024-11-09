@@ -1,0 +1,17 @@
+UPDATE `cdrrattachment` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrhrotherattachment` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrhrpersonnel` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrhrreceipt` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrhrxraylist` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrhrxrayservcat` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrpersonnel` SET appid='10718' WHERE appid='10658';
+UPDATE `cdrrreceipt` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexa` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexb` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexc` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexd` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexf` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexh` SET appid='10718' WHERE appid='10658';
+UPDATE `hfsrbannexi` SET appid='10718' WHERE appid='10658';
+UPDATE `fda_coc` SET appid='10718' WHERE appid='10658';
+UPDATE `fdacert` SET appid='10718' WHERE appid='10658';

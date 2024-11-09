@@ -33,9 +33,7 @@
                   					</td>
 			        				<td style="text-align:center">{{$value->name_of_faci}}</td>
 									<td style="text-align:center;" class=" font-weight-bold">
-										<span>
-									{{$value->status ? AjaxController::getTransStatusById($value->status)[0]->trns_desc : ''}}
-										</span>
+									{{$value->trns_desc}}
 										</td>
 
 					                <!-- @if($value->isApproved == "1")

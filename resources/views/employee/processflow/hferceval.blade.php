@@ -5,8 +5,8 @@
   @php
 	$arrPart = $arrLvl1 = $arrLvl2 = $arrAssessment = array();
   @endphp
-		<div class="content">
-	      <div class="container pt-5">
+	<div class="content">
+	    <div class="container pt-5">
 	        <div class="row">
 	        	<div class="col-3">
 	            	<img class="w-50" src="{{asset('ra-idlis/public/img/doh2.png')}}" alt="DOH LOGO">
@@ -20,9 +20,9 @@
 					<button class="btn-primary p-3" onclick="window.print()"><i class="fa fa-print"> Print</i></button>
 				</div>
 	        </div>
-	      </div>
+	    </div>
 
-	      <div class="container text-center mt-3 font-weight-bold" style="font-size: 25px;">CHECKLIST FOR REVIEW OF FLOOR PLANS</div>
+	    <div class="container text-center mt-3 font-weight-bold" style="font-size: 25px;">CHECKLIST FOR REVIEW OF FLOOR PLANS</div>
 
 	      	<div class="container mt-5 mb-3">
 				<div class="container">
@@ -150,8 +150,6 @@
 				@endisset
 			</div>
 
-
-
 	      <div class="container" style="margin-top: 80px; font-size: 20px;">
 	      	<span >Name of Health Facility:</span><span class="font-weight-bold pl-5"><u>{{$appdata->facilityname}}</u></span>
 	      </div>
@@ -168,7 +166,7 @@
 			</div>
 	      </div>
 	      <div class="container text-center" style="margin-top: 50px; font-size: 20px;">
-	      	HEALTH FACILITY EVALUATION REVIEW COMMITEE(HFERC) IS RECOMMENDING FOR
+	      	HEALTH FACILITY EVALUATION REVIEW COMMITTEE(HFERC) IS RECOMMENDING FOR
 	      	<span class="text-center font-weight-bold">
 	      		<u>
 		      	@if(isset($evaluation->HFERC_eval))

@@ -1,6 +1,6 @@
 <div class="card sticky-top">
 
-    <div  style="" id="paymentsIN">
+    <div  id="paymentsIN">
         <div class="accordion" id="accordionExample" >
     
             <div class="card">
@@ -22,28 +22,58 @@
                                     <th>Amount</th>
                                 </tr>
                             </thead>
-                            <tr ><td colspan="2"><center><b>Facility Registration Fee</b></center></td></tr>
-                            <tbody id="not_serv_chg">
-                                <tr>
-                                    <td colspan="2">{{--No Facility Type selected. ---}}</td>
-                                </tr>
-                            </tbody>
-                            <tr ><td colspan="2"><center><b>Services Fee</b></center></td></tr>
-                            <tbody id="serv_chg">
-                                <tr>
-                                    <td colspan="2">No Services selected.</td>
-                                </tr>
-                            </tbody>
-                            <tr ><td colspan="2"><center><b>Ambulance Fee</b></center></td></tr>
-                            <tbody id="serv_chg_not">
-                            <tr>
-                                    <td colspan="2">No Ambulance</td>
-                                </tr>
-                            </tbody>
 
-                            <tbody id="totalfees" style="display:none;"">
+                                @php $total_amt = 0.00; @endphp
+                                <tr ><td colspan="2"><center><b>Facility Registration Fee</b></center></td></tr>
+                                <tbody id="not_serv_chg">
+                                    @if(isset($chgfil_reg))
+                                        @foreach ($chgfil_reg as $item)                                         
+                                            <tr>
+                                                <td>{{$item->reference}}</td>
+                                                <td>{{number_format($item->amount, 2, '.', ',')}}@php $amt = floatval($item->amount); $total_amt = $total_amt + $amt; @endphp</td>
+                                            </tr>   
+                                        @endforeach                                
+                                    @else
+                                        <tr>
+                                            <td colspan="2">{{--No Facility Type selected. ---}}</td>
+                                        </tr>     
+                                    @endif
+                                </tbody>
+
+                                <tr ><td colspan="2"><center><b>Services Fee</b></center></td></tr>
+                                <tbody id="serv_chg">
+                                    @if(isset($chgfil_sf))
+                                        @foreach ($chgfil_sf as $item)                                         
+                                            <tr>
+                                                <td><small style="color:#ccc">[{{$item->chg_desc}}]</small><br/>{{$item->reference}}</td>
+                                                <td>{{number_format($item->amount, 2, '.', ',')}}@php $amt = floatval($item->amount); $total_amt = $total_amt + $amt; @endphp</td>
+                                            </tr>   
+                                        @endforeach                                     
+                                    @else
+                                        <tr>
+                                            <td colspan="2">No Services selected.</td>
+                                        </tr>     
+                                    @endif
+                                </tbody>
+
+                                <tr ><td colspan="2"><center><b>Ambulance Fee</b></center></td></tr>
+                                <tbody id="serv_chg_not">
+                                    @if(isset($chgfil_af))  
+                                        @foreach ($chgfil_af as $item)                                         
+                                            <tr>
+                                                <td>{{$item->reference}}</td>
+                                                <td>{{number_format($item->amount, 2, '.', ',')}}@php $amt = floatval($item->amount); $total_amt = $total_amt + $amt; @endphp</td>
+                                            </tr>   
+                                        @endforeach                            
+                                    @else
+                                        <tr>
+                                            <td colspan="2">No Ambulance</td>
+                                        </tr>     
+                                    @endif
+                                </tbody>
+                            <tbody id="totalfees">
                                 <tr>
-                                    <td colspan="2"><br/><center><b style="font-size:150%;">TOTAL FEES: ₱0.00</b></center></td>
+                                    <td colspan="2"><br/><center><b style="font-size:150%;">TOTAL FEES: ₱ <input type="text" name="total_amt_id" id="total_amt_id" value="{{ number_format($total_amt, 2, '.', ',') }}" readonly="readonly" style="border:none;text-align: center;font-weight: bold;"></b></center></td>
                                 </tr>
                             </tbody>
                         </table>

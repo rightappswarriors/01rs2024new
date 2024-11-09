@@ -17,18 +17,24 @@
              <div style="float:right;display: inline-block;">
              </div>
           </div>
-          <div class="card-body">
-                 <table class="table display" id="example" style="overflow-x: scroll;" >
+          <div class="card-body table-responsive  backoffice-list">
+              <table class="table display dataTable no-footer" id="example" style="overflow-x: scroll;" >
                 <thead>
                   <tr>
-                    <th style="width: auto">ID</th>
+                    <th>ID</th>
                     <th style="width: auto">Name</th>
                     <th style="width: auto">PTC Certificate Footer</th>
                     <th style="width: auto">LTO Certificate Footer</th>
                     <th style="width: auto">COA Certificate Footer</th>
                     <th style="width: auto">ATO Certificate Footer</th>
                     <th style="width: auto">COR Certificate Footer</th>
-                    <th style="width: auto"><center>Options</center></th>
+                    <th style="width: auto">Certificate Year Validity</th>
+                    <th style="width: auto">Status</th>
+
+                    <!--  isHospital, otherClinicService, clinicLab, dialysisClinic, ambulSurgCli, ambuDetails, addOnServe,noofbed,pharmacy --->
+                    <th style="width: auto">Inclusion on Application</th>
+
+                    <th style="width: auto" class="text-center">Options</th>
                   </tr>
                 </thead>
                 <tbody id="FilterdBody">
@@ -42,19 +48,81 @@
                             <td>@isset($fatype->ftr_msg_coa) {{$fatype->ftr_msg_coa}} @endisset</td>
                             <td>@isset($fatype->ftr_msg_ato) {{$fatype->ftr_msg_ato}} @endisset</td>
                             <td>@isset($fatype->ftr_msg_cor) {{$fatype->ftr_msg_cor}} @endisset</td>
-                            <td><center>
-                            <span class="AP008_update">
-                            <button type="button" class="btn btn-outline-warning" onclick="showData('{{$fatype->hgpid}}','{{$fatype->hgpdesc}}',
-                            '@isset($fatype->ftr_msg_ptc) {{$fatype->ftr_msg_ptc}} @endisset',
-                            '@isset($fatype->ftr_msg_lto) {{$fatype->ftr_msg_lto}} @endisset',
-                            '@isset($fatype->ftr_msg_coa) {{$fatype->ftr_msg_coa}} @endisset',
-                            '@isset($fatype->ftr_msg_ato) {{$fatype->ftr_msg_ato}} @endisset',
-                            '@isset($fatype->ftr_msg_cor) {{$fatype->ftr_msg_cor}} @endisset');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>&nbsp;
-                            </span>
-                            <span class="AP008_cancel">
-                            <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$fatype->hgpid}}', '{{$fatype->hgpdesc}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
-                         </span>
-                            </center></td>
+                            <td>@isset($fatype->year_validity) {{$fatype->year_validity}} @endisset</td>
+                            <td>@if($fatype->status == "1") Active @else Inactive @endif</td>                            
+                            
+                            <!--  isHospital, otherClinicService, clinicLab, dialysisClinic, ambulSurgCli, ambuDetails, addOnServe,noofbed,pharmacy --->
+                            <td>
+                              @if(isset($fatype->isHospital))
+                                @if($fatype->isHospital == 1)
+                                  <i class="fa fa-check-square-o"></i> Classification Of Hospital <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->otherClinicService))
+                                @if($fatype->otherClinicService == 1)
+                                  <i class="fa fa-check-square-o"></i> Ancillary/Clinical Services <br/>
+                                @endif 
+                              @endif
+
+                              @if(isset($fatype->clinicLab))
+                                @if($fatype->clinicLab == 1)
+                                  <i class="fa fa-check-square-o"></i> Clinic Lab <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->ambulSurgCli))
+                                @if($fatype->ambulSurgCli == 1)
+                                  <i class="fa fa-check-square-o"></i> Ambulatory Surgical Clinic <br/>
+                                @endif 
+                              @endif
+                            
+                              @if(isset($fatype->ambuDetails))
+                                @if($fatype->ambuDetails == 1)
+                                  <i class="fa fa-check-square-o"></i> Ambulance Details <br/>
+                                @endif 
+                              @endif
+
+                              @if(isset($fatype->addOnServe))
+                                @if($fatype->addOnServe == 1)
+                                  <i class="fa fa-check-square-o"></i> Add On Services <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->dialysisClinic))
+                                @if($fatype->dialysisClinic == 1)
+                                  <i class="fa fa-check-square-o"></i>  Dialysis Station / Clinic <br/>
+                                @endif 
+                              @endif
+
+                              @if(isset($fatype->hasbedcapacity))
+                                @if($fatype->hasbedcapacity == 1)
+                                  <i class="fa fa-check-square-o"></i> Authorized Bed Capacity <br/>
+                                @endif 
+                              @endif
+                              
+                              @if(isset($fatype->pharmacy))
+                                @if($fatype->pharmacy == 1)
+                                  <i class="fa fa-check-square-o"></i> Pharmacy <br/>
+                                @endif 
+                              @endif
+
+                            </td>
+
+                            <td class="text-center">
+                              <span class="AP008_update">
+                                <button type="button" class="btn btn-outline-warning" onclick="showData('{{$fatype->hgpid}}','{{$fatype->hgpdesc}}',
+                                '@isset($fatype->ftr_msg_ptc) {{$fatype->ftr_msg_ptc}} @endisset',
+                                '@isset($fatype->ftr_msg_lto) {{$fatype->ftr_msg_lto}} @endisset',
+                                '@isset($fatype->ftr_msg_coa) {{$fatype->ftr_msg_coa}} @endisset',
+                                '@isset($fatype->ftr_msg_ato) {{$fatype->ftr_msg_ato}} @endisset',
+                                '@isset($fatype->ftr_msg_cor) {{$fatype->ftr_msg_cor}} @endisset',
+                                '@isset($fatype->status) {{$fatype->status}} @endisset');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>&nbsp;
+                                </span>
+                                <span class="AP008_cancel">
+                                <button type="button" class="btn btn-outline-danger" onclick="showDelete('{{$fatype->hgpid}}', '{{$fatype->hgpdesc}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
+                              </span>
+                            </td>
                           </tr>
                   @endforeach
                   @endif
@@ -110,8 +178,10 @@
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
-                  <span id="EditBody">
-                  </span>
+                  <div id="EditBody">
+                  </div>
+                  <div class="col-sm-12">&nbsp;
+                  </div>
                   <div class="row">
                     <div class="col-sm-6">
                     <button type="submit" class="btn btn-outline-success form-control" style="border-radius:0;"><span class="fa fa-sign-up"></span>Save</button>
@@ -162,7 +232,7 @@
             // buttons: ['csvHtml5', 'excelHtml5', 'pdfHtml5', 'print'],
         });
       });
-      function showData(id,desc, ptc, lto, coa, ato, cor){
+      function showData(id,desc, ptc, lto, coa, ato, cor, status){
         $('#EditBody').empty();
         $('#EditBody').append(
             '<div class="col-sm-4">ID:</div>' +
@@ -175,23 +245,71 @@
             '</div>' +
             '<div class="col-sm-4">PTC Certificate Footer:</div>' +
             '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
-              '<input type="text" id="edit_ptc" value="'+ptc+'" data-parsley-required-message="<strong>*</strong>Description Code <strong>Required</strong>" placeholder="'+ptc+'" class="form-control" >' +
+              '<input type="text" id="edit_ptc" value="'+ptc+'" data-parsley-required-message="<strong>*</strong>PTC Certificate Footer <strong>Required</strong>" placeholder="'+ptc+'" class="form-control" >' +
             '</div>' +
             '<div class="col-sm-4">LTO Certificate Footer:</div>' +
             '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
-              '<input type="text" id="edit_lto" value="'+lto+'" data-parsley-required-message="<strong>*</strong>Description Code <strong>Required</strong>" placeholder="'+lto+'" class="form-control" >' +
+              '<input type="text" id="edit_lto" value="'+lto+'" data-parsley-required-message="<strong>*</strong>LTO Certificate Footer <strong>Required</strong>" placeholder="'+lto+'" class="form-control" >' +
             '</div>' +
             '<div class="col-sm-4">COA Certificate Footer:</div>' +
             '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
-              '<input type="text" id="edit_coa" value="'+coa+'" data-parsley-required-message="<strong>*</strong>Description Code <strong>Required</strong>" placeholder="'+coa+'" class="form-control" >' +
+              '<input type="text" id="edit_coa" value="'+coa+'" data-parsley-required-message="<strong>*</strong>COA Certificate Footer <strong>Required</strong>" placeholder="'+coa+'" class="form-control" >' +
             '</div>' +
             '<div class="col-sm-4">ATO Certificate Footer:</div>' +
             '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
-              '<input type="text" id="edit_ato" value="'+ato+'" data-parsley-required-message="<strong>*</strong>Description Code <strong>Required</strong>" placeholder="'+ato+'" class="form-control" >' +
+              '<input type="text" id="edit_ato" value="'+ato+'" data-parsley-required-message="<strong>*</strong>ATO Certificate Footer <strong>Required</strong>" placeholder="'+ato+'" class="form-control" >' +
             '</div>' +
             '<div class="col-sm-4">COR Certificate Footer:</div>' +
             '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
-              '<input type="text" id="edit_cor" value="'+cor+'" data-parsley-required-message="<strong>*</strong>Description Code <strong>Required</strong>" placeholder="'+cor+'" class="form-control" >' +
+              '<input type="text" id="edit_cor" value="'+cor+'" data-parsley-required-message="<strong>*</strong>COR Certificate Footer <strong>Required</strong>" placeholder="'+cor+'" class="form-control" >' +
+            '</div>' +
+            '<div class="col-sm-4">Status:</div>' +
+            '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
+              '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+            '</div>' +
+
+            '<div class="row">' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3"">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+                    
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
+                    '<div class="col-sm-3">Status:</div>' +
+                    '<div class="col-sm-3">' +
+                      '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" >' +
+                    '</div>' +
+
             '</div>' 
           );
       }
@@ -274,11 +392,12 @@
              var edit_coa = $('#edit_coa').val();
              var edit_ato = $('#edit_ato').val();
              var edit_cor = $('#edit_cor').val();
+             var edit_status = $('#edit_status').val();
 
              $.ajax({
                 url: "{{ asset('employee/mf/save_facility') }}",
                 method: 'POST',
-                data : {_token:$('#token').val(),id:x,name:y,mod_id : $('#CurrentPage').val(), edit_ptc:edit_ptc, edit_lto:edit_lto, edit_coa:edit_coa, edit_ato:edit_ato, edit_cor:edit_cor},
+                data : {_token:$('#token').val(),id:x,name:y,mod_id : $('#CurrentPage').val(), edit_ptc:edit_ptc, edit_lto:edit_lto, edit_coa:edit_coa, edit_ato:edit_ato, edit_cor:edit_cor, edit_status:edit_status},
                 success: function(data){
                     if (data == "DONE") {
                         logActions('Edited Facility with ID: '+ $('#edit_name').val());

@@ -6,6 +6,148 @@
     @extends('mainEmployee')
     @section('title', 'Evaluate Process Flow')
     @section('content')
+
+    <style type="text/css">
+          .control-group {
+            display: inline-block;
+            vertical-align: top;
+            background: #fff;
+            text-align: left;
+            margin: 10px;
+          }
+          .control {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 18px;
+          }
+          .control input {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+          }
+          .control__indicator {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background: #e6e6e6;
+          }
+          .control--radio .control__indicator {
+            border-radius: 50%;
+          }
+          .control:hover input ~ .control__indicator,
+          .control input:focus ~ .control__indicator {
+            background: #ccc;
+          }
+          .control input:checked ~ .control__indicator {
+            background: #2aa1c0;
+          }
+          .control:hover input:not([disabled]):checked ~ .control__indicator,
+          .control input:checked:focus ~ .control__indicator {
+            background: #0e647d;
+          }
+          .control input:disabled ~ .control__indicator {
+            background: #e6e6e6;
+            opacity: 0.6;
+            pointer-events: none;
+          }
+          .control__indicator:after {
+            content: '';
+            position: absolute;
+            display: none;
+          }
+          .control input:checked ~ .control__indicator:after {
+            display: block;
+          }
+          .control--checkbox .control__indicator:after {
+            left: 8px;
+            top: 4px;
+            width: 3px;
+            height: 8px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+          }
+          .control--checkbox input:disabled ~ .control__indicator:after {
+            border-color: #7b7b7b;
+          }
+          .control--radio .control__indicator:after {
+            left: 7px;
+            top: 7px;
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            background: #fff;
+          }
+          .control--radio input:disabled ~ .control__indicator:after {
+            background: #7b7b7b;
+          }
+          .select {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+            width: 100%;
+          }
+          .select select {
+            display: inline-block;
+            width: 100%;
+            cursor: pointer;
+            padding: 10px 15px;
+            outline: 0;
+            border: 0;
+            border-radius: 0;
+            background: #e6e6e6;
+            color: #7b7b7b;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+          }
+          .select select::-ms-expand {
+            display: none;
+          }
+          .select select:hover,
+          .select select:focus {
+            color: #000;
+            background: #ccc;
+          }
+          .select select:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+          }
+          .select__arrow {
+            position: absolute;
+            top: 16px;
+            right: 15px;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+            border-style: solid;
+            border-width: 8px 5px 0 5px;
+            border-color: #7b7b7b transparent transparent transparent;
+          }
+          .select select:hover ~ .select__arrow,
+          .select select:focus ~ .select__arrow {
+            border-top-color: #000;
+          }
+          .select select:disabled ~ .select__arrow {
+            border-top-color: #ccc;
+          }
+          .shadow-textarea textarea.form-control::placeholder {
+            font-weight: 300;
+          }
+          .shadow-textarea textarea.form-control {
+              padding-left: 0.8rem;
+          }
+          .z-depth-1{
+            -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12)!important;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12)!important;
+          }
+    </style>      
+
     <div class="content p-4">
       @isset($Holidays)
         <datalist id="HolidaysList">
@@ -14,153 +156,12 @@
             @endforeach
         </datalist>
       @endisset
-      <style type="text/css">
-        .control-group {
-          display: inline-block;
-          vertical-align: top;
-          background: #fff;
-          text-align: left;
-          margin: 10px;
-        }
-        .control {
-          display: block;
-          position: relative;
-          padding-left: 30px;
-          margin-bottom: 15px;
-          cursor: pointer;
-          font-size: 18px;
-        }
-        .control input {
-          position: absolute;
-          z-index: -1;
-          opacity: 0;
-        }
-        .control__indicator {
-          position: absolute;
-          top: 2px;
-          left: 0;
-          height: 20px;
-          width: 20px;
-          background: #e6e6e6;
-        }
-        .control--radio .control__indicator {
-          border-radius: 50%;
-        }
-        .control:hover input ~ .control__indicator,
-        .control input:focus ~ .control__indicator {
-          background: #ccc;
-        }
-        .control input:checked ~ .control__indicator {
-          background: #2aa1c0;
-        }
-        .control:hover input:not([disabled]):checked ~ .control__indicator,
-        .control input:checked:focus ~ .control__indicator {
-          background: #0e647d;
-        }
-        .control input:disabled ~ .control__indicator {
-          background: #e6e6e6;
-          opacity: 0.6;
-          pointer-events: none;
-        }
-        .control__indicator:after {
-          content: '';
-          position: absolute;
-          display: none;
-        }
-        .control input:checked ~ .control__indicator:after {
-          display: block;
-        }
-        .control--checkbox .control__indicator:after {
-          left: 8px;
-          top: 4px;
-          width: 3px;
-          height: 8px;
-          border: solid #fff;
-          border-width: 0 2px 2px 0;
-          transform: rotate(45deg);
-        }
-        .control--checkbox input:disabled ~ .control__indicator:after {
-          border-color: #7b7b7b;
-        }
-        .control--radio .control__indicator:after {
-          left: 7px;
-          top: 7px;
-          height: 6px;
-          width: 6px;
-          border-radius: 50%;
-          background: #fff;
-        }
-        .control--radio input:disabled ~ .control__indicator:after {
-          background: #7b7b7b;
-        }
-        .select {
-          position: relative;
-          display: inline-block;
-          margin-bottom: 15px;
-          width: 100%;
-        }
-        .select select {
-          display: inline-block;
-          width: 100%;
-          cursor: pointer;
-          padding: 10px 15px;
-          outline: 0;
-          border: 0;
-          border-radius: 0;
-          background: #e6e6e6;
-          color: #7b7b7b;
-          appearance: none;
-          -webkit-appearance: none;
-          -moz-appearance: none;
-        }
-        .select select::-ms-expand {
-          display: none;
-        }
-        .select select:hover,
-        .select select:focus {
-          color: #000;
-          background: #ccc;
-        }
-        .select select:disabled {
-          opacity: 0.5;
-          pointer-events: none;
-        }
-        .select__arrow {
-          position: absolute;
-          top: 16px;
-          right: 15px;
-          width: 0;
-          height: 0;
-          pointer-events: none;
-          border-style: solid;
-          border-width: 8px 5px 0 5px;
-          border-color: #7b7b7b transparent transparent transparent;
-        }
-        .select select:hover ~ .select__arrow,
-        .select select:focus ~ .select__arrow {
-          border-top-color: #000;
-        }
-        .select select:disabled ~ .select__arrow {
-          border-top-color: #ccc;
-        }
-            .shadow-textarea textarea.form-control::placeholder {
-              font-weight: 300;
-            }
-            .shadow-textarea textarea.form-control {
-                padding-left: 0.8rem;
-            }
-            .z-depth-1{
-              -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12)!important;
-              box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12)!important;
-            }
-      </style>
+
         <div class="card">
             <div class="card-header bg-white font-weight-bold">
               <input type="text" id="NumberOfRejected" value="@isset ($numOfX) {{$numOfX}} @endisset" hidden>
               <input type="" id="token" value="{{ Session::token() }}" hidden>
-             
-               <!-- <a href="{{asset('/employee/dashboard/processflow/evaluate')}}"><button class="btn btn-primary" >Back</button></a> -->
-               <!-- <button class="btn btn-primary" onclick="window.history.back();">Back</button> -->
+              
               @if(app('request')->input('from') == 'rec')
                 <button class="btn btn-primary  ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" onclick="window.history.back();">Back</button>&nbsp;
               @else
@@ -184,7 +185,7 @@
                   </h5>
                   <label>Process Type:&nbsp;</label>
                   <span class="font-weight-bold">
-                    @if($AppData->aptid == 'R'){{'Renewal'}}@elseif($AppData->aptid == 'IN'){{'Initial New'}}@else{{'Unidentified'}}@endif
+                    @if($AppData->aptid == 'R'){{'Renewal'}}@elseif($AppData->aptid == 'IN'){{'Initial New'}}@elseif($AppData->aptid == 'IC'){{'Initial Change'}}@else{{'Unidentified'}}@endif
                     @if(isset($AppData->hfser_id)){{' '.$AppData->hfser_id}}@endif
                   </span>
                 
@@ -228,9 +229,15 @@
                   <a data-toggle="modal" data-target="#floorplan" class="font-weight-bold text-white btn btn-success btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2"><i class="fa fa-files-o" aria-hidden="true"></i> Receive Floorplan</a>
                 </div>
                 @endif
-                <div class="col-md-2 d-flex justify-content-end">
-                  <a href="{{$linkToEdit}}?grplo=rlo{{$AppData->aptid == 'R' ? '&type=r': ''}}" target="_blank" class="font-weight-bold text-white btn btn-block btn-info btn-flat ml-3 pb-2 pt-2 mt-2 mb-2"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; View Application</a>
-                </div>
+                  @if($AppData->aptid == 'IC')
+                    <div class="col-md-2 d-flex justify-content-end">
+                      <a href="{{asset('client1/changerequest')}}/{{$AppData->regfac_id}}/main" target="_blank" class="font-weight-bold text-white btn btn-block btn-info btn-flat ml-3 pb-2 pt-2 mt-2 mb-2"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; View Change Application</a>
+                    </div>
+                  @else
+                    <div class="col-md-2 d-flex justify-content-end">
+                      <a href="{{$linkToEdit}}?grplo=rlo{{$AppData->aptid == 'R' ? '&type=r': ''}}" target="_blank" class="font-weight-bold text-white btn btn-block btn-info btn-flat ml-3 pb-2 pt-2 mt-2 mb-2"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; View Application</a>
+                    </div>
+                  @endif
                 @endif
                  
               </div>
