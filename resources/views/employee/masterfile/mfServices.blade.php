@@ -49,6 +49,7 @@
 							<th style="width: auto">For Specialty?</th>
 							<th style="width: auto">Service Type</th>
 							<th style="width: auto">Office</th>
+							<th style="width: auto">Status</th>
 							<th style="width: auto"><center>Options</center></th>
 						</tr>
 					</thead>
@@ -62,10 +63,11 @@
 						    		<td>{{($s->forSpecialty == 1 ? 'Yes' : 'No')}}</td>
 						    		<td>{{$s->anc_name}}</td>
 						    		<td>{{($s->assignrgn == 'rgn' ? 'Region' : 'HFSRB')}}</td>
+                            		<td>@if($s->status == "1") Active @else Inactive @endif</td>
 						    		<td>
 						    			<center>
 						    				<span class="AP016_update">
-						    					<button class="btn btn-outline-warning" onclick="showData('{{$s->facid}}', '{{addslashes($s->facname)}}', '{{addslashes($s->hgpdesc)}}', '{{addslashes($s->anc_name)}}', '{{addslashes($s->assignrgn)}}');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>
+						    					<button class="btn btn-outline-warning" onclick="showData('{{$s->facid}}', '{{addslashes($s->facname)}}', '{{addslashes($s->hgpdesc)}}', '{{addslashes($s->anc_name)}}', '{{addslashes($s->assignrgn)}}', '{{$s->status}}');" data-toggle="modal" data-target="#GodModal"><i class="fa fa-fw fa-edit"></i></button>
 						    				</span>
 						    				<span class="AP016_cancel">
 						    					<button class="btn btn-outline-danger" onclick="showDelete('{{$s->facid}}', '{{$s->facname}}');" data-toggle="modal" data-target="#DelGodModal"><i class="fa fa-fw fa-trash"></i></button>
@@ -375,7 +377,7 @@
 	              // buttons: ['csvHtml5', 'excelHtml5', 'pdfHtml5', 'print'],
 	          });
 	      } );
-		function showData(id,desc, facid, servtype, office){
+		function showData(id,desc, facid, servtype, office, status){
 	      $('#EditBody').empty();
 	      $('#EditBody').append(
 	          '<div class="col-sm-4">ID:</div>' +
@@ -415,6 +417,10 @@
 	            		'<option value="rgn">Region</option>' +
 	            		'<option value="hfsrb">HFSRB</option>' +
 	            	'</select>' +
+	          '</div>' +
+	          '<div class="col-sm-4">Status:</div>' +
+	          '<div class="col-sm-12" style="margin:0 0 .8em 0;">' +
+	            '<input type="number" id="edit_status" value="'+status+'" data-parsley-required-message="<strong>*</strong>Status <strong>Required</strong>" placeholder="'+status+'" class="form-control" required>' +
 	          '</div>'
 	        );
 	      	$('#edit_office').val(office);
@@ -501,10 +507,11 @@
 	           	var x = $('#edit_name').val();
 	           	var y = $('#edit_desc').val();
 	           	var z = $('#edit_office').val();
+
 	           	$.ajax({
 	             	url: "{{ asset('employee/mf/save_service') }}",
 	              	method: 'POST',
-	             	data : {_token:$('#token').val(),id:x,name:y, office: z, faci : $('#edit_faci').val(),mod_id: $('#CurrentPage').val()},
+	             	data : {_token:$('#token').val(), id:x, name:y, office: z, faci : $('#edit_faci').val(), status: $('#edit_status').val(), mod_id: $('#CurrentPage').val()},
 	              	success: function(data){
 	                  	if (data != "ERROR") {
 	                  		logActions('Edited Services with ID: '+$('#edit_name').val());

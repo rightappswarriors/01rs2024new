@@ -211,7 +211,18 @@ function submitProper (e){
         remarks:             $('#remarks').val(),
         appchargenew:             $('#tempAppChargenew').val(),//appchargetemp
         appchargeHgpnew:             $('#tempAppChargeHgpidnew').val(),//appchargetemp
+        
+        license_number:         null,
+        license_validity:       null,
+        head_of_facility_name:             $('#head_of_facility_name').val(),
     }
+
+    if(data.aptid == "R")
+    {
+        data.license_number = $('#license_number').val();
+        data.license_validity = $('#license_validity').val();
+    }
+
     console.log(data)
     callApi('/api/application/cor/save', data, 'POST').then(d => {
         const id = d.data.id;

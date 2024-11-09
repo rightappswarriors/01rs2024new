@@ -108,8 +108,9 @@
                    
                     <td style="text-align:center;" class="text-light font-weight-bold">
                         <span style="color: black">
+                        
                         @if($value->status)
-                        {{ $value->status != 'RS' ? AjaxController::getTransStatusById($value->status)[0]->trns_desc : ( $value->s_ver_others ?  $value->s_ver_others : $value->vdesc) }}
+                        {{ $value->status != 'RS' ? AjaxController::getTransStatus_trns_desc_ById($value->status) : ( $value->s_ver_others ?  $value->s_ver_others : $value->vdesc) }}
                         @endif
                         </span>
                     </td>

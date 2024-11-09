@@ -2,7 +2,6 @@
 @section('content')
 @include('client1.cmp.__home')
 <body>
-
     @include('client1.cmp.nav')
     @include('client1.cmp.breadcrumb')
     @include('client1.cmp.msg')
@@ -15,21 +14,14 @@
             background-color: #F5F5F5;
             border-radius: 10px;
         }
-
         #style-15::-webkit-scrollbar {
             width: 10px;
             background-color: #F5F5F5;
         }
-
         #style-15::-webkit-scrollbar-thumb {
             border-radius: 10px;
             background-color: #FFF;
-            background-image: -webkit-gradient(linear,
-                    40% 0%,
-                    75% 84%,
-                    from(#4D9C41),
-                    to(#19911D),
-                    color-stop(.6, #54DE5D))
+            background-image: -webkit-gradient(linear, 40% 0%, 75% 84%, from(#4D9C41), to(#19911D), color-stop(.6, #54DE5D))
         }
         .action-btn {  margin:20px; }
         .feedback {  width: 100%;  display: block; }
@@ -38,25 +30,34 @@
         .province { display: none;}
     </style>
     @include('dashboard.client.forms.loadertyle')
+
     <div style="display: block;" id="myDivLo">
         <div class="container-fluid mt-5 mb-5">
+
+            <!--- Change Request Form -->
             <div class="row">
-                <div class="col-md-8">
-                    @include('dashboard.client.forms.parts.printbutton')                   
-                    <h2 class=" text-center pt-2">  <img src="{{asset('ra-idlis/public/img/doh2.png')}}" style="width:50px;"/>&nbsp;&nbsp;&nbsp;CHANGE REQUEST FORM</h2>
+                <div class="col-md-8">                    
+                    <section class="container-fluid"> 
+                        @include('dashboard.client.forms.parts.printbutton')                   
+                        <h2 class="text-center pt-2">  <img src="{{asset('ra-idlis/public/img/doh2.png')}}" style="width:50px;"/>
+                            &nbsp;&nbsp;&nbsp;CHANGE REQUEST FORM
+                        </h2>
+                    </section>
                 </div>
                 <div class="col-md-4"></div>
 
-                <!--- Change Request Form -->
-                <div class="col-md-12">                    
-                    <section class="container-fluid">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb d-flex" style="background-color: transparent !important;">
-                                    <li class="breadcrumb-item  active"><a href="{{asset('client1/apply/change_request_new/')}}/{{$registered_facility->regfac_id}}/main" style="color: inherit; text-decoration: none;"> Main Form</a></li>
-                                </ol>
-                            </nav>
+                <div class="col-md-12">   
+                    <section class="container-fluid"> 
+                        <ol class="breadcrumb" style="background-color: transparent !important;">
+                            <li class="breadcrumb-item active">
+                                <a href="{{asset('client1/changerequest')}}/{{$registered_facility->regfac_id}}/main" style="color: inherit; text-decoration: none;"> Main Form</a>
+                            </li>
+                        </ol>
                     </section>
                 </div>
+            </div>
+
+            <div class="row">         
 
                 <div class="col-md-8">
                     <section class="container-fluid">
@@ -65,26 +66,71 @@
                                 <p class="lead text-center text-danger">Please note: Red asterisk (*) is a required field and may be encountered throughout the system </p>
                             </div>
 
-                            <div class="card-body">
-                                <div class="row">  
-                                    
+                            <div class="card-body" style="border: thin solid #f5f5f5; background-color: #f5f5f5;">
+                                <div class="row">                                     
                                     @include('dashboard.client.forms.parts-change.main-form')
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!---  Main Form  -->
+                                @if($functype == 'annexa')
+                                    @include('client1.apply.LTO1.hfsrb.annexa-part-personnel')
+                                @elseif($functype == 'annexb')
+                                    @include('client1.apply.LTO1.hfsrb.annexb-part-equipment')
+                                @elseif($functype == 'av')
+                                    @include('dashboard.client.forms.ambulance-vehicle-form')
+                                @elseif($functype == 'hospital')
+                                    @include('dashboard.client.forms.change-hospital-form')
+                                @elseif($functype == 'cs' || $functype == 'as')
+                                    @include('dashboard.client.forms.change-service-form')
+                                @else
                                     @include('dashboard.client.forms.parts-change.main-form-action-button')
                                     @include('dashboard.client.forms.parts-change.list-of-change-details')
+                                @endif
+                                <!---  Main Form  -->
+
+                                <!---  Main Form Submit -->
+                                @if($savingStat =='final')
+                                    
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <form id="change_mainform" action="{{asset('/client1/apply/change_request_submit')}}" method="POST" >
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="cat_id" id="cat_id" value="100000">
-                                                <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
-                                                <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">  
-                                                <input type="hidden" class="form-control" id="aptidnew" name="aptidnew" value="IC">       
-                                                <input type="hidden" class="form-control" id="aptid" name="aptid" value="IC">       
-                                                @include('dashboard.client.forms.parts-change.modal-submission-confirmation')
-                                            </form>                      
+                                        <div class="text-center" style="margin:auto; margin-top:10px;">
+                                            <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/apply')}}">
+                                                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Application Dashboard
+                                            </a>
                                         </div>
                                     </div>
-                                </div>
+
+                                @elseif(($functype == 'main' || $functype == '') && $savingStat !='final')
+                                
+                                    @isset($appid)
+                                        @if($appid > 0)
+                                            <div class="row">
+                                                <div class="col-md-12"><hr/></div>
+                                                <div class="col-md-12 text-center">
+                                                    <div class="form-group">
+                                                        <button type="button" class="btn btn-primary action-btn"  style="margin:auto; margin-top:10px;" value="submit" name="submit" id="submit" data-toggle="modal" data-target="#confirmSubmitModalLto">
+                                                            <i class="fa fa-paper-plane" aria-hidden="true"></i> Submit Application and Proceed to Requirements
+                                                        </button>                                            
+                                                    </div> 
+                                                </div>                                    
+                                            </div>
+
+                                            @include('dashboard.client.forms.parts-change.modal-submission-confirmation')
+                                        @endif
+                                    @endisset
+                                
+                                @else
+                                    
+                                    <div class="row">
+                                        <div class="text-center" style="margin:auto; margin-top:10px;">
+                                            <a class="btn btn-secondary action-btn btn-block"  href="{{asset('client1/changerequest')}}/{{$registered_facility->regfac_id}}/main">
+                                                <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Main Form
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                @endif
+                                <!---  Main Form  -->
                             </div>
                         </div>
                     </section>
@@ -110,5 +156,31 @@
 
     @include('client1.cmp.footer')
     @include('dashboard.client.forms.generalFormScript')
+    
+
+    @if($functype == 'cs')
+        <style>
+            #asc-H1-REGIS, #asc-H2-REGIS, #asc-H3-REGIS, .change-div {    display: none !important;   }
+        </style>
+        <script>
+            var savStat = "partial";
+            var apptypenew = '{!! $apptypenew !!}';
+
+            if(savStat == "final")
+            {
+                document.getElementById('submit').setAttribute("hidden", "hidden");
+                document.getElementById('save').setAttribute("hidden", "hidden");
+                var update =  document.getElementById('update');
+
+                if(update){     document.getElementById('update').removeAttribute("hidden");    }
+            }
+        </script>
+        <script src="{{asset('ra-idlis/public/js/forall.js')}}"></script>
+
+        @include('dashboard.client.forms.parts.license-to-operate.new_ftr')
+        @include('dashboard.client.forms.parts.license-to-operate.lto-form-submission')
+        @include('dashboard.client.get_fees')
+    @endif
+
 </body>
 @endsection

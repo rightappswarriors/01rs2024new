@@ -68,6 +68,7 @@
 				e.preventDefault();
 				let highest = 0;
 				let arrAll = [] ,arrSel = [];
+
 				$("input[name='services[]']:checked").each(function(index, el) {
 					if(parseInt($(this).attr('formof')) > highest){
 						highest = parseInt($(this).attr('formof'));
@@ -77,6 +78,12 @@
 						arrAll.push(parseInt($(this).attr('formof')));
 					}
 				});
+
+				if(highest == 4)
+				{
+					highest = 3;
+				}
+
 				for (var i = highest - 1; i >= 1; i--) {
 					if(!arrAll.includes(i)){
 						arrSel.push(parseInt(i));

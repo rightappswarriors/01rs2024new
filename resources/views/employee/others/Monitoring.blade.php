@@ -70,12 +70,9 @@
                     @endif
                   </td>
                   <td style="text-align:center">{{$value->novid}}</td>
-                  <td style="text-align:center;" class=" font-weight-bold">
-                      <span>
-                       
-                 {{$value->status ? AjaxController::getTransStatusById($value->status)[0]->trns_desc : ''}}
-                      </span>
-                    </td>
+                  <td style="text-align:center;" class=" font-weight-bold">                       
+                      {{ $value->msdesc }}
+                  </td>
 
                   <!-- @if($value->isApproved == "1")
                     <td style="text-align:center;" class="bg-success text-light font-weight-bold">

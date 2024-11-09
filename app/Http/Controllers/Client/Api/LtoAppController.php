@@ -178,6 +178,10 @@ class LtoAppController extends Controller
         $appform->aptid                 = $request->aptid;
         $appform->hgpid                 = $request->hgpid;//6-22-2021
         $appform->appComment            = $request->remarks;
+        $appform->license_number        = $request->license_number;
+        $appform->license_validity      = $request->license_validity;
+        
+        $appform->head_of_facility_name = $request->head_of_facility_name;
   
         if($request->saveas == 'final'){
             $appform->draft = null;
@@ -194,7 +198,6 @@ class LtoAppController extends Controller
             // }else{
                 $this->ltoAppDetSave($request->facid, $appform->appid, $request->uid);
             // }
-          
         }
 
         if($request->typeamb){
@@ -210,90 +213,67 @@ class LtoAppController extends Controller
                     DB::insert('insert into x08_ft (uid, appid, facid) values (?, ?, ?)', [$request->uid, $appform->appid, $type]);
                 }
            }
-
         }
-
-
 
         $payment = session()->get('payment');
         $appcharge =  session()->get('appcharge');
         $ambcharge   =  session()->get('ambcharge');
 
         $chg = DB::table('chgfil')->where([['appform_id', $appform->appid]])->first();
+
         if (!is_null($chg)) {
             DB::table('chgfil')->where([['appform_id', $appform->appid]])->delete();
         }
 
-
         if($request->aptid == 'R'){
-
-
-
-            
+          
             if($request->appcharge != ""){ NewGeneralController::appCharge($request->appcharge, $appform->appid, $request->uid);}
             if($request->appchargeHgp != ""){ NewGeneralController::appCharge($request->appchargeHgp, $appform->appid, $request->uid);}
+
         }else{
-            
-
-  
-                if($request->appcharge != ""){
+              
+            if($request->appcharge != ""){
                 NewGeneralController::appCharge($request->appcharge, $appform->appid, $request->uid);
-                }
-
-
-             
-                if($request->appchargeHgp != ""){
-                NewGeneralController::appCharge($request->appchargeHgp, $appform->appid, $request->uid);
-            
-            
+            }        
+            if($request->appchargeHgp != ""){
+                NewGeneralController::appCharge($request->appchargeHgp, $appform->appid, $request->uid);         
             }
- 
-
-           
         }
 
         if($request->appChargeAmb != ""){
-        NewGeneralController::appChargeAmb($request->appChargeAmb, $appform->appid, $request->uid);}
-
-
-        if($request->subClassid){
-                if($request->subClassid ===  "ND"){
-                
-                            $test = DB::table('chgfil')->insert(['appform_id' => $appform->appid,'paymentMode'=> null, 'attachedFile'=>null, 'draweeBank' => null, 'number' => null, 'userChoosen' => 1, 't_date' => Date('Y-m-d',strtotime('now')) , 't_time' => Date('H:i:s',strtotime('now'))]);
-                            if($test){
-                                DB::table('appform')->where('appid',$appform->appid)->update(['isPayEval' => 1, 't_date' => date('Y-m-d'), 'status' => 'FSR']);//6-1-2021
-
-
-                                DB::table('chgfil')->where([['appform_id',$appform->appid],['chg_num','<>',null],['isPaid',null]])->update(['isPaid'=>1]);
-                                $update = DB::table('appform')->where('appid',$appform->appid)->update(['CashierApproveBy'=>"N/A",'CashierApproveDate' => Date('Y-m-d',strtotime('now')), 'CashierApproveTime' => Date('H:i:s',strtotime('now')), 'CashierApproveIp' => "N/A", 'isCashierApprove' => 1, 'proofpaystat' => 'posted']); 
-                            }
-                }
+            NewGeneralController::appChargeAmb($request->appChargeAmb, $appform->appid, $request->uid);
         }
 
-        
+        if($request->subClassid){
+            if($request->subClassid ===  "ND"){
+            
+                $test = DB::table('chgfil')->insert(['appform_id' => $appform->appid,'paymentMode'=> null, 'attachedFile'=>null, 'draweeBank' => null, 'number' => null, 'userChoosen' => 1, 't_date' => Date('Y-m-d',strtotime('now')) , 't_time' => Date('H:i:s',strtotime('now'))]);
+                
+                if($test){
+                    DB::table('appform')->where('appid',$appform->appid)->update(['isPayEval' => 1, 't_date' => date('Y-m-d'), 'status' => 'FSR']);//6-1-2021
 
-            return response()->json(
-                [
-                    'id' => $appform->appid,
-                    'applicaiton' => $appform,
-                    'payment' => $payment,
-                    'appcharge' => $appcharge,
-                    'ambcharge' => $ambcharge,
-                    // 'con_catchment' => $concatch,
-                    'provinces'     => Province::where('rgnid', $appform->rgnid)->get(),
-                    'cities'        => Municipality::where('provid', $appform->provid)->get(),
-                    'brgy'          => Barangay::where('cmid', $appform->cmid)->get(),
-                    'classification' => Classification::where('ocid',  $appform->ocid)->where('isSub', null)->get(),
-                    'subclass'      => Classification::where('ocid', $appform->ocid)->where('isSub',  $appform->classid)->get(),
-                ],
-                200
-            );
-       
-      
-       
-        
+                    DB::table('chgfil')->where([['appform_id',$appform->appid],['chg_num','<>',null],['isPaid',null]])->update(['isPaid'=>1]);
+                    $update = DB::table('appform')->where('appid',$appform->appid)->update(['CashierApproveBy'=>"N/A",'CashierApproveDate' => Date('Y-m-d',strtotime('now')), 'CashierApproveTime' => Date('H:i:s',strtotime('now')), 'CashierApproveIp' => "N/A", 'isCashierApprove' => 1, 'proofpaystat' => 'posted']); 
+                }
+            }
+        }
 
-
+        return response()->json(
+            [
+                'id' => $appform->appid,
+                'applicaiton' => $appform,
+                'payment' => $payment,
+                'appcharge' => $appcharge,
+                'ambcharge' => $ambcharge,
+                // 'con_catchment' => $concatch,
+                'provinces'     => Province::where('rgnid', $appform->rgnid)->get(),
+                'cities'        => Municipality::where('provid', $appform->provid)->get(),
+                'brgy'          => Barangay::where('cmid', $appform->cmid)->get(),
+                'classification' => Classification::where('ocid',  $appform->ocid)->where('isSub', null)->get(),
+                'subclass'      => Classification::where('ocid', $appform->ocid)->where('isSub',  $appform->classid)->get(),
+            ],
+            200
+        );
 
     }
 

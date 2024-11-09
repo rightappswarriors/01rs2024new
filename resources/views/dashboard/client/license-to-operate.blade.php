@@ -14,28 +14,21 @@
             background-color: #F5F5F5;
             border-radius: 10px;
         }
-
         #style-15::-webkit-scrollbar {
             width: 10px;
             background-color: #F5F5F5;
         }
-
         #style-15::-webkit-scrollbar-thumb {
             border-radius: 10px;
             background-color: #FFF;
-            background-image: -webkit-gradient(linear,
-                    40% 0%,
-                    75% 84%,
-                    from(#4D9C41),
-                    to(#19911D),
-                    color-stop(.6, #54DE5D))
+            background-image: -webkit-gradient(linear, 40% 0%, 75% 84%, from(#4D9C41), to(#19911D), color-stop(.6, #54DE5D))
         }
     </style>
 
     @include('dashboard.client.forms.loadertyle')
     <div id="loader"></div>
     <div  style="display:none;" id="myDivLo">
-
+        
         @if(isset($fAddress)&&(count($fAddress) > 0))
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb d-flex justify-content-center">
@@ -46,7 +39,7 @@
                     <li class="breadcrumb-item active">Submit Requirements</li>
                 </ol>
             </nav>
-            @endif
+        @endif
             
     
         <div class="container-fluid mt-5 mb-5">

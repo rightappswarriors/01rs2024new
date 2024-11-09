@@ -14,12 +14,10 @@ var mserv_cap = JSON.parse('{!!addslashes($serv_cap)!!}')
         }else{
             document.getElementById("nofpahr").removeAttribute('hidden')
         }
-        
     });
     setTimeout(function(){
         initialCheck()
     }, 1000);
-
 
     setTimeout(function(){
             var first = document.getElementById("clickable");
@@ -156,17 +154,14 @@ var mserv_cap = JSON.parse('{!!addslashes($serv_cap)!!}')
    
     //display subfacilities/services/add ons
     function type_of_fac(selected) {
-        var nm = document.getElementById("noofmain")
-
-    
+        var nm = document.getElementById("noofmain")   
 
         if(selected == 34 || selected == 7){
             setTimeout(function(){
                 jQuery('.ambuDetails').removeAttr('hidden');
             }, 200);
             
-        }
-		
+        }		
 		
         if( $('input[name="hgpid"]:checked').val() == 6 ){
                 if(nm.value == null || nm.value == undefined  || nm.value == " "|| !nm.value){
@@ -247,11 +242,7 @@ var mserv_cap = JSON.parse('{!!addslashes($serv_cap)!!}')
             document.getElementsByClassName("addOnServe")[0].removeAttribute("hidden");
             renewAddOnSelect("ASC-LTO");
         }
-         
-         
     }
-
-
 
 
     function getChargesPerApplication() {
@@ -292,6 +283,7 @@ var mserv_cap = JSON.parse('{!!addslashes($serv_cap)!!}')
                        })
                 
                 let not_serv_chg = document.getElementById('not_serv_chg');
+                
                 if (not_serv_chg != undefined || not_serv_chg != null) {
                     if (arr.length > 0) {
                         not_serv_chg.innerHTML = '';
@@ -440,33 +432,46 @@ function getFacServCharge (val = null){
 
     var facids = getCheckedValue('facid') 
 
+    if (ascType !== null) {
+        if( ascType.checked) 
+        {
+            facids.push('ASC'); 
+        }
 
-    if( ascType.checked) 
-    {
-        facids.push('ASC'); 
+        if( aspType.checked) 
+        {
+            facids.push('ASP-LTO'); 
+        }
+    } 
+
+    if (hospTypeReg !== null) {
+        if(hospTypeReg.checked)
+        {
+            facids.push('H1-REGIS');
+        }
     }
 
-    if( aspType.checked) 
-    {
-        facids.push('ASP-LTO'); 
+    if (infTypeReg !== null) {
+        if(infTypeReg.checked)
+        {
+            facids.push('INY-REGIS');
+        }
     }
 
-    if(hospTypeReg.checked)
-    {
-        facids.push('H1-REGIS');
+    if (bhTypeReg !== null) {
+        if(bhTypeReg.checked)
+        {
+            facids.push('BH-REGIS');
+        }
     }
-    if(infTypeReg.checked)
-    {
-        facids.push('INY-REGIS');
+
+    if (clabTypeReg !== null) {
+        if(clabTypeReg.checked)
+        {
+            facids.push('CLAB-REGIS');
+        }
     }
-    if(bhTypeReg.checked)
-    {
-        facids.push('BH-REGIS');
-    }
-    if(clabTypeReg.checked)
-    {
-        facids.push('CLAB-REGIS');
-    }
+
 
 
     var anxsel = getCheckedValue('anxsel') 
@@ -634,20 +639,18 @@ function getFacServCharge (val = null){
                                     if(  owns == "G" ){
                                         if(distinctArr[i]['facid'] == "H" ||distinctArr[i]['facid'] == "H2" || distinctArr[i]['facid'] == "H3" ){
                                             amt = 0
-                                        }
-                                        
+                                        }                                       
                                     }
                                     //Services Fee Display
                                     if(distinctArr[i]['chgapp_id']){
                                         ta.push({reference : distinctArr[i]['facname'],amount: amt, chgapp_id:  distinctArr[i]['chgapp_id'] }) 
 
                                         if(distinctArr[i]['facid'].includes('REGIS')){
-                                            not_serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '</td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
+                                            not_serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '<br/><span style="font-size:x-small; color:#ccc;">[' + distinctArr[i]['facid'] + '][' + distinctArr[i]['chgapp_id'] +'</span></td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
                                         } else {
-                                            serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '</td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
+                                            serv_chg.innerHTML += '<tr><td>' + distinctArr[i]['facname'] + '<br/><span style="font-size:x-small; color:#ccc;">[' + distinctArr[i]['facid'] + '][' + distinctArr[i]['chgapp_id'] +']</span></td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 : (parseInt(amt)).toFixed(2)) + '</span></td></tr>';
                                         }
                                     }
-
                                 }
                             }
                         } else {
@@ -811,6 +814,7 @@ function getFacServCharge (val = null){
     }
 
     function clinicServAndLabAmbu(specs, selected) {
+        
         const data = ["otherClinicService", "clinicLab", "ambuDetails"];
         if (specs == "show") {
             data.map((h) => {
@@ -852,10 +856,7 @@ function getFacServCharge (val = null){
         document.getElementById("hgpid6").appendChild(newDiv);
 
 
-        if (selected == 2) {
-
-
-          
+        if (selected == 2) {         
            
             var hlevel = [{
                 id: "H"
@@ -1432,7 +1433,6 @@ function getFacServCharge (val = null){
         if(selected != 'H3') { 
             $('#hgpid1').remove()
             document.getElementsByClassName('ambulSurgCli')[0].setAttribute("hidden", "hidden")
-
         }
 
         if(sp){
@@ -1445,10 +1445,8 @@ function getFacServCharge (val = null){
             } 
         }
         
-
         jQuery('#'+selected).prop('checked', true).attr('checked', true);
         
-
         if(selected == 'H3'){
             if(jQuery('#H3ADC').length){
                 if(jQuery('#H3ADC').is(':checked')){
@@ -1472,20 +1470,19 @@ function getFacServCharge (val = null){
         } else {
             jQuery('.showifH3ASC-class').attr('hidden', true);
             jQuery('.showifH3ASC-class').attr('hidden', true);
-        }
+        }       
         
-        
-
         let sArr = ['_token='+document.getElementsByName('_token')[0].value, 'facid[]=H', 'facid[]=H2', 'facid[]=H3'];
         let resp = []
         var nas;
+
         sendRequestRetArr(sArr, "{{asset('client1/request/customQuery/getGoAncillary')}}", "POST", true, {
-					functionProcess: function(arr) {
+					functionProcess: function(arr) {  
                         show_hosplevel_anx(selected, arr, hgpid)
                     }
-				});
-       
+		});
     }
+
     function saveas(val){
         var itm = document.getElementById(val);
         itm.value = "final";
@@ -1598,7 +1595,6 @@ function getFacServCharge (val = null){
         newSel.setAttribute("name", "addOnServ");
         document.getElementById("aoselCont").appendChild(newSel);
 
-
         newAddOns.map((h) => {
             if(h.facid != "H2-AO-DC" && h.facid != "H1-AO-DC"){
             var opt = document.createElement("option");
@@ -1654,23 +1650,20 @@ function getFacServCharge (val = null){
 
         var ta=[]; //appchargetemp
 
-
         var ambT1Ch = parseFloat(('{!!$ambcharges[0]->amt!!}'));
         var ambT2Ch = parseFloat(('{!!$ambcharges[1]->amt!!}'));    
 
         if(jQuery('#34').is(':checked')) { 
             ambT1Ch = (ambT1Ch * 3);
             ambT2Ch = (ambT2Ch * 3);
-
         }
 
         let sArr = ['_token=' + document.getElementsByName('_token')[0].value, 'appid=' + curAppid],
         theuseless = [],
-            ambtyp = document.getElementsByName('ambtyp'),
-            plate_number = document.getElementsByName('plate_number'),
-            ambOwner = document.getElementsByName('ambOwner'),
-            amount = 0;
-
+        ambtyp = document.getElementsByName('ambtyp'),
+        plate_number = document.getElementsByName('plate_number'),
+        ambOwner = document.getElementsByName('ambOwner'),
+        amount = 0;
 
         if (ambtyp != null || ambtyp != undefined) {
             for (let i = 0; i < ambtyp.length; i++) {
@@ -1690,15 +1683,12 @@ function getFacServCharge (val = null){
                 }
             }
 
-
-
             if(amount > 0 ){
                 let serv_chg_not = document.getElementById('serv_chg_not');
                 serv_chg_not.innerHTML = "";
                     
                 serv_chg_not.innerHTML += '<tr><td>' + "Ambulance Charge" + '</td><td>&#8369;&nbsp;<span>' + numberWithCommas(subclass == "ND" ? 0 :(parseInt(amount)).toFixed(2)) + '</span></td></tr>'
             }
-
 
             sArr.push('ambamt=' + amount);
         }
@@ -1713,7 +1703,7 @@ function getFacServCharge (val = null){
             }
         });
     }
-
+    
 //   INITIAL STATES
 @if(app('request')->input('cont') == 'yes')
 
@@ -1725,11 +1715,9 @@ function getFacServCharge (val = null){
             type_of_fac(id)
             if(id == 6){
                 var func = '{!!((count($fAddress) > 0) ? $fAddress[0]->funcid: "")!!}';
-            document.querySelector('select[data-funcid="duplicate"]').value = func;
-            sel_hosp_class(func)
-
-        
-        }
+                document.querySelector('select[data-funcid="duplicate"]').value = func;
+                sel_hosp_class(func)        
+            }
         }, 2000);
 
         setTimeout(function(){ 
@@ -1780,21 +1768,28 @@ if('{!!isset($fAddress)&&(count($fAddress) > 0)!!}'){
     });
 
     var apptypenew = '{!! $apptypenew !!}';
+    var aptid = '{!!((count($fAddress) > 0) ? $fAddress[0]->aptid: "")!!}';
 
-    console.log(apptypenew);
+    @if(array_key_exists('type', $_GET))  
+        @if($_GET['type'] == "r")
+        aptid = 'R';
+        @endif 
+    @endif
 
-    if(apptypenew == "renewal"){
+    console.log(aptid);
 
-    document.getElementById("aptidnew").value = 'R';
-    document.getElementById("appid").value = null;
-    document.getElementById("renewal").removeAttribute("hidden");
-    document.getElementById("license_number").removeAttribute("hidden");
-    document.getElementById("valididty").removeAttribute("hidden");
-    
+    if(aptid == "R"){
 
+        document.getElementById("aptidnew").value = 'R';
+        document.getElementById("appid").value = null;
+        document.getElementById("div_license_number").removeAttribute("hidden");
+        document.getElementById("div_license_validity").removeAttribute("hidden");
+        document.getElementById("renewal").removeAttribute("hidden");    
 
     }else{
-    document.getElementById("appid").value = appid;
+        document.getElementById("appid").value = appid;
+        document.getElementById("div_license_number").setAttribute("hidden", "hidden");
+        document.getElementById("div_license_validity").setAttribute("hidden", "hidden");
     }
 
    
@@ -2180,8 +2175,13 @@ jQuery(document).ready(function(){
     });
 
     if(jQuery('#aptidnew').val() == 'R'){
-        jQuery('#license_number').removeAttr('hidden');
-        jQuery('#validity').removeAttr('hidden');
+        jQuery('#div_license_number').removeAttr('hidden');
+        jQuery('#div_license_validity').removeAttr('hidden');
+    }
+    else{
+        
+        document.getElementById("div_license_number").setAttribute("hidden", "hidden");
+        document.getElementById("div_license_validity").setAttribute("hidden", "hidden");
     }
 
 

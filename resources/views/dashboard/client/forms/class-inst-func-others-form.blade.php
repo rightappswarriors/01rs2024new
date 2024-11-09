@@ -1,8 +1,8 @@
 
-<form action="{{asset('/client1/apply/change_request_submit')}}" method="POST">
+<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
-    <input type="hidden" name="cat_id" id="cat_id" value="10">
+    <input type="hidden" name="cat_id" id="cat_id" value="8">
     <input type="hidden" name="appid" id="appid" value="{{$registered_facility->appid}}">         
     <input type="hidden" name="regfac_id" id="regfac_id" value="{{$registered_facility->regfac_id}}">     
     <input type="hidden" name="facilityname_old" id="facilityname_old" value="{{$registered_facility->facilityname_old}}">     
@@ -50,6 +50,7 @@
                     
                     <hr />
                     <div class="row">
+                        {{-- 
                         <div class="col-md-12 change-div">
                             <div class="col-md-6">
 
@@ -78,10 +79,11 @@
                         </div>
                         <div class="col-md-4 change-div">
                             <label for="subclass">Sub Classification</label>
-                            <select class="form-control  show-menu-arrow toRemove" onchange="getFacServCharge()" id="subclass" disabled name="subClassid" data-style="text-dark form-control custom-selectpicker" data-size="5" required>
+                            <select class="form-control  show-menu-arrow toRemove" onchange="getFacServCharge()" id="subclass" disabled name="subClassid" data-style="text-dark form-control custom-selectpicker" data-size="5">
                                 <option>Please select</option>
                             </select>
                         </div>
+                        --}}
                         <div class="mb-2 col-md-12 change-div">&nbsp;</div>
                         <div class="col-md-6 change-div">
 

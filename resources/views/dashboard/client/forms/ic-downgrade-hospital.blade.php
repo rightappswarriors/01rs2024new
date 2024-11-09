@@ -1,4 +1,4 @@
-<form  id="form_downgradehospital" action="{{asset('/client1/apply/change_request_submit')}}" method="POST">
+<form  id="form_downgradehospital" action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
     {{ csrf_field() }}
     <input type="hidden" name="cat_id" id="cat_id" value="2">
     <input type="hidden" name="uid" id="uid" value="{{$uid}}">

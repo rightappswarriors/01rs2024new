@@ -46,7 +46,6 @@
 </div>
 <div class="mb-2 col-md-12 change-div">&nbsp;</div>
 <div class="col-md-6 change-div">
-
     <label for="facmode">Institutional Character <span class="text-danger">*</span></label>
     <div class="row">
         <div class="col-lg-10 col-md-10 col-xs-10">

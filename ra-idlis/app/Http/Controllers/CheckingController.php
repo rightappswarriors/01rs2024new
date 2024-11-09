@@ -13,11 +13,11 @@ class CheckingController extends Controller
 
         $annexa = DB::table('hfsrbannexa')->where('appid', $appid)->first();
         $annexb = DB::table('hfsrbannexb')->where('appid', $appid)->first();
-        $arrFind = DB::table('app_upload')->where('app_id', $appid)->first(); 
+        //$arrFind = DB::table('app_upload')->where('app_id', $appid)->first(); 
 
         $initialmsg = "succ";
 
-        if(is_null($annexa) || is_null($annexb) || is_null($arrFind) ){
+        if(is_null($annexa) || is_null($annexb) /* || is_null($arrFind)*/ ){
             $initialmsg = "Please provide the following: ";
 
             if(is_null($annexa)){
@@ -28,14 +28,11 @@ class CheckingController extends Controller
                 $initialmsg .= "Equipment/Instrument (Annex B),";
             }
 
-            if(is_null($arrFind)){
+            /*if(is_null($arrFind)){
                 $initialmsg .= "Attachments";
-            }
+            }*/
     
-        }
-       
-
-
+        } 
         return response()->json(
             [
                 'filled' => $initialmsg,

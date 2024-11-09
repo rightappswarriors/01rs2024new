@@ -441,33 +441,45 @@ function getFacServCharge (val = null){
     var facids = getCheckedValue('facid') 
 
 
-    if( ascType.checked) 
-    {
-        facids.push('ASC'); 
+    if (ascType !== null) {
+        if( ascType.checked) 
+        {
+            facids.push('ASC'); 
+        }
+
+        if( aspType.checked) 
+        {
+            facids.push('ASP-LTO'); 
+        }
+    } 
+
+    if (hospTypeReg !== null) {
+        if(hospTypeReg.checked)
+        {
+            facids.push('H1-REGIS');
+        }
     }
 
-    if( aspType.checked) 
-    {
-        facids.push('ASP-LTO'); 
+    if (infTypeReg !== null) {
+        if(infTypeReg.checked)
+        {
+            facids.push('INY-REGIS');
+        }
     }
 
-    if(hospTypeReg.checked)
-    {
-        facids.push('H1-REGIS');
-    }
-    if(infTypeReg.checked)
-    {
-        facids.push('INY-REGIS');
-    }
-    if(bhTypeReg.checked)
-    {
-        facids.push('BH-REGIS');
-    }
-    if(clabTypeReg.checked)
-    {
-        facids.push('CLAB-REGIS');
+    if (bhTypeReg !== null) {
+        if(bhTypeReg.checked)
+        {
+            facids.push('BH-REGIS');
+        }
     }
 
+    if (clabTypeReg !== null) {
+        if(clabTypeReg.checked)
+        {
+            facids.push('CLAB-REGIS');
+        }
+    }
 
     var anxsel = getCheckedValue('anxsel') 
     var arrCol = facids;

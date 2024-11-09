@@ -1,5 +1,5 @@
 
-<form action="{{asset('/client1/apply/change_request_submit')}}" method="POST">
+<form action="{{asset('/client1/changerequest/actionsubmit')}}" method="POST">
     {{ csrf_field() }}
     <!-- Application Details -->
     <input type="hidden" name="cat_id" id="cat_id" value="10">

@@ -33,7 +33,7 @@
                 @foreach ($LotsOfDatas as $data)
 
                     <tr>
-                      <td style="text-align:left"><strong>{{$data->appid}}</strong></td>
+                      <td style="text-align:left"><strong>{{$data->appid}}</strong><br/><br/> Registered ID: {{$data->regfac_id}}</td>
                       <td style="text-align:left"><strong>{{$data->facilityname}}</strong></td>
                       <td style="text-align:left">
                         <strong>{{( $data->hgpdesc ?? 'NOT FOUND')}}</strong><br/>
@@ -65,10 +65,14 @@
                         Signatory Position: {{$data->signatorypos}}                    
                       </td>  
 
-                      <td style="text-align:left">
-                        <center>
-                          <a class="btn btn-primary" target="_blank" href="{{ asset('client1/certificates/'.$data->hfser_id.'/'.$data->appid) }}"><i class="fa fa-fw fa-eye"></i></a>
-                        </center>                
+                      <td style="text-align:center">
+                        @if($isEdit == true)
+                          <button type="button" title="Edit Certificate Number" class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" data-toggle="modal" data-target="#GodModal" onclick="showData('{{$data->appid}}', '{{$data->hfser_id}}', '{{$data->regfac_id}}', '{{str_replace(['"',"'"], "",strtoupper($data->facilityname))}}', '{{$data->licenseNo}}', '{{$data->approvedDate}}', '{{$data->signatoryname}}', '{{$data->signatorypos}}')" >
+                            <i class="fa fa-edit"></i>
+                          </button>
+                        @endif
+                        
+                          <a class="btn btn-primary ml-3 pb-2 pt-2 mt-2 mb-2 font-weight-bold" target="_blank" href="{{ asset('client1/certificates/'.$data->hfser_id.'/'.$data->appid) }}"><i class="fa fa-fw fa-eye"></i></a>     
                       </td>
                     </tr>
 
@@ -80,6 +84,82 @@
       </div>
   	</div>
   </div>
+
+
+  
+
+
+  
+  <script type="text/javascript">
+    function showData(appid, hfser_id, regfac_id, facilityname, licenseNo, approvedDate, signatoryname, signatorypos)
+    {
+      $('#EditBody').empty();
+        $('#EditBody').append(
+          
+          '<div class="col-sm-12">' +
+          
+            '<div class="row">' +
+            
+              '<div class="col-sm-5">' +
+                '<div class="col-sm-12">Application Number:</div>' + 
+                '<div class="col-sm-12 text-center">' +
+                    '<h4>'+appid+'</h4>' +
+                    '<input type="hidden" value="'+appid+'" name="appid" id="appid" class="form-control" data-parsley-required-message="*<strong>Application Number</strong> required" readonly>' +
+                '</div>' +
+              '</div>' +
+
+              
+              '<div class="col-sm-3">' +
+                '<div class="col-sm-12">Type:</div>' + 
+                '<div class="col-sm-12 text-center">' +
+                    '<h4>'+hfser_id+'</h4>' +
+                    '<input type="hidden" value="'+hfser_id+'" name="hfser_id" id="hfser_id" class="form-control" data-parsley-required-message="*<strong>Application Number</strong> required" readonly>' +
+                '</div>' +
+              '</div>' +
+
+              '<div class="col-sm-4">' +
+                '<div class="col-sm-12">Registered ID:</div>' + 
+                '<div class="col-sm-12 text-center">' +
+                    '<h4>'+regfac_id+'</h4>' +
+                    '<input type="hidden" value="'+regfac_id+'" name="regfac_id" id="regfac_id" class="form-control" data-parsley-required-message="*<strong>Registered ID</strong> required" readonly>' +
+                '</div>' +
+              '</div>' +
+
+            '</div>' +
+
+          '</div>' +
+
+            '<div class="col-sm-4">Facility Name:</div>' +
+            '<div class="col-sm-12 text-center"> ' +
+                '<h4>'+facilityname+'</h4>' +
+            '</div> ' +
+            '<div class="col-sm-4">Certificate Number:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="text" value="'+licenseNo+'" name="licenseNo" id="licenseNo" class="form-control text-center text-bold" data-parsley-required-message="*<strong>Certificate Number</strong> required" required style="font-size: x-large;"> ' +
+            '</div>' +
+
+            '<div class="col-sm-4">Date Issued:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="date" value="'+approvedDate+'" name="approvedDate" id="approvedDate" class="form-control text-center text-bold" required style="font-size: x-large;"> ' +
+            '</div>' +
+
+            '<div class="col-sm-4">Signatory Name:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="text" value="'+signatoryname+'" name="signatoryname" id="signatoryname" class="form-control text-center text-bold" data-parsley-required-message="*<strong>Signatory Name</strong> required" required style="font-size: x-large;"> ' +
+            '</div>' +
+            
+            '<div class="col-sm-4">Signatory Position:</div> ' +
+            '<div class="col-sm-12"> ' +
+                '<input type="text" value="'+signatorypos+'" name="signatorypos" id="signatorypos" class="form-control text-center text-bold" data-parsley-required-message="*<strong>Signatory Position</strong> required" required style="font-size: x-large;"> ' +
+            '</div>'
+          );
+
+      document.getElementById("appid").value = appid; 
+      document.getElementById("appid2").value = appid; 
+      document.getElementById("facilityname").value = facilityname; 
+      document.getElementById("licenseNo").value = licenseNo;
+    }
+  </script>
   @endsection
 @else
   <script type="text/javascript">window.location.href= "{{ asset('employee') }}";</script>

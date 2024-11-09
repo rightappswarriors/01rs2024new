@@ -59,11 +59,11 @@
                             <td class="text-center">{{$data->street_name}}, {{$data->brgyname}}, {{$data->cmname}}, {{$data->provname}} {{$data->rgn_desc}}</td>
                                 <td class="text-center">
                                     {{-- @if(!isset($data->documentSent)) --}}
-                                      {{-- <button type="button" title="Pre-assess {{$data->facilityname}}" class="btn btn-outline-primary"  {{$ifdisabled}}><i class="fa fa-fw fa-clipboard-check" {{$ifdisabled}}></i></button>&nbsp; --}}
-                                      {{-- <button type="button" title="Edit {{$data->facilityname}}" class="btn btn-outline-warning" onclick="window.location.href = '{{ asset('/employee/dashboard/processflow/Pre-assess') }}/{{$data->appid}}/edit'"  {{$ifdisabled}}><i class="fa fa-fw fa-edit" {{$ifdisabled}}></i></button> --}}
+                                      {{-- <button type="button" title="Pre-assess {{$data->facilityname}}" class="btn btn-outline-primary"  {{$ifdisabled}}><i class="fa fa-check" {{$ifdisabled}}></i></button>&nbsp; --}}
+                                      {{-- <button type="button" title="Edit {{$data->facilityname}}" class="btn btn-outline-warning" onclick="window.location.href = '{{ asset('/employee/dashboard/processflow/Pre-assess') }}/{{$data->appid}}/edit'"  {{$ifdisabled}}><i class="fa fa-edit" {{$ifdisabled}}></i></button> --}}
                                     {{-- @else --}}
                                       <button type="button" title="Pre-assess {{$data->facilityname}}" class="btn btn-outline-primary" onclick="window.location.href = '{{ url('employee/dashboard/processflow/evaluate') }}/{{$data->appid}}/{{($request == 'machines' ? 'xray' : $request)}}'"  {{$ifdisabled}}><i class="fa fa-check" {{$ifdisabled}}></i></button>&nbsp;
-                                    {{-- <button type="button" title="Edit {{$data->facilityname}}" class="btn btn-outline-warning" onclick="window.location.href = '{{ asset('/employee/dashboard/processflow/evaluate') }}/{{$data->appid}}/edit'"  {{$ifdisabled}}><i class="fa fa-fw fa-edit" {{$ifdisabled}}></i></button> --}}
+                                    {{-- <button type="button" title="Edit {{$data->facilityname}}" class="btn btn-outline-warning" onclick="window.location.href = '{{ asset('/employee/dashboard/processflow/evaluate') }}/{{$data->appid}}/edit'"  {{$ifdisabled}}><i class="fa fa-edit" {{$ifdisabled}}></i></button> --}}
                                     {{-- @endif --}}
                               </td>
                               

@@ -30,17 +30,9 @@
 	        			@isset($AllData)
 	        			{{-- {{dd($AllData)}} --}}
 	        				@foreach($AllData as $key => $value)
-							<!-- checkmonid($id) -->
-							@if(AjaxController::checkmonid($value->monid) == 'no')
-									<?php  continue; ?>
-							@endif
 	        					<tr>
 	        						<td style="text-align: center;">{{$value->monid}}</td>
-	        						<td style="text-align: center;">
-		        						@if($value->novid != "") 
-		        							{{ AjaxController::getNovidById($value->monid, "M")->novid }} 
-		        						@endif
-	        						</td>
+	        						<td style="text-align: center;">{{ $value->novid }}</td>
 
 	        						<td style="text-align: center;">
 	        							<b>{{\Carbon\Carbon::parse($value->date_monitoring)->format('M d, Y')}}</b>
@@ -57,17 +49,23 @@
 	        						
         							@if($value->hasViolation != "")
         								<td style="text-align:center">
-        									<button type="btn" class="btn btn-danger" data-toggle="modal" data-target="#vMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc }}', '{{AjaxController::getAllViolationsNew($value->monid)}}', '{{AjaxController::getAllViolationsKeyNew($value->monid)}}', '{{$value->team}}')">
-        									<!-- <button type="btn" class="btn btn-danger" data-toggle="modal" data-target="#vMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->appid}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', 'AjaxController::getFacTypeByFacid($value->type_of_faci)[0]->facname', '{{AjaxController::getAllViolationsNew($value->monid)}}', '{{AjaxController::getAllViolationsKeyNew($value->monid)}}', '{{$value->team}}')"> -->
+										
+        									<button type="btn" class="btn btn-danger" data-toggle="modal" data-target="#vMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ $value->hgpdesc }}', '{{AjaxController::getAllViolationsNew($value->monid)}}', '{{AjaxController::getAllViolationsKeyNew($value->monid)}}', '{{$value->team}}')">
     											<i class="fa fa-fw fa-eye"></i>
-    											Show Violation
+    											Go to Show Violation
     										</button>
         								</td>
 
-        								<td @if($value->hasLOE == "" && $value->novid != "" && AjaxController::getNovDirectionEx(AjaxController::getNovidById($value->monid, "M")->novid)->novid_directions == 1) class="{{--bg-warning text-center--}}text-warning" @elseif($value->hasLOE == "" && $value->novid != "" && AjaxController::getNovDirectionEx(AjaxController::getNovidById($value->monid, "M")->novid)->novid_directions == 2) class="{{--bg-danger text-center text-white--}}text-danger" @endif>
+        								<td 
+											@if($value->hasLOE == ""  && $value->novid_directions == 1) 
+												class="{{--bg-warning text-center--}}text-warning" 
+											@elseif($value->hasLOE == "" && $value->novid_directions == 2) 		
+												class="{{--bg-danger text-center text-white--}}text-danger" 
+											@endif>
+											
         									@if($value->isCDO && $value->hasLOE == "")
         										<span style="font-weight: bold; text-align: center">CDO Applied</span>
-        									{{-- @elseif($value->hasLOE == "" && $value->novid != "" && AjaxController::getNovDirectionEx(AjaxController::getNovidById($value->monid, "M")->novid)->novid_directions == 1)
+        									{{-- @elseif($value->hasLOE == "" && $value->novid_directions == 1)
 
         										@if(date_create(date('Y-m-d')) > date_create(date('Y-m-d', strtotime($value->date_issued.'+ 3 days'))))
         											<span style="font-weight: bold; text-align: center;">CDO Applied</span>
@@ -77,49 +75,45 @@
         											<span style="font-weight: bold; text-align: center;">{{ date_diff(date_create(date('Y-m-d')), date_create(date('Y-m-d', strtotime($value->date_issued.'+ 3 days'))))->d  }} day/s remaining <br>before CDO</span>
         										@endif    --}} 											
 
-        									@elseif(($value->hasLOE != "" && $value->novid != "" ))
+        									@elseif(($value->hasLOE != ""))
 
-											@if($value->LOE != null)
-											<!-- if($value->explanation != null) -->
-        										<!-- <button type="btn" onclick="showData('{{$value->explanation}}','{{$value->monid}}')" class="btn btn-info" data-toggle="modal" data-target="#viewAct"> -->
-        										<button type="btn" onclick="showData('{{$value->LOE}}','{{$value->monid}}')" class="btn btn-info" data-toggle="modal" data-target="#viewAct">
-        											<i class="fa fa-paperclip" aria-hidden="true"></i> Show LOE
-        										</button>	
+												@if($value->LOE != null)
+													<button type="btn" onclick="showData('{{$value->LOE}}','{{$value->monid}}')" class="btn btn-info" data-toggle="modal" data-target="#viewAct">
+														<i class="fa fa-paperclip" aria-hidden="true"></i> Show LOE
+													</button>	
 												@endif
-        										@if($value->attached_filesUser != null)
-        										<button type="btn" onclick="showData('{{strip_tags($value->explanation)}}','{{$value->monid}}',true)" class="btn btn-info mt-3" data-toggle="modal" data-target="#viewActWithImage">
-        											<i class="fa fa-paperclip" aria-hidden="true"></i> Show Uploads
-        										</button>	
-        										@endif
+												@if($value->attached_filesUser != null)
+													<button type="btn" onclick="showData('{{strip_tags($value->explanation)}}','{{$value->monid}}',true)" class="btn btn-info mt-3" data-toggle="modal" data-target="#viewActWithImage">
+														<i class="fa fa-paperclip" aria-hidden="true"></i> Show Uploads
+													</button>	
+												@endif
 
         									@endif
 
 											@if($value->novid != "" && $value->compliance_id != "" )
 								
-											@if($value->novid != "" && $value->isApproved != "1" )
-											<a href="{{asset('employee/dashboard/others/monitoring/correctiondetails')}}/{{$value->compliance_id}}">	
-												<button class="btn btn-outline-info w-100" title="For Corrective Action">
-													For corrective action
-												</button>
-											</a>
-											@endif
+												@if($value->novid != "" && $value->isApproved != "1" )
+													<a href="{{asset('employee/dashboard/others/monitoring/correctiondetails')}}/{{$value->compliance_id}}">	
+														<button class="btn btn-outline-info w-100" title="For Corrective Action">
+															For corrective action
+														</button>
+													</a>
+												@endif
 
-											@if($value->novid != "" && $value->isApproved == "1" )
-											<a href="{{asset('employee/dashboard/others/monitoring/correctiondetails')}}/{{$value->compliance_id}}/?from=rec">	
-												<button class="btn btn-outline-info w-100" title="For Corrective Action">
-													Show corrective action
-												</button>
-											</a>
-											@endif
+												@if($value->novid != "" && $value->isApproved == "1" )
+													<a href="{{asset('employee/dashboard/others/monitoring/correctiondetails')}}/{{$value->compliance_id}}/?from=rec">	
+														<button class="btn btn-outline-info w-100" title="For Corrective Action">
+															Show corrective action
+														</button>
+													</a>
+												@endif
 
 											@endif
         								</td>
 
         								<td style="text-align: center;">
         									@if($value->novid == "" && $value->team != "")
-        										{{-- {{dd(AjaxController::getTeamByTeamId($value->team))}} --}}
-	        									<button class="btn btn-outline-warning" title="Issue NOV" data-toggle="modal" data-target="#novMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc }}', '', '', '{{$value->team}}', '{{AjaxController::getTeamByTeamId($value->team)->montname}}')">
-	        									<!-- <button class="btn btn-outline-warning" title="Issue NOV" data-toggle="modal" data-target="#novMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->appid}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', 'AjaxController::getFacTypeByFacid($value->type_of_faci)[0]->facname', '', '', '{{$value->team}}', '{{AjaxController::getTeamByTeamId($value->team)->montname}}')"> -->
+	        									<button class="btn btn-outline-warning" title="Issue NOV" data-toggle="modal" data-target="#novMonModal" onclick="issueNOV('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ $value->hgpdesc }}', '', '', '{{$value->team}}', '{{$value->montname}}')">
 							                        <i class="fa fa-fw fa-clipboard-check"></i> Issue NOV
 							                    </button>
 							                @elseif($value->novid != "")
@@ -130,13 +124,11 @@
 	    										</a>
 	    										<br><br>
 	    										<a class="btn btn-outline-info w-100" href="{{asset('employee/dashboard/processflow/GenerateReportAssessments/regfac/'.$value->regfac_id)}}/{{$value->monid}}"><i class="fa fa-eye" aria-hidden="true"></i> View HF Assessment</a>
-	    										<!-- <a class="btn btn-outline-info w-100" href="{{asset('employee/dashboard/processflow/GenerateReportAssessments/'.$value->appid)}}/{{$value->monid}}"><i class="fa fa-eye" aria-hidden="true"></i> View HF Assessment</a> -->
 	    										
 	    										@if($value->hasLOE == "" && $value->isCDO == null)
 	    										<br><br>
-		    										<button class="btn btn-outline-secondary w-100" title="Update NOV" data-toggle="modal" data-target="#unovMonModal" onclick="issueNOVu('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc }}', '', '', '{{$value->team}}', '{{AjaxController::getTeamByTeamId($value->team)->montname}}')">
-		    										<!-- <button class="btn btn-outline-secondary w-100" title="Update NOV" data-toggle="modal" data-target="#unovMonModal" onclick="issueNOVu('{{$value->monid}}', '{{$value->appid}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', 'AjaxController::getFacTypeByFacid($value->type_of_faci)[0]->facname', '', '', '{{$value->team}}', '{{AjaxController::getTeamByTeamId($value->team)->montname}}')"> -->
-							                    		<i class="fa fa-clipboard-check" aria-hidden="true"></i> Update NOV
+		    										<button class="btn btn-outline-secondary w-100" title="Update NOV" data-toggle="modal" data-target="#unovMonModal" onclick="issueNOVu('{{$value->monid}}', '{{$value->regfac_id}}', '{{date('Y-m-d')}}', '{{$value->name_of_faci}}', '{{ $value->hgpdesc }}', '', '', '{{$value->team}}', '{{$value->montname}}')">
+		    											<i class="fa fa-clipboard-check" aria-hidden="true"></i> Update NOV
 							                    	</button>
 						                    	@endif
 							                @endif
@@ -190,15 +182,8 @@
           	<div class="container">
           		<div class="col-md-12 lead pb-3 text-center font-weight-bold">Client Action Comment</div>
           		<div class="container border rounded pt-1 cDetails" style="min-height: 100px;">
-          			<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt nam sed, accusamus alias incidunt, magnam sint. Expedita corporis officiis amet omnis facere labore alias, odio veniam dicta suscipit ipsum assumenda. -->
           		</div>
           	</div>
-          	{{-- <div class="container">
-          		<div class="col-md-12 lead  pt-3 pb-3 text-center font-weight-bold">Violation Details</div>
-          		<div class="container border rounded pt-1" id="vDetails" style="min-height: 100px;">
-          			<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt nam sed, accusamus alias incidunt, magnam sint. Expedita corporis officiis amet omnis facere labore alias, odio veniam dicta suscipit ipsum assumenda. -->
-          		</div>
-          	</div> --}}
         </div>
       </div>
     </div>
@@ -217,15 +202,8 @@
 	          	<div class="container">
 	          		<div class="col-md-12 lead pb-3 text-center font-weight-bold">Client Action Comment</div>
 	          		<div class="container border rounded pt-1 cDetails" style="min-height: 100px;">
-	          			<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt nam sed, accusamus alias incidunt, magnam sint. Expedita corporis officiis amet omnis facere labore alias, odio veniam dicta suscipit ipsum assumenda. -->
 	          		</div>
 	          	</div>
-	          	{{-- <div class="container">
-	          		<div class="col-md-12 lead  pt-3 pb-3 text-center font-weight-bold">Violation Details</div>
-	          		<div class="container border rounded pt-1" id="vDetails" style="min-height: 100px;">
-	          			<!-- Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt nam sed, accusamus alias incidunt, magnam sint. Expedita corporis officiis amet omnis facere labore alias, odio veniam dicta suscipit ipsum assumenda. -->
-	          		</div>
-	          	</div> --}}
 	          	
 				<div class="col-md-12 lead pt-3 pb-3 text-center font-weight-bold">Client Action Proofs</div>
 	          	<div class="container pt-3 border" id="view">
@@ -268,7 +246,6 @@
 			              	<input type="hidden" name="novmonid" id="novmonid" hidden>
 
 			              	{{-- appid --}}
-			              	<!-- <input type="text" name="novappid" id="novappid" > -->
 			              	<input type="hidden" name="novappid" id="novappid" hidden>
 
 			              	{{-- date --}}
@@ -313,26 +290,14 @@
 
 			              	{{-- dire --}}
 			              	<div class="row mb-2">
-			                	<!-- <div class="col-sm-4 w-100"> -->
 			                  		Direction:
-			                	<!-- </div> -->
-
-			                	<!-- <div class="col-sm-8 w-100"> -->
-			                  		<!-- <select multiple name="novdire[]" class="form-control w-100" onchange="novextra(this)" data-parsley-required-message="<b>*Direction</b> required" required data-parsley="recrecom" required id="mon_tech_dire">
-			                  			<option disabled hidden selected value="">Select an option</option>
-			                  			@isset($AllNov)
-			                  				@foreach($AllNov as $key => $value)
-			                  					<option value="{{$value->novid_directions}}">{{$value->novdesc}}</option>
-			                  				@endforeach)
-			                  			@endisset
-			                  		</select> -->
 									  <div class="container">
 										@isset($AllNov)
 			                  				@foreach($AllNov as $key => $value)
 											  <div class="row">
    											    <div class="col-sm-2">
 													<input type="checkbox" id="{{$value->novid_directions}}" name="novdire[]" class="form-control w-100" 
-													onclick="showextra(this.value)" value="{{$value->novid_directions}}" >
+													onclick="showextra(this.value)" value="{{$value->novid_directions}}" style="height:10px;">
 												</div>
 												<div class="col-sm-10">
 												{{$value->novdesc}} <br/>
@@ -341,7 +306,6 @@
 									@endforeach
 			                  			@endisset
 									  </div>
-								<!-- </div>			                	 -->
 			              	</div>
 
 			              	<div class="row mb-2">
@@ -568,68 +532,65 @@
 	    </div>
   	</div>
 
-	<script type="text/javascript">
-		function showextra(value){
-			if($('#3').prop('checked')){
-				document.getElementById('nov_others').removeAttribute("hidden")
-			}else{
-				document.getElementById('nov_others').setAttribute("hidden", true);
-			}
+<script type="text/javascript">
+	function showextra(value){
+		if($('#3').prop('checked')){
+			document.getElementById('nov_others').removeAttribute("hidden")
+		}else{
+			document.getElementById('nov_others').setAttribute("hidden", true);
 		}
+	}
 
-
-
-
-		let validImageTypes = ["gif", "jpeg", "png", "jpg"];
-		function showData(det,survid,displayImage = false){
-	    	let aString = '<div class="row">';
-	    	let sView = $("#view");
-	    	$(".cDetails").empty().html(det);
-	    	if(displayImage){
-	    		$('[name=monid]').val(survid);
-				$.ajax({
-					url: '{{asset('employee/dashboard/others/surveillance/getMonAct')}}',
-					method: 'POST',
-					async: false,
-					data: {_token: $('input[name=_token]').val(), survid: survid},
-					success: function(a){
-						let det = JSON.parse(a);
-						sView.empty().html('<div class="container text-center font-weight-bold ">No Image Uploaded</div>');
-						if(det['attached_filesUser'] != "" && det['attached_filesUser'] != null){
-							let splited = det['attached_filesUser'].split(',');
-							let perDiv = (12 % splited.length == 0 ? '-' + 12 / splited.length : '-3');
-							for (var i = 0;  i < splited.length; i++) {
-								let link = '{{asset('ra-idlis/storage/app/public/uploaded/')}}/'+splited[i]+'';
-								aString  += '<div class="col'+perDiv+' mt-3">'+
-					            '<img onclick="window.open('+"\'"+ link+'\')" " class="w-100" src="'+($.inArray(link.split('.').pop(), validImageTypes) < 0 ? '{{url('ra-idlis/public/img/no-preview-available.png')}}' : link)+'" style="cursor: pointer;">'+
-					            '</div>';
-							}
-							aString +='</div>';
-							sView.empty().append(aString);
-						}	
-					}
-				})
-			}
-	    }
-		function att(monid) {
-			document.getElementById('monid').value=monid;
+	let validImageTypes = ["gif", "jpeg", "png", "jpg"];
+	function showData(det,survid,displayImage = false){
+		let aString = '<div class="row">';
+		let sView = $("#view");
+		$(".cDetails").empty().html(det);
+		if(displayImage){
+			$('[name=monid]').val(survid);
+			$.ajax({
+				url: '{{asset('employee/dashboard/others/surveillance/getMonAct')}}',
+				method: 'POST',
+				async: false,
+				data: {_token: $('input[name=_token]').val(), survid: survid},
+				success: function(a){
+					let det = JSON.parse(a);
+					sView.empty().html('<div class="container text-center font-weight-bold ">No Image Uploaded</div>');
+					if(det['attached_filesUser'] != "" && det['attached_filesUser'] != null){
+						let splited = det['attached_filesUser'].split(',');
+						let perDiv = (12 % splited.length == 0 ? '-' + 12 / splited.length : '-3');
+						for (var i = 0;  i < splited.length; i++) {
+							let link = '{{asset('ra-idlis/storage/app/public/uploaded/')}}/'+splited[i]+'';
+							aString  += '<div class="col'+perDiv+' mt-3">'+
+							'<img onclick="window.open('+"\'"+ link+'\')" " class="w-100" src="'+($.inArray(link.split('.').pop(), validImageTypes) < 0 ? '{{url('ra-idlis/public/img/no-preview-available.png')}}' : link)+'" style="cursor: pointer;">'+
+							'</div>';
+						}
+						aString +='</div>';
+						sView.empty().append(aString);
+					}	
+				}
+			})
 		}
+	}
+	function att(monid) {
+		document.getElementById('monid').value=monid;
+	}
 
-		function att1(monid, att) {
-			document.getElementById('monid').value=monid;
-			document.getElementById('aatt').innerHTML=att.split("/")[2].replace(monid+"^", '');
-		}
+	function att1(monid, att) {
+		document.getElementById('monid').value=monid;
+		document.getElementById('aatt').innerHTML=att.split("/")[2].replace(monid+"^", '');
+	}
 
-		@isset($optid)
+	@isset($optid)
 		$(document).ready(function(){
 			$('#example_filter input').val('{{$optid}}').trigger('keyup');
 		})
-		@endisset
+	@endisset
 
 
-	</script>
+</script>
 <script>
-			$(document).ready( function () {
+	$(document).ready( function () {
     $('#myTable').DataTable();
 } );
 	</script>

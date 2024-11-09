@@ -3,10 +3,12 @@
 <div  class="row">
 
     <div class="col-md-8">
+
         <?php $_aptid = "IN";
         $_aptdesc = "Initial New";
         $_dispSubmit = false;
         $_dispData = "Submit Details";
+
         if (isset($aptid)) {
             if ($aptid == "IC") {
                 $_aptid = $aptid;
@@ -32,8 +34,8 @@
                 </div>
                 <div class="card-body">
                     <form class="row" id="ltoForm">
-                    <input type="hidden" name="uid" id="uid" value="{{isset($user->uid) ? $user->uid : '' }}"/>
-                <!-- <input type="hidden" name="uid" id="uid" value="$user->uid"/> 6-9-2021 -->
+                        <input type="hidden" name="uid" id="uid" value="{{isset($user->uid) ? $user->uid : '' }}"/>
+                        <!-- <input type="hidden" name="uid" id="uid" value="$user->uid"/> 6-9-2021 -->
                         <input type="hidden" name="appid" id="appid" />
                         <!-- <input type="hidden" name="appid" id="appid" value="{{ isset($appdata->appid) ? $appdata->appid : '' }}" /> -->
 
@@ -141,42 +143,42 @@
                             @endphp
 
                             @if((app('request')->input('grp') != 'c' || app('request')->input('grp') != 'C') ||  $grpid == 'DC')
-                <div class="col-md-12">
-                Remarks: <br>
-                {!!((count($fAddress) > 0) ? $fAddress[0]->appComment: "")!!}
-                </div>
-              
-                @endif
+                                <div class="col-md-12">
+                                Remarks: <br>
+                                {!!((count($fAddress) > 0) ? $fAddress[0]->appComment: "")!!}
+                                </div>
+                        
+                            @endif
                                 
-                <div class="col-md-12"> &nbsp;</div>
+                            <div class="col-md-12"> &nbsp;</div>
 
-                @if((app('request')->input('grp') != 'c' && app('request')->input('grp') != 'C')  && app('request')->input('cont') != 'yes' && app('request')->input('grpn') != 'c' )
-                                        <!-- <div class="col-lg-3 col-md-3 col-xs-12 mb-5">
-                                        <div class="col-md-12" id="divRem" >
-                                            <label for="remarks" >Remarks</label>
-                                            <textarea class="form-control" name="remarks" id="remarks" >
-                                            
-                                            </textarea>
-                                        </div>
-                                            <button id="update"  class="btn btn-primary btn-block" type="button" onClick="savePartialLto('update')">
-                                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                                Update
-                                            </button>
-                                        </div> -->
-                                        <div class="col-md-12" id="divRem" >
-                                                <label for="remarks" >Remarks</label>
-                                                <textarea class="form-control" name="remarks" id="remarks" >
-                                                
-                                                </textarea>
-                                            </div>
-                                            <div class="col-md-12"> &nbsp;</div>
-                                            <div class="col-lg-3 col-md-3 col-xs-12 mb-5">
-                                                <button id="update"  class="btn btn-primary btn-block" type="button" onClick="savePartialLto('update')">
-                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                                    Update 
-                                                </button>
-                                        </div>
-                                    @endif
+                            @if((app('request')->input('grp') != 'c' && app('request')->input('grp') != 'C')  && app('request')->input('cont') != 'yes' && app('request')->input('grpn') != 'c' )
+                                <!-- <div class="col-lg-3 col-md-3 col-xs-12 mb-5">
+                                <div class="col-md-12" id="divRem" >
+                                    <label for="remarks" >Remarks</label>
+                                    <textarea class="form-control" name="remarks" id="remarks" >
+                                    
+                                    </textarea>
+                                </div>
+                                    <button id="update"  class="btn btn-primary btn-block" type="button" onClick="savePartialLto('update')">
+                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                        Update
+                                    </button>
+                                </div> -->
+                                <div class="col-md-12" id="divRem" >
+                                    <label for="remarks" >Remarks</label>
+                                    <textarea class="form-control" name="remarks" id="remarks" >
+                                    
+                                    </textarea>
+                                </div>
+                                <div class="col-md-12"> &nbsp;</div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 mb-5">
+                                    <button id="update"  class="btn btn-primary btn-block" type="button" onClick="savePartialLto('update')">
+                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                        Update 
+                                    </button>
+                                </div>
+                            @endif
                         </div> 
                     </form>
                 </div>
@@ -213,7 +215,7 @@
                     </div>
                 </div>
             </div>
-        <div id="clickable">
+            <div id="clickable">
 
             </div>
             @include('dashboard.client.modal.facilityname-helper')
@@ -221,11 +223,9 @@
 
         {{-- payment --}}
         <div class="col-md-4">
-            @include('dashboard.client.forms.parts.payment.payment-form')
-         
+            @include('dashboard.client.forms.parts.payment.payment-form')         
         </div>
     </div>
-
 
 </div>
 
@@ -234,19 +234,15 @@
         width: 100%;
         display: block;
     }
-
     .custom-selectpicker {
         border: 1px solid #ced4da;
     }
-
     .region {
         display: none;
     }
-
     .province {
         display: none;
     }
-
     #asc-H1-REGIS {
         display: none;
     }
@@ -258,48 +254,42 @@
     }
 </style>
 <script>
- var savStat = "partial";
- savStat ='{!!((count($fAddress) > 0) ? $fAddress[0]->savingStat: "")!!}';
+    var savStat = "partial";
+    savStat ='{!!((count($fAddress) > 0) ? $fAddress[0]->savingStat: "")!!}';
 
-if (window.location.href.indexOf("?cor=true") > -1 && 'final' == '{!!((count($fAddress) > 0) ? $fAddress[0]->savingStat: "")!!}') {
-    savStat = "partial";
-}
+    if (window.location.href.indexOf("?cor=true") > -1 && 'final' == '{!!((count($fAddress) > 0) ? $fAddress[0]->savingStat: "")!!}') {
+        savStat = "partial";
+    }
+    //  if(savStat == "final"){
+    //     document.getElementById('submit').setAttribute("hidden", "hidden");
+    //     document.getElementById('save').setAttribute("hidden", "hidden");
+    // document.getElementById('update').removeAttribute("hidden");
+    //  }
+    var apptypenew = '{!! $apptypenew !!}';
 
-//  if(savStat == "final"){
-//     document.getElementById('submit').setAttribute("hidden", "hidden");
-//     document.getElementById('save').setAttribute("hidden", "hidden");
-// document.getElementById('update').removeAttribute("hidden");
-//  }
-var apptypenew = '{!! $apptypenew !!}';
+    if(savStat == "final" && apptypenew != "renewal"){
+        document.getElementById('submit').setAttribute("hidden", "hidden");
+        document.getElementById('save').setAttribute("hidden", "hidden");
 
- if(savStat == "final" && apptypenew != "renewal"){
-    document.getElementById('submit').setAttribute("hidden", "hidden");
-    document.getElementById('save').setAttribute("hidden", "hidden");
+        var update =  document.getElementById('update');
 
-    var update =  document.getElementById('update');
-    if(update){
-    document.getElementById('update').removeAttribute("hidden");
-}
-    @if($grpid == 'RLO' || $grpid == 'LO1' || $grpid == 'LO2' || $grpid == 'LO3' || $grpid == 'LO4' || $grpid == 'PO' || $grpid == 'PO1' || $grpid == 'PO2')
-         document.getElementById('divRem').removeAttribute("hidden");
-    @endif
+        if(update){
+            document.getElementById('update').removeAttribute("hidden");
+        }
+        @if($grpid == 'RLO' || $grpid == 'LO1' || $grpid == 'LO2' || $grpid == 'LO3' || $grpid == 'LO4' || $grpid == 'PO' || $grpid == 'PO1' || $grpid == 'PO2')
+                document.getElementById('divRem').removeAttribute("hidden");
+        @endif
+    }
 
- }
+    if(apptypenew == "renewal"){
+        var ren =   document.getElementsByClassName("renewal");
 
- if(apptypenew == "renewal"){
-   var ren =   document.getElementsByClassName("renewal");
-
-   for(var i = 0 ; i < ren.length ; i++){
-       ren[i].removeAttribute("hidden");
-   }
- }
-
+        for(var i = 0 ; i < ren.length ; i++){
+            ren[i].removeAttribute("hidden");
+        }
+    }
 
 </script>
-
-
-
-
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -310,6 +300,3 @@ var apptypenew = '{!! $apptypenew !!}';
 @include('dashboard.client.forms.parts.license-to-operate.new_ftr')
 @include('dashboard.client.forms.parts.license-to-operate.lto-form-submission')
 @include('dashboard.client.get_fees')
-
-
-

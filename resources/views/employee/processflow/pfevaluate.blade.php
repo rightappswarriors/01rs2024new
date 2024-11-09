@@ -52,7 +52,7 @@
                             
                             <tr @if(!isset($data->documentSent) || $data->isrecommended == 2) style="background-color: #c4c1bb"; @endif>
                               <!-- <td class="text-center">{{$data->isCashierApprove}}</td> -->
-                              <td class="text-center">@if($data->aptid == 'R'){{'Renewal'}}@elseif($data->aptid == 'IN'){{'Initial New'}}@else{{'Unidentified'}}@endif</td>
+                              <td class="text-center">{{$data->aptdesc}}</td>
                               <td class="text-center">{{$data->hfser_id}}</td>
                               <td class="text-center">{{$data->hfser_id}}R{{$data->rgnid}}-{{$data->appid}}</td>
                               <td class=""><strong>{{$data->facilityname}}</strong></td>

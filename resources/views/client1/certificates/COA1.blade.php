@@ -71,7 +71,8 @@
 						Name of Facility 
 					</div>
 					<div class="col-md-5" style="float:left;display: inline;font-family:  Arial; font-size: 13pt">
-						:&nbsp;&nbsp;&nbsp;<strong><strong>{{((isset($retTable[0]->facilityname)) ? $retTable[0]->facilityname : "CURRENT_FACILITY")}}</strong></strong>
+						:&nbsp;&nbsp;&nbsp;<strong>{{((isset($retTable[0]->facilityname)) ? $retTable[0]->facilityname : "CURRENT_FACILITY")}}</strong>
+						<span style="font-size: small; font-style: italic;">{{((isset($retTable[0]->rename_dateapproved)) ? "(".date_format(date_create($retTable[0]->rename_dateapproved),"m/d/Y").")" : "")}}</span>
 					</div>
 					<div class="col-md-1" style="display: inline">
 						&nbsp;</div>
@@ -93,12 +94,29 @@
 						Location
 					</div>
 					<div class="col-md-5" style="float:left;display: inline;font-family: Arial; font-size: 13pt">
-						 :&nbsp;&nbsp;&nbsp;{{((isset($retTable[0])) ? ($retTable[0]->rgn_desc.', '.$retTable[0]->provname.', '.$retTable[0]->cmname.', '.$retTable[0]->brgyname.', '.$retTable[0]->street_name.' '.$retTable[0]->street_number) : "CURRENT_LOCATION")}}
+						 
+						 {{-- ((isset($retTable[0])) ? ($retTable[0]->rgn_desc.', '.$retTable[0]->provname.', '.$retTable[0]->cmname.', '.$retTable[0]->brgyname.', '.$retTable[0]->street_name.' '.$retTable[0]->street_number) : "No Location") ---}}
+
+						 @php								
+								/* $loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+										.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
+										.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
+										.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8")).' '.strtoupper($retTable[0]->rgn_desc)
+									); */
+								$loc =( ($retTable[0]->street_number ?  ucwords(strtolower($retTable[0]->street_number)).', ' : '' )
+									.($retTable[0]->street_name  ? ucwords(mb_strtolower($retTable[0]->street_name, "UTF-8")).', ' : ' ') 				 
+									.ucwords(mb_strtolower($retTable[0]->brgyname, "UTF-8")).', '.ucwords(mb_strtolower($retTable[0]->cmname, "UTF-8")).', '
+									.ucwords(mb_strtolower($retTable[0]->provname, "UTF-8"))
+								);
+								
+								$stringloc = preg_replace_callback('/\b(?=[LXIVCDM]+\b)([a-z]+)\b/i', function($matches) {   return strtoupper($matches[0]); }, $loc);	
+							@endphp
+							:&nbsp;&nbsp;&nbsp;{{((isset($retTable[0])) ?	$loc	: 'No Location.')}}
 					</div>
 					<div class="col-md-1" style="display: inline">
 						&nbsp;</div>
 				</div>
-				<div class="row">
+				<!-- div class="row">
 					<div class="col-md-2" style="">&nbsp;</div>
 					<div class="col-md-3" style="font-family: Arial; font-size: 12pt">
 						Accreditation Number
@@ -108,14 +126,18 @@
 					</div>
 					<div class="col-md-1" style="display: inline">
 						&nbsp;</div>
-				</div>	
+				</div --->	
 				<div class="row">
 					<div class="col-md-2" style="">&nbsp;</div>
 					<div class="col-md-3" style="font-family: Arial; font-size: 12pt">
 						Validity of Accreditation 
 					</div>
 					<div class="col-md-5" style="float:left;display: inline;font-family: Arial; font-size: 13pt">
-					:&nbsp;&nbsp;&nbsp;{{date('F j, Y', strtotime($retTable[0]->approvedDate))}} – {{'December 31, '. date('Y', strtotime('+1 years' ,  strtotime($retTable[0]->approvedDate)))}}
+					@if($retTable[0]->aptid != 'R' )
+						{{date('j F Y', strtotime($retTable[0]->approvedDate))}} – {{date('j F Y',  strtotime($otherDetails[0]->valto))}}
+					@else
+						01 January {{date('Y', strtotime('+1 year', strtotime($retTable[0]->approvedDate)))}} – {{date('j F Y',  strtotime($retTable[0]->validDate))}}
+					@endif
 					</div>
 					<div class="col-md-1" style="display: inline">
 						&nbsp;</div>
@@ -139,6 +161,10 @@
 						<div class="col-md-5" style="float:left;display: inline;font-family: Arial; font-size: 13pt">
 							:&nbsp;&nbsp;&nbsp;
 							{{ $str_new  }}
+							<span style="font-size: small; font-style: italic;">
+									<!---Classification -->
+									{{((isset($retTable[0]->classification_dateapproved)) ? "(".date_format(date_create($retTable[0]->classification_dateapproved),"m/d/Y").")" : "")}}										
+							</span>
 						</div>
 						<div class="col-md-1" style="display: inline">
 							&nbsp;</div>

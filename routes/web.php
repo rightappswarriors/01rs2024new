@@ -9,11 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-/* ---- 
-Proper Routing
-
----- */
+/* ---- Proper Routing ---- */
 
 // New
 
@@ -105,12 +101,32 @@ Route::prefix('client1')->group(function() {
 	Route::match(['get', 'post'], '/fdacertificate/new/{appid}/{request?}', 'NewClientController@fdacertN');
 	Route::match(['get', 'post'], '/createfdacert/{appid}/{request?}', 'DOHController@createfdacert');
 	Route::match(['get', 'post'], '/printPaymentFDACDRR/{token}/{appid}', 'NewClientController@__fdaPaymentCDRR');
+	Route::prefix('messages')->group(function() {
+		Route::match(['get', 'post'], '/', 'NewClientController@__msg_inbox')->name('client1.__msg_inbox');
+	});
+	Route::prefix('historyapplication')->group(function() {
+		Route::match(['get', 'post'], '/', 'NewClientController@__historyapplication')->name('client1.__historyapplication');
+	});
+
+	Route::prefix('changerequest')->group(function() {
+		// qweqwe - initial change
+		Route::match(['get', 'post'], '/{reg_fac_id}/{functype}', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		/*Route::match(['get', 'post'], '/{reg_fac_id}/main', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		Route::match(['get', 'post'], '/{reg_fac_id}/cs', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		Route::match(['get', 'post'], '/{reg_fac_id}/as', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		Route::match(['get', 'post'], '/{reg_fac_id}/av', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		Route::match(['get', 'post'], '/{reg_fac_id}/hospital', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		Route::match(['get', 'post'], '/{reg_fac_id}/annexa', 'NewClientController@__editAppCoRNew');  //functype default value is main
+		Route::match(['get', 'post'], '/{reg_fac_id}/annexb', 'NewClientController@__editAppCoRNew');  //functype default value is main*/
+		Route::match(['get', 'post'], '/actionsubmit', 'NewClientController@__editAppCoRSubmit');   //submitted bed capacity
+	});
+	
 	Route::prefix('apply')->group(function() {
 		// qweqwe - initial change
 		Route::match(['get', 'post'], '/', 'NewClientController@__apply')->name('client1.apply');
+
 		Route::match(['get', 'post'], '/change_request/{hfser}/{appid}', 'NewClientController@__editAppCoR');  //not use
-		Route::match(['get', 'post'], '/change_request_new/{reg_fac_id}/{functype}', 'NewClientController@q');  //functype default value is main
-		Route::match(['get', 'post'], '/change_request_submit', 'NewClientController@__editAppCoRSubmit');   //submitted bed capacity
+
 		Route::match(['get', 'post'], '/new', 'NewClientController@__applyNew')->name('client1.applynew');
 		Route::match(['get', 'post'], '/assessmentSend/{appid}/{apptype}', 'NewClientController@AssessmentSend');
 
@@ -118,9 +134,7 @@ Route::prefix('client1')->group(function() {
 		Route::match(['get', 'post'], '/complianceattachment/{complianceid}/{appid}', 'NewClientController@__complianceAttachment');
 		Route::match(['get', 'post'], '/complianceremarks/{complianceid}/{appid}', 'NewClientController@__complianceRemarks');
 		Route::match(['get', 'post'], '/complianceaddremarks', 'NewClientController@__complianceAddRemarks');
-		Route::match(['get', 'post'], '/complianceaddattachment', 'NewClientController@__complianceAddAttachment');
-
-		
+		Route::match(['get', 'post'], '/complianceaddattachment', 'NewClientController@__complianceAddAttachment');		
 
 		Route::match(['get', 'post'], '/assessmentReady/{appid}', 'NewClientController@assessmentReady');
 		Route::match(['get', 'post'], '/HeaderOne/{appid}/{part}/{montype?}', 'NewClientController@assessmentHeaderOne'); // View each
@@ -209,6 +223,7 @@ Route::prefix('client1')->group(function() {
 			Route::prefix('app')->group(function() {
 				Route::prefix('{hfser}')->group(function() {
 					Route::match(['get', 'post'], '/{appid}', 'NewClientController@__editApp')->name('client1.editapplyapp');
+					Route::match(['get', 'post'], '/{appid}/actionsubmit', 'NewClientController@__editApp_submit');
 					Route::match(['get', 'post'], '/{appid}/hfsrb', 'NewClientController@__editAppHfsrb')->name('client1.editapplyhfsrb');
 					Route::match(['get', 'post'], '/{appid}/fda', 'NewClientController@__editAppFda')->name('client1.editapplyfda');
 				});
@@ -317,12 +332,21 @@ Route::post('employee/mf/getEmployeeWithoutTeam', 'AjaxController@getEmployeeWit
 Route::post('employee/mf/getMembersInTeam', 'AjaxController@getMembersInTeam'); // Get members using x08
 Route::post('employee/mf/getMembersInTeam/neww', 'AjaxController@getMembersInTeamNew'); // Get members using x08
 Route::match(['get', 'post'], 'employee/dashboard/mf/manage/teams', 'DOHController@MfManageTeam'); // Main, Add
+
+// Client Announcement
+Route::match(['get', 'post'], 'employee/dashboard/mf/clientannouncement', 'DOHController@ClientAnnouncement'); // Main, Add
+Route::post('employee/mf/save_clientannouncement', 'AjaxController@saveClientAnnouncement'); // Update
+Route::post('employee/mf/del_clientannouncement', 'AjaxController@delClientAnnouncement'); // Delete
+
 // Application Type
 Route::match(['get', 'post'], 'employee/dashboard/mf/apptype', 'DOHController@AppType'); // Main, Add
-Route::match(['get', 'post'], 'employee/dashboard/mf/registered/facility', 'RegFaciController@mfRegFacilities'); // Main, Add
-Route::match(['get', 'post'], 'employee/dashboard/mf/licenseValidity', 'DOHController@licenseValidity'); // application license validity
 Route::post('employee/mf/save_apptype', 'AjaxController@saveAppType'); // Update
 Route::post('employee/mf/del_apptype', 'AjaxController@delAppType'); // Delete
+
+// Registered Facilities
+Route::match(['get', 'post'], 'employee/dashboard/mf/registered/facility', 'RegFaciController@mfRegFacilities'); // Main, Add
+//License Validity
+Route::match(['get', 'post'], 'employee/dashboard/mf/licenseValidity', 'DOHController@licenseValidity'); // application license validity
 // other ancillary
 Route::match(['get', 'post'], 'employee/dashboard/mf/servicetype', 'DOHController@ancilliary'); // Main, Add
 Route::match(['get', 'post'], 'employee/dashboard/mf/applylocation', 'DOHController@apploc'); // apply location
@@ -552,18 +576,19 @@ Route::match(['get', 'post'], 'employee/dashboard/mf/settings', 'DOHController@S
 Route::match(['get', 'post'], 'employee/dashboard/processflow/view/{filter?}', 'DOHController@ViewProcessFlow'); // View All
 Route::match(['get', 'post'], 'employee/dashboard/applist/{filter?}', 'DOHController@Applist'); // View All
 Route::match(['get', 'post'], 'employee/hhrdb/applist', 'DOHController@listofpersonnel'); // View All
+
+Route::match(['get', 'post'], 'employee/dashboard/processflow/view/FDA/{request?}', 'DOHController@ViewProcessFlowFDA'); // View All
+Route::match(['get', 'post'], 'employee/dashboard/processflow/view/FDA/submit/{request?}', 'DOHController@ViewProcessFlowFDASubmit
+'); // View All
+
 // Evaluate
 Route::match(['get', 'post'],  'employee/dashboard/mf/FDA/pharma_charges', 'DOHController@fdapharma'); // Main, Add
 Route::match(['get', 'post'],  'employee/dashboard/processflow/evaluate', 'DOHController@EvaluateProcessFlow'); // View All
 Route::match(['get', 'post'],  'employee/dashboard/processflow/evaluate/technical', 'DOHController@EvaluateProcessFlowTechnical'); // View All
-Route::match(['get', 'post'],  'employee/dashboard/processflow/archive', 'DOHController@Archive'); // View All
-Route::match(['get', 'post'],  'employee/dashboard/processflow/archive/{regfac_id}', 'DOHController@ArchiveOne'); // View All
 
-Route::match(['get', 'post'],  'employee/dashboard/processflow/pre-assessment/FDA/{request?}', 'DOHController@pre_assessmentFDA'); // View All // FDA
-
+// View All // FDA 
+Route::match(['get', 'post'],  'employee/dashboard/processflow/pre-assessment/FDA/{request?}', 'DOHController@pre_assessmentFDA'); 
 Route::match(['get', 'post'],  'employee/dashboard/processflow/evaluate/FDA/{request?}', 'DOHController@EvaluateProcessFlowFDA');
-
-Route::match(['get', 'post'],  'employee/dashboard/processflow/evaluate/FDA/{request?}', 'DOHController@EvaluateProcessFlowFDA'); // View All // FDA
 Route::match(['get', 'post'], 'employee/dashboard/processflow/evaluate/{appid}/{requestforfda?}', 'DOHController@EvaluateOneProcessFlow'); // View One
 Route::match(['get', 'post'], 'employee/dashboard/processflow/evaluatetech/{appid}/{requestforfda?}', 'DOHController@EvaluateTechProcessFlow'); // View One
 Route::match(['get', 'post'], 'employee/dashboard/processflow/LTO/evaluate/', 'DOHController@evaluateLTOReq'); // View One
@@ -743,6 +768,9 @@ Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/teams', 'DOH
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/inspection', 'DOHController@MonitoringInspectionOthers'); // View All, Add
 // Monitoring Inspection
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/technical/{id?}', 'DOHController@MonitoringTechnicalOthers'); // View All, Add
+
+Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/technical/showviolation/{id}', 'DOHController@MonitoringTechnicalOthers_ShowViolation'); // View All, Add
+
 // Monitoring Recommendation
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/recommendation', 'DOHController@MonitoringRecommendationOthers'); // View All, Add
 // Monitoring Evaluation
@@ -883,6 +911,7 @@ Route::match(['get', 'post'], 'employee/dashboard/others/mon_delete', 'OthersCon
 Route::match(['get', 'post'], 'employee/dashboard/others/monitoring/updatestatus/mon_update', 'OthersController@mon_update');
 // Issue NOV
 Route::match(['get', 'post'], 'employee/dashboard/others/mon_nov', 'OthersController@mon_nov');
+
 // Update NOV
 Route::match(['get', 'post'], 'employee/dashboard/others/mon_nov_u', 'OthersController@mon_nov_u');
 // Recommendation
@@ -1018,6 +1047,7 @@ Route::prefix('employee/reports')->group(function() {
 	Route::prefix('license')->group(function() {
 		Route::prefix('Certificates')->group(function() {
 			Route::match(['get', 'post'], 'facilities', 'ReportsController@certificate_list');
+			Route::match(['get', 'post'], 'edit', 'ReportsController@certificate_list_edit');
 		});
 		Route::match(['get', 'post'], 'facilities', 'ReportsController@license_facilities');
 		Route::match(['get', 'post'], 'infirmary', 'ReportsController@license_infirmary');
@@ -1048,6 +1078,22 @@ Route::prefix('employee/reports')->group(function() {
 		Route::match(['get', 'post'], 'byregisteredfacilities', 'ReportsController@ndhrhis_byregisteredfacilities');
 	});
 });
+
+// View All
+Route::match(['get', 'post'],  'employee/dashboard/facilityrecords/archiveall', 'DOHController@ArchiveAll');
+Route::match(['get', 'post'],  'employee/dashboard/facilityrecords/archive', 'DOHController@Archive'); 
+Route::match(['get', 'post'],  'employee/dashboard/facilityrecords/archive/{regfac_id}', 'DOHController@ArchiveOne'); 
+
+Route::match(['get', 'post'],  'employee/dashboard/facilityrecords/annexa', 'DOHController@Archive'); 
+Route::match(['get', 'post'],  'employee/dashboard/facilityrecords/annexa/{regfac_id}', 'ReportsController@annexa_list'); 
+Route::match(['get', 'post'],  'employee/dashboard/facilityrecords/notification/{clientuserid?}/{regfac_id?}', 'DOHController@__clientnotification_msg'); 
+
+Route::prefix('employee/dashboard/facilityrecords')->group(function() {
+
+	Route::match(['get', 'post'], '/', 'DOHController@listOf_Registeredfacilities');
+	Route::match(['get', 'post'], '/{regfac_id}', 'DOHController@Registeredfacilities_Form');
+});
+
 
 Route::prefix('employee/regfacility')->group(function() {
 

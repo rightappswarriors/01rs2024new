@@ -9,6 +9,12 @@ const savePartialAto = async (e) => {
         var invalids = 0;
         var invmssg = " ";
 
+        if($('#aptidnew').val() == "R"){
+
+            if($('#license_number').val() == ""){errorPar +=1;  errors +=1; ermsgP+= "\nPrevious License Number, "; ermsg += "\nPrevious License Number, "}
+            if($('#license_validity').val() == ""){errorPar +=1;  errors +=1; ermsgP+= "\nPrevious License Validity Date, "; ermsg += "\nPrevious License Validity Date, "}
+        }
+
        if($('#facility_name').val() == ""){errorPar +=1;  errors +=1; ermsgP+= "Facility Name, "; ermsg += "Facility Name, "}
 
         // Disregard if update
@@ -212,8 +218,19 @@ function submitProper (e){
         remarks:             $('#remarks').val(),
         appchargenew:             $('#tempAppChargenew').val(),//appchargetemp
         appchargeHgpnew:             $('#tempAppChargeHgpidnew').val(),//appchargetemp
+
+        license_number:         null,
+        license_validity:       null,
+        head_of_facility_name:             $('#head_of_facility_name').val(),        
         // aptid: "IN"
     }
+
+    if(data.aptid == "R")
+    {
+        data.license_number = $('#license_number').val();
+        data.license_validity = $('#license_validity').val();
+    }
+
     console.log(data)
     callApi('/api/application/ato/save', data, 'POST').then(d => {
      const id = d.data.id;

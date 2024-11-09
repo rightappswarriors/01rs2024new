@@ -25,22 +25,12 @@
                 placeholder="Proponent/Owner Landline"/>
         </div>
         <div class="col-xs-12 col-md-7 col-xs-7">
-            <input 
-                type="text" 
-                class="form-control" 
-                id="prop_landline" 
-                name="ownerLandline"
-                placeholder="Proponent/Owner Landline"/>
+            <input type="text" class="form-control" id="prop_landline" name="ownerLandline" placeholder="Proponent/Owner Landline"/>
         </div>
-    </div>
-    
+    </div>    
 </div>
+
 <div class="col-md-4 change-div">
     <label for="prop_email">Proponent/Owner Email Address <span class="text-danger">*</span></label>
-    <input 
-        type="text" 
-        class="form-control" 
-        id="prop_email" 
-        name="ownerEmail"
-        placeholder="Proponent/Owner Email Address"/>
+    <input type="text" class="form-control" id="prop_email" name="ownerEmail" placeholder="Proponent/Owner Email Address"/>
 </div>

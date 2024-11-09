@@ -51,6 +51,12 @@
 
                                     <ul id="AppMenu" class="list-unstyled collapse">
 
+                                        <span class="AP001_allow">
+
+                                            <li><a href="{{ asset('/employee/dashboard/mf/clientannouncement') }}">&nbsp;&nbsp;&nbsp;&nbsp;Client Announcement</a></li>
+
+                                        </span>
+
                                        {{-- @if ($employeeData->grpid == 'NA') --}}
 
                                         <span class="AP001_allow">
@@ -636,7 +642,6 @@
 
                         <ul id="ProFlowMenu" class="list-unstyled collapse">
 
-                            {{-- @if($employeeData->grpid != 'CS' || $employeeData->grpid != "C") --}}
 
                             <span class="PF001_allow">
 
@@ -644,7 +649,6 @@
 
                             </span>
                             
-                            {{-- @endif --}}
 
                             {{-- @if ($employeeData->grpid == 'NA' || $employeeData->grpid == "PO" || $employeeData->grpid == "FDA") --}}
 
@@ -766,6 +770,12 @@
 
                             </span>
 
+                            <span class="PF007a_allow">
+
+                                <li><a href="{{ asset('employee/reports/license/Certificates/edit') }}" >&nbsp;&nbsp;&nbsp;&nbsp;Edit Issued Certificate Number</a></li>
+
+                            </span>
+
                             {{-- @endif --}}
 
                             {{-- @if($employeeData->grpid != 'CS' || $employeeData->grpid != "C") --}}
@@ -831,22 +841,19 @@
                         <ul class="list-unstyled">
                             <ul id="FDA" class="list-unstyled collapse">
                                 {{-- machines --}}
+
                                 <li class="FDAM_allow"><a href="#machines" data-toggle="collapse">&nbsp;&nbsp;<i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Radiation facility</a>
                                 <!-- <li class="FDAM_allow"><a href="#machines" data-toggle="collapse">&nbsp;&nbsp;<i class="fa fa-cog" aria-hidden="true"></i>&nbsp;Machines</a> -->
                                     <ul id="machines" class="list-unstyled collapse">
-
-                                        <span class="FD008_allow">
-
-                                            {{-- <li><a href="{{ asset('employee/dashboard/processflow/FDA/machines/orderofpayment') }}">&nbsp;&nbsp;&nbsp;&nbsp;Order of Payment</a></li> --}}
-
-                                        </span>
+                                        
+                                    <li><a href="{{asset('/employee/dashboard/processflow/view/FDA/machines')}}">&nbsp;&nbsp;&nbsp;&nbsp;View Radiation Status</a></li>
 
                                         <span class="FDAMPA_allow">
 
                                             <li><a href="{{asset('employee/dashboard/processflow/pre-assessment/FDA/xray')}}">&nbsp;&nbsp;&nbsp;&nbsp;Pre-Assessment</a></li>
 
                                         </span>
-
+                                        
                                         <span class="FDAME_allow">
 
                                             <li><a href="{{asset('/employee/dashboard/processflow/evaluate/FDA')}}">&nbsp;&nbsp;&nbsp;&nbsp;Inspection</a></li>
@@ -879,11 +886,7 @@
                                 <li class="FDAP_allow"><a href="#pharma" data-toggle="collapse">&nbsp;&nbsp;<i class="fa fa-medkit" aria-hidden="true"></i>&nbsp;Pharmacy</a>
                                     <ul id="pharma" class="list-unstyled collapse">
 
-                                        <span class="FD008_allow">
-
-                                            {{-- <li><a href="{{ asset('employee/dashboard/processflow/FDA/pharma/orderofpayment') }}">&nbsp;&nbsp;&nbsp;&nbsp;Order of Payment</a></li> --}}
-
-                                        </span>
+                                    <li><a href="{{asset('/employee/dashboard/processflow/view/FDA/pharma')}}">&nbsp;&nbsp;&nbsp;&nbsp;View Application Status</a></li>
 
                                         <span class="FDAPPA_allow">
 
@@ -1270,9 +1273,7 @@
                             {{-- <span class="OT002_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance')}}"><i class="fa fa-video-camera" aria-hidden="true"></i> Surveillance</a>
-
                                 </li>
 
                             </span> --}}
@@ -1285,9 +1286,7 @@
                             </span>
 
                             {{-- <span class="OT004_allow">
-
                                 <li><a href="{{asset('employee/dashboard/others/complaints')}}">&nbsp;&nbsp;&nbsp;&nbsp;Complaints</a></li>
-
                             </span> --}}
 
                         </ul>
@@ -1308,9 +1307,7 @@
                             <span class="SU001_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance')}}">&nbsp;&nbsp;Surveillance Entry</a>
-
                                 </li>
 
                             </span>
@@ -1318,9 +1315,7 @@
                             <span class="SU002_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/teams')}}">&nbsp;&nbsp;Assignment of Team</a>
-
                                 </li>
 
                             </span>
@@ -1328,9 +1323,7 @@
                             {{-- <span class="SU003_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/inspection')}}">&nbsp;&nbsp;Inspection</a>
-
                                 </li>
 
                             </span> --}}
@@ -1338,10 +1331,8 @@
                             <span class="SU004_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/survact')}}">&nbsp;&nbsp;Recommendation</a>
                                     <!-- <a href="{{asset('employee/dashboard/others/surveillance/survact')}}">&nbsp;&nbsp;Surveillance Activity</a> -->
-
                                 </li>
 
                             </span>
@@ -1351,9 +1342,7 @@
                          {{--   <span class="SU005_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/clientActionTaken')}}">&nbsp;&nbsp;Client's action taken</a>
-
                                 </li>
 
                             </span>--}}
@@ -1361,10 +1350,8 @@
                             <span class="SU006_allow">
 
                                 <li>
-
                                     <a href="#">&nbsp;&nbsp;Surveillance Recommendation</a>
                                     <!-- <a href="#">&nbsp;&nbsp;Surveillance Tracking of Unlicensed HF</a> -->
-
                                 </li>
 
                             </span>
@@ -1372,11 +1359,9 @@
                             <span class="SU007_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/recommendation')}}">&nbsp;&nbsp;Verdict</a>
                                     <!-- <a href="{{asset('employee/dashboard/others/surveillance/recommendation')}}">&nbsp;&nbsp;Recommendation</a> -->
                                     <!-- <a href="{{asset('employee/dashboard/others/surveillance/recommendation')}}">&nbsp;&nbsp;Status Report of Surveyed HF</a> -->
-
                                 </li>
 
                             </span>
@@ -1386,9 +1371,7 @@
                             {{-- <span class="MO005_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/')}}">&nbsp;&nbsp;Evaluation</a>
-
                                 </li>
 
                             </span>
@@ -1396,9 +1379,7 @@
                             <span class="MO006_allow">
 
                                 <li>
-
                                     <a href="{{asset('employee/dashboard/others/surveillance/')}}">&nbsp;&nbsp;Send Letter</a>
-
                                 </li>
 
                             </span> --}}
@@ -1407,6 +1388,64 @@
 
                     </li>
 
+                </span>               
+                
+
+                <li hidden><a href="{{asset('/employee/dashboard/lps')}}"><i class="fa fa-fw fa-spinner"></i> Licensing Process Status</a></li>
+                
+                <span class="IDTOMIS_allow">
+                    <li><a href="{{asset('/employee/idtomis')}}"><i class="fas fa-tachometer-alt"></i> IDTOMIS</a></li>
+                </span>
+
+                <span class="OHSRS_allow">
+                    <li><a href="{{asset('/employee/dashboard')}}"><i class="fas fa-tachometer-alt"></i> OHSRS</a></li>
+                </span>
+                
+                <span class="NHFR_allow">
+                    <li> <a href="#NHFR" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NHFR</a>
+                        <ul id="NHFR" class="list-unstyled collapse">
+                            <span class="NHFR001_allow">
+                                <li class="#"><a href="{{ asset('employee/nhfr') }}">&nbsp;&nbsp;&nbsp;&nbsp;Current Import NHFR</a></li>
+                            </span>                        
+                            <span class="NHFR002_allow">
+                                <li class="#"><a href="{{ asset('employee/regfacility') }}">&nbsp;&nbsp;&nbsp;&nbsp;Registered Facility List</a></li>
+                            </span>     
+                        </ul>
+                    </li>
+                </span>
+                
+                <span class="NDHRHIS_allow">
+                <li> <a href="#NDHRHIS" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NDHRHIS</a>
+                    <ul id="NDHRHIS" class="list-unstyled collapse">
+                        <span class="NDHRHIS001_allow">
+                            <li class="#"><a href="{{ asset('employee/hhrdb/applist') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Application</a></li>
+                        </span>                        
+                        <span class="NDHRHIS002_allow">
+                            <li class="#"><a href="{{ asset('employee/reports/ndhrhis/byregisteredfacilities') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Registered Facilities</a></li>
+                        </span>   
+                    </ul>
+                </li>   
+                </span> 
+
+                <span class="F001_allow">
+                    <li>
+                        <a href="#ArchiveMenu" data-toggle="collapse"><i class="fas fa-fw fa-folder"></i> Facility Records</a>
+                        
+                        <ul id="ArchiveMenu" class="list-unstyled collapse">
+                            <span class="FR001_allow">
+                                <li><a href="{{ asset('/employee/dashboard/manage/client_users') }}"><i class="fa fa-user-circle"></i> User Accounts</a></li>
+                            </span>                        
+                            <span class="FR002_allow">
+                                <li class="#"><a href="{{ asset('/employee/dashboard/facilityrecords') }}"><i class="fa fa-fw fa-bank"></i>  Registered Facilities</a></li>
+                            </span>
+                            
+                            <span class="FR003_allow">
+                                {{-- <li><a href="{{asset('/employee/dashboard/facilityrecords/archive')}}"><i class="fa fa-fw fa-folder"></i> Registered Facilities of Archive of Files</a></li> --}}
+                                <li><a href="{{asset('/employee/dashboard/facilityrecords/archiveall')}}"><i class="fa fa-fw fa-folder"></i> Archive of Files</a></li>
+                            </span>
+                        </ul>
+                    
+                    </li>
                 </span>
 
 
@@ -1635,36 +1674,18 @@
                                     <li><a href="{{ asset('/employee/dashboard/manage/client_users') }}"><i class="fa fa-user-circle"></i> Client Users</a></li>
 
                                 </span>
-
+                                {{-- 
                                 <span class="MG003_allow">
 
                                     <li><a href="{{ asset('employee/dashboard/manage/applicants') }}"><i class="fa fa-users"></i> Applicant Accounts</a></li>
 
-                                </span>
+                                </span> --}}
 
                                 <span class="MG004_allow">
 
                                     <li><a href="{{ asset('employee/dashboard/manage/system_logs') }}"><i class="fa fa-history"></i> System Logs</a></li>
 
                                 </span>
-
-                                {{-- <li> --}}
-
-                                    {{-- @if($employeeData->grpid == 'NA' || $employeeData->grpid == 'RA') --}}
-
-                                    
-
-                                    {{-- @endif --}}
-
-                                    
-
-                                    {{-- @if ($employeeData->grpid == 'NA') --}}
-
-                                    
-
-                                    {{-- @endif --}}
-
-                                {{-- </li> --}}
 
                                 {{-- <li><a href="#perso" data-toggle="collapse"><i class="fa fa-fw fa-users"></i> Users
 
@@ -1682,42 +1703,10 @@
 
                                 </li> --}}
 
-                              
-
                             </ul>
 
                     </li>
 
-                </span>
-
-                <li hidden><a href="{{asset('/employee/dashboard/lps')}}"><i class="fa fa-fw fa-spinner"></i> Licensing Process Status</a></li>
-
-                <li class="IDTOMIS_allow"><a href="{{asset('/employee/idtomis')}}"><i class="fas fa-tachometer-alt"></i> IDTOMIS</a></li>
-                <li class="OHSRS_allow"><a href="{{asset('/employee/dashboard')}}"><i class="fas fa-tachometer-alt"></i> OHSRS</a></li>
-
-                <li> <a href="#NHFR" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NHFR</a>
-                    <ul id="NHFR" class="list-unstyled collapse">
-                        <li class="#"><a href="{{ asset('employee/nhfr') }}">&nbsp;&nbsp;&nbsp;&nbsp;Current Import NHFR</a></li>
-                        <li class="#"><a href="{{ asset('employee/regfacility') }}">&nbsp;&nbsp;&nbsp;&nbsp;Registered Facility List</a></li>
-                    </ul>
-                </li>
-                
-                <li> <a href="#NDHRHIS" data-toggle="collapse"><i class="fas fa-tachometer-alt"></i> NDHRHIS</a>
-                    <ul id="NDHRHIS" class="list-unstyled collapse">
-                            <li class="#"><a href="{{ asset('employee/hhrdb/applist') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Application</a></li>
-                            <li class="#"><a href="{{ asset('employee/reports/ndhrhis/byregisteredfacilities') }}">&nbsp;&nbsp;&nbsp;&nbsp;List of Personnel By Registered Facilities</a></li>
-                    </ul>
-                </li>    
-                <span class="PF002_allow">
-                    <li>
-                        <a href="#ArchiveMenu" data-toggle="collapse"><i class="fas fa-fw fa-folder"></i> Archive</a>
-                        
-                        <ul id="ArchiveMenu" class="list-unstyled collapse">
-                            <li><a href="{{asset('/employee/dashboard/processflow/archive')}}"><i class="fa fa-fw fa-folder"></i> Archive of Files</a></li>
-                            <li><a href="{{asset('/employee/dashboard/processflow/archive')}}"><i class="fa fa-fw fa-wrench"></i> Archive Settings</a></li>
-                        </ul>
-                    
-                    </li>
                 </span>
 
             </ul>

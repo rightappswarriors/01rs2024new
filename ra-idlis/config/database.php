@@ -41,20 +41,20 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            
+            /*   
             //Local Computer
             'host' => env('DB_HOST', '127.0.0.1'),  
             'port' => env('DB_PORT', '3306'),   
             'database' => env('DB_DATABASE', 'live_olrs_db'), 
             'username' => env('DB_USERNAME', 'root'),  
             'password' => env('DB_PASSWORD', 'Rightech777'), 
-             /*   
+              */
             //Beta OLRS DB   
             'host' => env('DB_HOST', '10.11.133.42'), 
             'port' => env('DB_PORT', '3306'),   
             'database' => env('DB_DATABASE', 'beta_olrs_db'), 
             'username' => env('DB_USERNAME', 'beta_olrs'),  
-            'password' => env('DB_PASSWORD', 'olrsadmin2022'), */
+            'password' => env('DB_PASSWORD', 'olrsadmin2022'),
             /*   
             //Live OLRS DB         
             'host' => env('DB_HOST', '10.11.133.42'), 
