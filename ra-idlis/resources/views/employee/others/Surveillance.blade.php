@@ -161,12 +161,12 @@
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="padding-left: 5px">
-                          
+						{{-- 
                          
                           <button class="btn btn-outline-info" data-toggle="modal" data-target="#eMonModal" onclick="getEditData(
                           '{{$value->hfsrbno}}', '{{$value->name_of_faci}}', '{{AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc }}', '{{\Carbon\Carbon::parse($value->date_added)->format('M d, Y')}}')" title="View {{$value->name_of_faci}}">
                             <i class="fa fa-fw fa-eye"></i>
-                          </button>  
+                          </button>   --}}
 
   <!-- <button class="btn btn-outline-info" data-toggle="modal" data-target="#eMonModal" onclick="getEditData(
                           '{{$value->hfsrbno}}', '{{$value->name_of_faci}}', ' AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc ', '{{\Carbon\Carbon::parse($value->date_added)->format('M d, Y')}}')" title="View {{$value->name_of_faci}}">

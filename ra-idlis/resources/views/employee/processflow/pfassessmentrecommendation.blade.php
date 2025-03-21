@@ -71,8 +71,8 @@
 					<small style="color:red">*Remarks on the decision made</small>
 
 					
-					<input name="conformee" type="text" class="form-control" required="" placeholder="Conforme">
-					<small style="color:red">Conforme*</small>
+					<input name="conformee" type="text" class="form-control" required="" placeholder="Received By">
+					<small style="color:red">Received By*</small>
 
 					<input name="conformeeDes" type="text" class="form-control" required="" placeholder="Position/Designation">
 					<small style="color:red">Position/Designation*</small>

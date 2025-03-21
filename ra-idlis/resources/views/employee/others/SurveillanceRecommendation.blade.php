@@ -142,12 +142,18 @@
 						                    @endif --}}
 
 						                    {{-- @if($value->hasLOE != "" && $value->survAct != "CDO") --}}
-	        									<button class="btn btn-outline-success" title="Recommendation" data-toggle="modal" data-target="#recMonModal" onclick="recommendationModal('{{$value->survid}}', '{{$value->appid}}', '{{$value->date_issued}}', '{{$value->name_of_faci}}', '{{AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc}}', '{{$value->hfsrbno}}')">
+											@if($value != null)
+												
+	        									<button class="btn btn-outline-success" title="Recommendation" data-toggle="modal" data-target="#recMonModal" 
+													onclick="recommendationModal('{{$value->survid}}', 
+													'{{$value->appid}}', 
+													'{{$value->date_issued}}', 
+													'{{$value->name_of_faci}}', '{{--{{AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc}} --}} {{$value->type_of_faci}}', 
+													'{{$value->hfsrbno}}')">
 							                		<i class="fa fa-sticky-note" aria-hidden="true"></i>
 							                	</button>
-												<!-- <button class="btn btn-outline-success" title="Recommendation" data-toggle="modal" data-target="#recMonModal" @if($value->hfsrbno == "" || $value->recommendation != "") hidden @endif onclick="recommendationModal('{{$value->survid}}', '{{$value->appid}}', '{{$value->date_issued}}', '{{$value->name_of_faci}}', '{{AjaxController::getHgpByFacid($value->type_of_faci)[0]->hgpdesc}}', '{{$value->hfsrbno}}')">
-							                		<i class="fa fa-sticky-note" aria-hidden="true"></i>
-							                	</button> -->
+												
+												@endif
 												@if($value->supportDoc)
 												
 
@@ -159,9 +165,6 @@
 													<!-- </a> -->
 												@endif
 												
-												<!-- <button class="btn btn-outline-success" title="Recommendation" data-toggle="modal" data-target="#recMonModal" @if($value->hfsrbno == "" || $value->recommendation != "") hidden @endif onclick="recommendationModal('{{$value->survid}}', '{{$value->appid}}', '{{$value->date_issued}}', '{{$value->name_of_faci}}', 'AjaxController::getFacTypeByFacid($value->type_of_faci)[0]->facname', '{{$value->hfsrbno}}')">
-							                		<i class="fa fa-sticky-note" aria-hidden="true"></i>
-							                	</button> -->
 							               {{--  @elseif($value->survAct == "CDO")
 							                	<span class="text-success"><b>Not Applicable</b></span>
 							                @endif --}}

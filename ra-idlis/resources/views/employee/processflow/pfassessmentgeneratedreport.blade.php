@@ -292,7 +292,7 @@
 			</table>
 			{{-- </div> --}}
 			@isset($reco)
-			<div class="col-md-12 text-left font-weight-bold">Conforme:</div>
+			<div class="col-md-12 text-left font-weight-bold">Received By:</div>
 			<table class="table">
 				<thead>
 					<tr>

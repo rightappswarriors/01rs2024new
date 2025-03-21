@@ -1897,7 +1897,9 @@ class NewClientController extends Controller {
 				'Special Clinical Authority' => 'SCL',
 				
 				'Drug Testing Laboratory-Confirmatory'=>'DTL',
-				'Drug Testing Laboratory - Screening'=>'DTL'
+				'Drug Testing Laboratory - Screening'=>'DTL',
+				
+				'Laboratory for Chemical Water Analysis for Dialysis Water'=>'LCADW'
 
 				);
 
@@ -2584,10 +2586,9 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							}
 						}
 					}
-	
 
 					$checkRadio = DB::table('x08_ft')->where([['appid', $appid]])
-								->whereIn('facid',['H1A1LXR', 'H2A2LX', 'H3A3XR', 'mfowsRMF', 'S-SLBMF', 'S-SSMF'])
+								->whereIn('facid',['H1A1LXR', 'H2A2LX', 'H3A3XR', 'S-SLBMF', 'S-SSMF'])
 								->first();
 
 					$machfilt1 = $mach[2];
@@ -2614,7 +2615,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 					
 					$renewal_checker = true;
 
-					if(isset($appform->aptid)){
+					/*if(isset($appform->aptid)){
 						if($appform->aptid == 'R') {
 							$cocp = DB::table('fda_coc')->where('appid', $appid)->where('fda_type', 'Pharmacy')->first();
 							$cocr = DB::table('fda_coc')->where('appid', $appid)->where('fda_type', 'Radiology')->first();
@@ -2623,12 +2624,11 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 								$renewal_checker = false;
 							}
 						}
-					}
+					}*/
 
-					if(($required1 == true && $required2 == true && $required3 == true ) && ($pharma[2] == true || $appform->hfser_id == 'COA') && $machfilt1 == true /*&& !is_null($pharmaattc)*/&& $chkserve == true && $renewal_checker == true)
-					{
+					if(($required1 == true && $required2 == true && $required3 == true ) && ($pharma[2] == true || $appform->hfser_id == 'COA') && $machfilt1 == true /*&& !is_null($pharmaattc)*/&& $chkserve == true && $renewal_checker == true){
 
-						if(!$pharma[0] && !$machfilt2  /*&& !is_null($pharmaattc) */&& $chkserve == true ){
+						if(!$pharma[0] && !$machfilt2  /*&& !is_null($pharmaattc)*/ && $chkserve == true ){
 				
 							$ret = DB::table('appform')->where('appid',$appid)->update(['isReadyForInspecFDA' => 1]);
 							if($ret){
@@ -2718,7 +2718,8 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							}
 							return 'succ';
 						} else {
-
+							
+							
 							$initial = 'Please provide Personnel on Pharmacy and Radiology and make sure to submit all requirements. Following are lacking requirements. ';
 							if($pharma[2] == true){
 								$pharMsg = $pharma[0] ? "For Pharmacy: " . implode(",",$pharma[1]). ". ": "";
@@ -2770,7 +2771,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 							$mssg .= " \n -  Radiation Protection Officer";
 						}
 
-						if(isset($appform->aptid)){
+						/*if(isset($appform->aptid)){
 							if($appform->aptid == 'R'  ) {
 								if(is_null($cocp) && $appform->hfser_id != 'COA'){
 									$mssg .= " \n - COC Pharmacy";
@@ -2780,7 +2781,7 @@ public function fdacertN(Request $request, $appid, $requestOfClient = null) {
 									$mssg .= " \n - COC Radiology";
 								}
 							}
-						}
+						}*/
 
 						if(is_null($servcat) && !is_null($checkRadio)){
 							$mssg .= " \n - Service Category";

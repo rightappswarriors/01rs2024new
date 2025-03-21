@@ -387,7 +387,7 @@
 				<br><br>
 				<center><p>No FDA Radiology Required for this Application.</p></center>
 				@endif
-
+				
 				@if($fAddress[0]->isReadyForInspecFDA <= 0)
 					<div class="d-flex justify-content-center" style="margin-top: 150px;">
 						<button class="btn btn-primary p-3" onclick="submit()">Finalize and Submit</button>

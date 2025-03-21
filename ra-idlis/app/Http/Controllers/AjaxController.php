@@ -8778,7 +8778,12 @@ public static function checkConmem($appid)
 			try 
 			{
 				//$sql = "SELECT trns_desc  FROM trans_status WHERE trns_id = '$id'";
-				$transStatus = DB::table('trans_status')->select('trns_desc')->where('trns_id', '=', $id)->first()->trns_desc;
+				$transStatus = DB::table('trans_status')->select('trns_desc')->where('trns_id', '=', $id)->first();
+				
+				if($transStatus != null)
+				{
+					$transStatus = $transStatus->trns_desc;
+				}
 				//$transStatus = DB::select($sql);
 			} catch (Exception $e) {	}
 
@@ -9469,8 +9474,18 @@ public static function getAllUidByRegFac($regfac_id) {
 				$data2 = DB::table('province')->where('provid', '=', $provid)->first();
 				$data3 = DB::table('city_muni')->where('cmid', '=', $cmid)->first();
 				$data4 = DB::table('barangay')->where('brgyid', '=', $brgyid)->first();
-
-				$address = $data4->brgyname.' '.$data3->cmname.' '.$data2->provname.' '.$data1->rgn_desc;
+				
+				$brgyname = '';
+				$cmname = '';
+				$provname = '';
+				$rgn_desc = '';
+				
+				if($data4 != null){$brgyname = $data4->brgyname;}
+				if($data3 != null){$cmname = $data3->cmname;}
+				if($data2 != null){$provname = $data2->provname;}
+				if($data1 != null){$rgn_desc = $data1->rgn_desc;}
+				
+				$address = $brgyname.' '.$cmname.' '.$provname.' '.$rgn_desc;
 
 				return $address;
 			}

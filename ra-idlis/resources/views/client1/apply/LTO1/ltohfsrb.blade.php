@@ -25,7 +25,9 @@
             <ol class="breadcrumb d-flex justify-content-center">
                 <li class="breadcrumb-item active text-primary"><a href="{{asset($addresses[0])}}">Application Details</a></li>
                 <li class="breadcrumb-item active"><a href="{{asset($addresses[1])}}">DOH Requirements</a></li>
-                <li class="breadcrumb-item active"><a href="{{asset($addresses[2])}}">FDA Requirements</a></li>
+                @if( $fAddress[0]->hgpid == '6')
+				<li class="breadcrumb-item active"><a href="{{asset($addresses[2])}}">FDA Requirements</a></li>
+				@endif
                 <li class="breadcrumb-item active">Submit Requirements</li>
             </ol>
         </nav>
@@ -89,10 +91,12 @@
 
             <div class="col-md-8 border">
                 <!-- if($fAddress[0]->noofsatellite > 0) -->
+				@if( $fAddress[0]->hgpid == '6')
                 @if(intval($appform->noofmain) > 0 || $hasRadio)
                 <div class="float-right">
                     <button type="button" onclick="window.location.href='{{asset('client1/apply/app/'.($fAddress[0]->hfser_id ?? 'LTO').'/'.$fAddress[0]->appid."/fda")}}'" class="text-white btn btn-primary mt-1">Check FDA Requirements <span><i class="text-white fa fa-arrow-right"></i></span></button>
                 </div>
+                @endif				
                 @endif
                 <!-- endif -->
                 <div class="container text-left mt-3 lead">
@@ -258,13 +262,13 @@
                     <button onclick="readyforInspection()" class="btn btn-primary p-3">Finalize and Submit</button>
                    {{-- @endif --}}    -->
                    @if(intval($appform->noofmain) > 0 || $hasRadio)
-                        @if($isReadyForInspecFDA == 0 && ($hfser_id == 'LTO' || $hfser_id == 'COA')) 
-                            <button disabled class="btn btn-warning p-3">FDA requirements not yet finalize</button>
-                        @else
-                        @if($appform->status == 'FSR' || $appform->status == '' || $appform->status == null)
-                            <button onclick="readyforInspection()" data-status="{{$appform->status}}" class="btn btn-primary p-3">Finalize and Submit</button>
-                        @endif
-                        @endif
+					   @if($isReadyForInspecFDA == 0 && $fAddress[0]->hgpid == '6') 
+								<button disabled class="btn btn-warning p-3">FDA requirements not yet finalize</button>
+					   @else 
+							@if($appform->status == 'FSR' || $appform->status == '' || $appform->status == null)
+								<button onclick="readyforInspection()" data-status="{{$appform->status}}" class="btn btn-primary p-3">Finalize and Submit</button>
+							@endif
+                        @endif 
                     @else
                         <!-- To be changed -->
                         
